@@ -14,10 +14,10 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + ...
 
 ## TODO List
-+ [] Learn more C++ features
-+ [] Learn how to use OpenGL
-+ [] Learn garbage collection
-+ [] Design the architecture of engine
++ [ ] Learn more C++ features
++ [ ] Learn how to use OpenGL
++ [ ] Learn garbage collection
++ [ ] Design the architecture of engine
 
 You can see more details about my work process [here](https://docs.qq.com/doc/DU3h2bVBVcHZrdnNr).
 
