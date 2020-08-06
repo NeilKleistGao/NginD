@@ -3,7 +3,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 
 ## Features
 + Drag spirits to decorate your scenes
-+ Import images, musics, animations from other softwares
++ Import images, music, animations from other software
 + Use components to implement your games
 + Encapsulated box2D, OpenGL and so on
 + Support for Lua as script language
@@ -29,15 +29,15 @@ We'll use Google's C++ style guild:
 
 However, here are some exceptions:
 + The first alphabet of function name should be lower case
-+ Tabs should be used, and it should be equivalent to 4 spaces
++ Tabs should be used, and should be equivalent to 4 spaces
 
 ## Code Environment
 + OS: Ubuntu 18.04.4 LTS
-+ Compiler: CMake 3.15.3, using C++17
++ Compiler: CMake 3.15.3(C++17)
 + IDE: CLion 2019.3.2
 
 The engine will support for Windows and MacOS later.
 
-## Acknowledgement
+## Acknowledgements
 + Humphrey_Yang
 + riceblast
