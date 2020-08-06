@@ -14,20 +14,29 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + ...
 
 ## TODO List
-+ [ ] Learn more C++ features
-+ [ ] Learn how to use OpenGL
-+ [ ] Learn garbage collection
-+ [ ] Design the architecture of engine
++ [ ] C++ Reflection
++ [ ] Garbage Collection
++ [ ] YAML Configuration File
 
 You can see more details about my work process [here](https://docs.qq.com/doc/DU3h2bVBVcHZrdnNr).
 
 ## Dependent Library
-+ OpenGL
-+ Box2D
++ [GLFW 3.3.2](https://www.glfw.org/)
 
-## Code Styleguide
-+ [Google 开源项目风格指南 (中文版)](https://github.com/zh-google-styleguide/zh-google-styleguide)
+## Code Style Guide
+We'll use Google's C++ style guild:
 + [Google Style Guides](https://github.com/google/styleguide)
+
+However, here are some exceptions:
++ The first alphabet of function name should be lower case
++ Tabs should be used, and it should be equivalent to 4 spaces
+
+## Code Environment
++ OS: Ubuntu 18.04.4 LTS
++ Compiler: CMake 3.15.3, using C++17
++ IDE: CLion 2019.3.2
+
+The engine will support for Windows and MacOS later.
 
 ## Acknowledgement
 + Humphrey_Yang
