@@ -3,7 +3,9 @@ project(NginD)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(NginD main.cc)
+include_directories(./kernel/utils)
+
+add_executable(NginD main.cc kernel/utils/class_info.cc kernel/utils/class_info.h kernel/basic/object.cc kernel/basic/object.h kernel/utils/yamld_scalars_parser.h kernel/utils/yamld_scalars_parser.cc test/kernel/utils/yamld_scalars_parser_test.cc)
 
 set(PLATFORM_PREFIX "/lib/linux")
 
@@ -17,3 +19,4 @@ target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXxf
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXcursor.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libpthread.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libdl.so")
+

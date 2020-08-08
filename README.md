@@ -29,7 +29,8 @@ We'll use Google's C++ style guild:
 
 However, here are some exceptions:
 + The first alphabet of function name should be lower case
-+ Tabs should be used, and should be equivalent to 4 spaces
++ Tabs should be used, and should be equivalent to 4 spaces. There is no space before the keywords `public`, `private` and `protected`
++ The underline after the name of class members should be moved to the front of the name
 
 ## Code Environment
 + OS: Ubuntu 18.04.4 LTS
@@ -41,3 +42,4 @@ The engine will support for Windows and MacOS later.
 ## Acknowledgements
 + Humphrey_Yang
 + riceblast
++ JzJerry
