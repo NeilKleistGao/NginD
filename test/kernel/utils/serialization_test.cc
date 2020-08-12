@@ -19,24 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/8
-// FILENAME: yamld_scalars_parser.h
+// LAST MODIFY: 2020/8/12
+// FILENAME: serialization_test.cc
 
-#ifndef NGIND_YAMLD_SCALARS_PARSER_H
-#define NGIND_YAMLD_SCALARS_PARSER_H
-
-#include <iostream>
-
-namespace NginD {
-namespace yamld {
-
-bool parseYAMLDBool(const std::string&, const bool& default_val = false);
-int parseYAMLDInt(const std::string&, const int& default_val = 0);
-float parseYAMLDFloat(const std::string&, const float& default_val = 0.0f);
-std::string parseYAMLDString(const std::string&, const std::string& default_val = "");
-
-
-} // namespace yamld
-} // namespace NginD
-
-#endif //NGIND_YAMLD_SCALARS_PARSER_H
+//TODO:

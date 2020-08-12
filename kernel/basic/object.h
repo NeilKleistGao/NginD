@@ -19,18 +19,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/8
+// LAST MODIFY: 2020/8/12
 // FILENAME: object.h
 
 #ifndef NGIND_OBJECT_H
 #define NGIND_OBJECT_H
 
-namespace NginD {
+namespace ngind {
 
-class object {
+class Object {
 public:
 private:
 };
-} // namespace NginD
+} // namespace ngind
 
 #endif //NGIND_OBJECT_H

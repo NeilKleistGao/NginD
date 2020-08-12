@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/7
+// LAST MODIFY: 2020/8/11
 // FILENAME: class_info.h
 
 #ifndef NGIND_CLASS_INFO_H
@@ -29,21 +29,21 @@
 #include <map>
 #include <functional>
 
-namespace NginD {
+namespace ngind {
 
-class class_info {
+class ClassInfo {
 public:
-    static class_info* getInstance();
+    static ClassInfo* getInstance();
 
     template<typename Type>
-    void sign(const std::string&, std::function<Type*(void)>);
+    void sign(const std::string&, std::function<Type*(const std::string&)>);
 
     template<typename Type>
     Type* create(const std::string&);
 
 private:
-    static class_info* _instance;
+    static ClassInfo* _instance;
 };
-} // namespace NginD
+} // namespace ngind
 
 #endif //NGIND_CLASS_INFO_H

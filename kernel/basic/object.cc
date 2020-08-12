@@ -19,11 +19,11 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/7
+// LAST MODIFY: 2020/8/12
 // FILENAME: object.cc
 
 #include "object.h"
 
-namespace NginD {
+namespace ngind {
 
-} // namespace NginD
+} // namespace ngind
