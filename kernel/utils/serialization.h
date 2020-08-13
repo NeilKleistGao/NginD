@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/12
+// LAST MODIFY: 2020/8/13
 // FILENAME: serialization.h
 
 #ifndef NGIND_SERIALIZATION_H
@@ -34,7 +34,7 @@ namespace ngind {
 // @interface
 class Serializable {
 public:
-    virtual void serialize(std::ostream&) = 0;
+    virtual void serialize(std::ostream&) const = 0;
     virtual void deserialize(std::istream&) = 0;
 };
 
@@ -57,27 +57,28 @@ template <typename Type,
 void serialize(const Type& content, std::ostream& stream) {
     size_t size = content.size();
     stream.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
-    stream.write(reinterpret_cast<const char*>(content.data()), size * sizeof(Type::value_type));
+    stream.write(reinterpret_cast<const char*>(content.data()), size * sizeof(typename Type::value_type));
 }
 
 template <typename Type,
         typename std::enable_if_t<std::is_same_v<typename Type::iterator, decltype(std::declval<Type>().begin())> &&
                                   std::is_same_v<typename Type::iterator, decltype(std::declval<Type>().end())> &&
                                   std::is_trivially_copyable_v<typename Type::value_type>, int> N = 0>
-void deserialize(const Type& content, std::istream& stream) {
+void deserialize(Type& content, std::istream& stream) {
     size_t size;
     stream.read(reinterpret_cast<char*>(&size), sizeof(size_t));
-    stream.read(reinterpret_cast<char*>(content.data()), size * sizeof(Type::value_type));
+    content.resize(size);
+    stream.read(reinterpret_cast<char*>(content.data()), size * sizeof(typename Type::value_type));
 }
 
 template <typename Type,
-        typename std::enable_if_t<std::is_base_of_v<Type, Serializable>, int> N = 0>
+        typename std::enable_if_t<std::is_base_of_v<Serializable, Type>, int> N = 0>
 void serialize(const Type& content, std::ostream& stream) {
     content.serialize(stream);
 }
 
 template <typename Type,
-        typename std::enable_if_t<std::is_base_of_v<Type, Serializable>, int> N = 0>
+        typename std::enable_if_t<std::is_base_of_v<Serializable, Type>, int> N = 0>
 void deserialize(Type& content, std::istream& stream) {
     content.deserialize(stream);
 }
@@ -85,24 +86,29 @@ void deserialize(Type& content, std::istream& stream) {
 template <typename Type,
         typename std::enable_if_t<std::is_same_v<typename Type::iterator, decltype(std::declval<Type>().begin())> &&
                                   std::is_same_v<typename Type::iterator, decltype(std::declval<Type>().end())> &&
-                                  std::is_base_of_v<Type::value_type, Serializable>, int> N = 0>
+                                  !std::is_trivially_copyable_v<typename Type::value_type>, int> N = 0>
 void serialize(const Type& content, std::ostream& stream) {
     size_t size = content.size();
     stream.write(reinterpret_cast<const char*>(&size), sizeof(size_t));
     for (const auto& item : content) {
-        item.serialize(stream);
+        serialize(item, stream);
     }
 }
 
-template <typename Type,
-        typename std::enable_if_t<std::is_same_v<typename Type::iterator, decltype(std::declval<Type>().begin())> &&
-                                  std::is_same_v<typename Type::iterator, decltype(std::declval<Type>().end())> &&
-                                  std::is_base_of_v<Type::value_type, Serializable>, int> N = 0>
+    template <typename Type,
+            typename std::enable_if_t<std::is_same_v<typename Type::iterator, decltype(std::declval<Type>().begin())> &&
+                                      std::is_same_v<typename Type::iterator, decltype(std::declval<Type>().end())> &&
+                                      !std::is_trivially_copyable_v<typename Type::value_type>, int> N = 0>
 void deserialize(Type& content, std::istream& stream) {
     size_t size;
     stream.read(reinterpret_cast<char*>(&size), sizeof(size_t));
-    for (auto& item: content) {
-        item.deserialize(stream);
+    content.resize(size);
+    auto pointer = content.data();
+
+    for (int i = 0; i < size; i++) {
+        auto item = typename Type::value_type();
+        deserialize(item, stream);
+        pointer[i] = item;
     }
 }
 

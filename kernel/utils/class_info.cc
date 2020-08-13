@@ -19,11 +19,44 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/11
+// LAST MODIFY: 2020/8/14
 // FILENAME: class_info.cc
 
 #include "class_info.h"
 
 namespace ngind {
+
+ClassInfo* ClassInfo::_instance = nullptr;
+
+ClassInfo* ClassInfo::getInstance() {
+    if (_instance == nullptr) {
+        _instance = new ClassInfo();
+    }
+
+    return _instance;
+}
+
+void ClassInfo::destroyInstance() {
+    if (_instance != nullptr) {
+        delete _instance;
+        _instance = nullptr;
+    }
+}
+
+void ClassInfo::sign(const std::string& class_name, std::function<Object*(void)> init_func) {
+    this->_map[class_name] = init_func;
+}
+
+Object* ClassInfo::create(const std::string& class_name) {
+    Object* obj = this->_map[class_name]();
+    return obj;
+}
+
+ClassInfo::ClassInfo() {
+}
+
+ClassInfo::~ClassInfo() {
+    this->_map.clear();
+}
 
 } // namespace ngind

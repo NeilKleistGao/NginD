@@ -4,8 +4,9 @@ project(NginD)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(./kernel/utils)
+include_directories(./kernel/basic)
 
-add_executable(NginD main.cc kernel/utils/class_info.cc kernel/utils/class_info.h kernel/basic/object.cc kernel/basic/object.h kernel/utils/yamld_scalars_parser.h kernel/utils/yamld_scalars_parser.cc test/kernel/utils/yamld_scalars_parser_test.cc)
+add_executable(NginD main.cc kernel/utils/class_info.cc kernel/utils/class_info.h kernel/basic/object.cc kernel/basic/object.h kernel/utils/serialization.h test/kernel/utils/serialization_test.cc)
 
 set(PLATFORM_PREFIX "/lib/linux")
 
