@@ -20,48 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // LAST MODIFY: 2020/8/14
-// FILENAME: class_info.h
+// FILENAME: reflection_register.h
 
-#ifndef NGIND_CLASS_INFO_H
-#define NGIND_CLASS_INFO_H
+#ifndef NGIND_REFLECTION_REGISTER_H
+#define NGIND_REFLECTION_REGISTER_H
 
-#include <iostream>
-#include <map>
-#include <functional>
-#include <memory>
-
-#include "object.h"
+//@include
+#include "class_info.h"
+#include "kernel/basic/object.h"
 
 namespace ngind {
-
-class ClassInfo {
-public:
-    static ClassInfo* getInstance();
-    static void destroyInstance();
-
-    void sign(const std::string&, std::function<Object*(void)>&&);
-
-    template <typename Type>
-    std::shared_ptr<Type> create(const std::string& class_name) {
-        if (this->_map.find(class_name) == this->_map.end()) {
-            this->sign(class_name, []() -> Object* {return static_cast<Object*>(new Type());});
-        }
-
-        Object* original_pointer = this->_map[class_name]();
-        std::shared_ptr<Type> pointer((Type*)(original_pointer));
-        return pointer;
-    }
-
-    std::shared_ptr<Object> create(const std::string&);
-
-private:
-    static ClassInfo* _instance;
-    std::map<std::string, std::function<Object*(void)>> _map;
-
-    ClassInfo();
-    ~ClassInfo();
-};
-
+static void injectReflection() {
+    //@sign
+    ClassInfo::getInstance()->sign("Object", []() -> Object* {return new Object();});
+}
 } // namespace ngind
 
-#endif //NGIND_CLASS_INFO_H
+#endif //NGIND_REFLECTION_REGISTER_H

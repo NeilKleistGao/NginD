@@ -43,13 +43,17 @@ void ClassInfo::destroyInstance() {
     }
 }
 
-void ClassInfo::sign(const std::string& class_name, std::function<Object*(void)> init_func) {
+void ClassInfo::sign(const std::string& class_name, std::function<Object*(void)>&& init_func) {
     this->_map[class_name] = init_func;
 }
 
-Object* ClassInfo::create(const std::string& class_name) {
-    Object* obj = this->_map[class_name]();
-    return obj;
+std::shared_ptr<Object> ClassInfo::create(const std::string& class_name) {
+    if (this->_map.find(class_name) == this->_map.end()) {
+        return nullptr;
+    }
+
+    std::shared_ptr<Object> pointer(this->_map[class_name]());
+    return pointer;
 }
 
 ClassInfo::ClassInfo() {

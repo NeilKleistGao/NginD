@@ -19,10 +19,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
 // FILENAME: main.cc
-// LAST MODIFY: 2020/8/6
+// LAST MODIFY: 2020/8/14
+
+#include "reflection_register.h"
 
 int main() {
+    ngind::injectReflection();
+
     return 0;
 }
