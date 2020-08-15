@@ -15,7 +15,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 
 ## TODO List
 + [x] Serialization
-+ [ ] C++ Reflection
++ [x] C++ Reflection
 + [ ] OpenGL Interface
 + [ ] Garbage Collection
 
