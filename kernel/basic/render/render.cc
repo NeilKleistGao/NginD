@@ -19,22 +19,39 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: main.cc
 // LAST MODIFY: 2020/8/16
+// FILENAME: render.cc
 
-#include <iostream>
+#include "render.h"
 
-#include "reflection_injector.h"
-#include "game.h"
+#include "display_settings.h"
 
-int main() {
-    ngind::injectReflection();
+namespace ngind {
+Render* Render::_instance = nullptr;
 
-    auto game = new(std::nothrow) ngind::Game();
-    if (game == nullptr) {
-        exit(-1);
+Render* Render::getInstance() {
+    if (_instance == nullptr) {
+        _instance = new Render();
     }
 
-    game->start();
-    return 0;
+    return _instance;
 }
+
+void Render::destroyInstance() {
+    if (_instance != nullptr) {
+        delete _instance;
+        _instance = nullptr;
+    }
+}
+
+Render::Render() :
+_window(new Window(settings::WINDOWS_WIDTH,
+        settings::WINDOWS_HEIGHT,
+        settings::WINDOWS_TITLE)) {
+    
+}
+
+Render::~Render() {
+}
+
+} // namespace ngind

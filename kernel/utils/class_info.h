@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/14
+// LAST MODIFY: 2020/8/16
 // FILENAME: class_info.h
 
 #ifndef NGIND_CLASS_INFO_H
@@ -33,6 +33,10 @@
 #include "object.h"
 
 namespace ngind {
+
+// The reflection supporter class
+// If you use @reflection comment, cmake will help you sign your class
+// This class is a singleton class
 
 class ClassInfo {
 public:

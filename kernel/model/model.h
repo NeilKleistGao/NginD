@@ -19,22 +19,10 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: main.cc
 // LAST MODIFY: 2020/8/16
+// FILENAME: model.h
 
-#include <iostream>
+#ifndef NGIND_MODEL_H
+#define NGIND_MODEL_H
 
-#include "reflection_injector.h"
-#include "game.h"
-
-int main() {
-    ngind::injectReflection();
-
-    auto game = new(std::nothrow) ngind::Game();
-    if (game == nullptr) {
-        exit(-1);
-    }
-
-    game->start();
-    return 0;
-}
+#endif //NGIND_MODEL_H

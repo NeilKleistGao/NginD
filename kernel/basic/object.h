@@ -19,19 +19,28 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/14
+// LAST MODIFY: 2020/8/15
 // FILENAME: object.h
 
 #ifndef NGIND_OBJECT_H
 #define NGIND_OBJECT_H
 
+#include "serialization.h"
+
 namespace ngind {
 
+// The basic class of all objects in game
+// The @reflection comment means that the instance of this class can be created by using reflection
+// If a class need to be created in visual editor, it must be reflectable and serializable
+
 // @reflection
-class Object {
+class Object : public Serializable {
 public:
     Object();
     virtual ~Object();
+
+    void serialize(std::ostream&) const;
+    virtual void deserialize(std::istream&);
 private:
 };
 } // namespace ngind

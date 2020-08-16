@@ -19,21 +19,34 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/14
-// FILENAME: reflection_register.h
+// LAST MODIFY: 2020/8/16
+// FILENAME: window.cc
 
-#ifndef NGIND_REFLECTION_REGISTER_H
-#define NGIND_REFLECTION_REGISTER_H
-
-//@include
-#include "class_info.h"
-#include "kernel/basic/object.h"
+#include "window.h"
 
 namespace ngind {
-static void injectReflection() {
-    //@sign
-    ClassInfo::getInstance()->sign("Object", []() -> Object* {return new Object();});
+
+Window::Window(const size_t& width,
+        const size_t& height,
+        const std::string& title) : _window(nullptr) {
+    glfwInit();
+    glfwInitHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwInitHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwInitHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    this->_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+    if (this->_window == nullptr) {
+        glfwTerminate();
+        exit(-1);
+    }
+
+    glfwMakeContextCurrent(this->_window);
+    //TODO: show the window
+}
+
+Window::~Window() {
+    glfwTerminate();
+    delete this->_window;
+    this->_window = nullptr;
 }
 } // namespace ngind
-
-#endif //NGIND_REFLECTION_REGISTER_H

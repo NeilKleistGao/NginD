@@ -23,13 +23,22 @@
 // FILENAME: object.cc
 
 #include "object.h"
-#include "class_info.h"
 
 namespace ngind {
+
 Object::Object() {
 
 }
 Object::~Object() {
 
 }
+
+void Object::serialize(std::ostream& stream) const {
+
+}
+
+void Object::deserialize(std::istream& stream) {
+
+}
+
 } // namespace ngind

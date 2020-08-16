@@ -19,22 +19,32 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: main.cc
-// LAST MODIFY: 2020/8/16
+// LAST MODIFY: 2020/8/14
+// FILENAME: class_info_test.cc
 
+#ifdef NGIND_CLASS_INFO_TEST
+
+#include "class_info.h"
 #include <iostream>
+#include "object.h"
 
-#include "reflection_injector.h"
-#include "game.h"
-
-int main() {
-    ngind::injectReflection();
-
-    auto game = new(std::nothrow) ngind::Game();
-    if (game == nullptr) {
-        exit(-1);
+class Foo : public ngind::Object {
+public:
+    Foo() {
+        std::cout << "rua" << std::endl;
     }
 
-    game->start();
+    ~Foo() {
+        std::cout << "1551" << std::endl;
+    }
+};
+
+int main() {
+    ngind::ClassInfo::getInstance()->create<Foo>("Foo");
+    ngind::ClassInfo::getInstance()->sign("bar", []() -> ngind::Object* {return new Foo();});
+    ngind::ClassInfo::getInstance()->create("bar");
+    ngind::ClassInfo::destroyInstance();
     return 0;
 }
+
+#endif // NGIND_CLASS_INFO_TEST

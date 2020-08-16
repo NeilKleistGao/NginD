@@ -19,22 +19,26 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: main.cc
 // LAST MODIFY: 2020/8/16
+// FILENAME: display_settings.h
+
+#ifndef NGIND_DISPLAY_SETTINGS_H
+#define NGIND_DISPLAY_SETTINGS_H
 
 #include <iostream>
+#include <cstdio>
 
-#include "reflection_injector.h"
-#include "game.h"
+namespace ngind {
+namespace settings {
 
-int main() {
-    ngind::injectReflection();
+// windows size
+const size_t WINDOWS_WIDTH = 1024;
+const size_t WINDOWS_HEIGHT = 768;
 
-    auto game = new(std::nothrow) ngind::Game();
-    if (game == nullptr) {
-        exit(-1);
-    }
+// windows title
+const std::string WINDOWS_TITLE = "My Pixel Game";
 
-    game->start();
-    return 0;
-}
+} // namespace settings
+} // namespace ngind
+
+#endif //NGIND_DISPLAY_SETTINGS_H

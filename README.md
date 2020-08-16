@@ -17,7 +17,9 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [x] Serialization
 + [x] C++ Reflection
 + [ ] OpenGL Interface
++ [ ] Log System
 + [ ] Garbage Collection
++ [ ] MVC-Style Basic Components
 
 You can see more details about my work process [here](https://docs.qq.com/doc/DU3h2bVBVcHZrdnNr).
 
@@ -32,7 +34,7 @@ However, here are some exceptions:
 + The first alphabet of function name should be lower case
 + Tabs should be used, and should be equivalent to 4 spaces. There is no space before the keywords `public`, `private` and `protected`
 + The underline after the name of class members should be moved to the front of the name
-+ 
+
 
 ## Code Environment
 + OS: Ubuntu 18.04.4 LTS

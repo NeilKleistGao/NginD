@@ -19,11 +19,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/13
+// LAST MODIFY: 2020/8/16
 // FILENAME: serialization.h
 
 #ifndef NGIND_SERIALIZATION_H
 #define NGIND_SERIALIZATION_H
+
+// All serialization methods here
+// Use these methods if the object to be serialized is a POD or std container
+// Or you need to implement the Serializable interface and serialize method
 
 #include <iostream>
 #include <sstream>

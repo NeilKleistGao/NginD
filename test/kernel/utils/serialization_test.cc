@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/13
+// LAST MODIFY: 2020/8/14
 // FILENAME: serialization_test.cc
 
 //#define NGIND_SERIALIZATION_TEST
@@ -101,17 +101,17 @@ int main() {
     assert(str == strpp);
     assert(u.bar == upp.bar);
 
-    for (int j = 0; j < v.size(); j++) {
+    for (int j = 0; j < v.size(); ++j) {
         assert(v[j] == vpp[j]);
     }
-    for (int j = 0; j < v2.size(); j++) {
+    for (int j = 0; j < v2.size(); ++j) {
         assert(v2[j].bar == v2pp[j].bar);
     }
 
     return 0;
 }
 
-#endif
+#endif // NGIND_SERIALIZATION_TEST
 
 
 
