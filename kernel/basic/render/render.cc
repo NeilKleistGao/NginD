@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/16
+// LAST MODIFY: 2020/8/17
 // FILENAME: render.cc
 
 #include "render.h"
@@ -48,10 +48,21 @@ Render::Render() :
 _window(new Window(settings::WINDOWS_WIDTH,
         settings::WINDOWS_HEIGHT,
         settings::WINDOWS_TITLE)) {
-    
+
 }
 
 Render::~Render() {
+}
+
+bool Render::startRenderLoopOnce() {
+    if (this->_window->isLoopEnd()) {
+        return false;
+    }
+
+    //TODO: render here
+
+    this->_window->swapBuffer();
+    return true;
 }
 
 } // namespace ngind

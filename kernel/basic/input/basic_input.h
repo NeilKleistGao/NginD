@@ -20,32 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // LAST MODIFY: 2020/8/17
-// FILENAME: window.h
+// FILENAME: basic_input.h
 
-#ifndef NGIND_WINDOW_H
-#define NGIND_WINDOW_H
-
-#include <iostream>
-#include <cstdio>
+#ifndef NGIND_BASIC_INPUT_H
+#define NGIND_BASIC_INPUT_H
 
 #include "glfw3.h"
 
 namespace ngind {
-class Window {
+
+// @interface
+class BasicInput {
 public:
-    Window(const size_t&, const size_t&, const std::string&);
-    ~Window();
-
-    inline bool isLoopEnd() {
-        return glfwWindowShouldClose(this->_window);
-    }
-
-    inline void swapBuffer() {
-        glfwSwapBuffers(this->_window);
-    }
-private:
-    GLFWwindow *_window;
+    virtual void process(GLFWwindow*) = 0;
 };
-}
 
-#endif //NGIND_WINDOW_H
+} // namespace ngind
+
+#endif //NGIND_BASIC_INPUT_H

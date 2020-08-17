@@ -17,6 +17,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [x] Serialization
 + [x] C++ Reflection
 + [ ] OpenGL Interface
++ [ ] Input System
 + [ ] Log System
 + [ ] Garbage Collection
 + [ ] MVC-Style Basic Components

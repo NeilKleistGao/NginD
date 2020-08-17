@@ -20,32 +20,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // LAST MODIFY: 2020/8/17
-// FILENAME: window.h
+// FILENAME: input.h
 
-#ifndef NGIND_WINDOW_H
-#define NGIND_WINDOW_H
+#ifndef NGIND_INPUT_H
+#define NGIND_INPUT_H
 
-#include <iostream>
-#include <cstdio>
+#include "keyboard_input.h"
 
-#include "glfw3.h"
+#include <vector>
+
+#include "basic_input.h"
+#include "render/window.h"
 
 namespace ngind {
-class Window {
+
+class Input {
 public:
-    Window(const size_t&, const size_t&, const std::string&);
-    ~Window();
+    static Input* getInstance();
+    static void destroyInstance();
 
-    inline bool isLoopEnd() {
-        return glfwWindowShouldClose(this->_window);
-    }
+    void process();
 
-    inline void swapBuffer() {
-        glfwSwapBuffers(this->_window);
-    }
+    friend class Window;
+
 private:
-    GLFWwindow *_window;
-};
-}
+    static Input* _instance;
+    std::vector<BasicInput*> _inputs;
+    GLFWwindow* _window_handler;
 
-#endif //NGIND_WINDOW_H
+    inline void setWindowHandler(GLFWwindow* window) {
+        _window_handler = window;
+    }
+
+    Input();
+    ~Input();
+};
+
+} // namespace ngind
+
+#endif //NGIND_INPUT_H

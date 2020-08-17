@@ -20,32 +20,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // LAST MODIFY: 2020/8/17
-// FILENAME: window.h
+// FILENAME: keyboard_input_test.cc
 
-#ifndef NGIND_WINDOW_H
-#define NGIND_WINDOW_H
-
-#include <iostream>
-#include <cstdio>
-
-#include "glfw3.h"
-
-namespace ngind {
-class Window {
-public:
-    Window(const size_t&, const size_t&, const std::string&);
-    ~Window();
-
-    inline bool isLoopEnd() {
-        return glfwWindowShouldClose(this->_window);
-    }
-
-    inline void swapBuffer() {
-        glfwSwapBuffers(this->_window);
-    }
-private:
-    GLFWwindow *_window;
-};
-}
-
-#endif //NGIND_WINDOW_H

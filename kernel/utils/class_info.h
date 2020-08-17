@@ -35,7 +35,7 @@
 namespace ngind {
 
 // The reflection supporter class
-// If you use @reflection comment, cmake will help you sign your class
+// If you use reflection comment, cmake will help you sign your class
 // This class is a singleton class
 
 class ClassInfo {

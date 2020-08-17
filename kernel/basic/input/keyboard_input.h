@@ -19,9 +19,31 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/16
-// FILENAME: render_window_test.cc
+// LAST MODIFY: 2020/8/17
+// FILENAME: keyboard_input.h
 
-#include "render/render.h"
+#ifndef NGIND_KEYBOARD_INPUT_H
+#define NGIND_KEYBOARD_INPUT_H
 
-//TODO: test whether window can show correctly or not
+#include "glfw3.h"
+
+#include "basic_input.h"
+
+namespace ngind {
+
+enum KeyboardCode {
+
+};
+
+class KeyboardInput : public BasicInput {
+public:
+    KeyboardInput();
+    ~KeyboardInput();
+
+    virtual void process(GLFWwindow*);
+private:
+};
+
+} // namespace ngind
+
+#endif //NGIND_KEYBOARD_INPUT_H

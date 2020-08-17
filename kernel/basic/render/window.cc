@@ -19,10 +19,12 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/16
+// LAST MODIFY: 2020/8/17
 // FILENAME: window.cc
 
 #include "window.h"
+
+#include "input/input.h"
 
 namespace ngind {
 
@@ -30,9 +32,9 @@ Window::Window(const size_t& width,
         const size_t& height,
         const std::string& title) : _window(nullptr) {
     glfwInit();
-    glfwInitHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwInitHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwInitHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     this->_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
     if (this->_window == nullptr) {
@@ -41,7 +43,7 @@ Window::Window(const size_t& width,
     }
 
     glfwMakeContextCurrent(this->_window);
-    //TODO: show the window
+    Input::getInstance()->setWindowHandler(this->_window);
 }
 
 Window::~Window() {

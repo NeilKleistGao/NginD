@@ -19,10 +19,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/16
+// LAST MODIFY: 2020/8/17
 // FILENAME: game.cc
 
 #include "game.h"
+
+#include "render/render.h"
+#include "input/input.h"
 
 namespace ngind {
 
@@ -35,7 +38,16 @@ Game::~Game() {
 }
 
 void Game::start() {
+    bool main_loop_flag = true;
 
+    auto render = Render::getInstance();
+    auto input = Input::getInstance();
+
+    while (main_loop_flag) {
+        input->process();
+        glfwPollEvents();
+        main_loop_flag &= render->startRenderLoopOnce();
+    }
 }
 
 } // namespace ngind

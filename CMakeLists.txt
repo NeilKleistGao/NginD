@@ -14,7 +14,34 @@ include_directories(./kernel/basic)
 include_directories(./include/opengl)
 include_directories(./settings)
 
-add_executable(NginD main.cc kernel/utils/class_info.cc kernel/utils/class_info.h kernel/basic/object.cc kernel/basic/object.h kernel/utils/serialization.h test/kernel/utils/serialization_test.cc test/kernel/utils/class_info_test.cc kernel/basic/render/render.h kernel/basic/render/render.cc settings/display_settings.h kernel/basic/render/window.h kernel/basic/render/window.cc kernel/audio/audio.h kernel/audio/audio.cc kernel/controller/controller.h kernel/controller/controller.cc kernel/model/model.h kernel/model/model.cc kernel/view/view.h kernel/view/view.cc kernel/basic/game.h kernel/basic/game.cc test/kernel/basic/render/render_window_test.cc)
+add_executable(NginD main.cc
+        kernel/utils/class_info.cc
+        kernel/utils/class_info.h
+        kernel/basic/object.cc
+        kernel/basic/object.h
+        kernel/utils/serialization.h
+        test/kernel/utils/serialization_test.cc
+        test/kernel/utils/class_info_test.cc
+        kernel/basic/render/render.h
+        kernel/basic/render/render.cc
+        settings/display_settings.h
+        kernel/basic/render/window.h
+        kernel/basic/render/window.cc
+        kernel/audio/audio.h
+        kernel/audio/audio.cc
+        kernel/controller/controller.h
+        kernel/controller/controller.cc
+        kernel/model/model.h
+        kernel/model/model.cc
+        kernel/view/view.h
+        kernel/view/view.cc
+        kernel/basic/game.h
+        kernel/basic/game.cc
+        kernel/basic/input/keyboard_input.h
+        kernel/basic/input/input.h
+        kernel/basic/input/keyboard_input.cc
+        kernel/basic/input/input.cc
+        test/kernel/basic/input/keyboard_input_test.cc kernel/basic/input/basic_input.h)
 
 set(PLATFORM_PREFIX "/lib/linux")
 
