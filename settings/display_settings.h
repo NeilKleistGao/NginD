@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/16
+// LAST MODIFY: 2020/8/18
 // FILENAME: display_settings.h
 
 #ifndef NGIND_DISPLAY_SETTINGS_H
@@ -31,12 +31,15 @@
 namespace ngind {
 namespace settings {
 
-// windows size
-const size_t WINDOWS_WIDTH = 1024;
-const size_t WINDOWS_HEIGHT = 768;
+// window size
+const size_t WINDOW_WIDTH = 1024;
+const size_t WINDOW_HEIGHT = 768;
 
-// windows title
-const std::string WINDOWS_TITLE = "My Pixel Game";
+// window title
+const std::string WINDOW_TITLE = "Rolling With The Dice!";
+
+// window icon
+const std::string WINDOW_ICON = "images/dice.png";
 
 } // namespace settings
 } // namespace ngind

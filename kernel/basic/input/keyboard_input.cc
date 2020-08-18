@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/17
+// LAST MODIFY: 2020/8/18
 // FILENAME: keyboard_input.cc
 
 #include "keyboard_input.h"
@@ -32,10 +32,6 @@ KeyboardInput::KeyboardInput() {
 
 KeyboardInput::~KeyboardInput() {
 
-}
-
-void KeyboardInput::process(GLFWwindow* window) {
-    //TODO: response the key input
 }
 
 } // namespace ngind

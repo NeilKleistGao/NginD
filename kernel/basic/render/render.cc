@@ -45,10 +45,10 @@ void Render::destroyInstance() {
 }
 
 Render::Render() :
-_window(new Window(settings::WINDOWS_WIDTH,
-        settings::WINDOWS_HEIGHT,
-        settings::WINDOWS_TITLE)) {
-
+_window(new Window(settings::WINDOW_WIDTH,
+        settings::WINDOW_HEIGHT,
+        settings::WINDOW_TITLE)) {
+    this->_window->setIcon(settings::WINDOW_ICON);
 }
 
 Render::~Render() {

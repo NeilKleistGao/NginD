@@ -19,15 +19,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/17
+// LAST MODIFY: 2020/8/18
 // FILENAME: keyboard_input.h
 
 #ifndef NGIND_KEYBOARD_INPUT_H
 #define NGIND_KEYBOARD_INPUT_H
 
-#include "glfw3.h"
+#include <set>
 
-#include "basic_input.h"
+#include "glfw3.h"
 
 namespace ngind {
 
@@ -35,13 +35,17 @@ enum KeyboardCode {
 
 };
 
-class KeyboardInput : public BasicInput {
+class KeyboardInput {
 public:
     KeyboardInput();
     ~KeyboardInput();
 
-    virtual void process(GLFWwindow*);
+    bool getKeyPress(const KeyboardCode&);
+    bool getKey(const KeyboardCode&);
+    bool getKeyRelease(const KeyboardCode&);
+
 private:
+    std::set<KeyboardCode> _pressing;
 };
 
 } // namespace ngind

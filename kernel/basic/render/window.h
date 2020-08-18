@@ -43,8 +43,11 @@ public:
     inline void swapBuffer() {
         glfwSwapBuffers(this->_window);
     }
+
+    void setIcon(const std::string&);
 private:
     GLFWwindow *_window;
+    GLFWimage* _icon;
 };
 }
 

@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/17
+// LAST MODIFY: 2020/8/18
 // FILENAME: window.cc
 
 #include "window.h"
@@ -42,6 +42,8 @@ Window::Window(const size_t& width,
         exit(-1);
     }
 
+
+
     glfwMakeContextCurrent(this->_window);
     Input::getInstance()->setWindowHandler(this->_window);
 }
@@ -51,4 +53,10 @@ Window::~Window() {
     delete this->_window;
     this->_window = nullptr;
 }
+
+void Window::setIcon(const std::string& path) {
+    // TODO: Load PNG File
+    
+}
+
 } // namespace ngind

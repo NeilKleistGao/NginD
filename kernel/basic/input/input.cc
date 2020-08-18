@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/17
+// LAST MODIFY: 2020/8/18
 // FILENAME: input.cc
 
 #include "input.h"
@@ -43,23 +43,13 @@ void Input::destroyInstance() {
     }
 }
 
-Input::Input() {
-    _inputs.push_back(new KeyboardInput());
+Input::Input() : _keyboard(new KeyboardInput()) {
+
 }
 
 Input::~Input() {
-    for (auto* p : _inputs) {
-        delete p;
-        p = nullptr;
-    }
-
-    _inputs.clear();
-}
-
-void Input::process() {
-    for (auto *p : _inputs) {
-        p->process(_window_handler);
-    }
+    delete _keyboard;
+    _keyboard = nullptr;
 }
 
 } // namespace ngind

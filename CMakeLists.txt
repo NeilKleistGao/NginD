@@ -13,6 +13,7 @@ include_directories(./kernel/utils)
 include_directories(./kernel/basic)
 include_directories(./include/opengl)
 include_directories(./settings)
+include_directories(./resources)
 
 add_executable(NginD main.cc
         kernel/utils/class_info.cc
@@ -27,21 +28,13 @@ add_executable(NginD main.cc
         settings/display_settings.h
         kernel/basic/render/window.h
         kernel/basic/render/window.cc
-        kernel/audio/audio.h
-        kernel/audio/audio.cc
-        kernel/controller/controller.h
-        kernel/controller/controller.cc
-        kernel/model/model.h
-        kernel/model/model.cc
-        kernel/view/view.h
-        kernel/view/view.cc
         kernel/basic/game.h
         kernel/basic/game.cc
         kernel/basic/input/keyboard_input.h
         kernel/basic/input/input.h
         kernel/basic/input/keyboard_input.cc
         kernel/basic/input/input.cc
-        test/kernel/basic/input/keyboard_input_test.cc kernel/basic/input/basic_input.h)
+        test/kernel/basic/input/keyboard_input_test.cc)
 
 set(PLATFORM_PREFIX "/lib/linux")
 

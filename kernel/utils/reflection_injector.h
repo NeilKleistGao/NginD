@@ -29,17 +29,10 @@
 #include "class_info.h"
 #include "kernel/basic/object.h"
 
-
-
-
-
-
-
 namespace ngind {
 static void injectReflection() {
     //@sign
     ClassInfo::getInstance()->sign("Object", []() -> Object* {return new Object();});
-
 
 
 

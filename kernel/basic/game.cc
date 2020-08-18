@@ -25,7 +25,6 @@
 #include "game.h"
 
 #include "render/render.h"
-#include "input/input.h"
 
 namespace ngind {
 
@@ -41,10 +40,8 @@ void Game::start() {
     bool main_loop_flag = true;
 
     auto render = Render::getInstance();
-    auto input = Input::getInstance();
 
     while (main_loop_flag) {
-        input->process();
         glfwPollEvents();
         main_loop_flag &= render->startRenderLoopOnce();
     }

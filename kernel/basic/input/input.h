@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/17
+// LAST MODIFY: 2020/8/18
 // FILENAME: input.h
 
 #ifndef NGIND_INPUT_H
@@ -27,9 +27,6 @@
 
 #include "keyboard_input.h"
 
-#include <vector>
-
-#include "basic_input.h"
 #include "render/window.h"
 
 namespace ngind {
@@ -39,13 +36,12 @@ public:
     static Input* getInstance();
     static void destroyInstance();
 
-    void process();
 
     friend class Window;
 
 private:
     static Input* _instance;
-    std::vector<BasicInput*> _inputs;
+    KeyboardInput* _keyboard;
     GLFWwindow* _window_handler;
 
     inline void setWindowHandler(GLFWwindow* window) {

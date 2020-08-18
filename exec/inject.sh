@@ -1,4 +1,4 @@
-include="include \"class_info.h\"\n" # the include command
+include="include \"class_info.h\"" # the include command
 content="" # call the sign method in static function
 
 for file in $(find ../ -name "*\.h");
@@ -7,7 +7,7 @@ do
   class_name="${class_name: 6: ${#class_name} - 7}"
   class_name=${class_name// /}
   if [ "$class_name" != "" ];then
-    include=${include}"#include \""${file: 3}"\"\n"
+    include=${include}"\n#include \""${file: 3}"\""
     content=${content}"    ClassInfo::getInstance()->sign(\"${class_name}\", []() -> Object* {return new ${class_name}();});\n"
   fi
 done
