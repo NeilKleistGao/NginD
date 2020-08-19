@@ -26,7 +26,7 @@ You can see more details about my work process [here](https://docs.qq.com/doc/DU
 
 ## Dependent Library
 + [GLFW 3.3.2](https://www.glfw.org/)
-+ [libpgn 1.6.34](http://www.libpng.org/pub/png/libpng.html)
++ [libpng 1.6.34](http://www.libpng.org/pub/png/libpng.html)
 
 ## Code Style Guide
 We'll use Google's C++ style guild:
