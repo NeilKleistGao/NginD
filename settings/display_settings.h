@@ -39,7 +39,7 @@ const size_t WINDOW_HEIGHT = 768;
 const std::string WINDOW_TITLE = "Rolling With The Dice!";
 
 // window icon
-const std::string WINDOW_ICON = "images/dice.png";
+const std::string WINDOW_ICON = "dice.png";
 
 } // namespace settings
 } // namespace ngind

@@ -30,6 +30,8 @@
 
 #include "glfw3.h"
 
+#include "png_image.h"
+
 namespace ngind {
 class Window {
 public:
@@ -47,7 +49,7 @@ public:
     void setIcon(const std::string&);
 private:
     GLFWwindow *_window;
-    GLFWimage* _icon;
+    PNGImage* _icon;
 };
 }
 

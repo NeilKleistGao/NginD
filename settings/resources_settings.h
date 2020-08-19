@@ -19,48 +19,20 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/18
-// FILENAME: window.cc
+// LAST MODIFY: 2020/8/19
+// FILENAME: resources_settings.h
 
-#include "window.h"
+#ifndef NGIND_RESOURCES_SETTINGS_H
+#define NGIND_RESOURCES_SETTINGS_H
 
-#include "input/input.h"
+#include <iostream>
 
 namespace ngind {
+namespace settings {
+// image sources path
+const std::string IMAGE_SOURCES_PATH = "./resources/images";
 
-Window::Window(const size_t& width,
-        const size_t& height,
-        const std::string& title) : _window(nullptr) {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    this->_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
-    if (this->_window == nullptr) {
-        glfwTerminate();
-        exit(-1);
-    }
-
-    glfwSetWindowSizeLimits(this->_window, width, height, width, height);
-    glfwMakeContextCurrent(this->_window);
-    Input::getInstance()->setWindowHandler(this->_window);
-}
-
-Window::~Window() {
-    glfwTerminate();
-    delete this->_window;
-    this->_window = nullptr;
-}
-
-void Window::setIcon(const std::string& path) {
-    if (this->_icon != nullptr) {
-        delete this->_icon;
-        this->_icon = nullptr;
-    }
-
-    this->_icon = new PNGImage(path);
-    glfwSetWindowIcon(this->_window, 1, this->_icon->getImageData());
-}
-
+} // namespace settings
 } // namespace ngind
+
+#endif //NGIND_RESOURCES_SETTINGS_H

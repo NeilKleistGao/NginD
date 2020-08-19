@@ -22,6 +22,8 @@
 // LAST MODIFY: 2020/8/17
 // FILENAME: render.cc
 
+#include "glad/glad.h"
+
 #include "render.h"
 
 #include "display_settings.h"
@@ -48,6 +50,13 @@ Render::Render() :
 _window(new Window(settings::WINDOW_WIDTH,
         settings::WINDOW_HEIGHT,
         settings::WINDOW_TITLE)) {
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        glfwTerminate();
+        exit(-1);
+    }
+
+    glad_glEnable(GL_TEXTURE_2D);
+
     this->_window->setIcon(settings::WINDOW_ICON);
 }
 

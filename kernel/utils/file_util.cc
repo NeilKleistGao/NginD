@@ -19,48 +19,22 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/18
-// FILENAME: window.cc
+// LAST MODIFY: 2020/8/19
+// FILENAME: file_util.cc
 
-#include "window.h"
-
-#include "input/input.h"
+#include "file_util.h"
 
 namespace ngind {
+namespace file_util {
 
-Window::Window(const size_t& width,
-        const size_t& height,
-        const std::string& title) : _window(nullptr) {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    this->_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
-    if (this->_window == nullptr) {
-        glfwTerminate();
-        exit(-1);
-    }
-
-    glfwSetWindowSizeLimits(this->_window, width, height, width, height);
-    glfwMakeContextCurrent(this->_window);
-    Input::getInstance()->setWindowHandler(this->_window);
+std::string joinPath(const std::string& path, const std::string& filename) {
+    std::string final_path = "";
+    final_path = (path.length() > 0 && *path.rbegin() == PATH_SEPARATOR)
+            ? path : path + PATH_SEPARATOR;
+    final_path += (filename.length() > 2 && filename[0] == '.' && filename[1] == PATH_SEPARATOR)
+            ? filename.substr(2) : filename;
+    return final_path;
 }
 
-Window::~Window() {
-    glfwTerminate();
-    delete this->_window;
-    this->_window = nullptr;
-}
-
-void Window::setIcon(const std::string& path) {
-    if (this->_icon != nullptr) {
-        delete this->_icon;
-        this->_icon = nullptr;
-    }
-
-    this->_icon = new PNGImage(path);
-    glfwSetWindowIcon(this->_window, 1, this->_icon->getImageData());
-}
-
+} // namespace file_util
 } // namespace ngind
