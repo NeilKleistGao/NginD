@@ -26,8 +26,6 @@
 
 #include "render.h"
 
-#include "display_settings.h"
-
 namespace ngind {
 Render* Render::_instance = nullptr;
 
@@ -44,20 +42,13 @@ void Render::destroyInstance() {
         delete _instance;
         _instance = nullptr;
     }
+
+    glfwTerminate();
 }
 
 Render::Render() :
-_window(new Window(settings::WINDOW_WIDTH,
-        settings::WINDOW_HEIGHT,
-        settings::WINDOW_TITLE)) {
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        glfwTerminate();
-        exit(-1);
-    }
+_window(nullptr) {
 
-    glad_glEnable(GL_TEXTURE_2D);
-
-    this->_window->setIcon(settings::WINDOW_ICON);
 }
 
 Render::~Render() {
@@ -72,6 +63,21 @@ bool Render::startRenderLoopOnce() {
 
     this->_window->swapBuffer();
     return true;
+}
+
+void Render::createWindow(const int& width,
+                  const int& height,
+                  const std::string& title,
+                  const bool& is_full) {
+    this->_window = new Window(width, height, title, is_full);
+    this->_window->setIcon(settings::WINDOW_ICON);
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        glfwTerminate();
+        exit(-1);
+    }
+
+    glad_glEnable(GL_TEXTURE_2D);
 }
 
 } // namespace ngind

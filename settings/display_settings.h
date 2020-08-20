@@ -31,7 +31,7 @@
 namespace ngind {
 namespace settings {
 
-// window size
+// default window size
 const size_t WINDOW_WIDTH = 1024;
 const size_t WINDOW_HEIGHT = 768;
 

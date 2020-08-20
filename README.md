@@ -16,6 +16,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 ## TODO List
 + [x] Serialization
 + [x] C++ Reflection
++ [x] INI Config File
 + [ ] Input System
 + [ ] OpenGL Interface
 + [ ] Log System
@@ -25,6 +26,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 You can see more details about my work process [here](https://docs.qq.com/doc/DU3h2bVBVcHZrdnNr).
 
 ## Dependent Library
++ [OpenGL 4.6(using glad)](https://glad.dav1d.de/)
 + [GLFW 3.3.2](https://www.glfw.org/)
 + [libpng 1.6.34](http://www.libpng.org/pub/png/libpng.html)
 
@@ -36,7 +38,7 @@ However, here are some exceptions:
 + The first alphabet of function name should be lower case
 + Tabs should be used, and should be equivalent to 4 spaces. There is no space before the keywords `public`, `private` and `protected`
 + The underline after the name of class members should be moved to the front of the name
-+ Stream will be used to serialize or deserialize
++ Stream will be used to serialize/deserialize/type conversion
 
 ## Code Environment
 + OS: Ubuntu 18.04.4 LTS

@@ -26,6 +26,7 @@
 #define NGIND_RENDER_H
 
 #include "window.h"
+#include "display_settings.h"
 
 namespace ngind {
 
@@ -36,6 +37,11 @@ public:
     static void destroyInstance();
 
     bool startRenderLoopOnce();
+
+    void createWindow(const int& width = settings::WINDOW_WIDTH,
+                              const int& height = settings::WINDOW_HEIGHT,
+                              const std::string& title = settings::WINDOW_TITLE,
+                              const bool& is_full = false);
 private:
     static Render* _instance;
     Window* _window;

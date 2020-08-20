@@ -19,20 +19,38 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/14
-// FILENAME: reflection_register.h
+// LAST MODIFY: 2020/8/20
+// FILENAME: convert_util.h
 
-#ifndef NGIND_REFLECTION_REGISTER_H
-#define NGIND_REFLECTION_REGISTER_H
+#ifndef NGIND_CONVERT_UTILS_H
+#define NGIND_CONVERT_UTILS_H
 
-//@include
-#include "class_info.h"
+#include <iostream>
+#include <sstream>
 
 namespace ngind {
-static void injectReflection() {
-    //@sign
-    ClassInfo::getInstance()->sign("Object", []() -> Object* {return new Object();});
+namespace convert_utils {
+
+template <typename Type>
+std::string convertToString(const Type& t) {
+    std::stringstream stream;
+    std::string str;
+    stream << t;
+    stream >> str;
+    return str;
 }
+
+template <typename Type>
+Type convertFromString(const std::string& str) {
+    std::stringstream stream;
+    Type t;
+    stream << str;
+    stream >> t;
+
+    return t;
+}
+
+} // namespace convert_utils
 } // namespace ngind
 
-#endif //NGIND_REFLECTION_REGISTER_H
+#endif //NGIND_CONVERT_UTILS_H

@@ -19,22 +19,38 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/19
-// FILENAME: file_util.cc
+// LAST MODIFY: 2020/8/20
+// FILENAME: ini_config.h
 
-#include "file_util.h"
+#ifndef NGIND_INI_CONFIG_H
+#define NGIND_INI_CONFIG_H
+
+#include <iostream>
+#include <map>
+#include <vector>
 
 namespace ngind {
-namespace file_util {
 
-std::string joinPath(const std::string& path, const std::string& filename) {
-    std::string final_path = "";
-    final_path = (path.length() > 0 && *path.rbegin() == PATH_SEPARATOR)
-            ? path : path + PATH_SEPARATOR;
-    final_path += (filename.length() > 2 && filename[0] == '.' && filename[1] == PATH_SEPARATOR)
-            ? filename.substr(2) : filename;
-    return final_path;
-}
+class INIConfig {
+public:
+    using section = std::map<const std::string, std::string>;
 
-} // namespace file_util
+    INIConfig();
+    explicit INIConfig(const std::string&);
+    ~INIConfig();
+
+    std::string get(const std::string&, const std::string&);
+    void set(const std::string&, const std::string&, const std::string&);
+
+    void open(const std::string&);
+    void save();
+
+    void clear();
+private:
+    std::map<const std::string, section> _content;
+    std::string _filename;
+};
+
 } // namespace ngind
+
+#endif //NGIND_INI_CONFIG_H

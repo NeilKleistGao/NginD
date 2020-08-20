@@ -40,6 +40,7 @@ void Game::start() {
     bool main_loop_flag = true;
 
     auto render = Render::getInstance();
+    render->createWindow();
 
     while (main_loop_flag) {
         glfwPollEvents();

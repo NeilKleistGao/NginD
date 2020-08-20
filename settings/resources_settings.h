@@ -29,8 +29,11 @@
 
 namespace ngind {
 namespace settings {
-// image sources path
-const std::string IMAGE_SOURCES_PATH = "./resources/images";
+// image resources path
+const std::string IMAGE_RESOURCES_PATH = "./resources/images";
+
+// config resources path
+const std::string CONFIG_RESOURCES_PATH = "./resources/config";
 
 } // namespace settings
 } // namespace ngind

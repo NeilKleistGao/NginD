@@ -35,8 +35,10 @@
 namespace ngind {
 class Window {
 public:
-    Window(const size_t&, const size_t&, const std::string&);
+    Window(const size_t&, const size_t&, const std::string&, const bool& is_full = false);
     ~Window();
+
+    void setIcon(const std::string&);
 
     inline bool isLoopEnd() {
         return glfwWindowShouldClose(this->_window);
@@ -46,7 +48,32 @@ public:
         glfwSwapBuffers(this->_window);
     }
 
-    void setIcon(const std::string&);
+    inline std::pair<float, float> getContentScale() {
+        float x_scale, y_scale;
+        glfwGetWindowContentScale(this->_window, &x_scale, &y_scale);
+        return {x_scale, y_scale};
+    }
+
+    inline void setTitle(const std::string& title) {
+        glfwSetWindowTitle(this->_window, title.c_str());
+    }
+
+    inline void setIsFullScreen(const bool& is_full) {
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+        if (is_full) {
+            glfwSetWindowMonitor(this->_window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+        }
+        else {
+            glfwSetWindowMonitor(this->_window, nullptr, 0, 0, mode->width, mode->height, 0);
+        }
+    }
+
+    inline void resize(const int& width, const int& height) {
+        glfwSetWindowSize(this->_window, width, height);
+    }
+
 private:
     GLFWwindow *_window;
     PNGImage* _icon;

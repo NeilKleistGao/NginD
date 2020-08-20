@@ -22,13 +22,13 @@
 // LAST MODIFY: 2020/8/19
 // FILENAME: file_util.h
 
-#ifndef NGIND_FILE_UTIL_H
-#define NGIND_FILE_UTIL_H
+#ifndef NGIND_FILE_UTILS_H
+#define NGIND_FILE_UTILS_H
 
 #include <iostream>
 
 namespace ngind {
-namespace file_util {
+namespace file_utils {
 
 const char PATH_SEPARATOR = '/'; // TODO: mul-env
 
@@ -37,4 +37,4 @@ std::string joinPath(const std::string&, const std::string&);
 } // namespace file_util
 } // namespace ngind
 
-#endif //NGIND_FILE_UTIL_H
+#endif //NGIND_FILE_UTILS_H

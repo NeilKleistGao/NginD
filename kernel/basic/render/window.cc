@@ -30,26 +30,32 @@ namespace ngind {
 
 Window::Window(const size_t& width,
         const size_t& height,
-        const std::string& title) : _window(nullptr) {
+        const std::string& title,
+        const bool& is_full) : _window(nullptr) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-    this->_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+    if (is_full) {
+        this->_window = glfwCreateWindow(width, height, title.c_str(), glfwGetPrimaryMonitor(), nullptr);
+    }
+    else {
+        this->_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+    }
+
     if (this->_window == nullptr) {
         glfwTerminate();
         exit(-1);
     }
 
-    glfwSetWindowSizeLimits(this->_window, width, height, width, height);
     glfwMakeContextCurrent(this->_window);
     Input::getInstance()->setWindowHandler(this->_window);
 }
 
 Window::~Window() {
-    glfwTerminate();
-    delete this->_window;
+    glfwDestroyWindow(this->_window);
     this->_window = nullptr;
 }
 

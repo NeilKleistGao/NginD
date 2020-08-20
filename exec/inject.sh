@@ -1,14 +1,14 @@
 include="include \"class_info.h\"" # the include command
-content="" # call the sign method in static function
+content="    ClassInfo::getInstance()->sign(\"Object\", []() -> Object* {return new Object();});" # call the sign method in static function
 
 for file in $(find ../ -name "*\.h");
 do
   class_name=$(grep -e "// @reflection" "${file}" -A 1 | grep -oP "class .*?[ \{\:]") # get all class with @reflection comment
   class_name="${class_name: 6: ${#class_name} - 7}"
   class_name=${class_name// /}
-  if [ "$class_name" != "" ];then
+  if [ "$class_name" != "" ] && [ "$class_name" != "Object" ];then
     include=${include}"\n#include \""${file: 3}"\""
-    content=${content}"    ClassInfo::getInstance()->sign(\"${class_name}\", []() -> Object* {return new ${class_name}();});\n"
+    content=${content}"\n    ClassInfo::getInstance()->sign(\"${class_name}\", []() -> Object* {return new ${class_name}();});"
   fi
 done
 
