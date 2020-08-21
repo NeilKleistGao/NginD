@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/17
+// LAST MODIFY: 2020/8/21
 // FILENAME: window.h
 
 #ifndef NGIND_WINDOW_H
@@ -58,7 +58,7 @@ public:
         glfwSetWindowTitle(this->_window, title.c_str());
     }
 
-    inline void setIsFullScreen(const bool& is_full) {
+    inline void setFullScreen(const bool& is_full) {
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
@@ -70,7 +70,7 @@ public:
         }
     }
 
-    inline void resize(const int& width, const int& height) {
+    inline void resize(const size_t& width, const size_t& height) {
         glfwSetWindowSize(this->_window, width, height);
     }
 

@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/20
+// LAST MODIFY: 2020/8/21
 // FILENAME: ini_config.cc
 
 #include "ini_config.h"
@@ -55,7 +55,11 @@ std::string INIConfig::get(const std::string& section, const std::string& key) {
 }
 
 void INIConfig::set(const std::string& section, const std::string& key, const std::string& value) {
+    if (this->_content.find(section) == this->_content.end()) {
+        return;
+    }
 
+    this->_content[section][key] = value;
 }
 
 void INIConfig::open(const std::string& filename) {
@@ -73,6 +77,7 @@ void INIConfig::open(const std::string& filename) {
     while (!feof(fp)) {
         fgets(buff, BUFF_SIZE - 1, fp);
         std::string str = buff;
+        str = str.substr(0, str.length() - 1);
 
         if ((*str.begin()) == '[' && (*str.rbegin()) == ']') {
             section_name = str.substr(1, str.length() - 2);
