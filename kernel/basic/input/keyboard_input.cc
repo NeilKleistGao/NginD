@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/18
+// LAST MODIFY: 2020/8/22
 // FILENAME: keyboard_input.cc
 
 #include "keyboard_input.h"
@@ -32,6 +32,36 @@ KeyboardInput::KeyboardInput() {
 
 KeyboardInput::~KeyboardInput() {
 
+}
+
+bool KeyboardInput::getKeyPress(const std::string& name) {
+    //TODO:
+    return false;
+}
+
+bool KeyboardInput::getKey(const std::string& name) {
+    //TODO:
+    return false;
+}
+
+bool KeyboardInput::getKeyRelease(const std::string& name) {
+    //TODO:
+    return false;
+}
+
+bool KeyboardInput::getKeyPress(const KeyboardCode& code) {
+    //TODO:
+    return false;
+}
+
+bool KeyboardInput::getKey(const KeyboardCode& code) {
+    //TODO:
+    return false;
+}
+
+bool KeyboardInput::getKeyRelease(const KeyboardCode& code) {
+    //TODO:
+    return false;
 }
 
 } // namespace ngind
