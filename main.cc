@@ -20,12 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: main.cc
-// LAST MODIFY: 2020/8/16
-
-#include <iostream>
+// LAST MODIFY: 2020/8/29
 
 #include "reflection_injector.h"
-#include "game.h"
+#include "kernel/game.h"
+
+#include <iostream>
 
 int main() {
     ngind::injectReflection();

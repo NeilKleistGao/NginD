@@ -19,6 +19,43 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/17
+// LAST MODIFY: 2020/8/29
 // FILENAME: keyboard_input_test.cc
 
+//#define NGIND_KEYBOARD_INPUT_TEST
+#ifdef NGIND_KEYBOARD_INPUT_TEST
+
+#include <iostream>
+
+#include "reflection_injector.h"
+#include "render/render.h"
+#include "input/input.h"
+
+int main() {
+    ngind::injectReflection();
+
+    bool main_loop_flag = true;
+
+    auto render = ngind::Render::getInstance();
+    render->createWindow();
+
+    auto input = ngind::Input::getInstance();
+    input->registerKeyCodeName("test_once", ngind::KeyboardCode::SPACE);
+    input->registerKeyCodeName("test", ngind::KeyboardCode::ENTER);
+
+    while (main_loop_flag) {
+        glfwPollEvents();
+        main_loop_flag &= render->startRenderLoopOnce();
+
+        if (input->getKey("test_once", true)) {
+            std::cout << "once press" << std::endl;
+        }
+        if (input->getKey("test", false)) {
+            std::cout << "test" << std::endl;
+        }
+    }
+
+    return 0;
+}
+
+#endif // NGIND_KEYBOARD_INPUT_TEST

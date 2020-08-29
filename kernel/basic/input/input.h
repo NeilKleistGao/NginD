@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/18
+// LAST MODIFY: 2020/8/29
 // FILENAME: input.h
 
 #ifndef NGIND_INPUT_H
@@ -36,6 +36,17 @@ public:
     static Input* getInstance();
     static void destroyInstance();
 
+    inline bool getKey(const std::string& name, const bool& once = true) {
+        return this->_keyboard->getKey(this->_window_handler, name, once);
+    }
+
+    inline void registerKeyCodeName(const std::string& name, const KeyboardCode& code) {
+        this->_keyboard->set(name, code);
+    }
+
+    inline KeyboardCode getKeyCodeByName(const std::string& name) {
+        return this->_keyboard->getCode(name);
+    }
 
     friend class Window;
 
@@ -46,6 +57,7 @@ private:
 
     inline void setWindowHandler(GLFWwindow* window) {
         _window_handler = window;
+        this->_keyboard = new KeyboardInput(window);
     }
 
     Input();

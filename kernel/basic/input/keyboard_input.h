@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/22
+// LAST MODIFY: 2020/8/29
 // FILENAME: keyboard_input.h
 
 #ifndef NGIND_KEYBOARD_INPUT_H
@@ -27,6 +27,7 @@
 
 #include <iostream>
 #include <map>
+#include <set>
 
 #include "glfw3.h"
 
@@ -129,30 +130,23 @@ enum KeyboardCode {
 
 class KeyboardInput {
 public:
-    KeyboardInput();
+    KeyboardInput(GLFWwindow* window);
     ~KeyboardInput();
-
-    bool getKeyPress(const std::string&);
-    bool getKey(const std::string&);
-    bool getKeyRelease(const std::string&);
-
-    bool getKeyPress(const KeyboardCode&);
-    bool getKey(const KeyboardCode&);
-    bool getKeyRelease(const KeyboardCode&);
 
     inline void set(const std::string& name, const KeyboardCode& code) {
         this->_map[name] = code;
     }
 
-    inline void remove(const std::string& name) {
+    inline KeyboardCode getCode(const std::string& name) {
         auto it = this->_map.find(name);
-        if (it != this->_map.end()) {
-            this->_map.erase(it);
-        }
+        return (it == this->_map.end()) ? KeyboardCode::UNKNOWN : it->second;
     }
+
+    bool getKey(GLFWwindow *, const std::string&, const bool&);
 
 private:
     std::map<std::string, KeyboardCode> _map;
+    std::set<KeyboardCode> _pressed;
 };
 
 } // namespace ngind
