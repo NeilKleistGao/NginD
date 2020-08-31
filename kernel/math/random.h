@@ -25,11 +25,21 @@
 #ifndef NGIND_RANDOM_H
 #define NGIND_RANDOM_H
 
+#include <random>
+
 namespace ngind {
 
 class Random {
 public:
+    Random();
+
+    int getRangeRandomNumber(const int&, const int&);
+    float getPercentageRandomNumber();
+    float getNormalDistributionRandomNumber(const float&, const float&);
+
 private:
+    std::mt19937 _mt;
+    std::default_random_engine _engine;
 };
 
 }

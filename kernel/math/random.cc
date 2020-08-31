@@ -24,8 +24,32 @@
 
 #include "random.h"
 
+#include <chrono>
+
 namespace ngind {
 
+Random::Random() {
+    std::random_device rd;
+    this->_mt = std::mt19937 (rd());
 
+    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
+    this->_engine = std::default_random_engine(seed);
+}
+
+int Random::getRangeRandomNumber(const int& min, const int& max) {
+    int len = max - min,
+        res = this->_mt() % len;
+    return min + res;
+}
+
+float Random::getPercentageRandomNumber() {
+    int res = this->_mt();
+    return (float)res / (float)(0x7fffffff);
+}
+
+float Random::getNormalDistributionRandomNumber(const float& std, const float& mean) {
+    std::normal_distribution dis(mean, std);
+    return dis(this->_engine);
+}
 
 } // namespace ngind
