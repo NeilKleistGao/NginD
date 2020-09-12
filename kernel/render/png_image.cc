@@ -27,7 +27,7 @@
 #include <iostream>
 #include <cstdio>
 #include "png.h"
-#include "file_utils.h"
+#include "kernel/filesystem/file_utils.h"
 #include "resources_settings.h"
 
 namespace ngind {
