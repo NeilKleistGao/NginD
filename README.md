@@ -30,6 +30,7 @@ You can see more details about my work process [here](https://docs.qq.com/doc/DU
 + [GLFW 3.3.2](https://www.glfw.org/)
 + [libpng 1.6.34](http://www.libpng.org/pub/png/libpng.html)
 + [C++ Boost 1.74.0](https://www.boost.org/)
++ [RTTR 0.9.6](https://www.rttr.org/)
 
 ## Code Style Guide
 We'll use Google's C++ style guild:
