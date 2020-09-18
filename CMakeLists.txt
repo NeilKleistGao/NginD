@@ -38,7 +38,7 @@ add_executable(NginD main.cc
         kernel/input/keyboard_input.cc
         kernel/input/input.cc
         test/kernel/input/keyboard_input_test.cc kernel/render/png_image.h kernel/render/png_image.cc
-        include/opengl/glad.c settings/resources_settings.h kernel/utils/file_utils.h kernel/utils/file_utils.cc kernel/utils/ini_config.h kernel/utils/ini_config.cc kernel/utils/convert_utils.h test/kernel/render/window_test.cc test/kernel/utils/ini_config_test.cc kernel/math/vector.h kernel/math/random.h kernel/math/vector.cc kernel/math/random.cc)
+        include/opengl/glad.c settings/resources_settings.h kernel/utils/file_utils.h kernel/utils/file_utils.cc kernel/utils/ini_config.h kernel/utils/ini_config.cc kernel/utils/convert_utils.h test/kernel/render/window_test.cc test/kernel/utils/ini_config_test.cc kernel/math/vector.h kernel/math/random.h kernel/math/vector.cc kernel/math/random.cc kernel/coroutine/coroutine.h kernel/coroutine/coroutine.cc)
 
 set(PLATFORM_PREFIX "/lib/linux")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
@@ -54,8 +54,6 @@ target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXra
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXinerama.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXxf86vm.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXcursor.so")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libpthread.so")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libpthread.a")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libdl.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libdl.a")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/libpng/libpng16.so")
@@ -65,3 +63,5 @@ add_custom_command(TARGET ${PROJECT_NAME}
         COMMAND ${CMAKE_COMMAND}
         ARGS -E copy_directory "${PROJECT_SOURCE_DIR}/resources" "${EXECUTABLE_OUTPUT_PATH}/resources"
         COMMENT "COPY RESOURCES FILES")
+
+add_compile_options(-pthread)

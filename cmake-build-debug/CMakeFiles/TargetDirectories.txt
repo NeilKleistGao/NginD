@@ -1,0 +1,3 @@
+/home/neilkleistgao/cpp/NginD/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/neilkleistgao/cpp/NginD/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/neilkleistgao/cpp/NginD/cmake-build-debug/CMakeFiles/NginD.dir
