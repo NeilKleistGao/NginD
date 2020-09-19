@@ -13,6 +13,7 @@ include_directories(kernel/objects)
 include_directories(kernel/render)
 include_directories(kernel/input)
 include_directories(kernel)
+include_directories(./include)
 include_directories(./include/opengl)
 include_directories(./include/libpng)
 include_directories(./settings)
@@ -57,6 +58,7 @@ target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXcu
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libdl.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libdl.a")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/libpng/libpng16.so")
+target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/rttr/librttr_core.so")
 
 add_custom_command(TARGET ${PROJECT_NAME}
         PRE_BUILD

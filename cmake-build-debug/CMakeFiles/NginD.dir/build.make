@@ -398,6 +398,7 @@ NginD_EXTERNAL_OBJECTS =
 ../bin/NginD: ../lib/linux/opengl/libdl.so
 ../bin/NginD: ../lib/linux/opengl/libdl.a
 ../bin/NginD: ../lib/linux/libpng/libpng16.so
+../bin/NginD: ../lib/linux/rttr/librttr_core.so
 ../bin/NginD: CMakeFiles/NginD.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/neilkleistgao/cpp/NginD/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Linking CXX executable ../bin/NginD"
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "COPY RESOURCES FILES"

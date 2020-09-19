@@ -86,10 +86,6 @@ set
 glfw3.h
 ../kernel/input/glfw3.h
 
-../kernel/objects/object.h
-serialization.h
-../kernel/objects/serialization.h
-
 ../kernel/render/png_image.h
 iostream
 -
@@ -112,53 +108,15 @@ glfw3.h
 png_image.h
 ../kernel/render/png_image.h
 
-../kernel/utils/class_info.h
-iostream
--
-map
--
-functional
--
-memory
--
-object.h
-../kernel/utils/object.h
-
-../kernel/utils/reflection_injector.h
-class_info.h
-../kernel/utils/class_info.h
-
-../kernel/utils/serialization.h
-iostream
--
-sstream
--
-type_traits
--
-
 ../settings/display_settings.h
 iostream
 -
 cstdio
 -
 
-/home/neilkleistgao/cpp/NginD/kernel/coroutine/coroutine.cc
-coroutine.h
-/home/neilkleistgao/cpp/NginD/kernel/coroutine/coroutine.h
-
-/home/neilkleistgao/cpp/NginD/kernel/coroutine/coroutine.h
-objects/object.h
-/home/neilkleistgao/cpp/NginD/kernel/coroutine/objects/object.h
-functional
--
-boost/coroutine2/all.hpp
--
-
 /home/neilkleistgao/cpp/NginD/kernel/game.h
 
 /home/neilkleistgao/cpp/NginD/main.cc
-reflection_injector.h
-/home/neilkleistgao/cpp/NginD/reflection_injector.h
 kernel/game.h
 /home/neilkleistgao/cpp/NginD/kernel/game.h
 iostream

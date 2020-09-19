@@ -20,16 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: main.cc
-// LAST MODIFY: 2020/8/29
+// LAST MODIFY: 2020/9/19
 
-#include "reflection_injector.h"
 #include "kernel/game.h"
 
 #include <iostream>
 
 int main() {
-    ngind::injectReflection();
-
     auto game = new(std::nothrow) ngind::Game();
     if (game == nullptr) {
         exit(-1);

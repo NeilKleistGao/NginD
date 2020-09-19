@@ -7,11 +7,11 @@ C_FLAGS = -g
 
 C_DEFINES = 
 
-C_INCLUDES = -I/home/neilkleistgao/cpp/NginD/. -I/home/neilkleistgao/cpp/NginD/kernel/utils -I/home/neilkleistgao/cpp/NginD/kernel/objects -I/home/neilkleistgao/cpp/NginD/kernel/render -I/home/neilkleistgao/cpp/NginD/kernel/input -I/home/neilkleistgao/cpp/NginD/kernel -I/home/neilkleistgao/cpp/NginD/./include/opengl -I/home/neilkleistgao/cpp/NginD/./include/libpng -I/home/neilkleistgao/cpp/NginD/./settings -I/home/neilkleistgao/cpp/NginD/./resources 
+C_INCLUDES = -I/home/neilkleistgao/cpp/NginD/. -I/home/neilkleistgao/cpp/NginD/kernel/utils -I/home/neilkleistgao/cpp/NginD/kernel/objects -I/home/neilkleistgao/cpp/NginD/kernel/render -I/home/neilkleistgao/cpp/NginD/kernel/input -I/home/neilkleistgao/cpp/NginD/kernel -I/home/neilkleistgao/cpp/NginD/./include -I/home/neilkleistgao/cpp/NginD/./include/opengl -I/home/neilkleistgao/cpp/NginD/./include/libpng -I/home/neilkleistgao/cpp/NginD/./settings -I/home/neilkleistgao/cpp/NginD/./resources 
 
 CXX_FLAGS = -g   -std=gnu++17
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/neilkleistgao/cpp/NginD/. -I/home/neilkleistgao/cpp/NginD/kernel/utils -I/home/neilkleistgao/cpp/NginD/kernel/objects -I/home/neilkleistgao/cpp/NginD/kernel/render -I/home/neilkleistgao/cpp/NginD/kernel/input -I/home/neilkleistgao/cpp/NginD/kernel -I/home/neilkleistgao/cpp/NginD/./include/opengl -I/home/neilkleistgao/cpp/NginD/./include/libpng -I/home/neilkleistgao/cpp/NginD/./settings -I/home/neilkleistgao/cpp/NginD/./resources 
+CXX_INCLUDES = -I/home/neilkleistgao/cpp/NginD/. -I/home/neilkleistgao/cpp/NginD/kernel/utils -I/home/neilkleistgao/cpp/NginD/kernel/objects -I/home/neilkleistgao/cpp/NginD/kernel/render -I/home/neilkleistgao/cpp/NginD/kernel/input -I/home/neilkleistgao/cpp/NginD/kernel -I/home/neilkleistgao/cpp/NginD/./include -I/home/neilkleistgao/cpp/NginD/./include/opengl -I/home/neilkleistgao/cpp/NginD/./include/libpng -I/home/neilkleistgao/cpp/NginD/./settings -I/home/neilkleistgao/cpp/NginD/./resources 
 

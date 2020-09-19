@@ -50,6 +50,7 @@
 					<Add directory="/home/neilkleistgao/cpp/NginD/kernel/render"/>
 					<Add directory="/home/neilkleistgao/cpp/NginD/kernel/input"/>
 					<Add directory="/home/neilkleistgao/cpp/NginD/kernel"/>
+					<Add directory="/home/neilkleistgao/cpp/NginD/./include"/>
 					<Add directory="/home/neilkleistgao/cpp/NginD/./include/opengl"/>
 					<Add directory="/home/neilkleistgao/cpp/NginD/./include/libpng"/>
 					<Add directory="/home/neilkleistgao/cpp/NginD/./settings"/>
@@ -82,6 +83,7 @@
 					<Add directory="/home/neilkleistgao/cpp/NginD/kernel/render"/>
 					<Add directory="/home/neilkleistgao/cpp/NginD/kernel/input"/>
 					<Add directory="/home/neilkleistgao/cpp/NginD/kernel"/>
+					<Add directory="/home/neilkleistgao/cpp/NginD/./include"/>
 					<Add directory="/home/neilkleistgao/cpp/NginD/./include/opengl"/>
 					<Add directory="/home/neilkleistgao/cpp/NginD/./include/libpng"/>
 					<Add directory="/home/neilkleistgao/cpp/NginD/./settings"/>

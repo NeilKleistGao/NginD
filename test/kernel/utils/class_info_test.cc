@@ -22,13 +22,15 @@
 // LAST MODIFY: 2020/8/14
 // FILENAME: class_info_test.cc
 
+//#define NGIND_CLASS_INFO_TEST
 #ifdef NGIND_CLASS_INFO_TEST
 
-#include "class_info.h"
 #include <iostream>
-#include "object.h"
 
-class Foo : public ngind::Object {
+#include "rttr/type"
+#include "rttr/registration.h"
+
+class Foo {
 public:
     Foo() {
         std::cout << "rua" << std::endl;
@@ -37,13 +39,26 @@ public:
     ~Foo() {
         std::cout << "1551" << std::endl;
     }
+
+    void bar() {
+        std::cout << "foo" << std::endl;
+    }
+
+private:
+    int _foo;
 };
 
+RTTR_REGISTRATION {
+    rttr::registration::class_<Foo>("Foo").constructor<>().method("bar", &Foo::bar);
+}
+
 int main() {
-    ngind::ClassInfo::getInstance()->create<Foo>("Foo");
-    ngind::ClassInfo::getInstance()->sign("bar", []() -> ngind::Object* {return new Foo();});
-    ngind::ClassInfo::getInstance()->create("bar");
-    ngind::ClassInfo::destroyInstance();
+    rttr::type type = rttr::type::get_by_name("Foo");
+    rttr::variant variant = type.create();
+    Foo foo = variant.get_value<Foo>();
+    foo.bar();
+
+    rttr::instance ins = foo;
     return 0;
 }
 
