@@ -24,6 +24,6 @@
 *.out
 *.app
 
-./bin/*
-./cmake-build-debug/*
-./.idea/*
+bin/
+cmake-build-debug/
+.idea/

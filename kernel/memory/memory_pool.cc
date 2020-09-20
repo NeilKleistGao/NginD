@@ -19,45 +19,51 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// FILENAME: memory_pool.cc
 // LAST MODIFY: 2020/9/20
-// FILENAME: object.h
 
-#ifndef NGIND_OBJECT_H
-#define NGIND_OBJECT_H
+#include "memory_pool.h"
 
-#include <map>
 #include <iostream>
 
-#include "serialization.h"
-#include "memory/auto_collection_object.h"
-
 namespace ngind {
+MemoryPool* MemoryPool::_instance = nullptr;
 
-class Object : public Serializable, public AutoCollectionObject {
-public:
-    Object();
-    ~Object() override;
-
-    void serialize(std::ostream&) const override;
-    void deserialize(std::istream&) override;
-
-    void addChild(const std::string&, Object*);
-    void removeChild(const std::string&);
-    Object* getChildByName(const std::string&);
-
-    inline void setParent(Object* object) {
-        this->_parent = object;
+MemoryPool* MemoryPool::getInstance() {
+    if (_instance == nullptr) {
+        _instance = new(std::nothrow) MemoryPool();
     }
 
-    inline Object* getParent() {
-        return this->_parent;
+    return _instance;
+}
+
+void MemoryPool::destroyInstance() {
+    delete _instance;
+    _instance = nullptr;
+}
+
+void MemoryPool::clear() {
+    for (auto it : this->_pool) {
+        delete it;
+        it = nullptr;
     }
-private:
-    std::map<const std::string, Object*> _children;
-    Object* _parent;
-};
+
+    this->_pool.clear();
+}
+
+MemoryPool::MemoryPool() {
+    this->_pool.clear();
+}
+
+MemoryPool::~MemoryPool() {
+    this->clear();
+}
+
+void MemoryPool::remove(AutoCollectionObject* obj) {
+    auto it = this->_pool.find(obj);
+    if (it != this->_pool.end()) {
+        this->_pool.erase(it);
+    }
+}
+
 } // namespace ngind
-
-
-
-#endif //NGIND_OBJECT_H

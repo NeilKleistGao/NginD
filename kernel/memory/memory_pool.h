@@ -19,45 +19,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// FILENAME: memory_pool.h
 // LAST MODIFY: 2020/9/20
-// FILENAME: object.h
 
-#ifndef NGIND_OBJECT_H
-#define NGIND_OBJECT_H
+#ifndef NGIND_MEMORY_POOL_H
+#define NGIND_MEMORY_POOL_H
 
-#include <map>
-#include <iostream>
+#include <set>
+#include <memory>
 
-#include "serialization.h"
-#include "memory/auto_collection_object.h"
+#include "auto_collection_object.h"
 
 namespace ngind {
-
-class Object : public Serializable, public AutoCollectionObject {
+class MemoryPool {
 public:
-    Object();
-    ~Object() override;
+    static MemoryPool* getInstance();
+    static void destroyInstance();
 
-    void serialize(std::ostream&) const override;
-    void deserialize(std::istream&) override;
-
-    void addChild(const std::string&, Object*);
-    void removeChild(const std::string&);
-    Object* getChildByName(const std::string&);
-
-    inline void setParent(Object* object) {
-        this->_parent = object;
+    void clear();
+    inline void insert(AutoCollectionObject* object) {
+        this->_pool.insert(object);
     }
 
-    inline Object* getParent() {
-        return this->_parent;
-    }
+    void remove(AutoCollectionObject*);
+
 private:
-    std::map<const std::string, Object*> _children;
-    Object* _parent;
+    static MemoryPool* _instance;
+    std::set<AutoCollectionObject*> _pool;
+
+    MemoryPool();
+    ~MemoryPool();
 };
 } // namespace ngind
 
-
-
-#endif //NGIND_OBJECT_H
+#endif //NGIND_MEMORY_POOL_H

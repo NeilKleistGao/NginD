@@ -19,26 +19,71 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/14
+// LAST MODIFY: 2020/9/20
 // FILENAME: object.cc
 
 #include "object.h"
 
 namespace ngind {
 
-Object::Object() {
-
+Object::Object() : AutoCollectionObject(), _parent(nullptr) {
+    this->_children.clear();
 }
-Object::~Object() {
 
+Object::~Object() {
+    for (auto it : this->_children) {
+        it.second->removeReference();
+
+        if (it.second->getSustain() == 0) {
+            delete it.second;
+            it.second = nullptr;
+        }
+    }
+
+    this->_children.clear();
 }
 
 void Object::serialize(std::ostream& stream) const {
-
 }
 
 void Object::deserialize(std::istream& stream) {
+}
 
+void Object::addChild(const std::string& name, Object* object) {
+    auto it = this->_children.find(name);
+    if (it == this->_children.end()) {
+        this->_children[name] = object;
+        object->addReference();
+        object->setParent(this);
+    }
+}
+
+void Object::removeChild(const std::string& name) {
+    auto it = this->_children.find(name);
+    Object* object = nullptr;
+    if (it != this->_children.end()) {
+        object = it->second;
+        this->_children.erase(it);
+    }
+
+    if (object != nullptr) {
+        object->removeReference();
+        object->setParent(nullptr);
+        if (object->getSustain() == 0) {
+            delete object;
+            object = nullptr;
+        }
+    }
+}
+
+Object* Object::getChildByName(const std::string& name) {
+    Object* object = nullptr;
+    auto it = this->_children.find(name);
+    if (it != this->_children.end()) {
+        object = it->second;
+    }
+
+    return object;
 }
 
 } // namespace ngind

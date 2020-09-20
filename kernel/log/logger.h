@@ -19,45 +19,10 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// FILENAME: logger.h
 // LAST MODIFY: 2020/9/20
-// FILENAME: object.h
 
-#ifndef NGIND_OBJECT_H
-#define NGIND_OBJECT_H
+#ifndef NGIND_LOGGER_H
+#define NGIND_LOGGER_H
 
-#include <map>
-#include <iostream>
-
-#include "serialization.h"
-#include "memory/auto_collection_object.h"
-
-namespace ngind {
-
-class Object : public Serializable, public AutoCollectionObject {
-public:
-    Object();
-    ~Object() override;
-
-    void serialize(std::ostream&) const override;
-    void deserialize(std::istream&) override;
-
-    void addChild(const std::string&, Object*);
-    void removeChild(const std::string&);
-    Object* getChildByName(const std::string&);
-
-    inline void setParent(Object* object) {
-        this->_parent = object;
-    }
-
-    inline Object* getParent() {
-        return this->_parent;
-    }
-private:
-    std::map<const std::string, Object*> _children;
-    Object* _parent;
-};
-} // namespace ngind
-
-
-
-#endif //NGIND_OBJECT_H
+#endif //NGIND_LOGGER_H
