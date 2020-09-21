@@ -19,26 +19,29 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// FILENAME: log_setting.h
 // LAST MODIFY: 2020/9/21
-// FILENAME: file_util.h
 
-#ifndef NGIND_FILE_UTILS_H
-#define NGIND_FILE_UTILS_H
+#ifndef NGIND_LOG_SETTING_H
+#define NGIND_LOG_SETTING_H
 
-#include <iostream>
+#include "log/log_level.h"
 
 namespace ngind {
-namespace file_utils {
+namespace settings {
 
-const char PATH_SEPARATOR = '/'; // TODO: mul-env
+const LogLevel LOG_LEVEL = LogLevel::LOG_LEVEL_DEBUG;
 
-const std::string STDIN_PATH = "__STDIN__";
-const std::string STDOUT_PATH = "__STDOUT__";
-const std::string STDERR_PATH = "__STDERR__";
+const char* STDIN_INFO_FORMAT = "\033[34m[info]\033[0m %s\n";
+const char* STDIN_DEBUG_FORMAT = "\033[35m[debug]\033[0m %s\n";
+const char* STDIN_WARNING_FORMAT = "\033[33m[warning] %s\033[0m\n";
+const char* STDIN_ERROR_FORMAT = "\033[31m[error] %s\033[0m\n";
 
-std::string joinPath(const std::string&, const std::string&);
-
-} // namespace file_util
+const char* INFO_FORMAT = "[info] %s\n";
+const char* DEBUG_FORMAT = "[debug] %s\n";
+const char* WARNING_FORMAT = "[warning] %s\n";
+const char* ERROR_FORMAT = "[error] %s\n";
+}
 } // namespace ngind
 
-#endif //NGIND_FILE_UTILS_H
+#endif //NGIND_LOG_SETTING_H

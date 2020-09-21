@@ -20,9 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: logger.h
-// LAST MODIFY: 2020/9/20
+// LAST MODIFY: 2020/9/21
 
 #ifndef NGIND_LOGGER_H
 #define NGIND_LOGGER_H
+
+#include <iostream>
+#include <cstdio>
+
+#include "log_level.h"
+
+namespace ngind {
+class Logger {
+public:
+    explicit Logger(const std::string&);
+    ~Logger();
+
+    void log();
+
+    inline void close() {
+        // TODO:
+    }
+private:
+    FILE* _fp;
+};
+} // namespace ngind
 
 #endif //NGIND_LOGGER_H

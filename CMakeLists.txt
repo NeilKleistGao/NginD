@@ -39,7 +39,7 @@ add_executable(NginD main.cc
         kernel/input/keyboard_input.cc
         kernel/input/input.cc
         test/kernel/input/keyboard_input_test.cc kernel/render/png_image.h kernel/render/png_image.cc
-        include/opengl/glad.c settings/resources_settings.h kernel/utils/file_utils.h kernel/utils/file_utils.cc kernel/utils/ini_config.h kernel/utils/ini_config.cc kernel/utils/convert_utils.h test/kernel/render/window_test.cc test/kernel/utils/ini_config_test.cc kernel/math/vector.h kernel/math/random.h kernel/math/vector.cc kernel/math/random.cc kernel/coroutine/coroutine.h kernel/coroutine/coroutine.cc kernel/memory/auto_collection_object.h kernel/memory/auto_collection_object.cc kernel/memory/memory_pool.h kernel/memory/memory_pool.cc kernel/log/logger.h)
+        include/opengl/glad.c settings/resources_settings.h kernel/utils/file_utils.h kernel/utils/file_utils.cc kernel/utils/ini_config.h kernel/utils/ini_config.cc kernel/utils/convert_utils.h test/kernel/render/window_test.cc test/kernel/utils/ini_config_test.cc kernel/math/vector.h kernel/math/random.h kernel/math/vector.cc kernel/math/random.cc kernel/coroutine/coroutine.h kernel/coroutine/coroutine.cc kernel/memory/auto_collection_object.h kernel/memory/auto_collection_object.cc kernel/memory/memory_pool.h kernel/memory/memory_pool.cc kernel/log/logger.h kernel/log/logger.cc kernel/log/logger_factory.h kernel/log/logger_factory.cc settings/log_setting.h kernel/log/log_level.h kernel/filesystem/file.h kernel/filesystem/file.cc)
 
 set(PLATFORM_PREFIX "/lib/linux")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")

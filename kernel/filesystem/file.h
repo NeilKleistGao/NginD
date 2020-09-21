@@ -19,26 +19,62 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// FILENAME: file.h
 // LAST MODIFY: 2020/9/21
-// FILENAME: file_util.h
 
-#ifndef NGIND_FILE_UTILS_H
-#define NGIND_FILE_UTILS_H
+
+#ifndef NGIND_FILE_H
+#define NGIND_FILE_H
 
 #include <iostream>
+#include <cstdio>
 
 namespace ngind {
-namespace file_utils {
 
-const char PATH_SEPARATOR = '/'; // TODO: mul-env
+class File {
+public:
+    File();
+    explicit File(const std::string&);
+    File(const std::string&, const std::string&);
+    File(const File&) = delete;
+    File(File&&) = delete;
+    ~File();
 
-const std::string STDIN_PATH = "__STDIN__";
-const std::string STDOUT_PATH = "__STDOUT__";
-const std::string STDERR_PATH = "__STDERR__";
+    void writeLine(const std::string&);
+    std::string readLine();
+    void write(const std::string&);
+    void write(const char*, const size_t&);
+    char* read(const size_t&);
 
-std::string joinPath(const std::string&, const std::string&);
+    inline void flush() {
+        fflush(this->_fp);
+    }
 
-} // namespace file_util
+    inline bool isOpen() const {
+        return this->_open;
+    }
+
+    inline bool isReadable() const {
+        return this->_readable;
+    }
+
+    inline bool isWriteable() const {
+        return this->_writeable;
+    }
+
+    inline bool isBinary() const {
+        return this->_binary;
+    }
+
+    void open(const std::string&);
+    void open(const std::string&, const std::string&);
+
+    void close();
+private:
+    FILE* _fp;
+    bool _open, _readable, _writeable, _binary;
+};
+
 } // namespace ngind
 
-#endif //NGIND_FILE_UTILS_H
+#endif //NGIND_FILE_H

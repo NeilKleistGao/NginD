@@ -19,26 +19,19 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// FILENAME: log_level.h
 // LAST MODIFY: 2020/9/21
-// FILENAME: file_util.h
 
-#ifndef NGIND_FILE_UTILS_H
-#define NGIND_FILE_UTILS_H
-
-#include <iostream>
+#ifndef NGIND_LOG_LEVEL_H
+#define NGIND_LOG_LEVEL_H
 
 namespace ngind {
-namespace file_utils {
-
-const char PATH_SEPARATOR = '/'; // TODO: mul-env
-
-const std::string STDIN_PATH = "__STDIN__";
-const std::string STDOUT_PATH = "__STDOUT__";
-const std::string STDERR_PATH = "__STDERR__";
-
-std::string joinPath(const std::string&, const std::string&);
-
-} // namespace file_util
+enum LogLevel {
+    LOG_LEVEL_INFO = 0,
+    LOG_LEVEL_DEBUG = 1,
+    LOG_LEVEL_WARNING = 2,
+    LOG_LEVEL_ERROR = 3
+};
 } // namespace ngind
 
-#endif //NGIND_FILE_UTILS_H
+#endif //NGIND_LOG_LEVEL_H
