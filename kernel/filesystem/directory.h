@@ -19,28 +19,20 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: coroutine.h
+// FILENAME: directory.h
 // LAST MODIFY: 2020/9/25
 
-#include "coroutine.h"
+
+#ifndef NGIND_DIRECTORY_H
+#define NGIND_DIRECTORY_H
 
 namespace ngind {
 
-Coroutine::Coroutine(task process) : Coroutine(process, [](){}) {
-}
-
-Coroutine::Coroutine(task process, task callback) : _process(process), _callback(callback) {
-}
-
-void Coroutine::run() {
-    _fiber = boost::fibers::fiber(boost::fibers::launch::dispatch, _process);
-    _fiber.detach();
-}
-
-void Coroutine::wait() {
-    if (this->isRunning()) {
-        _fiber.join();
-    }
-}
+class Directory {
+public:
+private:
+};
 
 } // namespace ngind
+
+#endif //NGIND_DIRECTORY_H

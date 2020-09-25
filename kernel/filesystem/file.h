@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: file.h
-// LAST MODIFY: 2020/9/21
+// LAST MODIFY: 2020/9/25
 
 
 #ifndef NGIND_FILE_H
@@ -70,6 +70,10 @@ public:
     void open(const std::string&, const std::string&);
 
     void close();
+
+    void readAsync(); // TODO:
+    void writeAsync(); // TODO:
+
 private:
     FILE* _fp;
     bool _open, _readable, _writeable, _binary;

@@ -20,21 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: coroutine.h
-// LAST MODIFY: 2020/9/16
+// LAST MODIFY: 2020/9/25
 
 #ifndef NGIND_COROUTINE_H
 #define NGIND_COROUTINE_H
 
-#include "objects/object.h"
-
 #include <functional>
-#include <boost/coroutine2/all.hpp>
+#include <boost/fiber/all.hpp>
 
 namespace ngind {
-class Coroutine : public Object {
+class Coroutine {
 public:
-    // TODO:
+    using task = std::function<void(void)>;
+
+    explicit Coroutine(task);
+    Coroutine(task, task);
+
+    void run();
+    void wait();
+
+    inline bool isRunning() {
+        return _fiber.joinable();
+    }
+
 private:
+    boost::fibers::fiber _fiber;
+    task _process, _callback;
 };
 } // namespace ngind
 
