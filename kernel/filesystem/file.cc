@@ -20,9 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: file.cc
-// LAST MODIFY: 2020/9/21
+// LAST MODIFY: 2020/9/27
 
 #include "file.h"
+
+#include <utility>
 
 namespace ngind {
 File::File() : _fp(nullptr), _open(false), _writeable(false), _readable(false), _binary(false) {
@@ -48,7 +50,7 @@ std::string File::readLine() {
         return "";
     }
 
-    std::string res = "";
+    std::string res;
     char ch = fgetc(this->_fp);
     while (ch != EOF) {
         res += ch;
@@ -106,6 +108,37 @@ void File::close() {
         fclose(this->_fp);
         this->_open = false;
     }
+}
+
+Coroutine<char*, const size_t&> File::readAsync(
+        const size_t& length,
+        typename Coroutine<char*, const size_t&>::callback callback) {
+    auto coroutine = Coroutine<char*, const size_t&>([this](const size_t& length) -> char* {
+        return this->read(length);
+    }, std::move(callback));
+    coroutine.run(length);
+    return coroutine;
+}
+
+Coroutine<void, const std::string&>
+        File::writeAsync(const std::string& content,
+                         typename Coroutine<void, const std::string&>::callback callback) {
+    auto coroutine = Coroutine<void, const std::string&>([this](const std::string& content) {
+        this->write(content);
+    }, std::move(callback));
+    coroutine.run(content);
+    return coroutine;
+}
+
+Coroutine<void, const char*, const size_t&>
+        File::writeAsync(const char* content,
+                         const size_t& length,
+                         typename Coroutine<void, const char*, const size_t&>::callback callback) {
+    auto coroutine = Coroutine<void, const char*, const size_t&>([this](const char* content, const size_t& length) {
+        this->write(content, length);
+    }, std::move(callback));
+    coroutine.run(content, length);
+    return coroutine;
 }
 
 }

@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: file.h
-// LAST MODIFY: 2020/9/25
+// LAST MODIFY: 2020/9/27
 
 
 #ifndef NGIND_FILE_H
@@ -28,6 +28,8 @@
 
 #include <iostream>
 #include <cstdio>
+
+#include "coroutine/coroutine.h"
 
 namespace ngind {
 
@@ -71,8 +73,9 @@ public:
 
     void close();
 
-    void readAsync(); // TODO:
-    void writeAsync(); // TODO:
+    Coroutine<char*, const size_t&> readAsync(const size_t&, typename Coroutine<char*, const size_t&>::callback);
+    Coroutine<void, const std::string&> writeAsync(const std::string&, typename Coroutine<void, const std::string&>::callback);
+    Coroutine<void, const char*, const size_t&> writeAsync(const char*, const size_t&, typename Coroutine<void, const char*, const size_t&>::callback);
 
 private:
     FILE* _fp;
