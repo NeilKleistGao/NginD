@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/9/21
+// LAST MODIFY: 2020/10/1
 // FILENAME: file_util.h
 
 #ifndef NGIND_FILE_UTILS_H
@@ -28,17 +28,19 @@
 #include <iostream>
 
 namespace ngind {
-namespace file_utils {
-
 const char PATH_SEPARATOR = '/'; // TODO: mul-env
 
 const std::string STDIN_PATH = "__STDIN__";
 const std::string STDOUT_PATH = "__STDOUT__";
 const std::string STDERR_PATH = "__STDERR__";
 
-std::string joinPath(const std::string&, const std::string&);
+// image resources path
+const std::string IMAGE_RESOURCES_PATH = "./resources/images";
 
-} // namespace file_util
+// config resources path
+const std::string CONFIG_RESOURCES_PATH = "./resources/config";
+
+std::string joinPath(const std::string&, const std::string&);
 } // namespace ngind
 
 #endif //NGIND_FILE_UTILS_H

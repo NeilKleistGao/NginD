@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: file.cc
-// LAST MODIFY: 2020/9/27
+// LAST MODIFY: 2020/10/1
 
 #include "file.h"
 
@@ -86,8 +86,8 @@ char* File::read(const size_t& length) {
         return buff;
     }
 
-    fread(buff, sizeof(char), length, this->_fp);
-    return buff;
+    size_t real_size = fread(buff, sizeof(char), length, this->_fp);
+    return (real_size == 0) ? nullptr : buff;
 }
 
 void File::open(const std::string& filename) {
@@ -98,9 +98,22 @@ void File::open(const std::string& filename, const std::string& open_type) {
     this->_fp = fopen(filename.c_str(), open_type.c_str());
     this->_open = (this->_fp != nullptr);
     int plus = open_type.find('+');
-    this->_readable = (open_type.find('r') > -1 || plus > -1);
-    this->_writeable = (open_type.find('w') || open_type.find('a') > -1 || plus > -1);
-    this->_binary = (open_type.find('b') > -1);
+    this->_readable = (open_type.find('r') != -1 || plus != -1);
+    this->_writeable = (open_type.find('w') != -1 || open_type.find('a') != -1 || plus != -1);
+    this->_binary = (open_type.find('b') != -1);
+}
+
+std::string File::readToEnd() {
+    const size_t BUFF_SIZE = 256;
+    char* buff = read(BUFF_SIZE);
+
+    std::string res;
+    while (buff != nullptr) {
+        res += buff;
+        buff = read(BUFF_SIZE);
+    }
+
+    return res;
 }
 
 void File::close() {

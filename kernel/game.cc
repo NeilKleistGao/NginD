@@ -19,32 +19,55 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/17
+// LAST MODIFY: 2020/10/1
 // FILENAME: game.cc
 
 #include "game.h"
 
 #include "render/render.h"
+#include "filesystem/file.h"
+#include "filesystem/file_utils.h"
 
 namespace ngind {
 
-Game::Game() {
-
+Game::Game() : _global_settings_doc(new rapidjson::Document()) {
+    this->loadGlobalSettings();
 }
 
 Game::~Game() {
-
+    if (_global_settings_doc != nullptr) {
+        delete  _global_settings_doc;
+        _global_settings_doc = nullptr;
+    }
 }
 
 void Game::start() {
     bool main_loop_flag = true;
 
     auto render = Render::getInstance();
-    render->createWindow();
+    render->createWindow((*_global_settings_doc)["window-width"].GetInt(),
+                         (*_global_settings_doc)["window-height"].GetInt(),
+                         (*_global_settings_doc)["window-title"].GetString(),
+                         (*_global_settings_doc)["window-icon"].GetString(),
+                         (*_global_settings_doc)["window-full-screen"].GetBool());
+
+    delete _global_settings_doc;
+    _global_settings_doc = nullptr;
 
     while (main_loop_flag) {
         glfwPollEvents();
         main_loop_flag &= render->startRenderLoopOnce();
+    }
+}
+
+void Game::loadGlobalSettings() {
+    File* file = new File(CONFIG_RESOURCES_PATH + "/global_settings.json", "r");
+    std::string content = file->readToEnd();
+    file->close();
+
+    bool flag = _global_settings_doc->Parse(content.c_str()).HasParseError();
+    if (flag) {
+        throw "Can't Open Global Settings File!";
     }
 }
 

@@ -28,7 +28,6 @@
 #include <cstdio>
 #include "png.h"
 #include "kernel/filesystem/file_utils.h"
-#include "resources_settings.h"
 
 namespace ngind {
 
@@ -47,8 +46,7 @@ PNGImage::~PNGImage() {
 }
 
 void PNGImage::loadPNG(const std::string& filename) {
-    FILE* fp = fopen(
-            file_utils::joinPath(settings::IMAGE_RESOURCES_PATH, filename).c_str(),
+    FILE* fp = fopen((IMAGE_RESOURCES_PATH + "/" + filename).c_str(),
             "rb");
     if (!fp) {
         fclose(fp);

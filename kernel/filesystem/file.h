@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: file.h
-// LAST MODIFY: 2020/9/27
+// LAST MODIFY: 2020/10/1
 
 
 #ifndef NGIND_FILE_H
@@ -47,6 +47,7 @@ public:
     void write(const std::string&);
     void write(const char*, const size_t&);
     char* read(const size_t&);
+    std::string readToEnd();
 
     inline void flush() {
         fflush(this->_fp);

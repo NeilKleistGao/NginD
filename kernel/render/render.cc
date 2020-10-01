@@ -19,10 +19,10 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/17
+// LAST MODIFY: 2020/10/1
 // FILENAME: render.cc
 
-#include "glad/glad.h"
+#include "include/opengl/glad/glad.h"
 
 #include "render.h"
 
@@ -52,6 +52,8 @@ _window(nullptr) {
 }
 
 Render::~Render() {
+    delete _window;
+    _window = nullptr;
 }
 
 bool Render::startRenderLoopOnce() {
@@ -68,9 +70,10 @@ bool Render::startRenderLoopOnce() {
 void Render::createWindow(const int& width,
                   const int& height,
                   const std::string& title,
+                  const std::string& icon,
                   const bool& is_full) {
     this->_window = new Window(width, height, title, is_full);
-    this->_window->setIcon(settings::WINDOW_ICON);
+    this->_window->setIcon(icon);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         glfwTerminate();

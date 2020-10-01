@@ -28,7 +28,7 @@
 #include <iostream>
 #include <cstdio>
 
-#include "glfw3.h"
+#include "include/opengl/glfw3.h"
 
 #include "png_image.h"
 

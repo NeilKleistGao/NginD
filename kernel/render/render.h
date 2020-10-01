@@ -19,14 +19,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/17
+// LAST MODIFY: 2020/10/1
 // FILENAME: render.h
 
 #ifndef NGIND_RENDER_H
 #define NGIND_RENDER_H
 
 #include "window.h"
-#include "display_settings.h"
 
 namespace ngind {
 
@@ -38,10 +37,7 @@ public:
 
     bool startRenderLoopOnce();
 
-    void createWindow(const int& width = settings::WINDOW_WIDTH,
-                              const int& height = settings::WINDOW_HEIGHT,
-                              const std::string& title = settings::WINDOW_TITLE,
-                              const bool& is_full = false);
+    void createWindow(const int&, const int& height, const std::string&, const std::string&, const bool&);
 private:
     static Render* _instance;
     Window* _window;

@@ -28,7 +28,7 @@
 #include <map>
 #include <iostream>
 
-#include "serialization.h"
+#include "kernel/utils/serialization.h"
 #include "memory/auto_collection_object.h"
 
 namespace ngind {

@@ -25,16 +25,12 @@
 #include "file_utils.h"
 
 namespace ngind {
-namespace file_utils {
-
 std::string joinPath(const std::string& path, const std::string& filename) {
     std::string final_path = "";
     final_path = (path.length() > 0 && *path.rbegin() == PATH_SEPARATOR)
-            ? path : path + PATH_SEPARATOR;
+                 ? path : path + PATH_SEPARATOR;
     final_path += (filename.length() > 2 && filename[0] == '.' && filename[1] == PATH_SEPARATOR)
-            ? filename.substr(2) : filename;
+                  ? filename.substr(2) : filename;
     return final_path;
 }
-
-} // namespace file_util
 } // namespace ngind
