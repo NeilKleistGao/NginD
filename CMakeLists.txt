@@ -35,8 +35,6 @@ add_executable(NginD main.cc
         kernel/render/png_image.h
         kernel/render/png_image.cc
         include/opengl/glad.c
-        kernel/utils/file_utils.h
-        kernel/utils/file_utils.cc
         kernel/utils/convert_utils.h
         test/kernel/render/window_test.cc
         kernel/math/vector.h
@@ -55,7 +53,7 @@ add_executable(NginD main.cc
         kernel/log/log_level.h
         kernel/filesystem/file.h
         kernel/filesystem/file.cc
-        kernel/filesystem/file.cc)
+        kernel/filesystem/file.cc kernel/resources/resources_manager.h kernel/resources/resources_manager.cc kernel/resources/resource.h)
 
 set(PLATFORM_PREFIX "/lib/linux")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")

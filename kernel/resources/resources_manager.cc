@@ -19,22 +19,39 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/19
-// FILENAME: file_util.h
+// FILENAME: resources_manager.cc
+// LAST MODIFY: 2020/10/3
 
-#ifndef NGIND_FILE_UTILS_H
-#define NGIND_FILE_UTILS_H
-
-#include <iostream>
+#include "resources_manager.h"
 
 namespace ngind {
-namespace file_utils {
+ResourcesManager* ResourcesManager::_instance = nullptr;
 
-const char PATH_SEPARATOR = '/'; // TODO: mul-env
+ResourcesManager* ResourcesManager::getInstance() {
+    if (_instance == nullptr) {
+        _instance = new(std::nothrow) ResourcesManager();
+    }
 
-std::string joinPath(const std::string&, const std::string&);
+    return _instance;
+}
 
-} // namespace file_util
+void ResourcesManager::destroyInstance() {
+    if (_instance != nullptr) {
+        delete _instance;
+        _instance = nullptr;
+    }
+}
+
+void ResourcesManager::release(const std::string& path) {
+    if (this->_resources.find(path) == this->_resources.end()) {
+        return;
+    }
+
+    this->_resources[path]->removeReference();
+    if (this->_resources[path]->getSustain() == 0) {
+        delete this->_resources[path];
+        this-_resources.erase(path);
+    }
+}
+
 } // namespace ngind
-
-#endif //NGIND_FILE_UTILS_H

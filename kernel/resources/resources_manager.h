@@ -19,22 +19,50 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/19
-// FILENAME: file_util.cc
+// FILENAME: resources_manager.h
+// LAST MODIFY: 2020/10/3
 
-#include "file_utils.h"
+#ifndef NGIND_RESOURCES_MANAGER_H
+#define NGIND_RESOURCES_MANAGER_H
+
+#include <map>
+
+#include "resource.h"
 
 namespace ngind {
-namespace file_utils {
 
-std::string joinPath(const std::string& path, const std::string& filename) {
-    std::string final_path = "";
-    final_path = (path.length() > 0 && *path.rbegin() == PATH_SEPARATOR)
-            ? path : path + PATH_SEPARATOR;
-    final_path += (filename.length() > 2 && filename[0] == '.' && filename[1] == PATH_SEPARATOR)
-            ? filename.substr(2) : filename;
-    return final_path;
-}
+class ResourcesManager {
+public:
+    static ResourcesManager* getInstance();
+    static void destroyInstance();
 
-} // namespace file_util
+    template<typename Type, typename std::enable_if_t<std::is_base_of_v<Resource, Type>, int> N = 0>
+    void preLoad(const std::string&) {
+        //TODO:
+    }
+
+    template<typename Type, typename std::enable_if_t<std::is_base_of_v<Resource, Type>, int> N = 0>
+    Type* load(const std::string& path) {
+        if (this->_resources.find(path) != this->_resources.end()) {
+            this->_resources[path]->addReference();
+            return this->_resources[path];
+        }
+
+        //TODO:
+    }
+
+    void release(const std::string&);
+
+    ResourcesManager(const ResourcesManager&) = delete;
+    ResourcesManager(ResourcesManager&&) = delete;
+private:
+    ResourcesManager() = default;
+    ~ResourcesManager() = default;
+
+    static ResourcesManager* _instance;
+    std::map<std::string, Resource*> _resources;
+};
+
 } // namespace ngind
+
+#endif //NGIND_RESOURCES_MANAGER_H
