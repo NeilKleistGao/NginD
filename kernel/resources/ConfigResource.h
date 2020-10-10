@@ -19,29 +19,21 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: logger.cc
+// FILENAME: ConfigResource.h
 // LAST MODIFY: 2020/10/10
 
-#include "logger.h"
+#ifndef NGIND_CONFIGRESOURCE_H
+#define NGIND_CONFIGRESOURCE_H
+
+#include "resource.h"
 
 namespace ngind {
-Logger::Logger(const std::string& filename) : _stream(filename) {
-    if (filename == OutputStream::STDOUT ||
-        filename == OutputStream::STDERR) {
-        this->_info_format = const_cast<char*>(STD_INFO_FORMAT);
-        this->_debug_format = const_cast<char*>(STD_DEBUG_FORMAT);
-        this->_warning_format = const_cast<char*>(STD_WARNING_FORMAT);
-        this->_error_format = const_cast<char*>(STD_ERROR_FORMAT);
-    }
-    else {
-        this->_info_format = const_cast<char*>(INFO_FORMAT);
-        this->_debug_format = const_cast<char*>(DEBUG_FORMAT);
-        this->_warning_format = const_cast<char*>(WARNING_FORMAT);
-        this->_error_format = const_cast<char*>(ERROR_FORMAT);
-    }
+
+class ConfigResource : public Resource {
+public:
+private:
+};
+
 }
 
-Logger::~Logger() {
-    this->close();
-}
-} // namespace ngind
+#endif //NGIND_CONFIGRESOURCE_H

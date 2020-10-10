@@ -26,7 +26,6 @@
 
 #include "render/render.h"
 #include "filesystem/file.h"
-#include "filesystem/file_utils.h"
 
 namespace ngind {
 

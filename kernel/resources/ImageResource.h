@@ -19,18 +19,21 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/19
-// FILENAME: file_util.cc
+// FILENAME: ImageResource.h
+// LAST MODIFY: 2020/10/10
 
-#include "file_utils.h"
+#ifndef NGIND_IMAGERESOURCE_H
+#define NGIND_IMAGERESOURCE_H
+
+#include "resource.h"
 
 namespace ngind {
-std::string joinPath(const std::string& path, const std::string& filename) {
-    std::string final_path = "";
-    final_path = (path.length() > 0 && *path.rbegin() == PATH_SEPARATOR)
-                 ? path : path + PATH_SEPARATOR;
-    final_path += (filename.length() > 2 && filename[0] == '.' && filename[1] == PATH_SEPARATOR)
-                  ? filename.substr(2) : filename;
-    return final_path;
+
+class ImageResource : public Resource {
+public:
+private:
+};
+
 }
-} // namespace ngind
+
+#endif //NGIND_IMAGERESOURCE_H

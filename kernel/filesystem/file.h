@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: file.h
-// LAST MODIFY: 2020/10/1
+// LAST MODIFY: 2020/10/10
 
 
 #ifndef NGIND_FILE_H
@@ -41,6 +41,8 @@ public:
     File(const File&) = delete;
     File(File&&) = delete;
     ~File();
+
+    const static std::string STDIN, STDOUT, STDERR;
 
     void writeLine(const std::string&);
     std::string readLine();
@@ -80,7 +82,7 @@ public:
 
 private:
     FILE* _fp;
-    bool _open, _readable, _writeable, _binary;
+    bool _open, _readable, _writeable, _binary, _redirect;
 };
 
 } // namespace ngind

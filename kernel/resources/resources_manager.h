@@ -36,6 +36,11 @@ public:
     static ResourcesManager* getInstance();
     static void destroyInstance();
 
+    const static std::string CONFIG_RESOURCES_PATH;
+    const static std::string IMAGE_RESOURCES_PATH;
+    const static std::string TEXT_RESOURCES_PATH;
+    //TODO:
+
     template<typename Type, typename std::enable_if_t<std::is_base_of_v<Resource, Type>, int> N = 0>
     void preLoad(const std::string&) {
         //TODO:

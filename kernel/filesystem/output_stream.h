@@ -19,28 +19,47 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/1
-// FILENAME: file_util.h
+// FILENAME: log_stream.h
+// LAST MODIFY: 2020/10/10
 
-#ifndef NGIND_FILE_UTILS_H
-#define NGIND_FILE_UTILS_H
+#ifndef NGIND_OUTPUT_STREAM_H
+#define NGIND_OUTPUT_STREAM_H
 
 #include <iostream>
+#include <fstream>
 
 namespace ngind {
-const char PATH_SEPARATOR = '/'; // TODO: mul-env
 
-const std::string STDIN_PATH = "__STDIN__";
-const std::string STDOUT_PATH = "__STDOUT__";
-const std::string STDERR_PATH = "__STDERR__";
+class OutputStream {
+public:
+    const static std::string STDOUT, STDERR;
 
-// image resources path
-const std::string IMAGE_RESOURCES_PATH = "./resources/images";
+    explicit OutputStream(std::string);
+    ~OutputStream();
 
-// config resources path
-const std::string CONFIG_RESOURCES_PATH = "./resources/config";
+    OutputStream(const OutputStream&) = delete;
+    OutputStream& operator= (const OutputStream&) = delete;
 
-std::string joinPath(const std::string&, const std::string&);
+    template<typename Type>
+    OutputStream& operator<< (const Type& content) {
+        _stream << content;
+        return *this;
+    }
+
+    inline void close() {
+        if (_stream.is_open()) {
+            _stream.close();
+        }
+    }
+
+    inline bool isOpen() {
+        return _stream.is_open();
+    }
+private:
+    std::ofstream _stream;
+    std::string _filename;
+};
+
 } // namespace ngind
 
-#endif //NGIND_FILE_UTILS_H
+#endif //NGIND_OUTPUT_STREAM_H

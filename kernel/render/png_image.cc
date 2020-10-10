@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/19
+// LAST MODIFY: 2020/10/10
 // FILENAME: png_image.cc
 
 #include "png_image.h"
@@ -27,7 +27,6 @@
 #include <iostream>
 #include <cstdio>
 #include "png.h"
-#include "kernel/filesystem/file_utils.h"
 
 namespace ngind {
 
@@ -46,7 +45,7 @@ PNGImage::~PNGImage() {
 }
 
 void PNGImage::loadPNG(const std::string& filename) {
-    FILE* fp = fopen((IMAGE_RESOURCES_PATH + "/" + filename).c_str(),
+    FILE* fp = fopen((filename).c_str(),
             "rb");
     if (!fp) {
         fclose(fp);
@@ -96,7 +95,7 @@ void PNGImage::loadPNG(const std::string& filename) {
 
     this->_image->pixels =
             new unsigned char[this->_image->width * this->_image->height * 4];
-    png_bytep * temp = new png_bytep[this->_image->height];
+    auto * temp = new png_bytep[this->_image->height];
     for (int i = 0; i < this->_image->height; i++) {
         temp[i] = (png_bytep)png_malloc(struct_ptr, png_get_rowbytes(struct_ptr, info_ptr));
     }

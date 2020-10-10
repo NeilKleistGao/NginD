@@ -20,14 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: file.cc
-// LAST MODIFY: 2020/10/1
+// LAST MODIFY: 2020/10/10
 
 #include "file.h"
 
 #include <utility>
 
 namespace ngind {
-File::File() : _fp(nullptr), _open(false), _writeable(false), _readable(false), _binary(false) {
+const std::string File::STDIN = "__STDIN__";
+const std::string File::STDOUT = "__STDOUT__";
+const std::string File::STDERR = "__STDERR__";
+
+File::File() : _fp(nullptr), _open(false), _writeable(false), _readable(false), _binary(false), _redirect(false) {
 }
 
 File::File(const std::string& filename) : File(filename, "r+") {
@@ -95,12 +99,26 @@ void File::open(const std::string& filename) {
 }
 
 void File::open(const std::string& filename, const std::string& open_type) {
-    this->_fp = fopen(filename.c_str(), open_type.c_str());
-    this->_open = (this->_fp != nullptr);
-    int plus = open_type.find('+');
-    this->_readable = (open_type.find('r') != -1 || plus != -1);
-    this->_writeable = (open_type.find('w') != -1 || open_type.find('a') != -1 || plus != -1);
-    this->_binary = (open_type.find('b') != -1);
+    if (filename == STDIN) {
+        this->_fp = stdin;
+        this->_open = this->_readable = this->_redirect = true;
+    }
+    else if (filename == STDOUT) {
+        this->_fp = stdout;
+        this->_open = this->_writeable = this->_redirect = true;
+    }
+    else if (filename == STDERR) {
+        this->_fp = stderr;
+        this->_open = this->_writeable = this->_redirect = true;
+    }
+    else {
+        this->_fp = fopen(filename.c_str(), open_type.c_str());
+        this->_open = (this->_fp != nullptr);
+        int plus = open_type.find('+');
+        this->_readable = (open_type.find('r') != -1 || plus != -1);
+        this->_writeable = (open_type.find('w') != -1 || open_type.find('a') != -1 || plus != -1);
+        this->_binary = (open_type.find('b') != -1);
+    }
 }
 
 std::string File::readToEnd() {
@@ -117,10 +135,12 @@ std::string File::readToEnd() {
 }
 
 void File::close() {
-    if (this->_open) {
+    if (this->_open && !this->_redirect) {
         fclose(this->_fp);
-        this->_open = false;
     }
+
+    this->_fp = nullptr;
+    this->_open = false;
 }
 
 Coroutine<char*, const size_t&> File::readAsync(
