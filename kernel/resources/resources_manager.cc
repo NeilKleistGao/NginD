@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: resources_manager.cc
-// LAST MODIFY: 2020/10/3
+// LAST MODIFY: 2020/10/11
 
 #include "resources_manager.h"
 

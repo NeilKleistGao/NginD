@@ -20,14 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: resources_manager.h
-// LAST MODIFY: 2020/10/3
+// LAST MODIFY: 2020/10/11
 
 #ifndef NGIND_RESOURCES_MANAGER_H
 #define NGIND_RESOURCES_MANAGER_H
 
 #include <map>
+#include <functional>
 
 #include "resource.h"
+#include "coroutine/coroutine.h"
 
 namespace ngind {
 
@@ -36,24 +38,30 @@ public:
     static ResourcesManager* getInstance();
     static void destroyInstance();
 
-    const static std::string CONFIG_RESOURCES_PATH;
-    const static std::string IMAGE_RESOURCES_PATH;
-    const static std::string TEXT_RESOURCES_PATH;
-    //TODO:
-
     template<typename Type, typename std::enable_if_t<std::is_base_of_v<Resource, Type>, int> N = 0>
-    void preLoad(const std::string&) {
-        //TODO:
+    Coroutine<Type*, std::string> preLoad(const std::string& path, std::function<void(Type*)> callback) {
+        auto coroutine = Coroutine<Type*, std::string>(load, callback);
+        coroutine.run(path);
+        return coroutine;
     }
 
     template<typename Type, typename std::enable_if_t<std::is_base_of_v<Resource, Type>, int> N = 0>
     Type* load(const std::string& path) {
         if (this->_resources.find(path) != this->_resources.end()) {
             this->_resources[path]->addReference();
-            return this->_resources[path];
+            return static_cast<Type*>(this->_resources[path]);
         }
 
-        //TODO:
+        this->_resources[path] = new(std::nothrow) Type();
+        if (this->_resources[path] == nullptr) {
+            //TODO: Exception Detect
+        }
+        else {
+            this->_resources[path]->load(path);
+            this->_resources[path]->addReference();
+        }
+
+        return static_cast<Type*>(this->_resources[path]);
     }
 
     void release(const std::string&);

@@ -19,39 +19,22 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// FILENAME: config_resource.cc
 // LAST MODIFY: 2020/10/11
-// FILENAME: game.cc
 
-#include "game.h"
+#include "config_resource.h"
 
-#include "render/render.h"
-#include "resources/resources_manager.h"
+#include "filesystem/file.h"
 
 namespace ngind {
+const std::string ConfigResource::CONFIG_RESOURCE_PATH = "resources/config";
 
-Game::Game() {
-    this->_global_settings = ResourcesManager::getInstance()->load<ConfigResource>("global_settings.json");
+void ConfigResource::load(const std::string& filename) {
+    File* file = new File(CONFIG_RESOURCE_PATH + "/" + filename, "r");
+    std::string content = file->readToEnd();
+    file->close();
+
+    _doc.Parse(content.c_str()).HasParseError();
+    this->_path = filename;
 }
-
-Game::~Game() {
-    ResourcesManager::getInstance()->release(this->_global_settings->getResourcePath());
-}
-
-void Game::start() {
-    bool main_loop_flag = true;
-
-    auto render = Render::getInstance();
-    render->createWindow(_global_settings->getDocument()["window-width"].GetInt(),
-            _global_settings->getDocument()["window-height"].GetInt(),
-            _global_settings->getDocument()["window-title"].GetString(),
-            _global_settings->getDocument()["window-icon"].GetString(),
-            _global_settings->getDocument()["window-full-screen"].GetBool());
-
-
-    while (main_loop_flag) {
-        glfwPollEvents();
-        main_loop_flag &= render->startRenderLoopOnce();
-    }
-}
-
 } // namespace ngind

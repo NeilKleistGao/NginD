@@ -19,21 +19,33 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: ConfigResource.h
-// LAST MODIFY: 2020/10/10
+// FILENAME: config_resource.h
+// LAST MODIFY: 2020/10/11
 
-#ifndef NGIND_CONFIGRESOURCE_H
-#define NGIND_CONFIGRESOURCE_H
+#ifndef NGIND_CONFIG_RESOURCE_H
+#define NGIND_CONFIG_RESOURCE_H
 
 #include "resource.h"
+
+#include "include/rapidjson/document.h"
 
 namespace ngind {
 
 class ConfigResource : public Resource {
 public:
+    const static std::string CONFIG_RESOURCE_PATH;
+
+    ConfigResource() = default;
+    ~ConfigResource() override = default;
+    virtual void load(const std::string&);
+
+    inline rapidjson::Document& getDocument() {
+        return _doc;
+    }
 private:
+    rapidjson::Document _doc;
 };
 
 }
 
-#endif //NGIND_CONFIGRESOURCE_H
+#endif //NGIND_CONFIG_RESOURCE_H

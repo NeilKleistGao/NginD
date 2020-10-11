@@ -19,21 +19,27 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: TextResource.h
-// LAST MODIFY: 2020/10/10
+// FILENAME: image_resource.cc
+// LAST MODIFY: 2020/10/11
 
-#ifndef NGIND_TEXTRESOURCE_H
-#define NGIND_TEXTRESOURCE_H
-
-#include "resource.h"
+#include "image_resource.h"
 
 namespace ngind {
 
-class TextResource : public Resource {
-public:
-private:
-};
+const std::string ImageResource::IMAGE_RESOURCE_PATH = "resources/images";
 
+ImageResource::~ImageResource() {
+    delete _image;
+    _image = nullptr;
 }
 
-#endif //NGIND_TEXTRESOURCE_H
+void ImageResource::load(const std::string& filename) {
+    if (this->_image != nullptr) {
+        delete this->_image;
+        this->_image = nullptr;
+    }
+
+    this->_path = filename;
+    this->_image = new PNGImage(IMAGE_RESOURCE_PATH + "/" + filename);
+}
+} // namespace ngind

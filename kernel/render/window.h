@@ -30,7 +30,7 @@
 
 #include "include/opengl/glfw3.h"
 
-#include "png_image.h"
+#include "resources/image_resource.h"
 
 namespace ngind {
 class Window {
@@ -76,7 +76,7 @@ public:
 
 private:
     GLFWwindow *_window;
-    PNGImage* _icon;
+    ImageResource* _icon;
 };
 }
 

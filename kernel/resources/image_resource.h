@@ -19,21 +19,34 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: ImageResource.h
-// LAST MODIFY: 2020/10/10
+// FILENAME: image_resource.h
+// LAST MODIFY: 2020/10/11
 
-#ifndef NGIND_IMAGERESOURCE_H
-#define NGIND_IMAGERESOURCE_H
+#ifndef NGIND_IMAGE_RESOURCE_H
+#define NGIND_IMAGE_RESOURCE_H
+
+#include <iostream>
 
 #include "resource.h"
+#include "render/png_image.h"
 
 namespace ngind {
 
 class ImageResource : public Resource {
 public:
+    const static std::string IMAGE_RESOURCE_PATH;
+
+    ImageResource() = default;
+    ~ImageResource() override;
+    virtual void load(const std::string&);
+
+    inline PNGImage* getPNGImage () {
+        return _image;
+    }
 private:
+    PNGImage* _image;
 };
 
 }
 
-#endif //NGIND_IMAGERESOURCE_H
+#endif //NGIND_IMAGE_RESOURCE_H

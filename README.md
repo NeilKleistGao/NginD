@@ -15,15 +15,13 @@ A game engine for 2D pixel game powered by C++ (自家用).
 
 ## TODO List
 + [x] Serialization
-+ [x] C++ Reflection
-+ [x] INI Config File
 + [ ] Input System
 + [ ] OpenGL Interface
-+ [ ] Log System
-+ [ ] Garbage Collection
++ [x] Resources Management
++ [x] Log System
++ [x] Garbage Collection
 + [ ] Basic Components
-
-You can see more details about my work process [here](https://docs.qq.com/doc/DU3h2bVBVcHZrdnNr).
++ [ ] Timer System
 
 ## Dependent Library
 + [OpenGL 4.6(using glad)](https://glad.dav1d.de/)
@@ -31,6 +29,7 @@ You can see more details about my work process [here](https://docs.qq.com/doc/DU
 + [libpng 1.6.34](http://www.libpng.org/pub/png/libpng.html)
 + [C++ Boost 1.74.0](https://www.boost.org/)
 + [RTTR 0.9.6](https://www.rttr.org/)
++ [RapidJSON 1.1.0](http://rapidjson.org/)
 
 ## Code Style Guide
 We'll use Google's C++ style guild:
@@ -53,3 +52,4 @@ The engine will support for Windows and MacOS later.
 + Humphrey_Yang
 + riceblast
 + JzJerry
++ PtCu
