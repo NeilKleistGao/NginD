@@ -20,12 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: logger.cc
-// LAST MODIFY: 2020/10/10
+// LAST MODIFY: 2020/10/16
 
 #include "logger.h"
 
 namespace ngind {
-Logger::Logger(const std::string& filename) : _stream(filename) {
+const std::string Logger::STDOUT = OutputStream::STDOUT;
+const std::string Logger::STDERR = OutputStream::STDERR;
+
+Logger::Logger(const std::string& filename, const LogLevel& level) : _stream(filename), _level(level) {
     if (filename == OutputStream::STDOUT ||
         filename == OutputStream::STDERR) {
         this->_info_format = const_cast<char*>(STD_INFO_FORMAT);

@@ -32,7 +32,7 @@ namespace ngind {
 Window::Window(const size_t& width,
         const size_t& height,
         const std::string& title,
-        const bool& is_full) : _window(nullptr) {
+        const bool& is_full) : _window(nullptr), _icon(nullptr) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);

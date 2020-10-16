@@ -19,45 +19,23 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: logger_factory.cc
+// FILENAME: linux.h
 // LAST MODIFY: 2020/10/16
 
-#include "logger_factory.h"
+#ifndef NGIND_LINUX_H
+#define NGIND_LINUX_H
+
+#include <unistd.h>
 
 namespace ngind {
-LoggerFactory* LoggerFactory::_instance = nullptr;
 
-LoggerFactory* LoggerFactory::getInstance() {
-    if (_instance == nullptr) {
-        _instance = new LoggerFactory();
+class PlatformUtils {
+public:
+    static inline void sleep(const float& sec) {
+        usleep(sec * 1e6);
     }
-
-    return _instance;
-}
-
-void LoggerFactory::destroyInstance() {
-    if (_instance != nullptr) {
-        delete _instance;
-        _instance = nullptr;
-    }
-}
-
-Logger* LoggerFactory::getLogger(const std::string& filename, const LogLevel& level) {
-    if (_loggers.find(filename) != _loggers.end()) {
-        return _loggers[filename];
-    }
-
-    _loggers[filename] = new Logger(filename, level);
-    return _loggers[filename];
-}
-
-LoggerFactory::~LoggerFactory() {
-    for (auto pairs : _loggers) {
-        delete pairs.second;
-        pairs.second = nullptr;
-    }
-
-    _loggers.clear();
-}
+};
 
 } // namespace ngind
+
+#endif //NGIND_LINUX_H

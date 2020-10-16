@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: log_stream.h
-// LAST MODIFY: 2020/10/10
+// LAST MODIFY: 2020/10/16
 
 #ifndef NGIND_OUTPUT_STREAM_H
 #define NGIND_OUTPUT_STREAM_H
@@ -41,9 +41,13 @@ public:
     OutputStream& operator= (const OutputStream&) = delete;
 
     template<typename Type>
-    OutputStream& operator<< (const Type& content) {
+    void output(const Type& content) {
         _stream << content;
-        return *this;
+    }
+
+    template<typename Type>
+    void outputWithEnter(const Type& content) {
+        _stream << content << std::endl;
     }
 
     inline void close() {

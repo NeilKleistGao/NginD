@@ -24,15 +24,15 @@
 ** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 */
 
-/* Khronos platform-specific types and definitions.
+/* Khronos platforms-specific types and definitions.
  *
  * The master copy of khrplatform.h is maintained in the Khronos EGL
  * Registry repository at https://github.com/KhronosGroup/EGL-Registry
  * The last semantic modification to khrplatform.h was at commit ID:
  *      67a3e0864c2d75ea5287b9f3d2eb74a745936692
  *
- * Adopters may modify this file to suit their platform. Adopters are
- * encouraged to submit platform specific modifications to the Khronos
+ * Adopters may modify this file to suit their platforms. Adopters are
+ * encouraged to submit platforms specific modifications to the Khronos
  * group so that they can be included in future versions of this file.
  * Please submit changes by filing pull requests or issues on
  * the EGL Registry repository linked above.
@@ -199,7 +199,7 @@ typedef unsigned long long int  khronos_uint64_t;
 #elif 0
 
 /*
- * Hypothetical platform with no float or int64 support
+ * Hypothetical platforms with no float or int64 support
  */
 typedef int                     khronos_int32_t;
 typedef unsigned int            khronos_uint32_t;

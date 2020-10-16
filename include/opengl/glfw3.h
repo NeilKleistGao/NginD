@@ -87,7 +87,7 @@ extern "C" {
 
 
 /*************************************************************************
- * Compiler- and platform-specific preprocessor work
+ * Compiler- and platforms-specific preprocessor work
  *************************************************************************/
 
 /* If we are we on Windows, we want a single define for it.
@@ -719,10 +719,10 @@ extern "C" {
  *  will exist.
  */
 #define GLFW_VERSION_UNAVAILABLE    0x00010007
-/*! @brief A platform-specific error occurred that does not match any of the
+/*! @brief A platforms-specific error occurred that does not match any of the
  *  more specific categories.
  *
- *  A platform-specific error occurred that does not match any of the more
+ *  A platforms-specific error occurred that does not match any of the more
  *  specific categories.
  *
  *  @analysis A bug or configuration error in GLFW, the underlying operating
@@ -1805,9 +1805,9 @@ GLFWAPI void glfwTerminate(void);
  *  you set will be ignored until the library is terminated and initialized
  *  again.
  *
- *  Some hints are platform specific.  These may be set on any platform but they
- *  will only affect their specific platform.  Other platforms will ignore them.
- *  Setting these hints requires no platform specific headers or functions.
+ *  Some hints are platforms specific.  These may be set on any platforms but they
+ *  will only affect their specific platforms.  Other platforms will ignore them.
+ *  Setting these hints requires no platforms specific headers or functions.
  *
  *  @param[in] hint The [init hint](@ref init_hints) to set.
  *  @param[in] value The new value of the init hint.
@@ -1859,7 +1859,7 @@ GLFWAPI void glfwGetVersion(int* major, int* minor, int* rev);
  *
  *  This function returns the compile-time generated
  *  [version string](@ref intro_version_string) of the GLFW library binary.  It
- *  describes the version, platform, compiler and any platform-specific
+ *  describes the version, platforms, compiler and any platforms-specific
  *  compile-time options.  It should not be confused with the OpenGL or OpenGL
  *  ES version string, queried with `glGetString`.
  *
@@ -2109,7 +2109,7 @@ GLFWAPI void glfwGetMonitorPhysicalSize(GLFWmonitor* monitor, int* widthMM, int*
 /*! @brief Retrieves the content scale for the specified monitor.
  *
  *  This function retrieves the content scale for the specified monitor.  The
- *  content scale is the ratio between the current DPI and the platform's
+ *  content scale is the ratio between the current DPI and the platforms's
  *  default DPI.  This is especially important for text and any UI elements.  If
  *  the pixel dimensions of your UI scaled by this look appropriate on your
  *  machine then it should appear at a reasonable size on other machines
@@ -2441,9 +2441,9 @@ GLFWAPI void glfwDefaultWindowHints(void);
  *  If you set hints to invalid values this will instead be reported by the next
  *  call to @ref glfwCreateWindow.
  *
- *  Some hints are platform specific.  These may be set on any platform but they
- *  will only affect their specific platform.  Other platforms will ignore them.
- *  Setting these hints requires no platform specific headers or functions.
+ *  Some hints are platforms specific.  These may be set on any platforms but they
+ *  will only affect their specific platforms.  Other platforms will ignore them.
+ *  Setting these hints requires no platforms specific headers or functions.
  *
  *  @param[in] hint The [window hint](@ref window_hints) to set.
  *  @param[in] value The new value of the window hint.
@@ -2476,9 +2476,9 @@ GLFWAPI void glfwWindowHint(int hint, int value);
  *  If you set hints to invalid values this will instead be reported by the next
  *  call to @ref glfwCreateWindow.
  *
- *  Some hints are platform specific.  These may be set on any platform but they
- *  will only affect their specific platform.  Other platforms will ignore them.
- *  Setting these hints requires no platform specific headers or functions.
+ *  Some hints are platforms specific.  These may be set on any platforms but they
+ *  will only affect their specific platforms.  Other platforms will ignore them.
+ *  Setting these hints requires no platforms specific headers or functions.
  *
  *  @param[in] hint The [window hint](@ref window_hints) to set.
  *  @param[in] value The new value of the window hint.
@@ -2762,7 +2762,7 @@ GLFWAPI void glfwSetWindowTitle(GLFWwindow* window, const char* title);
  *  bits per channel with the red channel first.  They are arranged canonically
  *  as packed sequential rows, starting from the top-left corner.
  *
- *  The desired image sizes varies depending on platform and system settings.
+ *  The desired image sizes varies depending on platforms and system settings.
  *  The selected images will be rescaled as needed.  Good sizes include 16x16,
  *  32x32 and 48x48.
  *
@@ -3091,7 +3091,7 @@ GLFWAPI void glfwGetWindowFrameSize(GLFWwindow* window, int* left, int* top, int
 /*! @brief Retrieves the content scale for the specified window.
  *
  *  This function retrieves the content scale for the specified window.  The
- *  content scale is the ratio between the current DPI and the platform's
+ *  content scale is the ratio between the current DPI and the platforms's
  *  default DPI.  This is especially important for text and any UI elements.  If
  *  the pixel dimensions of your UI scaled by this look appropriate on your
  *  machine then it should appear at a reasonable size on other machines
@@ -4209,15 +4209,15 @@ GLFWAPI int glfwRawMouseMotionSupported(void);
  */
 GLFWAPI const char* glfwGetKeyName(int key, int scancode);
 
-/*! @brief Returns the platform-specific scancode of the specified key.
+/*! @brief Returns the platforms-specific scancode of the specified key.
  *
- *  This function returns the platform-specific scancode of the specified key.
+ *  This function returns the platforms-specific scancode of the specified key.
  *
  *  If the key is `GLFW_KEY_UNKNOWN` or does not exist on the keyboard this
  *  method will return `-1`.
  *
  *  @param[in] key Any [named key](@ref keys).
- *  @return The platform-specific scancode for the key, or `-1` if an
+ *  @return The platforms-specific scancode for the key, or `-1` if an
  *  [error](@ref error_handling) occurred.
  *
  *  @errors Possible errors include @ref GLFW_NOT_INITIALIZED, @ref
@@ -4511,7 +4511,7 @@ GLFWAPI void glfwSetCursor(GLFWwindow* window, GLFWcursor* cursor);
  *  loss event has been processed, i.e. after the
  *  [window focus callback](@ref glfwSetWindowFocusCallback) has been called.
  *
- *  The scancode of a key is specific to that platform or sometimes even to that
+ *  The scancode of a key is specific to that platforms or sometimes even to that
  *  machine.  Scancodes are intended to allow users to bind keys that don't have
  *  a GLFW key token.  Such keys have `key` set to `GLFW_KEY_UNKNOWN`, their
  *  state is not saved and so it cannot be queried with @ref glfwGetKey.
@@ -4559,7 +4559,7 @@ GLFWAPI GLFWkeyfun glfwSetKeyCallback(GLFWwindow* window, GLFWkeyfun callback);
  *
  *  The character callback behaves as system text input normally does and will
  *  not be called if modifier keys are held down that would prevent normal text
- *  input on that platform, for example a Super (Command) key on macOS or Alt key
+ *  input on that platforms, for example a Super (Command) key on macOS or Alt key
  *  on Windows.
  *
  *  @param[in] window The window whose callback to set.
@@ -5004,8 +5004,8 @@ GLFWAPI const char* glfwGetJoystickName(int jid);
  *  The GUID uses the format introduced in SDL 2.0.5.  This GUID tries to
  *  uniquely identify the make and model of a joystick but does not identify
  *  a specific unit, e.g. all wired Xbox 360 controllers will have the same
- *  GUID on that platform.  The GUID for a unit may vary between platforms
- *  depending on what hardware information the platform specific APIs provide.
+ *  GUID on that platforms.  The GUID for a unit may vary between platforms
+ *  depending on what hardware information the platforms specific APIs provide.
  *
  *  @param[in] jid The [joystick](@ref joysticks) to query.
  *  @return The UTF-8 encoded GUID of the joystick, or `NULL` if the joystick
@@ -5310,7 +5310,7 @@ GLFWAPI const char* glfwGetClipboardString(GLFWwindow* window);
  *
  *  The resolution of the timer is system dependent, but is usually on the order
  *  of a few micro- or nanoseconds.  It uses the highest-resolution monotonic
- *  time source on each supported platform.
+ *  time source on each supported platforms.
  *
  *  @return The current time, in seconds, or zero if an
  *  [error](@ref error_handling) occurred.
@@ -5521,7 +5521,7 @@ GLFWAPI void glfwSwapBuffers(GLFWwindow* window);
  *  GLFW_NO_CURRENT_CONTEXT and @ref GLFW_PLATFORM_ERROR.
  *
  *  @remark This function is not called during context creation, leaving the
- *  swap interval set to whatever is the default on that platform.  This is done
+ *  swap interval set to whatever is the default on that platforms.  This is done
  *  because some swap interval extensions used by GLFW do not allow the swap
  *  interval to be reset to zero once it has been set to a non-zero value.
  *
@@ -5715,7 +5715,7 @@ GLFWAPI const char** glfwGetRequiredInstanceExtensions(uint32_t* count);
  *  to check whether Vulkan is at least minimally available.
  *
  *  This function is equivalent to calling `vkGetInstanceProcAddr` with
- *  a platform-specific query of the Vulkan loader as a fallback.
+ *  a platforms-specific query of the Vulkan loader as a fallback.
  *
  *  @param[in] instance The Vulkan instance to query, or `NULL` to retrieve
  *  functions related to instance creation.
@@ -5742,7 +5742,7 @@ GLFWAPI GLFWvkproc glfwGetInstanceProcAddress(VkInstance instance, const char* p
 /*! @brief Returns whether the specified queue family can present images.
  *
  *  This function returns whether the specified queue family of the specified
- *  physical device supports presentation to the platform GLFW was built for.
+ *  physical device supports presentation to the platforms GLFW was built for.
  *
  *  If Vulkan or the required window surface creation instance extensions are
  *  not available on the machine, or if the specified instance was not created

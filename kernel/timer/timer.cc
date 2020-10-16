@@ -19,45 +19,54 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: logger_factory.cc
+// FILENAME: timer.cc
 // LAST MODIFY: 2020/10/16
 
-#include "logger_factory.h"
+#include "timer.h"
+
+#include "platforms/platforms.h"
 
 namespace ngind {
-LoggerFactory* LoggerFactory::_instance = nullptr;
 
-LoggerFactory* LoggerFactory::getInstance() {
-    if (_instance == nullptr) {
-        _instance = new LoggerFactory();
-    }
-
-    return _instance;
+Timer::Timer(const float& scale)
+    : _time_scale(scale), _local_clock(0.0f), _paused(false), _pause_used(0.0f) {
 }
 
-void LoggerFactory::destroyInstance() {
-    if (_instance != nullptr) {
-        delete _instance;
-        _instance = nullptr;
-    }
+void Timer::pause() {
+    this->_paused = true;
+    this->_pause_start = getNow();
+    this->_pause_used = 0.0f;
 }
 
-Logger* LoggerFactory::getLogger(const std::string& filename, const LogLevel& level) {
-    if (_loggers.find(filename) != _loggers.end()) {
-        return _loggers[filename];
-    }
-
-    _loggers[filename] = new Logger(filename, level);
-    return _loggers[filename];
+void Timer::resume() {
+    this->_paused = false;
+    this->_pause_end = getNow();
+    std::chrono::duration<float> duration = _pause_end - _pause_start;
+    this->_pause_used = duration.count();
 }
 
-LoggerFactory::~LoggerFactory() {
-    for (auto pairs : _loggers) {
-        delete pairs.second;
-        pairs.second = nullptr;
+void Timer::sleep(const float& sec) {
+    if (this->_paused) {
+        return;
     }
 
-    _loggers.clear();
+    PlatformUtils::sleep(sec);
+    _previous = getNow();
+}
+
+float Timer::getTick() {
+    if (this->_paused) {
+        return 0.0f;
+    }
+
+    time_type now = getNow();
+    std::chrono::duration<float> duration = now - _previous;
+    this->_previous = now;
+    float local_duration = (duration.count() - _pause_used) * _time_scale;
+    this->_pause_used = 0.0f;
+    this->_local_clock += local_duration;
+
+    return local_duration;
 }
 
 } // namespace ngind

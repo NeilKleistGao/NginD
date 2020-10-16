@@ -19,14 +19,14 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/11
+// LAST MODIFY: 2020/10/16
 // FILENAME: game.h
 
 #ifndef NGIND_GAME_H
 #define NGIND_GAME_H
 
-#include "include/rapidjson/document.h"
 #include "resources/config_resource.h"
+#include "timer/timer.h"
 
 namespace ngind {
 
@@ -38,6 +38,7 @@ public:
     void start();
 private:
     ConfigResource* _global_settings;
+    Timer _global_timer;
 };
 
 } // namespace ngind

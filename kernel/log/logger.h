@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: logger.h
-// LAST MODIFY: 2020/10/10
+// LAST MODIFY: 2020/10/16
 
 #ifndef NGIND_LOGGER_H
 #define NGIND_LOGGER_H
@@ -34,11 +34,17 @@
 namespace ngind {
 class Logger {
 public:
-    explicit Logger(const std::string&);
+    Logger(const std::string&, const LogLevel&);
     ~Logger();
+
+    const static std::string STDOUT, STDERR;
 
     template<typename T>
     void log(const T& msg, const LogLevel& level = LogLevel::LOG_LEVEL_DEBUG) {
+        if (level < this->_level) {
+            return;
+        }
+
         std::string format;
         switch (level) {
             case LOG_LEVEL_INFO:
@@ -56,15 +62,15 @@ public:
         }
 
         if (format.empty()) {
-            _stream << msg << std::endl;
+            _stream.outputWithEnter(msg);
         }
         else {
             int pos = format.find('%');
-            _stream << format.substr(0,pos) << msg << format.substr(pos + 1);
+            _stream.output(format.substr(0,pos));
+            _stream.output(msg);
+            _stream.outputWithEnter(format.substr(pos + 1));
         }
     }
-
-    constexpr static LogLevel LOG_LEVEL = LogLevel::LOG_LEVEL_DEBUG;
 
     inline void close() {
         if (_stream.isOpen()) {
@@ -88,6 +94,7 @@ private:
     char* _error_format;
 
     OutputStream _stream;
+    LogLevel _level;
 };
 } // namespace ngind
 

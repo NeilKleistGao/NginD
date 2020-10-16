@@ -42,7 +42,7 @@ class library_private;
 } // end namespace detail
 
 /*!
- * The \ref library class provides a cross platform way of explicit loading shared objects
+ * The \ref library class provides a cross platforms way of explicit loading shared objects
  * (`.so` on Unix based system and `.DLL` on windows).
  *
  * With a call to \ref load() the library will be loaded and with \ref unload() unloaded.

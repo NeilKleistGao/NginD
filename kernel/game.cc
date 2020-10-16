@@ -19,17 +19,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/11
+// LAST MODIFY: 2020/10/16
 // FILENAME: game.cc
 
 #include "game.h"
 
 #include "render/render.h"
 #include "resources/resources_manager.h"
+#include "log/logger_factory.h"
 
 namespace ngind {
 
-Game::Game() {
+Game::Game() : _global_timer() {
     this->_global_settings = ResourcesManager::getInstance()->load<ConfigResource>("global_settings.json");
 }
 
@@ -47,10 +48,20 @@ void Game::start() {
             _global_settings->getDocument()["window-icon"].GetString(),
             _global_settings->getDocument()["window-full-screen"].GetBool());
 
+    auto global_logger = LoggerFactory::getInstance()->getLogger(Logger::STDOUT, LogLevel::LOG_LEVEL_DEBUG);
 
+    const float MIN_DURATION = 1.0f / _global_settings->getDocument()["max-frame-rate"].GetFloat();
+    _global_timer.start();
     while (main_loop_flag) {
         glfwPollEvents();
         main_loop_flag &= render->startRenderLoopOnce();
+
+        float duration = _global_timer.getTick(), rest = MIN_DURATION - duration;
+        if (rest >= 0.005) {
+            _global_timer.sleep(rest);
+        }
+        // TODO: a bug in log system
+        // global_logger->log<float>(duration, LogLevel::LOG_LEVEL_DEBUG);
     }
 }
 

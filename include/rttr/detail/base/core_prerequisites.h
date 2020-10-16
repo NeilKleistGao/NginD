@@ -131,7 +131,7 @@ namespace rttr
 #       define RTTR_HELPER_DLL_EXPORT __attribute__ ((visibility ("default")))
 #       define RTTR_HELPER_DLL_LOCAL  __attribute__ ((visibility ("hidden")))
 #else
-#   error "Do not know how to export classes for this platform"
+#   error "Do not know how to export classes for this platforms"
 #endif
 
 #ifdef RTTR_DLL // compiled as a DLL

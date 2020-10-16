@@ -20,16 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: logger_factory.h
-// LAST MODIFY: 2020/9/21
-
+// LAST MODIFY: 2020/10/16
 
 #ifndef NGIND_LOGGER_FACTORY_H
 #define NGIND_LOGGER_FACTORY_H
 
+#include <map>
+#include <string>
+
+#include "logger.h"
+
 namespace ngind {
 class LoggerFactory {
 public:
+    static LoggerFactory* getInstance();
+    static void destroyInstance();
+
+    Logger* getLogger(const std::string&, const LogLevel&);
 private:
+    LoggerFactory() = default;
+    ~LoggerFactory();
+
+    static LoggerFactory* _instance;
+    std::map<std::string, Logger*> _loggers;
 };
 }
 
