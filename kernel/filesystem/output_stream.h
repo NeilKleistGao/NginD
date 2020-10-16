@@ -42,12 +42,15 @@ public:
 
     template<typename Type>
     void output(const Type& content) {
-        _stream << content;
-    }
-
-    template<typename Type>
-    void outputWithEnter(const Type& content) {
-        _stream << content << std::endl;
+        if (_filename == STDOUT) {
+            std::cout << content;
+        }
+        else if (_filename == STDERR) {
+            std::cerr << content;
+        }
+        else {
+            _stream << content;
+        }
     }
 
     inline void close() {
@@ -63,6 +66,12 @@ private:
     std::ofstream _stream;
     std::string _filename;
 };
+
+template<typename Type>
+OutputStream& operator<< (OutputStream& stream, const Type& content) {
+    stream.output(content);
+    return stream;
+}
 
 } // namespace ngind
 

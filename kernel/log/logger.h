@@ -37,7 +37,7 @@ public:
     Logger(const std::string&, const LogLevel&);
     ~Logger();
 
-    const static std::string STDOUT, STDERR;
+    const static std::string& STDOUT, &STDERR;
 
     template<typename T>
     void log(const T& msg, const LogLevel& level = LogLevel::LOG_LEVEL_DEBUG) {
@@ -62,13 +62,11 @@ public:
         }
 
         if (format.empty()) {
-            _stream.outputWithEnter(msg);
+            _stream << msg;
         }
         else {
             int pos = format.find('%');
-            _stream.output(format.substr(0,pos));
-            _stream.output(msg);
-            _stream.outputWithEnter(format.substr(pos + 1));
+            _stream << format.substr(0,pos) << msg << format.substr(pos + 1);
         }
     }
 

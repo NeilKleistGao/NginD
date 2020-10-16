@@ -25,8 +25,8 @@
 #include "logger.h"
 
 namespace ngind {
-const std::string Logger::STDOUT = OutputStream::STDOUT;
-const std::string Logger::STDERR = OutputStream::STDERR;
+const std::string& Logger::STDOUT = OutputStream::STDOUT;
+const std::string& Logger::STDERR = OutputStream::STDERR;
 
 Logger::Logger(const std::string& filename, const LogLevel& level) : _stream(filename), _level(level) {
     if (filename == OutputStream::STDOUT ||

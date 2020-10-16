@@ -59,9 +59,11 @@ void Game::start() {
         float duration = _global_timer.getTick(), rest = MIN_DURATION - duration;
         if (rest >= 0.005) {
             _global_timer.sleep(rest);
+            global_logger->log<float>(60.0f, LogLevel::LOG_LEVEL_DEBUG);
         }
-        // TODO: a bug in log system
-        // global_logger->log<float>(duration, LogLevel::LOG_LEVEL_DEBUG);
+        else {
+            global_logger->log<float>(1.0f / duration, LogLevel::LOG_LEVEL_DEBUG);
+        }
     }
 }
 
