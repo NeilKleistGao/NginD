@@ -55,7 +55,7 @@ add_executable(NginD main.cc
         kernel/log/log_level.h
         kernel/filesystem/file.h
         kernel/filesystem/file.cc
-        kernel/filesystem/file.cc kernel/resources/resources_manager.h kernel/resources/resources_manager.cc kernel/resources/resource.h kernel/filesystem/output_stream.h kernel/filesystem/output_stream.cc kernel/resources/image_resource.h kernel/resources/config_resource.h kernel/resources/image_resource.cc kernel/resources/config_resource.cc kernel/timer/timer.h kernel/timer/timer.cc kernel/platforms/linux.h kernel/platforms/platforms.h kernel/platforms/windows.h)
+        kernel/filesystem/file.cc kernel/resources/resources_manager.h kernel/resources/resources_manager.cc kernel/resources/resource.h kernel/filesystem/output_stream.h kernel/filesystem/output_stream.cc kernel/resources/image_resource.h kernel/resources/config_resource.h kernel/resources/image_resource.cc kernel/resources/config_resource.cc kernel/timer/timer.h kernel/timer/timer.cc kernel/platforms/linux.h kernel/platforms/platforms.h kernel/platforms/windows.h kernel/objects/world.h kernel/objects/world.cc)
 
 set(PLATFORM_PREFIX "/lib/linux")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")

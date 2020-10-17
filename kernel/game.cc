@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/16
+// LAST MODIFY: 2020/10/17
 // FILENAME: game.cc
 
 #include "game.h"
@@ -29,6 +29,7 @@
 #include "log/logger_factory.h"
 
 namespace ngind {
+Game* Game::_instance = nullptr;
 
 Game::Game() : _global_timer() {
     this->_global_settings = ResourcesManager::getInstance()->load<ConfigResource>("global_settings.json");
@@ -36,6 +37,27 @@ Game::Game() : _global_timer() {
 
 Game::~Game() {
     ResourcesManager::getInstance()->release(this->_global_settings->getResourcePath());
+
+    while (!_stack.empty()) {
+        _stack.pop();
+    }
+
+    _worlds.clear();
+}
+
+Game* Game::getInstance() {
+    if (_instance == nullptr) {
+        _instance = new Game();
+    }
+
+    return _instance;
+}
+
+void Game::destroyInstance() {
+    if (_instance != nullptr) {
+        delete _instance;
+        _instance = nullptr;
+    }
 }
 
 void Game::start() {
@@ -47,6 +69,8 @@ void Game::start() {
             _global_settings->getDocument()["window-title"].GetString(),
             _global_settings->getDocument()["window-icon"].GetString(),
             _global_settings->getDocument()["window-full-screen"].GetBool());
+
+    this->loadWorld(_global_settings->getDocument()["welcome-world"].GetString());
 
     auto global_logger = LoggerFactory::getInstance()->getLogger(Logger::STDOUT, LogLevel::LOG_LEVEL_DEBUG);
 
@@ -60,11 +84,61 @@ void Game::start() {
         if (rest >= 0.005) {
             _global_timer.sleep(rest);
             global_logger->log<float>(60.0f, LogLevel::LOG_LEVEL_DEBUG);
+            duration = MIN_DURATION;
         }
         else {
             global_logger->log<float>(1.0f / duration, LogLevel::LOG_LEVEL_DEBUG);
         }
+
+        this->_current_world->update(duration);
     }
+}
+
+void Game::loadWorld(const std::string& name) {
+    if (this->_worlds.find(name) == this->_worlds.end()) {
+        this->_worlds[name] = new World(name);
+        this->_worlds[name]->addReference();
+    }
+
+    this->_current_world = this->_worlds[name];
+}
+
+void Game::destroyWorld(const std::string& name) {
+    if (this->_worlds.find(name) != this->_worlds.end()) {
+        auto current_name = this->_current_world->getName();
+
+        delete this->_worlds[name];
+        this->_worlds[name] = nullptr;
+        this->_worlds.erase(name);
+
+        if (current_name == name) {
+            this->_current_world = nullptr;
+            exit(0);
+        }
+    }
+}
+
+void Game::pushAndLoadWorld(const std::string& name) {
+    this->_stack.push(this->_current_world);
+    this->loadWorld(name);
+}
+
+void Game::popAndLoadWorld(const std::string& name, const bool& has_destroy_current = true) {
+    if (!this->_stack.empty()) {
+        auto destroy_name = this->_current_world->getName();
+        this->_current_world = this->_stack.top();
+        this->_stack.pop();
+
+        if (has_destroy_current) {
+            destroyWorld(destroy_name);
+        }
+    }
+}
+
+void Game::DestroyAndLoadWorld(const std::string& name) {
+    auto destroy_name = this->_current_world->getName();
+    loadWorld(name);
+    destroyWorld(destroy_name);
 }
 
 } // namespace ngind

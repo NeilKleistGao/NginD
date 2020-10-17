@@ -19,19 +19,33 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: main.cc
+// FILENAME: world.h
 // LAST MODIFY: 2020/10/17
 
-#include "kernel/game.h"
+#ifndef NGIND_WORLD_H
+#define NGIND_WORLD_H
 
-#include <iostream>
+#include <string>
 
-int main() {
-    auto game = ngind::Game::getInstance();
-    if (game == nullptr) {
-        exit(-1);
+#include "object.h"
+#include "resources/config_resource.h"
+
+namespace ngind {
+
+class World : public Object {
+public:
+    explicit World(std::string);
+
+    inline std::string getName() {
+        return _name;
     }
 
-    game->start();
-    return 0;
-}
+    virtual void update(const float&);
+private:
+    std::string _name;
+    ConfigResource* _config;
+};
+
+} // namespace ngind
+
+#endif //NGIND_WORLD_H

@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/9/20
+// LAST MODIFY: 2020/10/17
 // FILENAME: object.cc
 
 #include "object.h"
@@ -84,6 +84,12 @@ Object* Object::getChildByName(const std::string& name) {
     }
 
     return object;
+}
+
+void Object::update(const float& delta) {
+    for (auto child : this->_children) {
+        child.second->update(delta);
+    }
 }
 
 } // namespace ngind

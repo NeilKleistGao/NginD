@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/9/20
+// LAST MODIFY: 2020/10/17
 // FILENAME: object.h
 
 #ifndef NGIND_OBJECT_H
@@ -52,7 +52,10 @@ public:
     inline Object* getParent() {
         return this->_parent;
     }
-private:
+
+    virtual void update(const float&);
+
+protected:
     std::map<const std::string, Object*> _children;
     Object* _parent;
 };

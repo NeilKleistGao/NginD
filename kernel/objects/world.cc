@@ -19,19 +19,21 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: main.cc
+// FILENAME: world.h
 // LAST MODIFY: 2020/10/17
 
-#include "kernel/game.h"
+#include "world.h"
 
-#include <iostream>
+#include "resources/resources_manager.h"
 
-int main() {
-    auto game = ngind::Game::getInstance();
-    if (game == nullptr) {
-        exit(-1);
-    }
+namespace ngind {
 
-    game->start();
-    return 0;
+World::World(std::string name) : _name(std::move(name)), _config(nullptr) {
+    _config = ResourcesManager::getInstance()->load<ConfigResource>("world-" + name + ".json");
 }
+
+void World::update(const float& delta) {
+    Object::update(delta);
+}
+
+} // namespace ngind
