@@ -21,7 +21,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [x] Log System
 + [x] Garbage Collection
 + [ ] Basic Components
-+ [ ] Timer System
++ [x] Timer System
 
 ## Dependent Library
 + [OpenGL 4.6(using glad)](https://glad.dav1d.de/)
@@ -30,6 +30,9 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [C++ Boost 1.74.0](https://www.boost.org/)
 + [RTTR 0.9.6](https://www.rttr.org/)
 + [RapidJSON 1.1.0](http://rapidjson.org/)
++ [FreeType 2.10.3](https://www.freetype.org/index.html)
+
+Thanks for these open source developers!
 
 ## Code Style Guide
 We'll use Google's C++ style guild:
