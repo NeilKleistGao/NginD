@@ -20,10 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: true_type_font.cc
-// LAST MODIFY: 2020/10/18
+// LAST MODIFY: 2020/10/19
 
 #include "true_type_font.h"
 
 namespace ngind {
+
+TrueTypeFont::TrueTypeFont() : _font_face(nullptr) {
+}
+
+TrueTypeFont::~TrueTypeFont() {
+    auto error = FT_Done_Face(_font_face);
+    if (error) {
+        //TODO:
+    }
+}
 
 } // namespace ngind

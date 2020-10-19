@@ -10,8 +10,9 @@ include_directories(kernel)
 include_directories(./include)
 include_directories(./include/opengl)
 include_directories(./include/libpng)
-include_directories(./include/freetype2)
 include_directories(./resources)
+
+include_directories(/usr/local/include/freetype2)
 
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
@@ -56,7 +57,29 @@ add_executable(NginD main.cc
         kernel/log/log_level.h
         kernel/filesystem/file.h
         kernel/filesystem/file.cc
-        kernel/filesystem/file.cc kernel/resources/resources_manager.h kernel/resources/resources_manager.cc kernel/resources/resource.h kernel/filesystem/output_stream.h kernel/filesystem/output_stream.cc kernel/resources/image_resource.h kernel/resources/config_resource.h kernel/resources/image_resource.cc kernel/resources/config_resource.cc kernel/timer/timer.h kernel/timer/timer.cc kernel/platforms/linux.h kernel/platforms/platforms.h kernel/platforms/windows.h kernel/objects/world.h kernel/objects/world.cc kernel/render/true_type_font.h kernel/render/true_type_font.cpp)
+        kernel/filesystem/file.cc
+        kernel/resources/resources_manager.h
+        kernel/resources/resources_manager.cc
+        kernel/resources/resource.h
+        kernel/filesystem/output_stream.h
+        kernel/filesystem/output_stream.cc
+        kernel/resources/image_resource.h
+        kernel/resources/config_resource.h
+        kernel/resources/image_resource.cc
+        kernel/resources/config_resource.cc
+        kernel/timer/timer.h
+        kernel/timer/timer.cc
+        kernel/platforms/linux.h
+        kernel/platforms/platforms.h
+        kernel/platforms/windows.h
+        kernel/objects/world.h
+        kernel/objects/world.cc
+        kernel/render/true_type_font.h
+        kernel/render/true_type_font.cpp
+        kernel/resources/font_resource.h
+        kernel/resources/font_resource.cc
+        kernel/render/font_factory.h
+        kernel/render/font_factory.cc)
 
 set(PLATFORM_PREFIX "/lib/linux")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
@@ -74,11 +97,12 @@ target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXxf
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXcursor.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libdl.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libdl.a")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/libpng/libpng16.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/rttr/librttr_core.so")
 target_link_libraries (NginD ${Boost_LIBRARIES})
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/freetype2/libfreetype.a")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/freetype2/libfreetype.so")
+target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/libpng/libpng16.so.16")
+
+target_link_libraries(NginD "/usr/local/lib/libfreetype.so")
+target_link_libraries(NginD "/usr/local/lib/libfreetype.a")
 
 add_custom_command(TARGET ${PROJECT_NAME}
         PRE_BUILD
@@ -89,3 +113,5 @@ add_custom_command(TARGET ${PROJECT_NAME}
 add_compile_options(-pthread)
 add_compile_options(-lboost_fiber)
 add_compile_options(-lboost_context)
+#add_compile_options(-lfreetype)
+add_compile_options(-finput-charset=GBK -fexec-charset=UTF-8)

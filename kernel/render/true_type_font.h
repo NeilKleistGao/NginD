@@ -20,21 +20,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: true_type_font.h
-// LAST MODIFY: 2020/10/18
+// LAST MODIFY: 2020/10/19
 
 #ifndef NGIND_TRUE_TYPE_FONT_H
 #define NGIND_TRUE_TYPE_FONT_H
 
-#include "freetype2/ft2build.h"
+#include <string>
+
+#include <freetype2/ft2build.h>
 #include FT_FREETYPE_H
 
 namespace ngind {
 
 class TrueTypeFont {
 public:
+    TrueTypeFont();
+    ~TrueTypeFont();
 
+    inline void setFontFace(FT_Face face) {
+        _font_face = face;
+    }
 private:
-
+    FT_Face _font_face;
 };
 
 } // namespace ngind
