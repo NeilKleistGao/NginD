@@ -19,37 +19,25 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// FILENAME: render_queue.h
 // LAST MODIFY: 2020/10/20
-// FILENAME: render.h
 
-#ifndef NGIND_RENDER_H
-#define NGIND_RENDER_H
+#ifndef NGIND_RENDER_QUEUE_H
+#define NGIND_RENDER_QUEUE_H
 
-#include "window.h"
+#include <vector>
 
-#include "render_queue.h"
+#include "render_command.h"
 
 namespace ngind {
 
-class Render {
+class RenderQueue {
 public:
-    static Render* getInstance();
 
-    static void destroyInstance();
-
-    bool startRenderLoopOnce();
-
-    void createWindow(const int&, const int& height, const std::string&, const std::string&, const bool&);
 private:
-    static Render* _instance;
-    Window* _window;
-
-    RenderQueue* _queue;
-
-    Render();
-    ~Render();
+    std::vector<RenderCommand> _queue;
 };
 
-} // namespace ngind
+} // namespace
 
-#endif //NGIND_RENDER_H
+#endif //NGIND_RENDER_QUEUE_H

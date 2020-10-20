@@ -19,37 +19,19 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// FILENAME: updatable_object.h
 // LAST MODIFY: 2020/10/20
-// FILENAME: render.h
 
-#ifndef NGIND_RENDER_H
-#define NGIND_RENDER_H
-
-#include "window.h"
-
-#include "render_queue.h"
+#ifndef NGIND_UPDATABLE_OBJECT_H
+#define NGIND_UPDATABLE_OBJECT_H
 
 namespace ngind {
 
-class Render {
+class UpdatableObject {
 public:
-    static Render* getInstance();
-
-    static void destroyInstance();
-
-    bool startRenderLoopOnce();
-
-    void createWindow(const int&, const int& height, const std::string&, const std::string&, const bool&);
-private:
-    static Render* _instance;
-    Window* _window;
-
-    RenderQueue* _queue;
-
-    Render();
-    ~Render();
+    virtual void update(const float&) = 0;
 };
 
-} // namespace ngind
+}
 
-#endif //NGIND_RENDER_H
+#endif //NGIND_UPDATABLE_OBJECT_H
