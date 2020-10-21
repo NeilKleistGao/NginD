@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/17
+// LAST MODIFY: 2020/10/21
 // FILENAME: game.cc
 
 #include "game.h"
@@ -31,7 +31,7 @@
 namespace ngind {
 Game* Game::_instance = nullptr;
 
-Game::Game() : _global_timer() {
+Game::Game() : _global_timer(), _loop_flag(true) {
     this->_global_settings = ResourcesManager::getInstance()->load<ConfigResource>("global_settings.json");
 }
 
@@ -61,8 +61,6 @@ void Game::destroyInstance() {
 }
 
 void Game::start() {
-    bool main_loop_flag = true;
-
     auto render = Render::getInstance();
     render->createWindow(_global_settings->getDocument()["window-width"].GetInt(),
             _global_settings->getDocument()["window-height"].GetInt(),
@@ -76,9 +74,9 @@ void Game::start() {
 
     const float MIN_DURATION = 1.0f / _global_settings->getDocument()["max-frame-rate"].GetFloat();
     _global_timer.start();
-    while (main_loop_flag) {
+    while (_loop_flag) {
         glfwPollEvents();
-        main_loop_flag &= render->startRenderLoopOnce();
+        _loop_flag &= render->startRenderLoopOnce();
 
         float duration = _global_timer.getTick(), rest = MIN_DURATION - duration;
         if (rest >= 0.005) {

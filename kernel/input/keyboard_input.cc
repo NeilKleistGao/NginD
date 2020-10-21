@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/29
+// LAST MODIFY: 2020/10/21
 // FILENAME: keyboard_input.cc
 
 #include "keyboard_input.h"
@@ -31,10 +31,30 @@ KeyboardInput::KeyboardInput(GLFWwindow* window) {
 }
 
 KeyboardInput::~KeyboardInput() {
-
+    this->_map.clear();
+    this->_pressed.clear();
 }
 
-bool KeyboardInput::getKey(GLFWwindow *window, const std::string& name, const bool& once) {
+bool KeyboardInput::getKey(GLFWwindow *window, const std::string& name) {
+    KeyboardCode code = this->getCode(name);
+    int state = glfwGetKey(window, code);
+
+    if (state == GLFW_PRESS) {
+        if (this->_pressed.find(code) == this->_pressed.end()) {
+            this->_pressed.insert(code);
+        }
+        else {
+            return true;
+        }
+    }
+    else if (this->_pressed.find(code) != this->_pressed.end()) {
+        this->_pressed.erase(code);
+    }
+
+    return false;
+}
+
+bool KeyboardInput::getKeyPressed(GLFWwindow* window, const std::string& name) {
     KeyboardCode code = this->getCode(name);
     int state = glfwGetKey(window, code);
 
@@ -43,12 +63,26 @@ bool KeyboardInput::getKey(GLFWwindow *window, const std::string& name, const bo
             this->_pressed.insert(code);
             return true;
         }
-        if (!once) {
-            return true;
-        }
     }
     else if (this->_pressed.find(code) != this->_pressed.end()) {
         this->_pressed.erase(code);
+    }
+
+    return false;
+}
+
+bool KeyboardInput::getKeyReleased(GLFWwindow* window, const std::string& name) {
+    KeyboardCode code = this->getCode(name);
+    int state = glfwGetKey(window, code);
+
+    if (state == GLFW_RELEASE) {
+        if (this->_pressed.find(code) != this->_pressed.end()) {
+            this->_pressed.erase(code);
+            return true;
+        }
+    }
+    else if (this->_pressed.find(code) == this->_pressed.end()) {
+        this->_pressed.insert(code);
     }
 
     return false;

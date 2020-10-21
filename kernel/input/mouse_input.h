@@ -19,56 +19,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// FILENAME: mouse_input.h
 // LAST MODIFY: 2020/10/21
-// FILENAME: game.h
 
-#ifndef NGIND_GAME_H
-#define NGIND_GAME_H
+#ifndef NGIND_MOUSE_INPUT_H
+#define NGIND_MOUSE_INPUT_H
 
-#include <map>
-#include <string>
-#include <stack>
+#include "glfw3.h"
 
-#include "resources/config_resource.h"
-#include "timer/timer.h"
-#include "objects/world.h"
+#include "math/vector.h"
 
 namespace ngind {
 
-class Game {
+enum MouseCode {
+    BUTTON_LEFT = GLFW_MOUSE_BUTTON_LEFT,
+    BUTTON_RIGHT = GLFW_MOUSE_BUTTON_RIGHT,
+    BUTTON_MIDDLE = GLFW_MOUSE_BUTTON_MIDDLE
+};
+
+class MouseInput {
 public:
-    static Game* getInstance();
-    static void destroyInstance();
+    explicit MouseInput(GLFWwindow*);
+    ~MouseInput();
 
-    void loadWorld(const std::string&);
-    void destroyWorld(const std::string&);
-    void pushAndLoadWorld(const std::string&);
-    void popAndLoadWorld(const std::string&, const bool&);
-    void DestroyAndLoadWorld(const std::string&);
-
-    void start();
-
-    inline World* getCurrentWorld() {
-        return _current_world;
-    }
-
-    inline void quit() {
-        this->_loop_flag = false;
-    }
-
+    Vector2D getMousePressed(GLFWwindow*, const MouseCode&);
+    Vector2D getMouse(GLFWwindow*, const MouseCode&);
+    Vector2D getMouseReleased(GLFWwindow*, const MouseCode&);
+    Vector2D getMouseMoving(GLFWwindow*);
 private:
-    Game();
-    ~Game();
 
-    static Game* _instance;
-    ConfigResource* _global_settings;
-    Timer _global_timer;
-    World* _current_world;
-    std::map<std::string, World*> _worlds;
-    std::stack<World*> _stack;
-    bool _loop_flag;
 };
 
 } // namespace ngind
 
-#endif //NGIND_GAME_H
+#endif //NGIND_MOUSE_INPUT_H

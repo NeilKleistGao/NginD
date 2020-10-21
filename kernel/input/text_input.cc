@@ -19,56 +19,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// FILENAME: text_input.h
 // LAST MODIFY: 2020/10/21
-// FILENAME: game.h
 
-#ifndef NGIND_GAME_H
-#define NGIND_GAME_H
+#include "text_input.h"
 
-#include <map>
-#include <string>
-#include <stack>
-
-#include "resources/config_resource.h"
-#include "timer/timer.h"
-#include "objects/world.h"
-
-namespace ngind {
-
-class Game {
-public:
-    static Game* getInstance();
-    static void destroyInstance();
-
-    void loadWorld(const std::string&);
-    void destroyWorld(const std::string&);
-    void pushAndLoadWorld(const std::string&);
-    void popAndLoadWorld(const std::string&, const bool&);
-    void DestroyAndLoadWorld(const std::string&);
-
-    void start();
-
-    inline World* getCurrentWorld() {
-        return _current_world;
-    }
-
-    inline void quit() {
-        this->_loop_flag = false;
-    }
-
-private:
-    Game();
-    ~Game();
-
-    static Game* _instance;
-    ConfigResource* _global_settings;
-    Timer _global_timer;
-    World* _current_world;
-    std::map<std::string, World*> _worlds;
-    std::stack<World*> _stack;
-    bool _loop_flag;
-};
-
-} // namespace ngind
-
-#endif //NGIND_GAME_H

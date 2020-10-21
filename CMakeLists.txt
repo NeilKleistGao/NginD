@@ -79,7 +79,7 @@ add_executable(NginD main.cc
         kernel/resources/font_resource.h
         kernel/resources/font_resource.cc
         kernel/render/font_factory.h
-        kernel/render/font_factory.cc kernel/render/render_queue.h kernel/render/render_queue.cc kernel/render/render_command.h kernel/render/render_command.cc kernel/components/component.h kernel/components/component.cc kernel/objects/updatable_object.h)
+        kernel/render/font_factory.cc kernel/render/render_queue.h kernel/render/render_queue.cc kernel/render/render_command.h kernel/render/render_command.cc kernel/components/component.h kernel/components/component.cc kernel/objects/updatable_object.h kernel/input/mouse_input.h kernel/input/mouse_input.cc kernel/input/text_input.h kernel/input/text_input.cc)
 
 set(PLATFORM_PREFIX "/lib/linux")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")

@@ -19,59 +19,28 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/29
-// FILENAME: input.h
+// FILENAME: text_input.h
+// LAST MODIFY: 2020/10/21
 
-#ifndef NGIND_INPUT_H
-#define NGIND_INPUT_H
+#ifndef NGIND_TEXT_INPUT_H
+#define NGIND_TEXT_INPUT_H
 
-#include "keyboard_input.h"
+#include <string>
 
-#include "render/window.h"
+#include "glfw3.h"
 
 namespace ngind {
 
-class Input {
+class TextInput {
 public:
-    static Input* getInstance();
-    static void destroyInstance();
+    explicit TextInput(GLFWwindow*);
+    ~TextInput();
 
-    inline bool getKey(const std::string& name) {
-        return this->_keyboard->getKey(this->_window_handler, name);
-    }
-
-    inline bool getKeyPressed(const std::string& name) {
-        return this->_keyboard->getKeyPressed(this->_window_handler, name);
-    }
-
-    inline bool getKeyReleased(const std::string& name) {
-        return this->_keyboard->getKeyReleased(this->_window_handler, name);
-    }
-
-    inline void registerKeyCodeName(const std::string& name, const KeyboardCode& code) {
-        this->_keyboard->setCode(name, code);
-    }
-
-    inline KeyboardCode getKeyCodeByName(const std::string& name) {
-        return this->_keyboard->getCode(name);
-    }
-
-    friend class Window;
-
+    char getCharacter(GLFWwindow*);
+    std::string getString(GLFWwindow*);
 private:
-    static Input* _instance;
-    KeyboardInput* _keyboard;
-    GLFWwindow* _window_handler;
-
-    inline void setWindowHandler(GLFWwindow* window) {
-        _window_handler = window;
-        this->_keyboard = new KeyboardInput(window);
-    }
-
-    Input();
-    ~Input();
 };
 
 } // namespace ngind
 
-#endif //NGIND_INPUT_H
+#endif //NGIND_TEXT_INPUT_H
