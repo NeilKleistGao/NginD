@@ -19,13 +19,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/29
+// LAST MODIFY: 2020/10/24
 // FILENAME: input.h
 
 #ifndef NGIND_INPUT_H
 #define NGIND_INPUT_H
 
 #include "keyboard_input.h"
+#include "mouse_input.h"
+#include "text_input.h"
 
 #include "render/window.h"
 
@@ -36,36 +38,51 @@ public:
     static Input* getInstance();
     static void destroyInstance();
 
-    inline bool getKey(const std::string& name) {
-        return this->_keyboard->getKey(this->_window_handler, name);
+    inline bool getKey(const KeyboardCode& code) {
+        return this->_keyboard->getKey(this->_window_handler, code);
     }
 
-    inline bool getKeyPressed(const std::string& name) {
-        return this->_keyboard->getKeyPressed(this->_window_handler, name);
+    inline bool getKeyPressed(const KeyboardCode& code) {
+        return this->_keyboard->getKeyPressed(this->_window_handler, code);
     }
 
-    inline bool getKeyReleased(const std::string& name) {
-        return this->_keyboard->getKeyReleased(this->_window_handler, name);
+    inline bool getKeyReleased(const KeyboardCode& code) {
+        return this->_keyboard->getKeyReleased(this->_window_handler, code);
     }
 
-    inline void registerKeyCodeName(const std::string& name, const KeyboardCode& code) {
-        this->_keyboard->setCode(name, code);
+    inline Vector2D getMousePressed(const MouseCode& code) {
+        return this->_mouse->getMousePressed(_window_handler, code);
     }
 
-    inline KeyboardCode getKeyCodeByName(const std::string& name) {
-        return this->_keyboard->getCode(name);
+    inline Vector2D getMouse(const MouseCode& code) {
+        return this->_mouse->getMouse(_window_handler, code);
+    }
+
+    inline Vector2D getMouseReleased(const MouseCode& code) {
+        return this->_mouse->getMouseReleased(_window_handler, code);
+    }
+
+    inline Vector2D getMouseMoving() {
+        return this->_mouse->getMouseMoving(_window_handler);
+    }
+
+    inline std::string getString(const EncodingType& encoding) {
+        return this->_text->getString(encoding);
     }
 
     friend class Window;
-
 private:
     static Input* _instance;
     KeyboardInput* _keyboard;
+    MouseInput* _mouse;
+    TextInput* _text;
     GLFWwindow* _window_handler;
 
     inline void setWindowHandler(GLFWwindow* window) {
         _window_handler = window;
         this->_keyboard = new KeyboardInput(window);
+        this->_mouse = new MouseInput(window);
+        this->_text = new TextInput(window);
     }
 
     Input();

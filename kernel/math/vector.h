@@ -19,11 +19,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/30
+// LAST MODIFY: 2020/10/24
 // FILENAME: vector.h
 
 #ifndef NGIND_VECTOR_H
 #define NGIND_VECTOR_H
+
+#include <cmath>
 
 namespace ngind {
 
@@ -77,6 +79,14 @@ public:
     bool isCollinear(const Vector2D&) const;
     bool isReverse(const Vector2D&) const;
     bool isVertical(const Vector2D&) const;
+
+    static inline Vector2D getInvalidVector() {
+        return Vector2D(NAN, NAN);
+    }
+
+    inline bool isValid() const {
+        return !std::isnan(_x) && !std::isnan(_y);
+    }
 
 private:
     constexpr static float EPSILON = 1e-6;

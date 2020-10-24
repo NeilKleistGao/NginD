@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: mouse_input.h
-// LAST MODIFY: 2020/10/21
+// LAST MODIFY: 2020/10/24
 
 #ifndef NGIND_MOUSE_INPUT_H
 #define NGIND_MOUSE_INPUT_H
@@ -28,6 +28,8 @@
 #include "glfw3.h"
 
 #include "math/vector.h"
+
+#include <set>
 
 namespace ngind {
 
@@ -39,15 +41,15 @@ enum MouseCode {
 
 class MouseInput {
 public:
-    explicit MouseInput(GLFWwindow*);
-    ~MouseInput();
+    explicit MouseInput(GLFWwindow*&);
+    ~MouseInput() = default;
 
-    Vector2D getMousePressed(GLFWwindow*, const MouseCode&);
-    Vector2D getMouse(GLFWwindow*, const MouseCode&);
-    Vector2D getMouseReleased(GLFWwindow*, const MouseCode&);
-    Vector2D getMouseMoving(GLFWwindow*);
+    Vector2D getMousePressed(GLFWwindow*&, const MouseCode&);
+    Vector2D getMouse(GLFWwindow*&, const MouseCode&);
+    Vector2D getMouseReleased(GLFWwindow*&, const MouseCode&);
+    Vector2D getMouseMoving(GLFWwindow*&);
 private:
-
+    std::set<MouseCode> _pressed;
 };
 
 } // namespace ngind

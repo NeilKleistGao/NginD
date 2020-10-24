@@ -20,25 +20,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: text_input.h
-// LAST MODIFY: 2020/10/21
+// LAST MODIFY: 2020/10/24
 
 #ifndef NGIND_TEXT_INPUT_H
 #define NGIND_TEXT_INPUT_H
 
 #include <string>
+#include <list>
 
 #include "glfw3.h"
 
 namespace ngind {
 
+enum EncodingType {
+    ENCODING_ASCII,
+    ENCODING_UTF8
+};
+
 class TextInput {
 public:
-    explicit TextInput(GLFWwindow*);
-    ~TextInput();
+    explicit TextInput(GLFWwindow*&);
+    ~TextInput() = default;
 
-    char getCharacter(GLFWwindow*);
-    std::string getString(GLFWwindow*);
+    std::string getString(const EncodingType& encoding = EncodingType::ENCODING_ASCII);
 private:
+    static void textCallBack(GLFWwindow*, unsigned int);
+
+    std::list<unsigned int> _buff;
+    static TextInput* _self;
 };
 
 } // namespace ngind

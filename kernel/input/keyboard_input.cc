@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/21
+// LAST MODIFY: 2020/10/24
 // FILENAME: keyboard_input.cc
 
 #include "keyboard_input.h"
@@ -28,17 +28,11 @@ namespace ngind {
 
 KeyboardInput::KeyboardInput(GLFWwindow* window) {
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
-}
-
-KeyboardInput::~KeyboardInput() {
-    this->_map.clear();
     this->_pressed.clear();
 }
 
-bool KeyboardInput::getKey(GLFWwindow *window, const std::string& name) {
-    KeyboardCode code = this->getCode(name);
+bool KeyboardInput::getKey(GLFWwindow *window, const KeyboardCode& code) {
     int state = glfwGetKey(window, code);
-
     if (state == GLFW_PRESS) {
         if (this->_pressed.find(code) == this->_pressed.end()) {
             this->_pressed.insert(code);
@@ -54,10 +48,8 @@ bool KeyboardInput::getKey(GLFWwindow *window, const std::string& name) {
     return false;
 }
 
-bool KeyboardInput::getKeyPressed(GLFWwindow* window, const std::string& name) {
-    KeyboardCode code = this->getCode(name);
+bool KeyboardInput::getKeyPressed(GLFWwindow* window, const KeyboardCode& code) {
     int state = glfwGetKey(window, code);
-
     if (state == GLFW_PRESS) {
         if (this->_pressed.find(code) == this->_pressed.end()) {
             this->_pressed.insert(code);
@@ -71,10 +63,8 @@ bool KeyboardInput::getKeyPressed(GLFWwindow* window, const std::string& name) {
     return false;
 }
 
-bool KeyboardInput::getKeyReleased(GLFWwindow* window, const std::string& name) {
-    KeyboardCode code = this->getCode(name);
+bool KeyboardInput::getKeyReleased(GLFWwindow* window, const KeyboardCode& code) {
     int state = glfwGetKey(window, code);
-
     if (state == GLFW_RELEASE) {
         if (this->_pressed.find(code) != this->_pressed.end()) {
             this->_pressed.erase(code);

@@ -24,3 +24,32 @@
 
 #include "text_input.h"
 
+namespace ngind {
+TextInput* TextInput::_self = nullptr;
+
+TextInput::TextInput(GLFWwindow*& win) {
+    glfwSetCharCallback(win, TextInput::textCallBack);
+    TextInput::_self = this;
+}
+
+std::string TextInput::getString(const EncodingType& encoding) {
+    std::string res = "";
+    for (const auto& ch : _buff) {
+        if (encoding == EncodingType::ENCODING_ASCII) {
+            res += static_cast<char>(ch);
+        }
+        else if (encoding == EncodingType::ENCODING_UTF8) {
+            res += static_cast<char>(ch & 0x000000FF);
+            res += static_cast<char>(ch & 0x0000FF00);
+        }
+    }
+
+    _buff.clear();
+    return res;
+}
+
+void TextInput::textCallBack(GLFWwindow*, unsigned int codepoint) {
+    _self->_buff.push_back(codepoint);
+}
+
+} // namespace ngind
