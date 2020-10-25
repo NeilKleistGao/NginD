@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: world.h
-// LAST MODIFY: 2020/10/17
+// LAST MODIFY: 2020/10/25
 
 #include "world.h"
 
@@ -28,8 +28,9 @@
 
 namespace ngind {
 
-World::World(std::string name) : _name(std::move(name)), _config(nullptr) {
-    _config = ResourcesManager::getInstance()->load<ConfigResource>("world-" + name + ".json");
+World::World(std::string name) : _name(std::move(name)), _config(nullptr), _background_color() {
+    _config = ResourcesManager::getInstance()->load<ConfigResource>("world-" + _name + ".json");
+    _background_color = RGBA(_config->getDocument()["background-color"].GetString());
 }
 
 void World::update(const float& delta) {

@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: text_input.h
-// LAST MODIFY: 2020/10/24
+// LAST MODIFY: 2020/10/25
 
 #ifndef NGIND_TEXT_INPUT_H
 #define NGIND_TEXT_INPUT_H
@@ -34,7 +34,7 @@ namespace ngind {
 
 enum EncodingType {
     ENCODING_ASCII,
-    ENCODING_UTF8
+    ENCODING_UTF8 // TODO: hook sys
 };
 
 class TextInput {
@@ -43,11 +43,16 @@ public:
     ~TextInput() = default;
 
     std::string getString(const EncodingType& encoding = EncodingType::ENCODING_ASCII);
+
+    inline void setEnable(const bool& enable) {
+        _enabled = enable;
+    }
 private:
     static void textCallBack(GLFWwindow*, unsigned int);
 
     std::list<unsigned int> _buff;
     static TextInput* _self;
+    bool _enabled;
 };
 
 } // namespace ngind

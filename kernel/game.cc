@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/21
+// LAST MODIFY: 2020/10/25
 // FILENAME: game.cc
 
 #include "game.h"
@@ -31,7 +31,7 @@
 namespace ngind {
 Game* Game::_instance = nullptr;
 
-Game::Game() : _global_timer(), _loop_flag(true) {
+Game::Game() : _global_timer(), _loop_flag(true), _current_world(nullptr) {
     this->_global_settings = ResourcesManager::getInstance()->load<ConfigResource>("global_settings.json");
 }
 
@@ -73,12 +73,16 @@ void Game::start() {
     auto global_logger = LoggerFactory::getInstance()->getLogger(Logger::STDOUT, LogLevel::LOG_LEVEL_DEBUG);
 
     const float MIN_DURATION = 1.0f / _global_settings->getDocument()["max-frame-rate"].GetFloat();
+    float duration = 1.0f / 60.0f;
     _global_timer.start();
     while (_loop_flag) {
         glfwPollEvents();
+        render->clearScene(_current_world->getBackgroundColor());
+        this->_current_world->update(duration);
         _loop_flag &= render->startRenderLoopOnce();
 
-        float duration = _global_timer.getTick(), rest = MIN_DURATION - duration;
+        duration = _global_timer.getTick();
+        float rest = MIN_DURATION - duration;
         if (rest >= 0.005) {
             _global_timer.sleep(rest);
             global_logger->log<float>(60.0f, LogLevel::LOG_LEVEL_DEBUG);
@@ -87,8 +91,6 @@ void Game::start() {
         else {
             global_logger->log<float>(1.0f / duration, LogLevel::LOG_LEVEL_DEBUG);
         }
-
-        this->_current_world->update(duration);
     }
 }
 

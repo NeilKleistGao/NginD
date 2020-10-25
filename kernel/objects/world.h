@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: world.h
-// LAST MODIFY: 2020/10/17
+// LAST MODIFY: 2020/10/25
 
 #ifndef NGIND_WORLD_H
 #define NGIND_WORLD_H
@@ -29,6 +29,7 @@
 
 #include "object.h"
 #include "resources/config_resource.h"
+#include "render/rgba.h"
 
 namespace ngind {
 
@@ -40,10 +41,23 @@ public:
         return _name;
     }
 
-    virtual void update(const float&);
+    inline RGBA getBackgroundColor() const {
+        return _background_color;
+    }
+
+    inline void setBackgroundColor(const RGBA& color) {
+        _background_color = color;
+    }
+
+    inline void setBackgroundColor(const std::string& code) {
+        _background_color = RGBA{code};
+    }
+
+    void update(const float&) override;
 private:
     std::string _name;
     ConfigResource* _config;
+    RGBA _background_color;
 };
 
 } // namespace ngind

@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/24
+// LAST MODIFY: 2020/10/25
 // FILENAME: input.cc
 
 #include "input.h"
@@ -44,10 +44,11 @@ void Input::destroyInstance() {
 }
 
 Input::Input() :
-_keyboard(nullptr),
-_window_handler(nullptr),
-_mouse(nullptr),
-_text(nullptr){
+    _keyboard(nullptr),
+    _window_handler(nullptr),
+    _mouse(nullptr),
+    _text(nullptr),
+    _text_mod(false){
 
 }
 

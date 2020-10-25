@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/24
+// LAST MODIFY: 2020/10/25
 // FILENAME: input.h
 
 #ifndef NGIND_INPUT_H
@@ -39,15 +39,15 @@ public:
     static void destroyInstance();
 
     inline bool getKey(const KeyboardCode& code) {
-        return this->_keyboard->getKey(this->_window_handler, code);
+        return !_text_mod && this->_keyboard->getKey(this->_window_handler, code);
     }
 
     inline bool getKeyPressed(const KeyboardCode& code) {
-        return this->_keyboard->getKeyPressed(this->_window_handler, code);
+        return !_text_mod && this->_keyboard->getKeyPressed(this->_window_handler, code);
     }
 
     inline bool getKeyReleased(const KeyboardCode& code) {
-        return this->_keyboard->getKeyReleased(this->_window_handler, code);
+        return !_text_mod && this->_keyboard->getKeyReleased(this->_window_handler, code);
     }
 
     inline Vector2D getMousePressed(const MouseCode& code) {
@@ -67,7 +67,14 @@ public:
     }
 
     inline std::string getString(const EncodingType& encoding) {
+        if (!_text_mod) {
+            return "";
+        }
         return this->_text->getString(encoding);
+    }
+
+    inline void switchTextMod(const bool& is_enable) {
+        _text_mod = is_enable;
     }
 
     friend class Window;
@@ -77,6 +84,8 @@ private:
     MouseInput* _mouse;
     TextInput* _text;
     GLFWwindow* _window_handler;
+
+    bool _text_mod;
 
     inline void setWindowHandler(GLFWwindow* window) {
         _window_handler = window;

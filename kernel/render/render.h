@@ -19,15 +19,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/20
+// LAST MODIFY: 2020/10/25
 // FILENAME: render.h
 
 #ifndef NGIND_RENDER_H
 #define NGIND_RENDER_H
 
 #include "window.h"
-
 #include "render_queue.h"
+#include "rgba.h"
 
 namespace ngind {
 
@@ -40,6 +40,12 @@ public:
     bool startRenderLoopOnce();
 
     void createWindow(const int&, const int& height, const std::string&, const std::string&, const bool&);
+
+    inline void clearScene(const RGBA& color) {
+        glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
+
 private:
     static Render* _instance;
     Window* _window;

@@ -19,38 +19,29 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+// FILENAME: rgba.h
 // LAST MODIFY: 2020/10/25
-// FILENAME: png_image.h
 
-#ifndef NGIND_PNG_IMAGE_H
-#define NGIND_PNG_IMAGE_H
+#ifndef NGIND_RGBA_H
+#define NGIND_RGBA_H
 
-#include <string>
-
-#include "glfw3.h"
-
-#include "rgba.h"
+#include "utils/converter.h"
 
 namespace ngind {
 
-class PNGImage {
-public:
-    PNGImage();
-
-    explicit PNGImage(const std::string&);
-    ~PNGImage();
-
-    void loadPNG(const std::string&);
-
-    inline GLFWimage *getImageData() {
-        return _image;
+struct RGBA {
+    RGBA() = default;
+    explicit RGBA(const std::string& code) {
+        auto color = Converter::convertHexString(code.substr(1));
+        r = (color & 0xFF000000) >> 24;
+        g = (color & 0x00FF0000) >> 16;
+        b = (color & 0x0000FF00) >> 8;
+        a = color & 0x000000FF;
     }
 
-private:
-    GLFWimage *_image;
-
+    unsigned char r, g, b, a;
 };
 
 } // namespace ngind
 
-#endif //NGIND_PNG_IMAGE_H
+#endif //NGIND_RGBA_H

@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: text_input.h
-// LAST MODIFY: 2020/10/21
+// LAST MODIFY: 2020/10/25
 
 #include "text_input.h"
 
 namespace ngind {
 TextInput* TextInput::_self = nullptr;
 
-TextInput::TextInput(GLFWwindow*& win) {
+TextInput::TextInput(GLFWwindow*& win) : _enabled(false) {
     glfwSetCharCallback(win, TextInput::textCallBack);
     TextInput::_self = this;
 }
@@ -49,7 +49,9 @@ std::string TextInput::getString(const EncodingType& encoding) {
 }
 
 void TextInput::textCallBack(GLFWwindow*, unsigned int codepoint) {
-    _self->_buff.push_back(codepoint);
+    if (_self->_enabled) {
+        _self->_buff.push_back(codepoint);
+    }
 }
 
 } // namespace ngind

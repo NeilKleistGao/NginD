@@ -20,11 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: file.cc
-// LAST MODIFY: 2020/10/10
+// LAST MODIFY: 2020/10/25
 
 #include "file.h"
 
 #include <utility>
+#include <cstring>
 
 namespace ngind {
 const std::string File::STDIN = "__STDIN__";
@@ -89,6 +90,7 @@ char* File::read(const size_t& length) {
     if (buff == nullptr) {
         return buff;
     }
+    std::memset(buff, 0, sizeof(char) * length);
 
     size_t real_size = fread(buff, sizeof(char), length, this->_fp);
     return (real_size == 0) ? nullptr : buff;

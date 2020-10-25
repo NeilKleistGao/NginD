@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: mouse_input.cc
-// LAST MODIFY: 2020/10/24
+// LAST MODIFY: 2020/10/25
 
 #include "mouse_input.h"
 
@@ -52,8 +52,10 @@ Vector2D MouseInput::getMouse(GLFWwindow*& window, const MouseCode& code) {
     int state = glfwGetMouseButton(window, code);
     if (state == GLFW_PRESS) {
         if (_pressed.find(code) != _pressed.end()) {
-            _pressed.insert(code);
             return getMouseMoving(window);
+        }
+        else {
+            _pressed.insert(code);
         }
     }
     else {

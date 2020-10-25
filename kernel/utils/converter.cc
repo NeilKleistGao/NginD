@@ -19,38 +19,31 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/20
-// FILENAME: convert_util.h
+// LAST MODIFY: 2020/10/25
+// FILENAME: converter.cc
 
-#ifndef NGIND_CONVERT_UTILS_H
-#define NGIND_CONVERT_UTILS_H
+#include "converter.h"
 
-#include <iostream>
-#include <sstream>
+#include <cctype>
 
 namespace ngind {
-namespace convert_utils {
 
-template <typename Type>
-std::string convertToString(const Type& t) {
-    std::stringstream stream;
-    std::string str;
-    stream << t;
-    stream >> str;
-    return str;
+unsigned int Converter::convertHexString(const std::string& str) {
+    unsigned int res = 0;
+    for (const auto& ch : str) {
+        res <<= 4;
+        if (isdigit(ch)) {
+            res += static_cast<unsigned int>(ch - '0');
+        }
+        else if (islower(ch)) {
+            res += static_cast<unsigned int>(ch - 'a' + 10);
+        }
+        else {
+            res += static_cast<unsigned int>(ch - 'A' + 10);
+        }
+    }
+
+    return res;
 }
 
-template <typename Type>
-Type convertFromString(const std::string& str) {
-    std::stringstream stream;
-    Type t;
-    stream << str;
-    stream >> t;
-
-    return t;
-}
-
-} // namespace convert_utils
 } // namespace ngind
-
-#endif //NGIND_CONVERT_UTILS_H

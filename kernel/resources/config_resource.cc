@@ -34,7 +34,7 @@ void ConfigResource::load(const std::string& filename) {
     std::string content = file->readToEnd();
     file->close();
 
-    _doc.Parse(content.c_str()).HasParseError();
+    _doc.Parse(content.c_str());
     this->_path = filename;
 }
 } // namespace ngind

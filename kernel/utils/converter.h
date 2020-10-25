@@ -20,37 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // LAST MODIFY: 2020/10/25
-// FILENAME: png_image.h
+// FILENAME: converter.h
 
-#ifndef NGIND_PNG_IMAGE_H
-#define NGIND_PNG_IMAGE_H
+#ifndef NGIND_CONVERTER_H
+#define NGIND_CONVERTER_H
 
-#include <string>
-
-#include "glfw3.h"
-
-#include "rgba.h"
+#include <iostream>
+#include <sstream>
 
 namespace ngind {
 
-class PNGImage {
+class Converter {
 public:
-    PNGImage();
+    template <typename Type>
+    static Type convertFromString(const std::string& str) {
+        std::stringstream stream;
+        Type t;
+        stream << str;
+        stream >> t;
 
-    explicit PNGImage(const std::string&);
-    ~PNGImage();
-
-    void loadPNG(const std::string&);
-
-    inline GLFWimage *getImageData() {
-        return _image;
+        return t;
     }
 
-private:
-    GLFWimage *_image;
-
+    static unsigned int convertHexString(const std::string&);
 };
 
 } // namespace ngind
 
-#endif //NGIND_PNG_IMAGE_H
+#endif //NGIND_CONVERTER_H
