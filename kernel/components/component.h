@@ -20,10 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: component.h
-// LAST MODIFY: 2020/10/20
+// LAST MODIFY: 2020/10/26
 
 #ifndef NGIND_COMPONENT_H
 #define NGIND_COMPONENT_H
+
+#include <string>
 
 #include "objects/updatable_object.h"
 
@@ -31,8 +33,15 @@ namespace ngind {
 
 class Component : public UpdatableObject {
 public:
-    virtual void update(const float&);
-private:
+    Component() = default;
+    virtual ~Component() = default;
+    Component(const Component&) = delete;
+    Component& operator= (const Component&) = delete;
+
+    virtual void update(const float&) {}
+
+protected:
+
 };
 
 } // namespace ngind

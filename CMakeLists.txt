@@ -24,7 +24,6 @@ add_executable(NginD main.cc
         kernel/objects/object.cc
         kernel/objects/object.h
         kernel/utils/serialization.h
-        test/kernel/utils/serialization_test.cc
         kernel/render/render.h
         kernel/render/render.cc
         kernel/render/window.h
@@ -35,12 +34,10 @@ add_executable(NginD main.cc
         kernel/input/input.h
         kernel/input/keyboard_input.cc
         kernel/input/input.cc
-        test/kernel/input/keyboard_input_test.cc
         kernel/render/png_image.h
         kernel/render/png_image.cc
         include/opengl/glad.c
         kernel/utils/converter.h
-        test/kernel/render/window_test.cc
         kernel/math/vector.h
         kernel/math/random.h
         kernel/math/vector.cc
@@ -79,7 +76,7 @@ add_executable(NginD main.cc
         kernel/resources/font_resource.h
         kernel/resources/font_resource.cc
         kernel/render/font_factory.h
-        kernel/render/font_factory.cc kernel/render/render_queue.h kernel/render/render_queue.cc kernel/render/render_command.h kernel/render/render_command.cc kernel/components/component.h kernel/components/component.cc kernel/objects/updatable_object.h kernel/input/mouse_input.h kernel/input/mouse_input.cc kernel/input/text_input.h kernel/input/text_input.cc kernel/render/rgba.h kernel/utils/converter.cc)
+        kernel/render/font_factory.cc kernel/render/render_queue.h kernel/render/render_queue.cc kernel/render/render_command.h kernel/render/render_command.cc kernel/components/component.h kernel/objects/updatable_object.h kernel/input/mouse_input.h kernel/input/mouse_input.cc kernel/input/text_input.h kernel/input/text_input.cc kernel/render/rgba.h kernel/utils/converter.cc kernel/components/render_component.h kernel/components/sprite_render.h kernel/components/sprite_render.cc)
 
 set(PLATFORM_PREFIX "/lib/linux")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
@@ -113,5 +110,4 @@ add_custom_command(TARGET ${PROJECT_NAME}
 add_compile_options(-pthread)
 add_compile_options(-lboost_fiber)
 add_compile_options(-lboost_context)
-#add_compile_options(-lfreetype)
 add_compile_options(-finput-charset=GBK -fexec-charset=UTF-8)

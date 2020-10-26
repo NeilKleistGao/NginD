@@ -45,7 +45,7 @@ Vector2D MouseInput::getMousePressed(GLFWwindow*& window, const MouseCode& code)
         }
     }
 
-    return Vector2D::getInvalidVector();
+    return Vector2D::INVALID;
 }
 
 Vector2D MouseInput::getMouse(GLFWwindow*& window, const MouseCode& code) {
@@ -64,7 +64,7 @@ Vector2D MouseInput::getMouse(GLFWwindow*& window, const MouseCode& code) {
         }
     }
 
-    return Vector2D::getInvalidVector();
+    return Vector2D::INVALID;
 }
 
 Vector2D MouseInput::getMouseReleased(GLFWwindow*& window, const MouseCode& code) {
@@ -81,7 +81,7 @@ Vector2D MouseInput::getMouseReleased(GLFWwindow*& window, const MouseCode& code
         }
     }
 
-    return Vector2D::getInvalidVector();
+    return Vector2D::INVALID;
 }
 
 Vector2D MouseInput::getMouseMoving(GLFWwindow*& window) {

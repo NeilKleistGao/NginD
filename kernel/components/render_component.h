@@ -19,43 +19,29 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/29
-// FILENAME: keyboard_input_test.cc
+// FILENAME: render_component.h
+// LAST MODIFY: 2020/10/26
 
-//#define NGIND_KEYBOARD_INPUT_TEST
-#ifdef NGIND_KEYBOARD_INPUT_TEST
+#ifndef NGIND_RENDER_COMPONENT_H
+#define NGIND_RENDER_COMPONENT_H
 
-#include <iostream>
+#include "component.h"
 
-#include "reflection_injector.h"
-#include "render/render.h"
-#include "input/input.h"
+namespace ngind {
 
-int main() {
-    ngind::injectReflection();
+class RenderComponent : public Component {
+public:
+    RenderComponent() = default;
+    virtual ~RenderComponent() = default;
+    RenderComponent(const RenderComponent&) = delete;
+    RenderComponent& operator= (const RenderComponent&) = delete;
 
-    bool main_loop_flag = true;
+    virtual void update(const float&) {};
 
-    auto render = ngind::Render::getInstance();
-    render->createWindow();
+protected:
+    virtual void draw() = 0;
+};
 
-    auto input = ngind::Input::getInstance();
-    input->registerKeyCodeName("test_once", ngind::KeyboardCode::SPACE);
-    input->registerKeyCodeName("test", ngind::KeyboardCode::ENTER);
+} // namespace ngind
 
-    while (main_loop_flag) {
-        glfwPollEvents();
-        main_loop_flag &= render->startRenderLoopOnce();
-
-        if (input->getKey("test_once", true)) {
-            std::cout << "once press" << std::endl;
-        }
-        if (input->getKey("test", false)) {
-            std::cout << "test" << std::endl;
-        }
-    }
-
-    return 0;
-}
-
-#endif // NGIND_KEYBOARD_INPUT_TEST
+#endif //NGIND_RENDER_COMPONENT_H

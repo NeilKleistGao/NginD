@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/25
+// LAST MODIFY: 2020/10/26
 // FILENAME: render.cc
 
 #include "include/opengl/glad/glad.h"
@@ -48,7 +48,7 @@ void Render::destroyInstance() {
 
 Render::Render()
     : _window(nullptr), _queue(nullptr) {
-
+    _queue = new RenderQueue();
 }
 
 Render::~Render() {
@@ -61,7 +61,9 @@ bool Render::startRenderLoopOnce() {
         return false;
     }
 
-    //TODO: render here
+    for (const auto& cmd : (*_queue)) {
+        // TODO: render
+    }
 
     this->_window->swapBuffer();
     return true;

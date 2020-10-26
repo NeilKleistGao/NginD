@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: render_queue.h
-// LAST MODIFY: 2020/10/20
+// LAST MODIFY: 2020/10/26
 
 #ifndef NGIND_RENDER_QUEUE_H
 #define NGIND_RENDER_QUEUE_H
@@ -33,6 +33,22 @@ namespace ngind {
 
 class RenderQueue {
 public:
+    RenderQueue() = default;
+    ~RenderQueue() = default;
+
+    using iterator = std::vector<RenderCommand>::iterator;
+
+    inline iterator begin() {
+        return _queue.begin();
+    }
+
+    inline iterator end() {
+        return _queue.end();
+    }
+
+    inline void clear() {
+        _queue.clear();
+    }
 
 private:
     std::vector<RenderCommand> _queue;

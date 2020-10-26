@@ -19,12 +19,14 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/24
+// LAST MODIFY: 2020/10/26
 // FILENAME: vector.cc
 
 #include "vector.h"
 
 namespace ngind {
+const Vector2D Vector2D::INVALID = Vector2D{NAN, NAN};
+const Vector2D Vector2D::ORIGIN = Vector2D{0, 0};
 
 Vector2D::Vector2D() : Vector2D(0.0f, 0.0f) {
 }

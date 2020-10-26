@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/25
+// LAST MODIFY: 2020/10/26
 // FILENAME: png_image.h
 
 #ifndef NGIND_PNG_IMAGE_H
@@ -30,6 +30,7 @@
 #include "glfw3.h"
 
 #include "rgba.h"
+#include "math/vector.h"
 
 namespace ngind {
 
@@ -44,6 +45,10 @@ public:
 
     inline GLFWimage *getImageData() {
         return _image;
+    }
+
+    inline Vector2D getImageSize() {
+        return Vector2D{_image->width, _image->height};
     }
 
 private:

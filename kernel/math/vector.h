@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/24
+// LAST MODIFY: 2020/10/26
 // FILENAME: vector.h
 
 #ifndef NGIND_VECTOR_H
@@ -80,9 +80,7 @@ public:
     bool isReverse(const Vector2D&) const;
     bool isVertical(const Vector2D&) const;
 
-    static inline Vector2D getInvalidVector() {
-        return Vector2D(NAN, NAN);
-    }
+    static const Vector2D INVALID, ORIGIN;
 
     inline bool isValid() const {
         return !std::isnan(_x) && !std::isnan(_y);
