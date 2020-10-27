@@ -20,10 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: render_queue.cc
-// LAST MODIFY: 2020/10/20
+// LAST MODIFY: 2020/10/27
 
 #include "render_queue.h"
 
+#include <algorithm>
+
 namespace ngind {
+
+void RenderQueue::sort() {
+    if (_queue.empty()) {
+        return;
+    }
+
+    std::sort(_queue.begin(), _queue.end(),
+              [](const RenderCommand& c1, const RenderCommand& c2) -> bool {
+        return c1.z_order < c2.z_order;
+    });
+}
 
 } // namespace

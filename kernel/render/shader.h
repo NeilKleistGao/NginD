@@ -19,47 +19,19 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: render_queue.h
+// FILENAME: shader.h
 // LAST MODIFY: 2020/10/27
 
-#ifndef NGIND_RENDER_QUEUE_H
-#define NGIND_RENDER_QUEUE_H
-
-#include <vector>
-
-#include "render_command.h"
+#ifndef NGIND_SHADER_H
+#define NGIND_SHADER_H
 
 namespace ngind {
 
-class RenderQueue {
+class Shader {
 public:
-    RenderQueue() = default;
-    ~RenderQueue() = default;
-
-    using iterator = std::vector<RenderCommand>::iterator;
-
-    inline iterator begin() {
-        return _queue.begin();
-    }
-
-    inline iterator end() {
-        return _queue.end();
-    }
-
-    inline void clear() {
-        _queue.clear();
-    }
-
-    inline void push(const RenderCommand& command) {
-        _queue.push_back(command);
-    }
-
-    void sort();
-
 private:
-    std::vector<RenderCommand> _queue;
 };
 
-} // namespace
+} // namespace ngind
 
-#endif //NGIND_RENDER_QUEUE_H
+#endif //NGIND_SHADER_H

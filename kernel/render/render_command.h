@@ -20,16 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: render_command.h
-// LAST MODIFY: 2020/10/20
+// LAST MODIFY: 2020/10/27
 
 #ifndef NGIND_RENDER_COMMAND_H
 #define NGIND_RENDER_COMMAND_H
 
 namespace ngind {
 
-class RenderCommand {
-public:
-private:
+enum RenderCommandType {
+    QUAD_COMMAND,
+    // TODO: other types
+};
+
+struct RenderCommand {
+    unsigned int z_order;
+    RenderCommandType type;
 };
 
 } // namespace ngind
