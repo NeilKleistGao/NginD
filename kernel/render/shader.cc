@@ -31,9 +31,7 @@ namespace ngind {
 Shader::Shader(const std::string& filename) {
     File* fp = new File(filename, "r");
     std::string code = fp->readToEnd();
-
-    delete fp;
-    fp = nullptr;
+    fp->close();
 
     this->_shader = glCreateShader(GL_VERTEX_SHADER);
     const GLchar* str = code.c_str();

@@ -19,25 +19,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: config_resource.cc
-// LAST MODIFY: 2020/10/11
+// FILENAME: entity_object.h
+// LAST MODIFY: 2020/10/28
 
-#include "config_resource.h"
+#ifndef NGIND_ENTITY_OBJECT_H
+#define NGIND_ENTITY_OBJECT_H
 
-#include "filesystem/file.h"
+#include "object.h"
 
 namespace ngind {
-const std::string ConfigResource::CONFIG_RESOURCE_PATH = "resources/config";
 
-void ConfigResource::load(const std::string& filename) {
-    File* fp = new File(CONFIG_RESOURCE_PATH + "/" + filename, "r");
-    std::string content = fp->readToEnd();
-    fp->close();
+class EntityObject : public Object {
+public:
 
-    _doc.Parse(content.c_str());
-    this->_path = filename;
+private:
 
-    delete fp;
+};
 
-}
+
 } // namespace ngind
+
+#endif //NGIND_ENTITY_OBJECT_H

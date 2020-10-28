@@ -1,3 +1,14 @@
 {
-  "background-color": "#EFEFEFFF"
+  "background-color": "#EFEFEFFF",
+  "elements": [
+    {
+      "name": "logo",
+      "children": [],
+      "components": [
+        {
+          "name": "SpriteRender"
+        }
+      ]
+    }
+  ]
 }

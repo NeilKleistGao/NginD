@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: file.h
-// LAST MODIFY: 2020/10/10
+// LAST MODIFY: 2020/10/28
 
 
 #ifndef NGIND_FILE_H
@@ -30,10 +30,11 @@
 #include <cstdio>
 
 #include "coroutine/coroutine.h"
+#include "memory/auto_collection_object.h"
 
 namespace ngind {
 
-class File {
+class File : public AutoCollectionObject {
 public:
     File();
     explicit File(const std::string&);

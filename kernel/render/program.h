@@ -27,7 +27,7 @@
 
 #include <string>
 
-#include "shader.h"
+#include "resources/shader_resource.h"
 
 namespace ngind {
 

@@ -19,25 +19,33 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: config_resource.cc
-// LAST MODIFY: 2020/10/11
+// FILENAME: shader_resource.h
+// LAST MODIFY: 2020/10/28
 
-#include "config_resource.h"
+#ifndef NGIND_SHADER_RESOURCE_H
+#define NGIND_SHADER_RESOURCE_H
 
-#include "filesystem/file.h"
+#include "resource.h"
+#include "render/shader.h"
 
 namespace ngind {
-const std::string ConfigResource::CONFIG_RESOURCE_PATH = "resources/config";
 
-void ConfigResource::load(const std::string& filename) {
-    File* fp = new File(CONFIG_RESOURCE_PATH + "/" + filename, "r");
-    std::string content = fp->readToEnd();
-    fp->close();
+class ShaderResource : public Resource {
+public:
+    const static std::string SHADER_RESOURCE_PATH;
 
-    _doc.Parse(content.c_str());
-    this->_path = filename;
+    ShaderResource() = default;
+    ~ShaderResource() override;
 
-    delete fp;
+    virtual void load(const std::string&);
 
-}
+    inline GLuint getShader() {
+        return _shader->getShader();
+    }
+private:
+    Shader* _shader;
+};
+
 } // namespace ngind
+
+#endif //NGIND_SHADER_RESOURCE_H
