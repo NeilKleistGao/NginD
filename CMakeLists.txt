@@ -76,7 +76,7 @@ add_executable(NginD main.cc
         kernel/resources/font_resource.h
         kernel/resources/font_resource.cc
         kernel/render/font_factory.h
-        kernel/render/font_factory.cc kernel/render/render_queue.h kernel/render/render_queue.cc kernel/render/render_command.h kernel/components/component.h kernel/objects/updatable_object.h kernel/input/mouse_input.h kernel/input/mouse_input.cc kernel/input/text_input.h kernel/input/text_input.cc kernel/render/rgba.h kernel/utils/converter.cc kernel/components/render_component.h kernel/components/sprite_render.h kernel/components/sprite_render.cc kernel/render/shader.h kernel/render/shader.cc)
+        kernel/render/font_factory.cc kernel/render/render_queue.h kernel/render/render_queue.cc kernel/render/render_command.h kernel/components/component.h kernel/objects/updatable_object.h kernel/input/mouse_input.h kernel/input/mouse_input.cc kernel/input/text_input.h kernel/input/text_input.cc kernel/render/rgba.h kernel/utils/converter.cc kernel/components/render_component.h kernel/components/sprite_render.h kernel/components/sprite_render.cc kernel/render/shader.h kernel/render/shader.cc kernel/render/program.h kernel/render/program.cc)
 
 set(PLATFORM_PREFIX "/lib/linux")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")

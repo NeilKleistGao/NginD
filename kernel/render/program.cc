@@ -19,32 +19,28 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: shader.h
+// FILENAME: program.cc
 // LAST MODIFY: 2020/10/28
 
-#ifndef NGIND_SHADER_H
-#define NGIND_SHADER_H
-
-#include <string>
-
-#include "glad/glad.h"
+#include "program.h"
 
 namespace ngind {
 
-class Shader {
-public:
-    explicit Shader(const std::string&);
-    ~Shader();
-    Shader(const Shader&) = delete;
-    Shader& operator= (const Shader&) = delete;
+Program::Program(const std::string& program_name) {
+    auto* vertex = new Shader(program_name + ".vs");
+    auto* fragment = new Shader(program_name + ".fs");
 
-    inline GLuint getShader() const {
-        return _shader;
-    }
-private:
-    GLuint _shader;
-};
+    this->_program = glCreateProgram();
+    glAttachShader(this->_program, vertex->getShader());
+    glAttachShader(this->_program, fragment->getShader());
+    glLinkProgram(this->_program);
+
+    delete vertex; delete fragment;
+    vertex = nullptr; fragment = nullptr;
+}
+
+Program::~Program() {
+    glDeleteProgram(this->_program);
+}
 
 } // namespace ngind
-
-#endif //NGIND_SHADER_H
