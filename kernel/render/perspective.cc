@@ -19,19 +19,54 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: entity_object.cc
+// FILENAME: perspective.h
 // LAST MODIFY: 2020/10/29
 
-#include "entity_object.h"
+#include "perspective.h"
+
+#include <iostream>
 
 namespace ngind {
+Perspective* Perspective::_instance = nullptr;
 
-EntityObject::EntityObject() : Object(), _position(), _scale(), _rotation(0.0f) {
-
+Perspective::Perspective() : _center(), _bottom(), _top(), _right(), _left() {
 }
 
-void EntityObject::update(const float& delta) {
-    Object::update(delta);
+Perspective* Perspective::getInstance() {
+    if (_instance == nullptr) {
+        _instance = new(std::nothrow) Perspective();
+
+        if (_instance == nullptr) {
+            // TODO: throw
+        }
+    }
+
+    return _instance;
+}
+
+void Perspective::destroyInstance() {
+    if (_instance != nullptr) {
+        delete _instance;
+        _instance = nullptr;
+    }
+}
+
+void Perspective::init(const Vector2D& center, const size_t& width, const size_t& height) {
+    _center = center;
+    _left = {0, height};
+    _top = {width, 0};
+    _right = {0, -height};
+    _bottom = {-width, 0};
+}
+
+bool Perspective::checkSingleVector(const Vector2D& v) {
+    const auto temp = v - _center;
+    const auto r1 = temp.cross(_left);
+    const auto r2 = temp.cross(_right);
+    const auto r3 = temp.cross(_top);
+    const auto r4 = temp.cross(_bottom);
+
+    return r1 > 0 && r2 > 0 && r3 > 0 && r4 > 0;
 }
 
 } // namespace ngind

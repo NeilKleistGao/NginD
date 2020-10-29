@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/26
+// LAST MODIFY: 2020/10/29
 // FILENAME: vector.h
 
 #ifndef NGIND_VECTOR_H
@@ -84,6 +84,10 @@ public:
 
     inline bool isValid() const {
         return !std::isnan(_x) && !std::isnan(_y);
+    }
+
+    inline float cross(const Vector2D& v) const {
+        return _x * v._y - _y * v._x;
     }
 
 private:

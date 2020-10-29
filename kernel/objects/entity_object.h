@@ -20,20 +20,86 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: entity_object.h
-// LAST MODIFY: 2020/10/28
+// LAST MODIFY: 2020/10/29
 
 #ifndef NGIND_ENTITY_OBJECT_H
 #define NGIND_ENTITY_OBJECT_H
 
 #include "object.h"
 
+#include "math/vector.h"
+
 namespace ngind {
 
 class EntityObject : public Object {
 public:
+    EntityObject();
+    ~EntityObject() = default;
+
+    EntityObject(const EntityObject&) = delete;
+    EntityObject& operator= (const EntityObject&) = delete;
+
+    virtual void update(const float&);
+
+    inline void setPosition(const Vector2D& v) {
+        _position = v;
+    }
+
+    inline void setPositionX(const float& f) {
+        _position.setX(f);
+    }
+
+    inline void setPositionY(const float& f) {
+        _position.setY(f);
+    }
+
+    inline Vector2D getPosition() const {
+        return _position;
+    }
+
+    inline float getPositionX() const {
+        return _position.getX();
+    }
+
+    inline float getPositionY() const {
+        return _position.getY();
+    }
+
+    inline void setScale(const Vector2D& v) {
+        _scale = v;
+    }
+
+    inline void setScaleX(const float& f) {
+        _scale.setX(f);
+    }
+
+    inline void setScaleY(const float& f) {
+        _scale.setY(f);
+    }
+
+    inline Vector2D getScale() const {
+        return _scale;
+    }
+
+    inline float getScaleX() const {
+        return _scale.getX();
+    }
+
+    inline float getScaleY() const {
+        return _scale.getY();
+    }
+
+    inline void setRotation(const float& f) {
+        _rotation = f;
+    }
+
+    inline float getRotation() const {
+        return _rotation;
+    }
 
 private:
-
+    Vector2D _position, _scale;
+    float _rotation;
 };
 
 

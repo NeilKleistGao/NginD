@@ -19,19 +19,43 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: entity_object.cc
+// FILENAME: perspective.h
 // LAST MODIFY: 2020/10/29
 
-#include "entity_object.h"
+#ifndef NGIND_PERSPECTIVE_H
+#define NGIND_PERSPECTIVE_H
+
+#include "math/vector.h"
 
 namespace ngind {
 
-EntityObject::EntityObject() : Object(), _position(), _scale(), _rotation(0.0f) {
+class Perspective {
+public:
+    static Perspective* getInstance();
+    static void destroyInstance();
 
-}
+    Perspective(const Perspective&) = delete;
+    Perspective& operator= (const Perspective&) = delete;
 
-void EntityObject::update(const float& delta) {
-    Object::update(delta);
-}
+    void init(const Vector2D&, const size_t&, const size_t&);
+    inline void moveTo(const Vector2D& center) {
+        _center = center;
+    }
 
-} // namespace ngind
+    inline bool checkVisibility(const Vector2D& lt, const Vector2D& lb, const Vector2D& rt, const Vector2D& rb) {
+        return checkSingleVector(lt) || checkSingleVector(lb)
+            || checkSingleVector(rt) || checkSingleVector(rb);
+    }
+private:
+    Perspective();
+    ~Perspective() = default;
+
+    static Perspective* _instance;
+    Vector2D _center, _left, _right, _top, _bottom;
+
+    bool checkSingleVector(const Vector2D&);
+};
+
+} // namespace
+
+#endif //NGIND_PERSPECTIVE_H

@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/20
+// LAST MODIFY: 2020/10/29
 // FILENAME: object.cc
 
 #include "object.h"
@@ -28,6 +28,7 @@ namespace ngind {
 
 Object::Object() : AutoCollectionObject(), _parent(nullptr) {
     this->_children.clear();
+    this->_components.clear();
 }
 
 Object::~Object() {
@@ -40,7 +41,13 @@ Object::~Object() {
         }
     }
 
+    for (auto it : this->_components) {
+        delete it.second;
+        it.second = nullptr;
+    }
+
     this->_children.clear();
+    this->_components.clear();
 }
 
 void Object::serialize(std::ostream& stream) const {
