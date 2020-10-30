@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/27
+// LAST MODIFY: 2020/10/30
 // FILENAME: render.h
 
 #ifndef NGIND_RENDER_H
@@ -46,13 +46,18 @@ public:
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
+    inline void addRenderCommand(RenderCommand* cmd) {
+        _queue->push(cmd);
+    }
+
 private:
     static Render* _instance;
     Window* _window;
 
     RenderQueue* _queue;
 
-    void execute(const RenderCommand&);
+    void execute(RenderCommand*);
+    void drawQuad(QuadRenderCommand*);
 
     Render();
     ~Render();

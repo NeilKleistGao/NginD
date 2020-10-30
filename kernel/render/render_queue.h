@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: render_queue.h
-// LAST MODIFY: 2020/10/27
+// LAST MODIFY: 2020/10/30
 
 #ifndef NGIND_RENDER_QUEUE_H
 #define NGIND_RENDER_QUEUE_H
@@ -36,7 +36,7 @@ public:
     RenderQueue() = default;
     ~RenderQueue() = default;
 
-    using iterator = std::vector<RenderCommand>::iterator;
+    using iterator = std::vector<RenderCommand*>::iterator;
 
     inline iterator begin() {
         return _queue.begin();
@@ -50,14 +50,14 @@ public:
         _queue.clear();
     }
 
-    inline void push(const RenderCommand& command) {
+    inline void push(RenderCommand* command) {
         _queue.push_back(command);
     }
 
     void sort();
 
 private:
-    std::vector<RenderCommand> _queue;
+    std::vector<RenderCommand*> _queue;
 };
 
 } // namespace

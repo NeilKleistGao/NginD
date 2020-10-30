@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/27
+// LAST MODIFY: 2020/10/30
 // FILENAME: render.cc
 
 #include "include/opengl/glad/glad.h"
@@ -62,8 +62,8 @@ bool Render::startRenderLoopOnce() {
     }
 
     _queue->sort();
-    for (const auto& cmd : (*_queue)) {
-
+    for (auto cmd : (*_queue)) {
+        this->execute(cmd);
     }
 
     _queue->clear();
@@ -87,7 +87,17 @@ void Render::createWindow(const int& width,
     glad_glEnable(GL_TEXTURE_2D);
 }
 
-void Render::execute(const RenderCommand&) {
+void Render::execute(RenderCommand* cmd) {
+    switch (cmd->type) {
+        case RenderCommandType::QUAD_COMMAND:
+            drawQuad(static_cast<QuadRenderCommand*>(cmd));
+            break;
+        default:
+            break;
+    }
+}
+
+void Render::drawQuad(QuadRenderCommand* cmd) {
 
 }
 

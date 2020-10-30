@@ -20,28 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: sprite_render.cc
-// LAST MODIFY: 2020/10/26
+// LAST MODIFY: 2020/10/30
 
 #include "sprite_render.h"
-#include "render/render_queue.h"
+#include "render/render.h"
+#include "render/perspective.h"
 #include "resources/resources_manager.h"
 
 namespace ngind {
 
-SpriteRender::SpriteRender(const std::string& name) : SpriteRender(name, Vector2D::ORIGIN) {
-}
-
-SpriteRender::SpriteRender(const std::string& name, const Vector2D& pos) : _pos(pos) {
+SpriteRender::SpriteRender(const std::string& name) : _color(), _command(nullptr) {
     _image = ResourcesManager::getInstance()->load<ImageResource>(name);
     auto img = _image->getPNGImage();
     setBound(Vector2D::ORIGIN, img->getImageSize());
 }
 
 SpriteRender::SpriteRender(const std::string& name, const Vector2D& lb, const Vector2D& rt) : SpriteRender(name) {
-    setBound(lb, rt);
-}
-
-SpriteRender::SpriteRender(const std::string& name, const Vector2D& pos, const Vector2D& lb, const Vector2D& rt) : SpriteRender(name, pos) {
     setBound(lb, rt);
 }
 
@@ -73,7 +67,17 @@ void SpriteRender::setImage(const std::string& filename, const Vector2D& lb, con
 }
 
 void SpriteRender::draw() {
-    // TODO: add command
+    // TODO: calculate triangle data
+
+    if (_command == nullptr) {
+        _command = new QuadRenderCommand();
+    }
+
+    _command->image = _image->getPNGImage();
+    _command->transparent = false;
+    _command->z_order = 0; // TODO:
+
+    Render::getInstance()->addRenderCommand(_command);
 }
 
 } // namespace ngind

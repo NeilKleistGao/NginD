@@ -20,21 +20,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: render_command.h
-// LAST MODIFY: 2020/10/27
+// LAST MODIFY: 2020/10/30
 
 #ifndef NGIND_RENDER_COMMAND_H
 #define NGIND_RENDER_COMMAND_H
 
+#include "png_image.h"
+
 namespace ngind {
 
 enum RenderCommandType {
+    UNKNOWN_COMMAND,
     QUAD_COMMAND,
     // TODO: other types
 };
 
 struct RenderCommand {
+public:
     unsigned int z_order;
-    RenderCommandType type;
+    const RenderCommandType type;
+    bool transparent;
+
+    explicit RenderCommand(const RenderCommandType& t = UNKNOWN_COMMAND)
+        : type(t), z_order(0), transparent(false) {}
+};
+
+struct QuadRenderCommand : public RenderCommand {
+    PNGImage* image;
+
+    QuadRenderCommand()
+        : RenderCommand(QUAD_COMMAND), image(nullptr) {}
 };
 
 } // namespace ngind

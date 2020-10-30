@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: sprite_render.h
-// LAST MODIFY: 2020/10/26
+// LAST MODIFY: 2020/10/30
 
 #ifndef NGIND_SPRITE_RENDER_H
 #define NGIND_SPRITE_RENDER_H
@@ -38,9 +38,7 @@ namespace ngind {
 class SpriteRender : public RenderComponent {
 public:
     explicit SpriteRender(const std::string&);
-    SpriteRender(const std::string&, const Vector2D&);
     SpriteRender(const std::string&, const Vector2D&, const Vector2D&);
-    SpriteRender(const std::string&, const Vector2D&, const Vector2D&, const Vector2D&);
     virtual ~SpriteRender();
     SpriteRender(const SpriteRender&) = delete;
     SpriteRender& operator= (const SpriteRender&) = delete;
@@ -83,15 +81,11 @@ public:
         return _color;
     }
 
-    inline void setRenderPosition(const Vector2D& pos) {
-        _pos = pos;
-    }
-
 private:
     ImageResource* _image;
     Vector2D _lb, _rt, _pos;
     RGBA _color;
-    RenderCommand* _command;
+    QuadRenderCommand* _command;
 protected:
     virtual void draw();
 };

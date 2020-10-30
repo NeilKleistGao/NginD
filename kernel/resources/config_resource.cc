@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: config_resource.cc
-// LAST MODIFY: 2020/10/11
+// LAST MODIFY: 2020/10/30
 
 #include "config_resource.h"
 
@@ -36,8 +36,5 @@ void ConfigResource::load(const std::string& filename) {
 
     _doc.Parse(content.c_str());
     this->_path = filename;
-
-    delete fp;
-
 }
 } // namespace ngind
