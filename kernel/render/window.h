@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/8/21
+// LAST MODIFY: 2020/10/31
 // FILENAME: window.h
 
 #ifndef NGIND_WINDOW_H
@@ -30,7 +30,7 @@
 
 #include "include/opengl/glfw3.h"
 
-#include "resources/image_resource.h"
+#include "png_image.h"
 
 namespace ngind {
 class Window {
@@ -76,7 +76,7 @@ public:
 
 private:
     GLFWwindow *_window;
-    ImageResource* _icon;
+    PNGImage* _icon;
 };
 }
 

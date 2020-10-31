@@ -20,20 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: shader.h
-// LAST MODIFY: 2020/10/28
+// LAST MODIFY: 2020/10/31
 
 #ifndef NGIND_SHADER_H
 #define NGIND_SHADER_H
 
 #include <string>
 
-#include "glad/glad.h"
+#include "GL/glew.h"
 
 namespace ngind {
 
 class Shader {
 public:
-    explicit Shader(const std::string&);
+    Shader(const std::string&, const int&);
     ~Shader();
     Shader(const Shader&) = delete;
     Shader& operator= (const Shader&) = delete;

@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/26
+// LAST MODIFY: 2020/10/31
 // FILENAME: png_image.h
 
 #ifndef NGIND_PNG_IMAGE_H
@@ -41,7 +41,7 @@ public:
     explicit PNGImage(const std::string&);
     ~PNGImage();
 
-    void loadPNG(const std::string&);
+    void loadPNG(const std::string& filename);
 
     inline GLFWimage *getImageData() {
         return _image;
@@ -53,7 +53,6 @@ public:
 
 private:
     GLFWimage *_image;
-
 };
 
 } // namespace ngind

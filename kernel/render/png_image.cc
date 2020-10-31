@@ -19,8 +19,10 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/10
+// LAST MODIFY: 2020/10/31
 // FILENAME: png_image.cc
+
+#include "GL/glew.h"
 
 #include "png_image.h"
 
@@ -42,6 +44,7 @@ PNGImage::~PNGImage() {
     delete this->_image->pixels;
     this->_image->pixels = nullptr;
     delete this->_image;
+    this->_image = nullptr;
 }
 
 void PNGImage::loadPNG(const std::string& filename) {
@@ -84,7 +87,6 @@ void PNGImage::loadPNG(const std::string& filename) {
         png_set_swap_alpha(struct_ptr);
     }
 
-//    png_byte bit_depth = png_get_bit_depth(struct_ptr, info_ptr);
     png_set_interlace_handling(struct_ptr);
     png_read_update_info(struct_ptr, info_ptr);
 

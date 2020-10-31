@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: shader.cc
-// LAST MODIFY: 2020/10/28
+// LAST MODIFY: 2020/10/31
 
 #include "shader.h"
 
@@ -28,19 +28,22 @@
 
 namespace ngind {
 
-Shader::Shader(const std::string& filename) {
+Shader::Shader(const std::string& filename, const int& type) {
     File* fp = new File(filename, "r");
     std::string code = fp->readToEnd();
     fp->close();
 
-    this->_shader = glCreateShader(GL_VERTEX_SHADER);
+    this->_shader = glCreateShader(type);
     const GLchar* str = code.c_str();
 
     glShaderSource(this->_shader, 1, &str, nullptr);
     glCompileShader(this->_shader);
-    glCompileShader(this->_shader);
 
-    GLint success; // TODO: error detect
+    GLint success;
+    glGetShaderiv(this->_shader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+
+    }
 }
 
 Shader::~Shader() {

@@ -19,13 +19,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/11
+// LAST MODIFY: 2020/10/31
 // FILENAME: window.cc
 
 #include "window.h"
 
 #include "input/input.h"
-#include "resources/resources_manager.h"
+#include "resources/texture_resource.h"
 
 namespace ngind {
 
@@ -53,13 +53,17 @@ Window::Window(const size_t& width,
 
     glfwMakeContextCurrent(this->_window);
     Input::getInstance()->setWindowHandler(this->_window);
+
+    int w, h;
+    glfwGetFramebufferSize(this->_window, &w, &h);
+    glViewport(0, 0, w, h);
 }
 
 Window::~Window() {
     glfwDestroyWindow(this->_window);
     this->_window = nullptr;
 
-    ResourcesManager::getInstance()->release(_icon->getResourcePath());
+    delete this->_icon;
     this->_icon = nullptr;
 }
 
@@ -69,8 +73,8 @@ void Window::setIcon(const std::string& path) {
         this->_icon = nullptr;
     }
 
-    this->_icon = ResourcesManager::getInstance()->load<ImageResource>(path);
-    glfwSetWindowIcon(this->_window, 1, this->_icon->getPNGImage()->getImageData());
+    this->_icon = new PNGImage(TextureResource::IMAGE_RESOURCE_PATH + "/" + path);
+    glfwSetWindowIcon(this->_window, 1, this->_icon->getImageData());
 }
 
 } // namespace ngind

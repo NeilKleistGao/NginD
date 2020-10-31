@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: component.h
-// LAST MODIFY: 2020/10/26
+// LAST MODIFY: 2020/10/31
 
 #ifndef NGIND_COMPONENT_H
 #define NGIND_COMPONENT_H
@@ -28,8 +28,11 @@
 #include <string>
 
 #include "objects/updatable_object.h"
+#include "resources/config_resource.h"
 
 namespace ngind {
+
+class Object;
 
 class Component : public UpdatableObject {
 public:
@@ -39,9 +42,18 @@ public:
     Component& operator= (const Component&) = delete;
 
     virtual void update(const float&) {}
+    virtual void init(const typename ConfigResource::JsonObject&) {};
+
+    inline Object* getParent() const {
+        return _parent;
+    }
+
+    inline void setParent(Object* parent) {
+        _parent = parent;
+    }
 
 protected:
-
+    Object* _parent;
 };
 
 } // namespace ngind

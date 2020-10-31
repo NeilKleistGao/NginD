@@ -20,12 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: render_command.h
-// LAST MODIFY: 2020/10/30
+// LAST MODIFY: 2020/10/31
 
 #ifndef NGIND_RENDER_COMMAND_H
 #define NGIND_RENDER_COMMAND_H
 
-#include "png_image.h"
+#include "quad.h"
+#include "program.h"
+#include "math/vector.h"
+#include "rgba.h"
 
 namespace ngind {
 
@@ -37,19 +40,24 @@ enum RenderCommandType {
 
 struct RenderCommand {
 public:
-    unsigned int z_order;
+    unsigned int z_order{};
     const RenderCommandType type;
-    bool transparent;
+    bool transparent{};
 
     explicit RenderCommand(const RenderCommandType& t = UNKNOWN_COMMAND)
-        : type(t), z_order(0), transparent(false) {}
+        : type(t) {}
 };
 
 struct QuadRenderCommand : public RenderCommand {
-    PNGImage* image;
+    GLuint texture_id{};
+    Quad* quad;
+    Program* program;
+    Vector2D position{}, scale{}, size{};
+    float rotate{};
+    RGBA color{};
 
     QuadRenderCommand()
-        : RenderCommand(QUAD_COMMAND), image(nullptr) {}
+        : RenderCommand(QUAD_COMMAND), quad(nullptr), program(nullptr) {}
 };
 
 } // namespace ngind

@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: program.h
-// LAST MODIFY: 2020/10/28
+// LAST MODIFY: 2020/10/31
 
 #ifndef NGIND_PROGRAM_H
 #define NGIND_PROGRAM_H
@@ -28,6 +28,8 @@
 #include <string>
 
 #include "resources/shader_resource.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 namespace ngind {
 
@@ -40,6 +42,14 @@ public:
 
     inline void use() const {
         glUseProgram(this->_program);
+    }
+
+    inline void setVector4(const std::string& name, const glm::vec4& v) {
+        glUniform4f(glGetUniformLocation(this->_program, name.c_str()), v.x, v.y, v.z, v.w);
+    }
+
+    inline void setMatrix4(const std::string& name, const glm::mat4& m) {
+        glUniformMatrix4fv(glGetUniformLocation(this->_program, name.c_str()), 1, GL_FALSE, glm::value_ptr(m));
     }
 private:
     GLuint _program;

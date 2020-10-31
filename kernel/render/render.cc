@@ -19,10 +19,10 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/30
+// LAST MODIFY: 2020/10/31
 // FILENAME: render.cc
 
-#include "include/opengl/glad/glad.h"
+#include "GL/glew.h"
 
 #include "render.h"
 
@@ -78,13 +78,16 @@ void Render::createWindow(const int& width,
                   const bool& is_full) {
     this->_window = new Window(width, height, title, is_full);
     this->_window->setIcon(icon);
+    Perspective::getInstance()->init({width / 2.0f, height / 2.0f}, width, height);
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        glfwTerminate();
+    glewExperimental = GL_TRUE;
+    if (glewInit() != GLEW_OK) {
+        //TODO: init error
         exit(-1);
     }
 
-    glad_glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void Render::execute(RenderCommand* cmd) {
@@ -98,7 +101,26 @@ void Render::execute(RenderCommand* cmd) {
 }
 
 void Render::drawQuad(QuadRenderCommand* cmd) {
+    cmd->program->use();
 
+    glm::mat4 model;
+    model = glm::translate(model, glm::vec3(cmd->position.getX(), cmd->position.getY(), 0));
+    model = glm::translate(model, glm::vec3(0.5f * cmd->size.getX(), 0.5f * cmd->size.getY(), 0));
+    model = glm::rotate(model, cmd->rotate, glm::vec3(0, 0, 1));
+    model = glm::translate(model, glm::vec3(-0.5f * cmd->size.getX(), -0.5f * cmd->size.getY(), 0));
+    model = glm::scale(model, glm::vec3(cmd->scale.getX(), cmd->scale.getY(), 1));
+
+    cmd->program->setMatrix4("model", model);
+    cmd->program->setVector4("spriteColor", glm::vec4(cmd->color.r / 255.0f,
+                                                      cmd->color.g  / 255.0f,
+                                                      cmd->color.b / 255.0f,
+                                                      cmd->color.a / 255.0f));
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, cmd->texture_id);
+    glBindVertexArray(cmd->quad->getVAO());
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
 }
 
 } // namespace ngind

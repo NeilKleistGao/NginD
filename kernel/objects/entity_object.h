@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: entity_object.h
-// LAST MODIFY: 2020/10/29
+// LAST MODIFY: 2020/10/31
 
 #ifndef NGIND_ENTITY_OBJECT_H
 #define NGIND_ENTITY_OBJECT_H
@@ -97,9 +97,25 @@ public:
         return _rotation;
     }
 
+    inline int getZOrder() const {
+        return _z_order;
+    }
+
+    inline void setZOrder(const int& z) {
+        _z_order = z;
+    }
+
+    inline void addComponent(const std::string& name, Component* component) override {
+        if (_components.find(name) == _components.end()) {
+            _components[name] = component;
+            component->setParent(this);
+        }
+    }
+
 private:
     Vector2D _position, _scale;
     float _rotation;
+    int _z_order;
 };
 
 

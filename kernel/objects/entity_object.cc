@@ -20,13 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: entity_object.cc
-// LAST MODIFY: 2020/10/29
+// LAST MODIFY: 2020/10/31
 
 #include "entity_object.h"
 
 namespace ngind {
 
-EntityObject::EntityObject() : Object(), _position(), _scale(), _rotation(0.0f) {
+EntityObject::EntityObject() : Object(), _position(), _scale(), _rotation(0.0f), _z_order(0) {
 
 }
 

@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/20
+// LAST MODIFY: 2020/10/31
 // FILENAME: object.h
 
 #ifndef NGIND_OBJECT_H
@@ -57,10 +57,10 @@ public:
 
     virtual void update(const float&);
 
-    template<typename Type, typename std::enable_if_t<std::is_base_of_v<Component, Type>> N = 0>
-    void addComponent(const std::string& name, Type* component) {
+    virtual inline void addComponent(const std::string& name, Component* component) {
         if (_components.find(name) == _components.end()) {
             _components[name] = component;
+            component->setParent(this);
         }
     }
 

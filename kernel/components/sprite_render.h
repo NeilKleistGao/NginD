@@ -20,36 +20,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: sprite_render.h
-// LAST MODIFY: 2020/10/30
+// LAST MODIFY: 2020/10/31
 
 #ifndef NGIND_SPRITE_RENDER_H
 #define NGIND_SPRITE_RENDER_H
 
 #include <string>
 
+#include "render/render_command.h"
 #include "render_component.h"
-#include "resources/image_resource.h"
+#include "resources/texture_resource.h"
 #include "math/vector.h"
 #include "render/rgba.h"
-#include "render/render_command.h"
+#include "render/program.h"
+#include "render/quad.h"
+#include "objects/entity_object.h"
+
+#include "rttr/registration.h"
 
 namespace ngind {
 
 class SpriteRender : public RenderComponent {
 public:
-    explicit SpriteRender(const std::string&);
-    SpriteRender(const std::string&, const Vector2D&, const Vector2D&);
-    virtual ~SpriteRender();
+    SpriteRender();
+    ~SpriteRender() override;
     SpriteRender(const SpriteRender&) = delete;
     SpriteRender& operator= (const SpriteRender&) = delete;
 
-    virtual void update(const float&);
+    void update(const float&) override;
+    void init(const typename ConfigResource::JsonObject&) override;
+    static SpriteRender* create(const typename ConfigResource::JsonObject&);
 
     void setImage(const std::string&);
     void setImage(const std::string&, const Vector2D&, const Vector2D&);
 
     inline std::string getImageName() {
-        return _image->getResourcePath();
+        return _texture->getResourcePath();
     }
 
     inline void setBound(const Vector2D& lb, const Vector2D& rt) {
@@ -82,13 +88,21 @@ public:
     }
 
 private:
-    ImageResource* _image;
-    Vector2D _lb, _rt, _pos;
+    TextureResource* _texture;
+    Vector2D _lb, _rt;
     RGBA _color;
     QuadRenderCommand* _command;
+    Program* _program;
+    Quad* _quad;
+
 protected:
     virtual void draw();
 };
+
+RTTR_REGISTRATION {
+    rttr::registration::class_<SpriteRender>("SpriteRender")
+        .method("create", &SpriteRender::create);
+}
 
 } // namespace ngind
 

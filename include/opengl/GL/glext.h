@@ -51,7 +51,7 @@ extern "C" {
 #define GLAPI extern
 #endif
 
-#define GL_GLEXT_VERSION 20190911
+#define GL_GLEXT_VERSION 20190805
 
 #include <KHR/khrplatform.h>
 
@@ -4072,12 +4072,7 @@ GLAPI void APIENTRY glMinSampleShadingARB (GLfloat value);
 #ifndef GL_ARB_shader_objects
 #define GL_ARB_shader_objects 1
 #ifdef __APPLE__
-#ifdef BUILDING_MESA
-/* Avoid uint <-> void* warnings */
-typedef unsigned long GLhandleARB;
-#else
 typedef void *GLhandleARB;
-#endif
 #else
 typedef unsigned int GLhandleARB;
 #endif
@@ -6485,10 +6480,6 @@ GLAPI void APIENTRY glEGLImageTargetTexStorageEXT (GLenum target, GLeglImageOES 
 GLAPI void APIENTRY glEGLImageTargetTextureStorageEXT (GLuint texture, GLeglImageOES image, const GLint* attrib_list);
 #endif
 #endif /* GL_EXT_EGL_image_storage */
-
-#ifndef GL_EXT_EGL_sync
-#define GL_EXT_EGL_sync 1
-#endif /* GL_EXT_EGL_sync */
 
 #ifndef GL_EXT_abgr
 #define GL_EXT_abgr 1

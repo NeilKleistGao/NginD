@@ -39,6 +39,8 @@ public:
     ~ConfigResource() override = default;
     virtual void load(const std::string&);
 
+    using JsonObject = rapidjson::GenericValue<rapidjson::UTF8<>>;
+
     inline rapidjson::Document& getDocument() {
         return _doc;
     }

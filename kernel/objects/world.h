@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: world.h
-// LAST MODIFY: 2020/10/25
+// LAST MODIFY: 2020/10/31
 
 #ifndef NGIND_WORLD_H
 #define NGIND_WORLD_H
@@ -28,6 +28,7 @@
 #include <string>
 
 #include "object.h"
+#include "components/component.h"
 #include "resources/config_resource.h"
 #include "render/rgba.h"
 
@@ -58,6 +59,10 @@ private:
     std::string _name;
     ConfigResource* _config;
     RGBA _background_color;
+
+    void loadObjects();
+    Object* generateObject(Object*, const typename ConfigResource::JsonObject&);
+    Component* generateComponent(const typename ConfigResource::JsonObject&);
 };
 
 } // namespace ngind

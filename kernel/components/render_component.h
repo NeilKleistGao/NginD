@@ -37,7 +37,7 @@ public:
     RenderComponent& operator= (const RenderComponent&) = delete;
 
     virtual void update(const float&) {};
-
+    virtual void init(const typename ConfigResource::JsonObject&) {};
 protected:
     virtual void draw() = 0;
 };

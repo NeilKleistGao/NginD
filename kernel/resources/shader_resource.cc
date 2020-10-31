@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: shader_resource.h
-// LAST MODIFY: 2020/10/28
+// LAST MODIFY: 2020/10/31
 
 #include "shader_resource.h"
 
@@ -42,7 +42,13 @@ void ShaderResource::load(const std::string& filename) {
     }
 
     this->_path = filename;
-    _shader = new Shader(SHADER_RESOURCE_PATH + "/" + filename);
+    int pos = filename.find_last_of('.');
+    if (filename.substr(pos + 1) == "vs") {
+        _shader = new Shader(SHADER_RESOURCE_PATH + "/" + filename, GL_VERTEX_SHADER);
+    }
+    else {
+        _shader = new Shader(SHADER_RESOURCE_PATH + "/" + filename, GL_FRAGMENT_SHADER);
+    }
 }
 
 } // namespace

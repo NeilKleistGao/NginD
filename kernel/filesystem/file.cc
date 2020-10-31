@@ -92,7 +92,7 @@ char* File::read(const size_t& length) {
     }
     std::memset(buff, 0, sizeof(char) * length);
 
-    size_t real_size = fread(buff, sizeof(char), length, this->_fp);
+    size_t real_size = fread(buff, sizeof(char), length - 1, this->_fp);
     return (real_size == 0) ? nullptr : buff;
 }
 

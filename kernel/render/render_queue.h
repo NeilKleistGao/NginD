@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: render_queue.h
-// LAST MODIFY: 2020/10/30
+// LAST MODIFY: 2020/10/31
 
 #ifndef NGIND_RENDER_QUEUE_H
 #define NGIND_RENDER_QUEUE_H
 
-#include <vector>
-
 #include "render_command.h"
+
+#include <vector>
 
 namespace ngind {
 

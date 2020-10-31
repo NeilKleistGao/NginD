@@ -1,3 +1,25 @@
 {
-  "background-color": "#000000FF"
+  "background-color": "#000000FF",
+  "children": [
+    {
+      "name": "logo",
+      "type": "entity",
+      "position": {
+        "x": 512,
+        "y": 384
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "name": "SpriteRender",
+          "filename": "test.png"
+        }
+      ]
+    }
+  ]
 }

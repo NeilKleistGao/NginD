@@ -19,15 +19,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/30
+// LAST MODIFY: 2020/10/31
 // FILENAME: render.h
 
 #ifndef NGIND_RENDER_H
 #define NGIND_RENDER_H
 
-#include "window.h"
 #include "render_queue.h"
+#include "window.h"
 #include "rgba.h"
+#include "perspective.h"
 
 namespace ngind {
 
@@ -52,8 +53,8 @@ public:
 
 private:
     static Render* _instance;
-    Window* _window;
 
+    Window* _window;
     RenderQueue* _queue;
 
     void execute(RenderCommand*);

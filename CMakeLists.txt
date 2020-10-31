@@ -36,7 +36,6 @@ add_executable(NginD main.cc
         kernel/input/input.cc
         kernel/render/png_image.h
         kernel/render/png_image.cc
-        include/opengl/glad.c
         kernel/utils/converter.h
         kernel/math/vector.h
         kernel/math/random.h
@@ -60,9 +59,9 @@ add_executable(NginD main.cc
         kernel/resources/resource.h
         kernel/filesystem/output_stream.h
         kernel/filesystem/output_stream.cc
-        kernel/resources/image_resource.h
+        kernel/resources/texture_resource.h
         kernel/resources/config_resource.h
-        kernel/resources/image_resource.cc
+        kernel/resources/texture_resource.cc
         kernel/resources/config_resource.cc
         kernel/timer/timer.h
         kernel/timer/timer.cc
@@ -76,27 +75,25 @@ add_executable(NginD main.cc
         kernel/resources/font_resource.h
         kernel/resources/font_resource.cc
         kernel/render/font_factory.h
-        kernel/render/font_factory.cc kernel/render/render_queue.h kernel/render/render_queue.cc kernel/render/render_command.h kernel/components/component.h kernel/objects/updatable_object.h kernel/input/mouse_input.h kernel/input/mouse_input.cc kernel/input/text_input.h kernel/input/text_input.cc kernel/render/rgba.h kernel/utils/converter.cc kernel/components/render_component.h kernel/components/sprite_render.h kernel/components/sprite_render.cc kernel/render/shader.h kernel/render/shader.cc kernel/render/program.h kernel/render/program.cc kernel/resources/shader_resource.h kernel/resources/shader_resource.cc kernel/objects/entity_object.h kernel/objects/entity_object.cc kernel/render/perspective.h kernel/render/perspective.cc)
+        kernel/render/font_factory.cc kernel/render/render_queue.h kernel/render/render_queue.cc kernel/render/render_command.h kernel/components/component.h kernel/objects/updatable_object.h kernel/input/mouse_input.h kernel/input/mouse_input.cc kernel/input/text_input.h kernel/input/text_input.cc kernel/render/rgba.h kernel/utils/converter.cc kernel/components/render_component.h kernel/components/sprite_render.h kernel/components/sprite_render.cc kernel/render/shader.h kernel/render/shader.cc kernel/render/program.h kernel/render/program.cc kernel/resources/shader_resource.h kernel/resources/shader_resource.cc kernel/objects/entity_object.h kernel/objects/entity_object.cc kernel/render/perspective.h kernel/render/perspective.cc kernel/render/quad.h kernel/render/quad.cc)
 
 set(PLATFORM_PREFIX "/lib/linux")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
 
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libGLU.so")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libGLU.a")
+target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libGLEW.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libglfw.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libglfw3.a")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libglfw.so.3")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libGL.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libX11.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXrand.so")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXinerama.so")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXxf86vm.so")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXcursor.so")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libdl.so")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libdl.a")
+target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libXi.so")
+target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libXi.a")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/rttr/librttr_core.so")
 target_link_libraries (NginD ${Boost_LIBRARIES})
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/libpng/libpng16.so.16")
+target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soil2/libsoil2.a")
+target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soil2/libsoil2.so")
 
 target_link_libraries(NginD "/usr/local/lib/libfreetype.so")
 target_link_libraries(NginD "/usr/local/lib/libfreetype.a")

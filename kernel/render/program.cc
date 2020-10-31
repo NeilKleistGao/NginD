@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: program.cc
-// LAST MODIFY: 2020/10/28
+// LAST MODIFY: 2020/10/31
 
 #include "program.h"
 
@@ -36,6 +36,12 @@ Program::Program(const std::string& program_name) {
     glAttachShader(this->_program, vertex->getShader());
     glAttachShader(this->_program, fragment->getShader());
     glLinkProgram(this->_program);
+
+    GLint success;
+    glGetProgramiv(this->_program, GL_LINK_STATUS, &success);
+    if (!success) {
+
+    }
 
     ResourcesManager::getInstance()->release(vertex->getResourcePath());
     ResourcesManager::getInstance()->release(fragment->getResourcePath());
