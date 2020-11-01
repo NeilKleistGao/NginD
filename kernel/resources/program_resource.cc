@@ -19,33 +19,28 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: texture_resource.cc
+// FILENAME: program_resource.h
 // LAST MODIFY: 2020/11/1
 
-#include "texture_resource.h"
+#include "program_resource.h"
 
 namespace ngind {
-const std::string TextureResource::IMAGE_RESOURCE_PATH = "resources/images";
-
-void TextureResource::load(const std::string& filename) {
-    if (this->_texture != nullptr) {
-        delete this->_texture;
-        this->_texture = nullptr;
-    }
-
-    this->_path = filename;
-
-    int pos = filename.find_last_of('.');
-    std::string ext = filename.substr(pos + 1);
-
-    if (ext == "png") {
-        _texture = new Texture(IMAGE_RESOURCE_PATH + "/" + filename, TextureColorMode::MODE_RGBA);
-    }
-    else if (ext == "jpg") {
-        _texture = new Texture(IMAGE_RESOURCE_PATH + "/" + filename, TextureColorMode::MODE_RGB);
-    }
-    else {
-        // TODO: unsupported format
-    }
+ProgramResource::ProgramResource() : _program(nullptr) {
 }
+
+ProgramResource::~ProgramResource() {
+    delete _program;
+    _program = nullptr;
+}
+
+void ProgramResource::load(const std::string& name) {
+    if (_program != nullptr) {
+        delete _program;
+        _program = nullptr;
+    }
+
+    _program = new Program(name);
+    this->_path = "program" + name;
+}
+
 } // namespace ngind

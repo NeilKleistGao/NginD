@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/31
+// LAST MODIFY: 2020/11/1
 // FILENAME: png_image.h
 
 #ifndef NGIND_PNG_IMAGE_H
@@ -36,8 +36,9 @@ namespace ngind {
 
 class PNGImage {
 public:
-    PNGImage();
+    const static std::string IMAGE_RESOURCE_PATH;
 
+    PNGImage();
     explicit PNGImage(const std::string&);
     ~PNGImage();
 

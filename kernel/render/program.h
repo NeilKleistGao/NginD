@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: program.h
-// LAST MODIFY: 2020/10/31
+// LAST MODIFY: 2020/11/1
 
 #ifndef NGIND_PROGRAM_H
 #define NGIND_PROGRAM_H
@@ -50,6 +50,10 @@ public:
 
     inline void setMatrix4(const std::string& name, const glm::mat4& m) {
         glUniformMatrix4fv(glGetUniformLocation(this->_program, name.c_str()), 1, GL_FALSE, glm::value_ptr(m));
+    }
+
+    inline void setInteger(const std::string& name, const int& i) {
+        glUniform1i(glGetUniformLocation(this->_program, name.c_str()), i);
     }
 private:
     GLuint _program;

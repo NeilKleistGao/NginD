@@ -19,12 +19,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: perspective.h
-// LAST MODIFY: 2020/10/29
+// FILENAME: perspective.cc
+// LAST MODIFY: 2020/11/1
 
 #include "perspective.h"
 
 #include <iostream>
+
+#include "resources/resources_manager.h"
+#include "resources/program_resource.h"
 
 namespace ngind {
 Perspective* Perspective::_instance = nullptr;
@@ -57,6 +60,15 @@ void Perspective::init(const Vector2D& center, const size_t& width, const size_t
     _top = {width, 0};
     _right = {0, -height};
     _bottom = {-width, 0};
+
+    auto program = ResourcesManager::getInstance()->load<ProgramResource>("sprite")->getProgram();
+    program->use();
+
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width),
+                                      static_cast<float>(height), 0.0f,
+                                      -1.0f, 1.0f);
+    program->setMatrix4("projection", projection);
+    program->setInteger("sprite", 0);
 }
 
 bool Perspective::checkSingleVector(const Vector2D& v) {

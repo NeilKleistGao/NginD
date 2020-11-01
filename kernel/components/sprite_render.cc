@@ -34,16 +34,21 @@ namespace ngind {
 SpriteRender::SpriteRender()
         : _color("#FFFFFFFF"), _command(nullptr),
         _quad(nullptr), _program(nullptr),
-        _texture(0), _lb(), _rt() {
+        _texture(nullptr), _lb(), _rt() {
 }
 
 SpriteRender::~SpriteRender() {
     if (_texture != nullptr) {
         ResourcesManager::getInstance()->release(_texture->getResourcePath());
+        delete _texture;
+        _texture = nullptr;
     }
 
-    delete _program;
-    _program = nullptr;
+    if (_program != nullptr) {
+        ResourcesManager::getInstance()->release(_program->getResourcePath());
+        delete _program;
+        _program = nullptr;
+    }
 }
 
 void SpriteRender::update(const float& delta) {
@@ -74,14 +79,7 @@ void SpriteRender::draw() {
 
     auto temp = static_cast<EntityObject*>(_parent);
     auto pos = temp->getPosition();
-    auto hs = _texture->getTextureSize() * 0.5f;
-    if (!Perspective::getInstance()->checkVisibility(
-            Vector2D{pos.getX() - hs.getX(), pos.getY() + hs.getY() },
-            Vector2D{pos.getX() - hs.getX(), pos.getY() - hs.getY()},
-            Vector2D{pos.getX() + hs.getX(), pos.getY() + hs.getY()},
-            Vector2D{pos.getX() + hs.getX(), pos.getY() - hs.getY()})) {
-        return;
-    }
+    auto sz = _texture->getTextureSize();
 
     if (_command == nullptr) {
         _command = new QuadRenderCommand();
@@ -91,12 +89,12 @@ void SpriteRender::draw() {
     _command->texture_id = _texture->getTextureID();
     _command->z_order = temp->getZOrder();
     _command->transparent = false;
-    _command->program = _program;
+    _command->program = _program->getProgram();
     _command->color = _color;
     _command->position = pos;
     _command->scale = temp->getScale();
     _command->rotate = temp->getRotation();
-    _command->size = hs * 2;
+    _command->size = sz;
 
     Render::getInstance()->addRenderCommand(_command);
 }
@@ -106,14 +104,20 @@ void SpriteRender::init(const typename ConfigResource::JsonObject& data) {
     if (!name.empty()) {
         _texture = ResourcesManager::getInstance()->load<TextureResource>(name);
     }
+    if (_program == nullptr) {
+        _program = ResourcesManager::getInstance()->load<ProgramResource>("sprite");
+    }
 
-    _program = new Program("sprite");
+    size_t color_size = (_texture->getTextureColorMode() == TextureColorMode::MODE_RGB) ? 3 : 4;
     _quad = new Quad({
-            0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,
-            0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,
-            -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,
-            -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f
-    });
+            0.0f, 1.0f, 0.0f, 1.0f,
+            1.0f, 0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 0.0f,
+
+            0.0f, 1.0f, 0.0f, 1.0f,
+            1.0f, 1.0f, 1.0f, 1.0f,
+            1.0f, 0.0f, 1.0f, 0.0f
+    }, color_size);
 
     _lb = Vector2D::ORIGIN;
     _rt = _texture->getTextureSize();

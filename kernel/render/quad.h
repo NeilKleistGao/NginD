@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: quad.h
-// LAST MODIFY: 2020/10/31
+// LAST MODIFY: 2020/11/1
 
 #ifndef NGIND_QUAD_H
 #define NGIND_QUAD_H
@@ -34,7 +34,7 @@ namespace ngind {
 
 class Quad {
 public:
-    explicit Quad(std::initializer_list<GLfloat>);
+   Quad(std::initializer_list<GLfloat>, const size_t&);
     ~Quad();
     Quad(const Quad&) = delete;
     Quad& operator= (const Quad&) = delete;
@@ -44,7 +44,7 @@ public:
     }
 
 private:
-    GLuint _vao, _vbo, _ebo;
+    GLuint _vao, _vbo;
 };
 
 } // namespace ngind

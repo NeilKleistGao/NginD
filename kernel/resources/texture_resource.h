@@ -20,13 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: texture_resource.h
-// LAST MODIFY: 2020/10/31
+// LAST MODIFY: 2020/11/1
 
 #ifndef NGIND_TEXTURE_RESOURCE_H
 #define NGIND_TEXTURE_RESOURCE_H
 
 #include <iostream>
 
+#include "render/texture.h"
 #include "resource.h"
 #include "render/png_image.h"
 #include "math/vector.h"
@@ -42,16 +43,27 @@ public:
     virtual void load(const std::string&);
 
     inline GLuint getTextureID() const {
-        return _texture;
+        return _texture->getTextureID();
     }
 
     inline Vector2D getTextureSize() const {
-        return _size;
+        return _texture->getSize();
+    }
+
+    inline float getTextureWidth() const {
+        return _texture->getWidth();
+    }
+
+    inline float getTextureHeight() const {
+        return _texture->getHeight();
+    }
+
+    inline TextureColorMode getTextureColorMode() const {
+        return _texture->getColorMode();
     }
 
 private:
-    GLuint _texture;
-    Vector2D _size;
+    Texture* _texture;
 };
 
 }

@@ -19,33 +19,58 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// FILENAME: texture_resource.cc
+// FILENAME: texture.h
 // LAST MODIFY: 2020/11/1
 
-#include "texture_resource.h"
+#ifndef NGIND_TEXTURE_H
+#define NGIND_TEXTURE_H
+
+#include <string>
+
+#include "GL/glew.h"
+#include "math/vector.h"
 
 namespace ngind {
-const std::string TextureResource::IMAGE_RESOURCE_PATH = "resources/images";
 
-void TextureResource::load(const std::string& filename) {
-    if (this->_texture != nullptr) {
-        delete this->_texture;
-        this->_texture = nullptr;
+enum TextureColorMode {
+    MODE_RGB = GL_RGB,
+    MODE_RGBA = GL_RGBA
+};
+
+class Texture {
+public:
+    Texture(const std::string&, const TextureColorMode& mod);
+    ~Texture();
+
+    Texture(const Texture&) = delete;
+    Texture& operator= (const Texture&) = delete;
+
+    inline GLuint getTextureID() const {
+        return _texture_id;
     }
 
-    this->_path = filename;
+    inline float getWidth() const {
+        return _size.getX();
+    }
 
-    int pos = filename.find_last_of('.');
-    std::string ext = filename.substr(pos + 1);
+    inline float getHeight() const {
+        return _size.getY();
+    }
 
-    if (ext == "png") {
-        _texture = new Texture(IMAGE_RESOURCE_PATH + "/" + filename, TextureColorMode::MODE_RGBA);
+    inline Vector2D getSize() const {
+        return _size;
     }
-    else if (ext == "jpg") {
-        _texture = new Texture(IMAGE_RESOURCE_PATH + "/" + filename, TextureColorMode::MODE_RGB);
+
+    inline TextureColorMode getColorMode() const {
+        return _mode;
     }
-    else {
-        // TODO: unsupported format
-    }
-}
-} // namespace ngind
+
+private:
+    GLuint _texture_id;
+    Vector2D _size;
+    TextureColorMode _mode;
+};
+
+} // namespace
+
+#endif //NGIND_TEXTURE_H

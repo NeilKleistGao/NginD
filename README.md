@@ -15,7 +15,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 
 ## TODO List
 + [x] Serialization
-+ [ ] Input System
++ [x] Input System
 + [ ] OpenGL Interface
 + [x] Resources Management
 + [x] Log System
@@ -24,13 +24,14 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [x] Timer System
 
 ## Dependent Library
-+ [OpenGL 4.6(using glad)](https://glad.dav1d.de/)
++ [GLEW2.1.0](https://github.com/nigels-com/glew)
 + [GLFW 3.3.2](https://www.glfw.org/)
 + [libpng 1.6.34](http://www.libpng.org/pub/png/libpng.html)
 + [C++ Boost 1.74.0](https://www.boost.org/)
 + [RTTR 0.9.6](https://www.rttr.org/)
 + [RapidJSON 1.1.0](http://rapidjson.org/)
 + [FreeType 2.10.3](https://www.freetype.org/index.html)
++ [SOIL2 1.20](https://github.com/SpartanJ/SOIL2)
 
 Thanks for these open source developers!
 

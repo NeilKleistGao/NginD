@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: sprite_render.h
-// LAST MODIFY: 2020/10/31
+// LAST MODIFY: 2020/11/1
 
 #ifndef NGIND_SPRITE_RENDER_H
 #define NGIND_SPRITE_RENDER_H
@@ -35,6 +35,7 @@
 #include "render/program.h"
 #include "render/quad.h"
 #include "objects/entity_object.h"
+#include "resources/program_resource.h"
 
 #include "rttr/registration.h"
 
@@ -92,7 +93,7 @@ private:
     Vector2D _lb, _rt;
     RGBA _color;
     QuadRenderCommand* _command;
-    Program* _program;
+    ProgramResource* _program;
     Quad* _quad;
 
 protected:

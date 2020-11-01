@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/31
+// LAST MODIFY: 2020/11/1
 // FILENAME: png_image.cc
 
 #include "GL/glew.h"
@@ -31,6 +31,7 @@
 #include "png.h"
 
 namespace ngind {
+const std::string PNGImage::IMAGE_RESOURCE_PATH = "resources/images";
 
 PNGImage::PNGImage() : _image(nullptr) {
 

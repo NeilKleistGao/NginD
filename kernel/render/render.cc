@@ -19,12 +19,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-// LAST MODIFY: 2020/10/31
+// LAST MODIFY: 2020/11/1
 // FILENAME: render.cc
 
 #include "GL/glew.h"
 
 #include "render.h"
+
+#include <cassert>
+
+unsigned char temp[958 * 943 * 3];
 
 namespace ngind {
 Render* Render::_instance = nullptr;
@@ -78,7 +82,6 @@ void Render::createWindow(const int& width,
                   const bool& is_full) {
     this->_window = new Window(width, height, title, is_full);
     this->_window->setIcon(icon);
-    Perspective::getInstance()->init({width / 2.0f, height / 2.0f}, width, height);
 
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {
@@ -86,8 +89,11 @@ void Render::createWindow(const int& width,
         exit(-1);
     }
 
+    glViewport(0, 0, width, height);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    Perspective::getInstance()->init({width / 2.0f, height / 2.0f}, width, height);Perspective::getInstance()->init({width / 2.0f, height / 2.0f}, width, height);
+
 }
 
 void Render::execute(RenderCommand* cmd) {
