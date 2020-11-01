@@ -20,12 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: perspective.h
-// LAST MODIFY: 2020/10/29
+// LAST MODIFY: 2020/11/1
 
 #ifndef NGIND_PERSPECTIVE_H
 #define NGIND_PERSPECTIVE_H
 
 #include "math/vector.h"
+#include "include/glm/glm.hpp"
 
 namespace ngind {
 
@@ -39,21 +40,23 @@ public:
 
     void init(const Vector2D&, const size_t&, const size_t&);
     inline void moveTo(const Vector2D& center) {
-        _center = center;
+        init(center, _width, _height);
     }
 
-    inline bool checkVisibility(const Vector2D& lt, const Vector2D& lb, const Vector2D& rt, const Vector2D& rb) {
-        return checkSingleVector(lt) || checkSingleVector(lb)
-            || checkSingleVector(rt) || checkSingleVector(rb);
+    inline glm::mat4 getProjection() const {
+        return _projection;
+    }
+
+    inline Vector2D getPerspectiveSize() const {
+        return Vector2D{_width, _height};
     }
 private:
     Perspective();
     ~Perspective() = default;
 
     static Perspective* _instance;
-    Vector2D _center, _left, _right, _top, _bottom;
-
-    bool checkSingleVector(const Vector2D&);
+    size_t _width, _height;
+    glm::mat4 _projection;
 };
 
 } // namespace

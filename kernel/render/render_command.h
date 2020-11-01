@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // FILENAME: render_command.h
-// LAST MODIFY: 2020/10/31
+// LAST MODIFY: 2020/11/1
 
 #ifndef NGIND_RENDER_COMMAND_H
 #define NGIND_RENDER_COMMAND_H
@@ -52,9 +52,6 @@ struct QuadRenderCommand : public RenderCommand {
     GLuint texture_id{};
     Quad* quad;
     Program* program;
-    Vector2D position{}, scale{}, size{};
-    float rotate{};
-    RGBA color{};
 
     QuadRenderCommand()
         : RenderCommand(QUAD_COMMAND), quad(nullptr), program(nullptr) {}

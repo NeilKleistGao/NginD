@@ -44,7 +44,7 @@ public:
     }
 
 private:
-    GLuint _vao, _vbo;
+    GLuint _vao, _vbo, _ebo;
 };
 
 } // namespace ngind

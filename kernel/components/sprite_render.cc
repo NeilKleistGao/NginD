@@ -49,6 +49,11 @@ SpriteRender::~SpriteRender() {
         delete _program;
         _program = nullptr;
     }
+
+    if (_quad != nullptr) {
+        delete _quad;
+        _quad = nullptr;
+    }
 }
 
 void SpriteRender::update(const float& delta) {
@@ -85,16 +90,24 @@ void SpriteRender::draw() {
         _command = new QuadRenderCommand();
     }
 
+    if (_quad == nullptr) {
+        auto color_size = (_texture->getTextureColorMode() == TextureColorMode::MODE_RGB) ? 3 : 4;
+        auto bound = Perspective::getInstance()->getPerspectiveSize() * 0.5f;
+        auto texture_size = _texture->getTextureSize();
+
+        _quad = new Quad({
+                (pos.getX() + texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() + texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // Top Right
+                (pos.getX() + texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() - texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // Bottom Right
+                (pos.getX() - texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() - texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // Bottom Left
+                (pos.getX() - texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() + texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  0.0f, 0.0f, 0.0f, 0.0f, 0.0f  // Top Left
+        }, color_size);
+    }
+
     _command->quad = _quad;
     _command->texture_id = _texture->getTextureID();
     _command->z_order = temp->getZOrder();
     _command->transparent = false;
     _command->program = _program->getProgram();
-    _command->color = _color;
-    _command->position = pos;
-    _command->scale = temp->getScale();
-    _command->rotate = temp->getRotation();
-    _command->size = sz;
 
     Render::getInstance()->addRenderCommand(_command);
 }
@@ -107,20 +120,6 @@ void SpriteRender::init(const typename ConfigResource::JsonObject& data) {
     if (_program == nullptr) {
         _program = ResourcesManager::getInstance()->load<ProgramResource>("sprite");
     }
-
-    size_t color_size = (_texture->getTextureColorMode() == TextureColorMode::MODE_RGB) ? 3 : 4;
-    _quad = new Quad({
-            0.0f, 1.0f, 0.0f, 1.0f,
-            1.0f, 0.0f, 1.0f, 0.0f,
-            0.0f, 0.0f, 0.0f, 0.0f,
-
-            0.0f, 1.0f, 0.0f, 1.0f,
-            1.0f, 1.0f, 1.0f, 1.0f,
-            1.0f, 0.0f, 1.0f, 0.0f
-    }, color_size);
-
-    _lb = Vector2D::ORIGIN;
-    _rt = _texture->getTextureSize();
 }
 
 SpriteRender* SpriteRender::create(const typename ConfigResource::JsonObject& data) {

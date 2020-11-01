@@ -26,13 +26,12 @@
 
 #include <iostream>
 
-#include "resources/resources_manager.h"
 #include "resources/program_resource.h"
 
 namespace ngind {
 Perspective* Perspective::_instance = nullptr;
 
-Perspective::Perspective() : _center(), _bottom(), _top(), _right(), _left() {
+Perspective::Perspective() : _width(0), _height(0) {
 }
 
 Perspective* Perspective::getInstance() {
@@ -55,30 +54,12 @@ void Perspective::destroyInstance() {
 }
 
 void Perspective::init(const Vector2D& center, const size_t& width, const size_t& height) {
-    _center = center;
-    _left = {0, height};
-    _top = {width, 0};
-    _right = {0, -height};
-    _bottom = {-width, 0};
-
-    auto program = ResourcesManager::getInstance()->load<ProgramResource>("sprite")->getProgram();
-    program->use();
-
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width),
+    glViewport(center.getX() - width / 2, center.getY() - height / 2,
+               width, height);
+    _projection = glm::ortho(0.0f, static_cast<float>(width),
                                       static_cast<float>(height), 0.0f,
-                                      -1.0f, 1.0f);
-    program->setMatrix4("projection", projection);
-    program->setInteger("sprite", 0);
+                                      -1.0f, 1.0f); //TODO:
+
+    _width = width; _height = height;
 }
-
-bool Perspective::checkSingleVector(const Vector2D& v) {
-    const auto temp = v - _center;
-    const auto r1 = temp.cross(_left);
-    const auto r2 = temp.cross(_right);
-    const auto r3 = temp.cross(_top);
-    const auto r4 = temp.cross(_bottom);
-
-    return r1 > 0 && r2 > 0 && r3 > 0 && r4 > 0;
-}
-
 } // namespace ngind

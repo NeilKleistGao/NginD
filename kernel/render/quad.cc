@@ -38,23 +38,38 @@ Quad::Quad(std::initializer_list<GLfloat> vs, const size_t& color_size) {
         vertex[i] = *it;
     }
 
+    constexpr GLuint indices[] = {
+            0, 1, 3,
+            1, 2, 3
+    };
+
     glGenVertexArrays(1, &_vao);
     glGenBuffers(1, &_vbo);
+    glGenBuffers(1, &_ebo);
 
     glBindVertexArray(_vao);
 
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * size, vertex, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, color_size, GL_FLOAT, GL_FALSE, color_size * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
-    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // TODO: dynamic size
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(6 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
+
     glBindVertexArray(0);
 }
 
 Quad::~Quad() {
     glDeleteVertexArrays(1, &_vao);
+    glDeleteBuffers(1, &_vbo);
+    glDeleteBuffers(1, &_ebo);
 }
 
 } // namespace ngind

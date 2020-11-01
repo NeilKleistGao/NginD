@@ -25,10 +25,7 @@
 #include "GL/glew.h"
 
 #include "render.h"
-
-#include <cassert>
-
-unsigned char temp[958 * 943 * 3];
+#include "perspective.h"
 
 namespace ngind {
 Render* Render::_instance = nullptr;
@@ -89,11 +86,9 @@ void Render::createWindow(const int& width,
         exit(-1);
     }
 
-    glViewport(0, 0, width, height);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    Perspective::getInstance()->init({width / 2.0f, height / 2.0f}, width, height);Perspective::getInstance()->init({width / 2.0f, height / 2.0f}, width, height);
-
+    Perspective::getInstance()->init({width / 2.0f, height / 2.0f}, width, height);
 }
 
 void Render::execute(RenderCommand* cmd) {
@@ -107,25 +102,10 @@ void Render::execute(RenderCommand* cmd) {
 }
 
 void Render::drawQuad(QuadRenderCommand* cmd) {
-    cmd->program->use();
-
-    glm::mat4 model;
-    model = glm::translate(model, glm::vec3(cmd->position.getX(), cmd->position.getY(), 0));
-    model = glm::translate(model, glm::vec3(0.5f * cmd->size.getX(), 0.5f * cmd->size.getY(), 0));
-    model = glm::rotate(model, cmd->rotate, glm::vec3(0, 0, 1));
-    model = glm::translate(model, glm::vec3(-0.5f * cmd->size.getX(), -0.5f * cmd->size.getY(), 0));
-    model = glm::scale(model, glm::vec3(cmd->scale.getX(), cmd->scale.getY(), 1));
-
-    cmd->program->setMatrix4("model", model);
-    cmd->program->setVector4("spriteColor", glm::vec4(cmd->color.r / 255.0f,
-                                                      cmd->color.g  / 255.0f,
-                                                      cmd->color.b / 255.0f,
-                                                      cmd->color.a / 255.0f));
-
-    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, cmd->texture_id);
+    cmd->program->use();
     glBindVertexArray(cmd->quad->getVAO());
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
 
