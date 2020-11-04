@@ -22,6 +22,9 @@
 // FILENAME: render_component.h
 // LAST MODIFY: 2020/10/26
 
+// This file includes the basic render component class declaration. Include this
+// file if you need to create your own render component.
+
 #ifndef NGIND_RENDER_COMPONENT_H
 #define NGIND_RENDER_COMPONENT_H
 
@@ -29,16 +32,37 @@
 
 namespace ngind {
 
+// Basic class of all render component. This class is a abstract class so you can't
+// create an instance unless you implement the draw function.
+// If your component will not show anything on the screen, use simple Component class
+// instead.
 class RenderComponent : public Component {
 public:
+    // Default constructor function
     RenderComponent() = default;
+    // Default destructor function
     virtual ~RenderComponent() = default;
+
+    // Copy behavior is not allowed. You can only maintain a pointer of a component
     RenderComponent(const RenderComponent&) = delete;
+    // Copy behavior is not allowed. You can only maintain a pointer of a component
     RenderComponent& operator= (const RenderComponent&) = delete;
 
+    // Update the state of this component. This function is inherited from UpdatableObject
+    // @see objects/updatable_object.h
     virtual void update(const float&) {};
+
+    // Initialization function of this class used by configuration creating method.
+    // params:
+    //      const typename ConfigResource::JsonObject& : the configuration data
+    //      this component initialization process requires.
+    // return: void
     virtual void init(const typename ConfigResource::JsonObject&) {};
 protected:
+    // Create some render command and send them to the render queue in order to show
+    // something on the screen. This method should be called in update.
+    // params: void
+    // return: void
     virtual void draw() = 0;
 };
 

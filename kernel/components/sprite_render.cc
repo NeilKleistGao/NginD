@@ -22,12 +22,15 @@
 // FILENAME: sprite_render.cc
 // LAST MODIFY: 2020/10/31
 
+// This file includes the implementation of Sprite Render's functions.
+
 #include "sprite_render.h"
+
+#include <vector>
+
 #include "render/render.h"
 #include "render/perspective.h"
 #include "resources/resources_manager.h"
-
-#include <vector>
 
 namespace ngind {
 
@@ -118,7 +121,7 @@ void SpriteRender::init(const typename ConfigResource::JsonObject& data) {
         _texture = ResourcesManager::getInstance()->load<TextureResource>(name);
     }
     if (_program == nullptr) {
-        _program = ResourcesManager::getInstance()->load<ProgramResource>("sprite");
+        _program = ResourcesManager::getInstance()->load<ProgramResource>("sprite"); // default sprite shader
     }
 }
 

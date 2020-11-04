@@ -53,6 +53,7 @@ public:
 
     // Copy behavior is not allowed. You can only maintain a pointer of a component
     Component(const Component&) = delete;
+    // Copy behavior is not allowed. You can only maintain a pointer of a component
     Component& operator= (const Component&) = delete;
 
     // Update the state of this component. This function is inherited from UpdatableObject
