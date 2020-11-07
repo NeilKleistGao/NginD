@@ -22,6 +22,9 @@
 // FILENAME: coroutine.h
 // LAST MODIFY: 2020/9/27
 
+// This file includes the declaration and implement of coroutine class. There is
+// only one class with 3 specialization classes.
+
 #ifndef NGIND_COROUTINE_H
 #define NGIND_COROUTINE_H
 
@@ -30,20 +33,38 @@
 #include <utility>
 
 namespace ngind {
+
+// Coroutine class based on boost fiber.
+// template params:
+//      Type: the type of return value
+//      Param: the type list of function's params
 template <typename Type, typename ... Param>
 class Coroutine {
 public:
+    // The type for coroutine task
     using task = std::function<Type(Param ...)>;
+    // The type of call back function that will be called when the main task finished
     using callback = std::function<void(Type)>;
 
+    // The constructor function.
+    // params:
+    //      task task_func: main task function
     explicit Coroutine(task task_func) : Coroutine(task_func, nullptr) {
     }
 
+    // The constructor function.
+    // params:
+    //      task task_func: main task function
+    //      callback callback_func: callback function
     Coroutine(task task_func, callback callback_func) : _process(task_func), _callback(callback_func) {
     }
 
+    // Start this coroutine and execute the function
+    // params:
+    //      Param ... param: the params of main function
+    // return: void
     void run(Param ... param) {
-        if (this->_callback == nullptr) {
+        if (this->_callback == nullptr) { // if this coroutine doesn't have a callback function
             _fiber = boost::fibers::fiber(boost::fibers::launch::dispatch, _process, param...);
         }
         else {
@@ -56,22 +77,34 @@ public:
         _fiber.detach();
     }
 
+    // Wait for this coroutine's end.
+    // params: void
+    // return: void
     void wait() {
         if (this->isRunning()) {
             _fiber.join();
         }
     }
 
+    // Get the state of this coroutine.
+    // params: void
+    // return : bool, whether this coroutine is running or not
     inline bool isRunning() {
         return _fiber.joinable();
     }
 
 private:
+    // The real fiber object
     boost::fibers::fiber _fiber;
+    // The main task function
     task _process;
+    // The callback function
     callback _callback;
 };
 
+
+// A specialization for functions that don't have a return value.
+// @see: template <typename Type, typename ... Param> class Coroutine
 template <typename ... Param>
 class Coroutine<void, Param...> {
 public:
@@ -115,6 +148,8 @@ private:
     callback _callback;
 };
 
+// A specialization for functions that don't have params.
+// @see: template <typename Type, typename ... Param> class Coroutine
 template <typename Type>
 class Coroutine<Type, void> {
 public:
@@ -157,6 +192,8 @@ private:
     callback _callback;
 };
 
+// A specialization for functions that don't have a return value or params.
+// @see: template <typename Type, typename ... Param> class Coroutine
 template <>
 class Coroutine<void, void>
 {
