@@ -14,6 +14,15 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+import os
+# on_rtd is whether we are on readthedocs.org, this line of code grabbed from docs.readthedocs.org
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+
+if not on_rtd:  # only import and set the theme if we're building docs locally
+    import sphinx_rtd_theme
+    html_theme = 'sphinx_rtd_theme'
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+
 
 # -- Project information -----------------------------------------------------
 
@@ -24,6 +33,10 @@ author = 'NeilKleistGao'
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'
 
+breathe_projects = {
+    "NginD": "./doxyoutput/xml"
+}
+breathe_default_project = "NginD"
 
 # -- General configuration ---------------------------------------------------
 
@@ -31,6 +44,9 @@ release = '0.0.1'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "recommonmark",
+    "breathe",
+    "exhale"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -40,7 +56,6 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
-
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -54,10 +69,30 @@ html_theme = 'alabaster'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-# source_suffix = ['.rst', '.md', '.MD']
+source_suffix = ['.rst', '.md', '.MD']
 # html_theme = 'sphinx_rtd_theme'
 
 # source_parsers = {
 #     '.md': CommonMarkParser,
 #     '.MD': CommonMarkParser,
 # }
+
+exhale_args = {
+    # These arguments are required
+    "containmentFolder":     "./api",
+    "rootFileName":          "library_root.rst",
+    "rootFileTitle":         "NginD API",
+    "doxygenStripFromPath":  "..",
+    # Suggested optional arguments
+    "createTreeView":        True,
+    # TIP: if using the sphinx-bootstrap-theme, you need
+    # "treeViewIsBootstrap": True,
+    "exhaleExecutesDoxygen": True,
+    "exhaleDoxygenStdin":    "INPUT = ../include"
+}
+
+# Tell sphinx what the primary language being documented is.
+primary_domain = 'cpp'
+
+# Tell sphinx what the pygments highlight language should be.
+highlight_language = 'cpp'
