@@ -18,13 +18,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: log_level.h
-// LAST MODIFY: 2020/9/21
+
+/// @file log_level.h
+/// @date 2020/9/21
+
+/// @brief This file includes the declaration of log level
 
 #ifndef NGIND_LOG_LEVEL_H
 #define NGIND_LOG_LEVEL_H
 
 namespace ngind {
+
+/**
+@enum The level of logger. The higher level is, the less general
+information will be showed.
+*/
 enum LogLevel {
     LOG_LEVEL_INFO = 0,
     LOG_LEVEL_DEBUG = 1,

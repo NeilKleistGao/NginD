@@ -18,8 +18,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: text_input.h
-// LAST MODIFY: 2020/10/25
+
+/// @file text_input.h
+/// @date 2020/10/25
+
+/// @brief This file includes the implementation of TextInput's functions.
 
 #include "text_input.h"
 

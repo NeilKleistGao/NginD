@@ -18,8 +18,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: mouse_input.cc
-// LAST MODIFY: 2020/10/25
+
+/// @file mouse_input.cc
+/// @date 2020/10/25
+
+/// @brief This file includes the implementation of MouseInput's functions.
 
 #include "mouse_input.h"
 

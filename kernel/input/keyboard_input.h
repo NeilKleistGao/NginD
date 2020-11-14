@@ -18,8 +18,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// LAST MODIFY: 2020/10/24
-// FILENAME: keyboard_input.h
+
+/// @file keyboard_input.h
+/// @date 2020/10/24
+
+/**
+@brief
+    This file includes keyboard codes and keyboard input manager. You should not
+visit keyboard input class directly but use input class instead.
+*/
 
 #ifndef NGIND_KEYBOARD_INPUT_H
 #define NGIND_KEYBOARD_INPUT_H
@@ -30,6 +37,10 @@ SOFTWARE.
 
 namespace ngind {
 
+/**
+@enum The keyboard code for keyboard input. It's a simple map for GLFW_KEY prefixing
+macros.
+*/
 enum KeyboardCode {
     UNKNOWN = GLFW_KEY_UNKNOWN,
     SPACE = GLFW_KEY_SPACE,
@@ -125,16 +136,31 @@ enum KeyboardCode {
     RIGHT_SUPER = GLFW_KEY_RIGHT_SUPER
 };
 
+/**
+@class The keyboard input manager. This is a more sophisticated interface with
+GLFWwindow as a param. Use Input class instead.
+*/
 class KeyboardInput {
 public:
+    /// @public
+    /// @param GLFWwindow* window: the GLFW window that is the event listener
     explicit KeyboardInput(GLFWwindow* window);
+
+    /// @public
     ~KeyboardInput() = default;
 
+    /// @see kernel/input/input.h
     bool getKeyPressed(GLFWwindow*, const KeyboardCode&);
+
+    /// @see kernel/input/input.h
     bool getKey(GLFWwindow *, const KeyboardCode&);
+
+    /// @see kernel/input/input.h
     bool getKeyReleased(GLFWwindow*, const KeyboardCode&);
 
 private:
+    /// @private
+    /// @property Record the press state of all keys
     std::set<KeyboardCode> _pressed;
 };
 

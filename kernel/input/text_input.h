@@ -18,8 +18,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: text_input.h
-// LAST MODIFY: 2020/10/25
+
+/// @file text_input.h
+/// @date 2020/10/25
+
+/**
+@brief
+    This file includes text encoding type and text input manager. You should not
+visit text input class directly but use input class instead.
+*/
 
 #ifndef NGIND_TEXT_INPUT_H
 #define NGIND_TEXT_INPUT_H
@@ -31,26 +38,56 @@ SOFTWARE.
 
 namespace ngind {
 
+/**
+@enum The encoding type code for text input.
+*/
 enum EncodingType {
     ENCODING_ASCII,
-    ENCODING_UTF8 // TODO: hook sys
+    ENCODING_UTF8 /// @todo hook sys
 };
 
+/**
+@class The text input manager. This is a more sophisticated interface with
+GLFWwindow as a param. Use Input class instead.
+*/
 class TextInput {
 public:
+    /// @public
+    /// @param GLFWwindow*: the GLFW window that is the event listener
     explicit TextInput(GLFWwindow*&);
+
+    /// @public
     ~TextInput() = default;
 
+    /// @see kernel/input/input.h
     std::string getString(const EncodingType& encoding = EncodingType::ENCODING_ASCII);
 
+    /// @public
+    /// @fn Enable text input
+    /// @param const bool& enable: whether enable it or not
+    /// @return void
     inline void setEnable(const bool& enable) {
         _enabled = enable;
     }
 private:
+
+    /// @private
+    /// @static
+    /// @fn The callback function for glfw to receive text input
+    /// @param GLFWwindow*: the GLFW window that is the event listener
+    /// @param unsigned int: the code that user inputs
     static void textCallBack(GLFWwindow*, unsigned int);
 
+    /// @private
+    /// @property A buffer reserves for text input
     std::list<unsigned int> _buff;
+
+    /// @private
+    /// @property A self pointer used in the callback function
     static TextInput* _self;
+
+    /// @private
+    /// @property Whether text input is enabled
     bool _enabled;
 };
 
