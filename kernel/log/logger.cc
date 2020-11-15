@@ -18,8 +18,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: logger.cc
-// LAST MODIFY: 2020/10/16
+
+/// @file logger.cc
+/// @date 2020/10/16
+
+/** @brief This file includes the implementations of logger class and initializes
+the static reference.
+*/
 
 #include "logger.h"
 

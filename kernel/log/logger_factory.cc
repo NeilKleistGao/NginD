@@ -18,8 +18,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: logger_factory.cc
-// LAST MODIFY: 2020/10/16
+
+/// @file logger_factory.cc
+/// @date 2020/10/16
+
+/// @brief This file includes the implementations of logger factory
 
 #include "logger_factory.h"
 
