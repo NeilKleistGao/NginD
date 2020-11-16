@@ -18,8 +18,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// LAST MODIFY: 2020/8/30
-// FILENAME: random.h
+
+/// @file random.h
+/// @date 2020/8/30
+
+/**
+@brief This file define the random number generator class by myself. Use this
+rather than srand/rand functions.
+*/
 
 #ifndef NGIND_RANDOM_H
 #define NGIND_RANDOM_H
@@ -27,17 +33,42 @@ SOFTWARE.
 #include <random>
 
 namespace ngind {
-
+/**
+@class A random number generator class. This class ues a better algorithm and
+is more powerful.
+*/
 class Random {
 public:
+    /// @public
     Random();
 
+    /// @public
+    /// @fn Generate a random number in the given range
+    /// @param const int&: left boundary, included
+    /// @param const int&: right boundary, not included
+    /// @return int, a random number
     int getRangeRandomNumber(const int&, const int&);
+
+    /// @public
+    /// @fn Generate a random real number between 0 and 1. Both are included.
+    /// @param void
+    /// @return float, a real random number
     float getPercentageRandomNumber();
+
+    /// @public
+    /// @fn Generate a random number meeting the requirement of normal distribute
+    /// @param const float&: the standard deviation
+    /// @param const float&: the mean number
+    /// @return float, a random number
     float getNormalDistributionRandomNumber(const float&, const float&);
 
 private:
+    /// @private
+    /// @property The real pseudo number generator
     std::mt19937 _mt;
+
+    /// @private
+    /// @property The random engine for normal distribution
     std::default_random_engine _engine;
 };
 

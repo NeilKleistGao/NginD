@@ -18,8 +18,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// LAST MODIFY: 2020/10/26
-// FILENAME: vector.cc
+
+/// @file vector.cc
+/// @date 2020/11/16
+
+/// @brief This file includes the implementations of vector class.
 
 #include "vector.h"
 
@@ -107,7 +110,7 @@ Vector2D Vector2D::normalize() const {
     return vec;
 }
 
-Vector2D Vector2D::getNormalVector() const {
+Vector2D Vector2D::getNormalOrthogonalVector() const {
     return Vector2D(this->_y, -this->_x).normalize();
 }
 
@@ -137,7 +140,7 @@ bool Vector2D::isReverse(const Vector2D& v) const {
     return mag1 * mag2 - (*this) * v < 0;
 }
 
-bool Vector2D::isVertical(const Vector2D& v) const {
+bool Vector2D::isOrthogonal(const Vector2D& v) const {
     return std::abs((*this) * v) < EPSILON;
 }
 
