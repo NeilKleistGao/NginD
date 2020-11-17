@@ -18,8 +18,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: auto_collection_object.h
-// LAST MODIFY: 2020/9/20
+
+/// @file auto_collection_object.h
+/// @date 2020/9/20
+
+/// @brief This file includes the implementation of auto collectable object.
 
 #include "auto_collection_object.h"
 #include "memory_pool.h"

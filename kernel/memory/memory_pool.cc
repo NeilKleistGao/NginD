@@ -18,8 +18,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: memory_pool.cc
-// LAST MODIFY: 2020/9/20
+
+/// @file memory_pool.cc
+/// @date 2020/9/20
+
+/// @brief This file includes the implementation of memory pool.
 
 #include "memory_pool.h"
 

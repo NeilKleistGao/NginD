@@ -18,8 +18,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: memory_pool.h
-// LAST MODIFY: 2020/9/20
+
+/// @file memory_pool.h
+/// @date 2020/9/20
+
+/**
+@brief This file includes the declaration of memory pool.
+*/
 
 #ifndef NGIND_MEMORY_POOL_H
 #define NGIND_MEMORY_POOL_H
@@ -30,23 +35,60 @@ SOFTWARE.
 #include "auto_collection_object.h"
 
 namespace ngind {
+/**
+@class This class is used to manage auto collection object. You shouldn't
+call this class. Inherit auto collection object instead.
+*/
 class MemoryPool {
 public:
+    /// @public
+    /// @static
+    /// @fn Get instance of memory pool
+    /// @param void
+    /// @return MemoryPool*, the instance
     static MemoryPool* getInstance();
+
+    /// @public
+    /// @static
+    /// @fn Destroy the instance of memory pool
+    /// @param void
+    /// @return void
     static void destroyInstance();
 
+    /// @public
+    /// @fn Clear the memory pool
+    /// @param void
+    /// @return void
     void clear();
+
+    /// @public
+    /// @fn Insert a new auto collection object into memory pool
+    /// @param AutoCollectionObject* object: the object to be inserted
+    /// @return void
     inline void insert(AutoCollectionObject* object) {
         this->_pool.insert(object);
     }
 
+    /// @public
+    /// @fn Remove an object from memory pool
+    /// @param AutoCollectionObject*: the object to be removed
+    /// @return void
     void remove(AutoCollectionObject*);
 
 private:
+    /// @private
+    /// @static
+    /// @property The instance of memory pool
     static MemoryPool* _instance;
+
+    /// @private
+    /// @property A RB-Tree to manage objects
     std::set<AutoCollectionObject*> _pool;
 
+    /// @private
     MemoryPool();
+
+    /// @private
     ~MemoryPool();
 };
 } // namespace ngind
