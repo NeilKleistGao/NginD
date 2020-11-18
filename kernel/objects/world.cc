@@ -18,8 +18,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: world.h
-// LAST MODIFY: 2020/10/31
+
+/// @file world.h
+/// @date 2020/10/31
+
+/// @brief This file includes the implementation of world.
 
 #include "world.h"
 

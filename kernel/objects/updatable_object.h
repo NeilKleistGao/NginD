@@ -18,19 +18,31 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: updatable_object.h
-// LAST MODIFY: 2020/10/20
+
+/// @file updatable_object.h
+/// @date 2020/10/20
+
+/**
+@brief This file includes the interface of update-in-frames object
+*/
 
 #ifndef NGIND_UPDATABLE_OBJECT_H
 #define NGIND_UPDATABLE_OBJECT_H
 
 namespace ngind {
 
+/**
+@interface An interface with update function called in each frame
+*/
 class UpdatableObject {
 public:
+    /// @public
+    /// @fn Update state of this instance. It will be automatically
+    /// called in each frame
+    /// @param const float&: interval between two frames
+    /// @return void
     virtual void update(const float&) = 0;
 };
-
-}
+} // namespace ngind
 
 #endif //NGIND_UPDATABLE_OBJECT_H

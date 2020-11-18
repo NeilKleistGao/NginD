@@ -18,8 +18,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: linux.h
-// LAST MODIFY: 2020/10/16
+
+/// @file linux.h
+/// @date 2020/10/16
+
+/**
+@brief This file defines the utils used to hide the differences between different
+platforms.
+*/
 
 #ifndef NGIND_LINUX_H
 #define NGIND_LINUX_H
@@ -27,9 +33,16 @@ SOFTWARE.
 #include <unistd.h>
 
 namespace ngind {
-
+/**
+@class Platform helper class.
+*/
 class PlatformUtils {
 public:
+    /// @public
+    /// @static
+    /// @fn Sleep for a while
+    /// @param const float& sec: how long to sleep
+    /// @return void
     static inline void sleep(const float& sec) {
         usleep(sec * 1e6);
     }
