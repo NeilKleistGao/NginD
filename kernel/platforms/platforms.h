@@ -18,8 +18,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: platforms.h
-// LAST MODIFY: 2020/10/16
+
+/// @file platforms.h
+/// @date 2020/10/16
+
+/**
+@brief This file defines the cross-platform macros to hide the differences
+between different platforms.
+*/
 
 #ifndef NGIND_PLATFORMS_H
 

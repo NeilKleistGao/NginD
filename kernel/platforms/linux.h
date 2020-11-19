@@ -23,8 +23,7 @@ SOFTWARE.
 /// @date 2020/10/16
 
 /**
-@brief This file defines the utils used to hide the differences between different
-platforms.
+@brief This file defines the platform tools in Linux.
 */
 
 #ifndef NGIND_LINUX_H
@@ -34,7 +33,7 @@ platforms.
 
 namespace ngind {
 /**
-@class Platform helper class.
+@class Platform helper class for linux.
 */
 class PlatformUtils {
 public:

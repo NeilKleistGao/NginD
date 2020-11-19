@@ -18,8 +18,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: font_factory.h
-// LAST MODIFY: 2020/10/19
+
+/// @file font_factory.h
+/// @date 2020/10/19
+
+/**
+@brief This file includes the factory for creating FFT font face data.
+*/
 
 #ifndef NGIND_FONT_FACTORY_H
 #define NGIND_FONT_FACTORY_H
@@ -31,17 +36,45 @@ SOFTWARE.
 
 namespace ngind {
 
+/**
+@class This class is defined for font face data creating.
+*/
 class FontFactory {
 public:
+    /// @public
+    /// @static
+    /// @fn Get instance of factory
+    /// @param void
+    /// @return FontFactory*, the instance of factory
     static FontFactory* getInstance();
+
+    /// @public
+    /// @static
+    /// @fn Destroy instance of factory
+    /// @param void
+    /// @return void
     static void destroyInstance();
 
+    /// @public
+    /// @fn Load font face data from file
+    /// @param const std::string&: filename of font
+    /// @param const long&: face index
+    /// @return FT_Face, face data of font
     FT_Face loadFontFace(const std::string&, const long&);
 private:
+    /// @private
     FontFactory();
+
+    /// @private
     ~FontFactory() = default;
 
+    /// @private
+    /// @static
+    /// @property The instance of font factory
     static FontFactory* _instance;
+
+    /// @private
+    /// @property The font library
     FT_Library _library;
 };
 

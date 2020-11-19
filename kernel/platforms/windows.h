@@ -18,14 +18,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: windows.h
-// LAST MODIFY: 2020/10/16
+
+/// @file windows.h
+/// @date 2020/10/16
 
 #ifndef NGIND_WINDOWS_H
 #define NGIND_WINDOWS_H
 
 namespace ngind {
-//TODO: Windows Development
+/// @todo Windows Development
 } // namespace ngind
 
 #endif //NGIND_WINDOWS_H
