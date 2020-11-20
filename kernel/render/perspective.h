@@ -22,6 +22,8 @@ SOFTWARE.
 /// @file perspective.h
 /// @date 2020/11/1
 
+/// @brief This file includes the declaration of perspective class.
+
 #ifndef NGIND_PERSPECTIVE_H
 #define NGIND_PERSPECTIVE_H
 
@@ -30,32 +32,78 @@ SOFTWARE.
 
 namespace ngind {
 
+/**
+@class Player's perspective in game. It can project rendered objects to
+screen.
+*/
 class Perspective {
 public:
+    /// @public
+    /// @static
+    /// @fn Get the instance of unique perspective in game
+    /// @param void
+    /// @return Perspective*, pointer of instance
     static Perspective* getInstance();
+
+    /// @public
+    /// @static
+    /// @fn Destroy the instance of unique perspective in game
+    /// @param void
+    /// @return void
     static void destroyInstance();
 
     Perspective(const Perspective&) = delete;
     Perspective& operator= (const Perspective&) = delete;
 
+    /// @public
+    /// @fn Initialize perspective with position and size
+    /// @param const Vector2D&: the position of perspective
+    /// @param const size_t&: the width of perspective
+    /// @param const size_t&: the height of perspective
+    /// @return void
     void init(const Vector2D&, const size_t&, const size_t&);
+
+    /// @public
+    /// @fn Move perspective to specified position
+    /// @param const Vector2D& center: the center position of
+    /// perspective
+    /// @return void
     inline void moveTo(const Vector2D& center) {
         init(center, _width, _height);
     }
 
+    /// @public
+    /// @fn Get the view projection matrix
+    /// @param void
+    /// @return glm::mat4, the projection matrix
     inline glm::mat4 getProjection() const {
         return _projection;
     }
 
+    /// @public
+    /// @fn Get perspective's size
+    /// @param void
+    /// @return Vector2D, the size
     inline Vector2D getPerspectiveSize() const {
         return Vector2D{_width, _height};
     }
 private:
+    /// @private
     Perspective();
+
+    /// @private
     ~Perspective() = default;
 
+    /// @private
+    /// @property The instance
     static Perspective* _instance;
+
+    /// @private
+    /// @property The size
     size_t _width, _height;
+
+    /// @private
+    /// @property Projection matrix
     glm::mat4 _projection;
 };
 

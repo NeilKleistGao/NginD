@@ -18,8 +18,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: quad.h
-// LAST MODIFY: 2020/11/1
+
+/// @file quad.h
+/// @date 2020/11/1
+
+/// @brief This file includes the definition of quad data.
 
 #ifndef NGIND_QUAD_H
 #define NGIND_QUAD_H
@@ -31,19 +34,42 @@ SOFTWARE.
 
 namespace ngind {
 
+/**
+@class The quad data to be rendered.
+*/
 class Quad {
 public:
-   Quad(std::initializer_list<GLfloat>, const size_t&);
+    /// @public
+    /// @param std::initializer_list<GLfloat>: the data of vertices
+    /// @param const size_t&: the number of color channel
+    Quad(std::initializer_list<GLfloat>, const size_t&);
+
+    /// @public
     ~Quad();
+
     Quad(const Quad&) = delete;
     Quad& operator= (const Quad&) = delete;
 
+    /// @public
+    /// @fn Get the vertices array object index
+    /// @param void
+    /// @return GLuint, the index of vao
     inline GLuint getVAO() const {
         return _vao;
     }
 
 private:
-    GLuint _vao, _vbo, _ebo;
+    /// @private
+    /// @property The vertices array object
+    GLuint _vao;
+
+    /// @private
+    /// @property The vertices buffer object
+    GLuint _vbo;
+
+    /// @private
+    /// @property The elements buffer object
+    GLuint _ebo;
 };
 
 } // namespace ngind

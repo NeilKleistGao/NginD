@@ -18,39 +18,5 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
-/// @file program.cc
-/// @date 2020/10/31
-
-/// @brief This file includes the implementations of program.
-
-#include "program.h"
-
-#include "resources/resources_manager.h"
-
-namespace ngind {
-
-Program::Program(const std::string& program_name) {
-    auto* vertex = ResourcesManager::getInstance()->load<ShaderResource>(program_name + ".vs");
-    auto* fragment = ResourcesManager::getInstance()->load<ShaderResource>(program_name + ".fs");
-
-    this->_program = glCreateProgram();
-    glAttachShader(this->_program, vertex->getShader());
-    glAttachShader(this->_program, fragment->getShader());
-    glLinkProgram(this->_program);
-
-    GLint success;
-    glGetProgramiv(this->_program, GL_LINK_STATUS, &success);
-    if (!success) {
-        /// @todo error process
-    }
-
-    ResourcesManager::getInstance()->release(vertex->getResourcePath());
-    ResourcesManager::getInstance()->release(fragment->getResourcePath());
-}
-
-Program::~Program() {
-    glDeleteProgram(this->_program);
-}
-
-} // namespace ngind
+/// @file audio_stream.h
+/// @date 2020/11/20
