@@ -18,8 +18,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: true_type_font.h
-// LAST MODIFY: 2020/10/19
+
+/// @file true_type_font.h
+/// @date 2020/10/19
 
 #ifndef NGIND_TRUE_TYPE_FONT_H
 #define NGIND_TRUE_TYPE_FONT_H
@@ -31,15 +32,27 @@ SOFTWARE.
 
 namespace ngind {
 
+/**
+@class True type font(TTF) data. It's still being developed.
+*/
 class TrueTypeFont {
 public:
+    /// @public
     TrueTypeFont();
+
+    /// @public
     ~TrueTypeFont();
 
+    /// @public
+    /// @fn Set font face
+    /// @param FT_Face face: font face
+    /// @return void
     inline void setFontFace(FT_Face face) {
         _font_face = face;
     }
 private:
+    /// @private
+    /// @property Font face data
     FT_Face _font_face;
 };
 

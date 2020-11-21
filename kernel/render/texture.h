@@ -18,8 +18,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: texture.h
-// LAST MODIFY: 2020/11/1
+
+/// @file texture.h
+/// @date 2020/11/1
 
 #ifndef NGIND_TEXTURE_H
 #define NGIND_TEXTURE_H
@@ -31,45 +32,84 @@ SOFTWARE.
 
 namespace ngind {
 
+/**
+@enum The color mode in textures. It's a mapping from GL macro to the enum form.
+*/
 enum TextureColorMode {
     MODE_RGB = GL_RGB,
     MODE_RGBA = GL_RGBA
 };
 
+/**
+@class Texture container used for rendering. It only supports JPEG and PNG formats now.
+*/
 class Texture {
 public:
-    Texture(const std::string&, const TextureColorMode& mod);
+    /// @public
+    /// @param const std::string&: picture path
+    /// @param const TextureColorMode&: color mode of picture
+    Texture(const std::string&, const TextureColorMode&);
+
+    /// @public
     ~Texture();
 
     Texture(const Texture&) = delete;
     Texture& operator= (const Texture&) = delete;
 
+    /// @public
+    /// @fn Get the id of texture
+    /// @param void
+    /// @return GLuint, id of texture
     inline GLuint getTextureID() const {
         return _texture_id;
     }
 
+    /// @public
+    /// @fn Get the width of texture
+    /// @param void
+    /// @return float, width of texture
     inline float getWidth() const {
         return _size.getX();
     }
 
+    /// @public
+    /// @fn Get the height of texture
+    /// @param void
+    /// @return float, height of texture
     inline float getHeight() const {
         return _size.getY();
     }
 
+    /// @public
+    /// @fn Get the size of texture
+    /// @param void
+    /// @return Vector2D, size of texture
     inline Vector2D getSize() const {
         return _size;
     }
 
+    /// @public
+    /// @fn Get color mode of texture
+    /// @param void
+    /// @return TextureColorMode, color mode of texture
     inline TextureColorMode getColorMode() const {
         return _mode;
     }
 
 private:
+    /// @private
+    /// @property texture id
     GLuint _texture_id;
+
+    /// @private
+    /// @property size of texure
     Vector2D _size;
+
+    /// @private
+    /// @property color mode of texture
     TextureColorMode _mode;
 };
 
-} // namespace
+} // namespace ngind
 
 #endif //NGIND_TEXTURE_H

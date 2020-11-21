@@ -18,8 +18,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: render_queue.h
-// LAST MODIFY: 2020/10/31
+
+/// @file render_queue.h
+/// @date 2020/10/31
 
 #ifndef NGIND_RENDER_QUEUE_H
 #define NGIND_RENDER_QUEUE_H
@@ -30,32 +31,62 @@ SOFTWARE.
 
 namespace ngind {
 
+/**
+@class A simple queue used to store the render commands.
+*/
 class RenderQueue {
 public:
+    /// @public
     RenderQueue() = default;
+
+    /// @public
     ~RenderQueue() = default;
 
+    /// @public
+    /// @typedef Use std::vector<RenderCommand*>::iterator as queue's iterator
     using iterator = std::vector<RenderCommand*>::iterator;
 
+    /// @public
+    /// @fn Get iterator pointing the beginning of queue
+    /// @param void
+    /// @return iterator, beginning iterator
     inline iterator begin() {
         return _queue.begin();
     }
 
+    /// @public
+    /// @fn Get iterator pointing the end of queue
+    /// @param void
+    /// @return iterator, end iterator
     inline iterator end() {
         return _queue.end();
     }
 
+    /// @public
+    /// @fn Clean the queue
+    /// @param void
+    /// @return void
     inline void clear() {
         _queue.clear();
     }
 
+    /// @public
+    /// @fn Push a command pointer into queue
+    /// @param RenderCommand* command: commmand to be pushed
+    /// @return void
     inline void push(RenderCommand* command) {
         _queue.push_back(command);
     }
 
+    /// @public
+    /// @fn Sort all commands by order in z-dim
+    /// @param void
+    /// @return void
     void sort();
 
 private:
+    /// @private
+    /// @property Vector buffer to store commands
     std::vector<RenderCommand*> _queue;
 };
 

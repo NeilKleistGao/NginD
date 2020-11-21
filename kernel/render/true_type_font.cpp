@@ -18,8 +18,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: true_type_font.cc
-// LAST MODIFY: 2020/10/19
+
+/// @file true_type_font.cc
+/// @date 2020/10/19
 
 #include "true_type_font.h"
 
@@ -31,7 +32,7 @@ TrueTypeFont::TrueTypeFont() : _font_face(nullptr) {
 TrueTypeFont::~TrueTypeFont() {
     auto error = FT_Done_Face(_font_face);
     if (error) {
-        //TODO:
+        ///@todo
     }
 }
 
