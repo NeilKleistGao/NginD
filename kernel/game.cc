@@ -18,8 +18,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// LAST MODIFY: 2020/11/1
-// FILENAME: game.cc
+
+/// @file game.cc
+/// @date 2020/11/1
 
 #include "game.h"
 
@@ -122,7 +123,7 @@ void Game::pushAndLoadWorld(const std::string& name) {
     this->loadWorld(name);
 }
 
-void Game::popAndLoadWorld(const std::string& name, const bool& has_destroy_current = true) {
+void Game::popAndLoadWorld(const bool& has_destroy_current = true) {
     if (!this->_stack.empty()) {
         auto destroy_name = this->_current_world->getName();
         this->_current_world = this->_stack.top();

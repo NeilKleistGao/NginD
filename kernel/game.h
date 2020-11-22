@@ -18,8 +18,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// LAST MODIFY: 2020/10/21
-// FILENAME: game.h
+
+/// @file game.h
+/// @date 2020/10/21
 
 #ifndef NGIND_GAME_H
 #define NGIND_GAME_H
@@ -34,37 +35,111 @@ SOFTWARE.
 
 namespace ngind {
 
+/**
+@class Game manager class. It's a singleton class and manages all game works.
+*/
 class Game {
 public:
+    /// @public
+    /// @static
+    /// @fn Get instance of game manager.
+    /// @param void
+    /// @return Game*, instance of game manager
     static Game* getInstance();
+
+    /// @public
+    /// @static
+    /// @fn Destroy instance of game manager.
+    /// @param void
+    /// @return void
     static void destroyInstance();
 
+    /// @public
+    /// @fn Load a game world into memory
+    /// @param const std::string&: world's name
+    /// @return void
     void loadWorld(const std::string&);
+
+    /// @public
+    /// @fn Destroy a game world
+    /// @param const std::string&: world's name
+    /// @return void
     void destroyWorld(const std::string&);
+
+    /// @public
+    /// @fn Push current world into stack and load a new one
+    /// @param const std::string&: world's name
+    /// @return void
     void pushAndLoadWorld(const std::string&);
-    void popAndLoadWorld(const std::string&, const bool&);
+
+    /// @public
+    /// @fn Pop a world from stack and load it.
+    /// @param const bool&: true if destroy current world later
+    /// @return void
+    void popAndLoadWorld(const bool&);
+
+    /// @public
+    /// @fn Load a game world into memory and destroy current world
+    /// @param const std::string&: world's name
+    /// @return void
     void DestroyAndLoadWorld(const std::string&);
 
+    /// @public
+    /// @fn Start playing game.
+    /// @param void
+    /// @return void
     void start();
 
+    /// @public
+    /// @fn Get current world
+    /// @param void
+    /// @return World*, current world
     inline World* getCurrentWorld() {
         return _current_world;
     }
 
+    /// @public
+    /// @fn Quit game.
+    /// @param void
+    /// @return void
     inline void quit() {
         this->_loop_flag = false;
     }
 
 private:
+    /// @private
     Game();
+
+    /// @property
     ~Game();
 
+    /// @private
+    /// @static
+    /// @property Instance of game manager
     static Game* _instance;
+
+    /// @private
+    /// @property Global config data
     ConfigResource* _global_settings;
+
+    /// @private
+    /// @property Global timer
     Timer _global_timer;
+
+    /// @private
+    /// @property Current world
     World* _current_world;
+
+    /// @private
+    /// @property Worlds dictionary
     std::map<std::string, World*> _worlds;
+
+    /// @private
+    /// @property Worlds stack
     std::stack<World*> _stack;
+
+    /// @private
+    /// @property Whether game still goes on
     bool _loop_flag;
 };
 

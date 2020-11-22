@@ -18,8 +18,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// FILENAME: main.cc
-// LAST MODIFY: 2020/10/17
+
+/// @file main.cc
+/// @date 2020/10/17
 
 #include "kernel/game.h"
 
@@ -31,6 +32,7 @@ int main() {
         exit(-1);
     }
 
+    // Good Luck, Have Fun.
     game->start();
     return 0;
 }

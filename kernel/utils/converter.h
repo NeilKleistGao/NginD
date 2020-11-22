@@ -18,8 +18,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-// LAST MODIFY: 2020/10/25
-// FILENAME: converter.h
+
+/// @file converter.h
+/// @date 2020/10/25
 
 #ifndef NGIND_CONVERTER_H
 #define NGIND_CONVERTER_H
@@ -29,8 +30,17 @@ SOFTWARE.
 
 namespace ngind {
 
+/**
+@class Converter helper class.
+*/
 class Converter {
 public:
+    /// @public
+    /// @static
+    /// @fn Convert from string using std::stringstream
+    /// @tparam Type: Target type
+    /// @param const std::string& str: string
+    /// @return Type, convert result
     template <typename Type>
     static Type convertFromString(const std::string& str) {
         std::stringstream stream;
@@ -41,6 +51,11 @@ public:
         return t;
     }
 
+    /// @public
+    /// @static
+    /// @fn Parse hex number.
+    /// @param const std::string&: number in hex string
+    /// @return unsigned int, number in decimal
     static unsigned int convertHexString(const std::string&);
 };
 
