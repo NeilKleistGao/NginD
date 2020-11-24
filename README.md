@@ -1,4 +1,6 @@
 # NginD
+[![Documentation Status](https://readthedocs.org/projects/ngind-doc/badge/?version=latest)](https://ngind-doc.readthedocs.io/en/latest/?badge=latest)
+
 A game engine for 2D pixel game powered by C++ (自家用). 
 
 ## Features
