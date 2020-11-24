@@ -1,0 +1,20 @@
+project(NginD)
+
+aux_source_directory(. DIR_KERNEL)
+add_library(kernel ${DIR_KERNEL})
+
+add_subdirectory(components)
+add_subdirectory(coroutine)
+add_subdirectory(filesystem)
+add_subdirectory(input)
+add_subdirectory(log)
+add_subdirectory(math)
+add_subdirectory(memory)
+add_subdirectory(objects)
+add_subdirectory(platforms)
+add_subdirectory(render)
+add_subdirectory(resources)
+add_subdirectory(timer)
+add_subdirectory(utils)
+
+target_link_libraries(kernel components filesystem input log math memory objects render resources timer utils)
