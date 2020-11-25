@@ -2073,7 +2073,7 @@ stbi_inline static int stbi__jpeg_huff_decode(stbi__jpeg *j, stbi__huffman *h)
 // bias[n] = (-1<<n) + 1
 static const int stbi__jbias[16] = {0,-1,-3,-7,-15,-31,-63,-127,-255,-511,-1023,-2047,-4095,-8191,-16383,-32767};
 
-// combined JPEG 'receive' and JPEG 'extend', since baseline
+// combined JPEG 'receive' and JPEG 'extern', since baseline
 // always extends everything it receives.
 stbi_inline static int stbi__extend_receive(stbi__jpeg *j, int n)
 {
@@ -5210,7 +5210,7 @@ static int stbi__bitcount(unsigned int a)
 
 // extract an arbitrarily-aligned N-bit value (N=bits)
 // from v, and then make it 8-bits long and fractionally
-// extend it to full full range.
+// extern it to full full range.
 static int stbi__shiftsigned(unsigned int v, int shift, int bits)
 {
    static unsigned int mul_table[9] = {

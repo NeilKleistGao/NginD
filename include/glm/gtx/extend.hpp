@@ -1,12 +1,12 @@
 /// @ref gtx_extend
-/// @file glm/gtx/extend.hpp
+/// @file glm/gtx/extern.hpp
 ///
 /// @see core (dependence)
 ///
 /// @defgroup gtx_extend GLM_GTX_extend
 /// @ingroup gtx
 ///
-/// Include <glm/gtx/extend.hpp> to use the features of this extension.
+/// Include <glm/gtx/extern.hpp> to use the features of this extension.
 ///
 /// Extend a position from a source to a position at a defined length.
 

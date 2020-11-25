@@ -1,0 +1,47 @@
+project(NginD)
+
+include(kernel/components/CMakeLists.txt)
+include(kernel/coroutine/CMakeLists.txt)
+include(kernel/filesystem/CMakeLists.txt)
+include(kernel/input/CMakeLists.txt)
+include(kernel/log/CMakeLists.txt)
+include(kernel/math/CMakeLists.txt)
+include(kernel/memory/CMakeLists.txt)
+include(kernel/objects/CMakeLists.txt)
+include(kernel/platforms/CMakeLists.txt)
+include(kernel/render/CMakeLists.txt)
+include(kernel/resources/CMakeLists.txt)
+include(kernel/timer/CMakeLists.txt)
+include(kernel/utils/CMakeLists.txt)
+
+set(KERNEL_HEADER
+        kernel/game.h
+        ${COMPONENTS_HEADER}
+        ${COROUTINE_HEADER}
+        ${FILESYSTEM_HEADER}
+        ${INPUT_HEADER}
+        ${LOG_HEADER}
+        ${MATH_HEADER}
+        ${MEMORY_HEADER}
+        ${OBJECTS_HEADER}
+        ${PLATFORMS_HEADER}
+        ${RENDER_HEADER}
+        ${RESOURCES_HEADER}
+        ${TIMER_HEADER}
+        ${UTILS_HEADER})
+
+set(KERNEL_SRC
+        kernel/game.cc
+        ${COMPONENTS_SRC}
+        ${COROUTINE_SRC}
+        ${FILESYSTEM_SRC}
+        ${INPUT_SRC}
+        ${LOG_SRC}
+        ${MATH_SRC}
+        ${MEMORY_SRC}
+        ${OBJECTS_SRC}
+        ${PLATFORMS_SRC}
+        ${RENDER_SRC}
+        ${RESOURCES_SRC}
+        ${TIMER_SRC}
+        ${UTILS_SRC})
