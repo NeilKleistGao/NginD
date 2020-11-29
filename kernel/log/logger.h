@@ -34,7 +34,7 @@ of some template functions.
 #include <cstdio>
 
 #include "log_level.h"
-#include "filesystem/output_stream.h"
+//#include "filesystem/output_stream.h"
 
 namespace ngind {
 /**
@@ -86,11 +86,11 @@ public:
         }
 
         if (format.empty()) {
-            _stream << msg;
+//            _stream << msg;
         }
         else {
             int pos = format.find('%');
-            _stream << format.substr(0,pos) << msg << format.substr(pos + 1);
+//            _stream << format.substr(0,pos) << msg << format.substr(pos + 1);
         }
     }
 
@@ -99,9 +99,9 @@ public:
     /// @param void
     /// @return void
     inline void close() {
-        if (_stream.isOpen()) {
-            _stream.close();
-        }
+//        if (_stream.isOpen()) {
+//            _stream.close();
+//        }
     }
 private:
     /// @private
@@ -162,7 +162,7 @@ private:
 
     /// @private
     /// @property The output stream object
-    OutputStream _stream;
+//    OutputStream _stream;
 
     /// @private
     /// @property The minimum level that could be outputted

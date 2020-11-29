@@ -25,7 +25,6 @@
 
 #include "input_stream.h"
 
-#include <iostream>
 #include <cstring>
 
 namespace ngind::filesystem {
@@ -73,7 +72,24 @@ size_t InputStream::skip(const size_t& n) {
 }
 
 size_t InputStream::transferTo(OutputStream* output) {
-    return 0; /// @todo redesign output stream
+    size_t length = 0;
+    char* buff = new(std::nothrow) char[MAX_BUFF_SIZE];
+
+    if (buff == nullptr) {
+        return length;
+    }
+
+    std::memset(buff, 0, sizeof(char) * MAX_BUFF_SIZE);
+    while (true) {
+        auto temp = this->read(buff, 0, MAX_BUFF_SIZE - 1);
+        length += temp;
+        output->write(buff);
+        if (temp < MAX_BUFF_SIZE - 1) {
+            break;
+        }
+    }
+
+    return length;
 }
 
 } // namespace ngind::filesystem
