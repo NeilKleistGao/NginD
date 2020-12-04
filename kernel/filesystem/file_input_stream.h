@@ -31,21 +31,40 @@
 namespace ngind::filesystem {
 class FileInputStream : public InputStream {
 public:
-    FileInputStream(std::string filename);
+    /**
+     * @param filename: file's name
+     */
+    FileInputStream(const std::string& filename);
+    ~FileInputStream();
 
-    void open(std::string filename);
+    FileInputStream(const FileInputStream&) = delete;
+    FileInputStream& operator=(const FileInputStream&) = delete;
 
+    /**
+     * Open a file.
+     * @param filename: file's name
+     */
+    void open(const std::string& filename);
+
+    /**
+     * @see kernel/filesystem/input_stream.h
+     */
     char read() override;
 
+    /**
+     * @see kernel/filesystem/input_stream.h
+     */
     void close() override;
-
-    void mark(const size_t& pos) override;
-
-    void reset() override;
-
-    bool isMarkSupported() override;
 private:
+    /**
+     * File's name. If no file is opened, it's a blank string.
+     */
     std::string _filename;
+
+    /**
+     * File pointer of C.
+     */
+    FILE* _fp;
 };
 } // namespace ngind::filesystem
 
