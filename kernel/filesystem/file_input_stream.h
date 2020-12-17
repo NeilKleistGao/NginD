@@ -29,6 +29,9 @@
 #include "input_stream.h"
 
 namespace ngind::filesystem {
+/**
+ * Text file input class, used to read configuration files, text files vice versa.
+ */
 class FileInputStream : public InputStream {
 public:
     /**
@@ -50,6 +53,13 @@ public:
      * @see kernel/filesystem/input_stream.h
      */
     char read() override;
+
+    /**
+     * Read a string from file.
+     * @param size: how many characters would be read.
+     * @return std::string, the string read from file.
+     */
+    std::string read(const size_t& size);
 
     /**
      * @see kernel/filesystem/input_stream.h

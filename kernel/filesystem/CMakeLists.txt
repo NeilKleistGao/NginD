@@ -6,7 +6,6 @@ set(FILESYSTEM_HEADER
         kernel/filesystem/file.h
         kernel/filesystem/file_input_stream.h
         kernel/filesystem/file_output_stream.h
-        kernel/filesystem/filter_input_stream.h
         kernel/filesystem/input_stream.h
         kernel/filesystem/object_input_stream.h
         kernel/filesystem/object_output_stream.h
@@ -21,7 +20,6 @@ set(FILESYSTEM_SRC
         kernel/filesystem/file.cc
         kernel/filesystem/file_input_stream.cc
         kernel/filesystem/file_output_stream.cc
-        kernel/filesystem/filter_input_stream.cc
         kernel/filesystem/input_stream.cc
         kernel/filesystem/object_input_stream.cc
         kernel/filesystem/object_output_stream.cc

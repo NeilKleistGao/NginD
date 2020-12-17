@@ -60,6 +60,20 @@ char FileInputStream::read() {
     return fgetc(_fp);
 }
 
+std::string FileInputStream::read(const size_t& size) {
+    std::string str;
+    for (int i = 0; i < size; i++) {
+        char c = read();
+        if (c == 0) {
+            break;
+        }
+
+        str += c;
+    }
+
+    return str;
+}
+
 void FileInputStream::close() {
     if (_fp != nullptr) {
         fclose(_fp);

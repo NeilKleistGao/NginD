@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,23 +28,67 @@
 
 namespace ngind::filesystem {
 
+/**
+ * Text file output class.
+ */
 class FileOutputStream : public OutputStream {
 public:
-    FileOutputStream(const std::string& filename);
+    /**
+     * @param filename: name of file to be opened.
+     */
+    explicit FileOutputStream(const std::string& filename);
+
+    /**
+     * @param filename: name of file to be opened.
+     * @param append: true if append text at end of file.
+     */
     FileOutputStream(const std::string& filename, const bool& append);
 
     FileOutputStream(const FileOutputStream&) = delete;
     FileOutputStream& operator= (const FileOutputStream&) = delete;
 
+    /**
+     * Open a file.
+     * @param filename: file's name
+     */
     void open(const std::string& filename);
 
+    /**
+     * Open a file.
+     * @param filename: file's name
+     * @param append:true if append text at end of file.
+     */
+    void open(const std::string& filename, const bool& append);
+
+    /**
+     * @see kernel/filesystem/output_stream.h
+     */
     void write(const char& c) override;
 
+    /**
+     * Write a string into the file.
+     * @param str: string to be written.
+     */
+    void write(const std::string& str);
+
+    /**
+     * @see kernel/filesystem/output_stream.h
+     */
     void flush() override;
 
+    /**
+     * @see kernel/filesystem/output_stream.h
+     */
     void close() override;
 private:
+    /**
+     * File's name. If no file is opened, it's a blank string.
+     */
     std::string _filename;
+
+    /**
+     * File pointer of C.
+     */
     FILE* _fp;
 };
 
