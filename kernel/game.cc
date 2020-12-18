@@ -70,7 +70,7 @@ void Game::start() {
 
     this->loadWorld(_global_settings->getDocument()["welcome-world"].GetString());
 
-    auto global_logger = LoggerFactory::getInstance()->getLogger(Logger::STDOUT, LogLevel::LOG_LEVEL_DEBUG);
+//    auto global_logger = LoggerFactory::getInstance()->getLogger(Logger::STDOUT, LogLevel::LOG_LEVEL_DEBUG);
 
     const float MIN_DURATION = 1.0f / _global_settings->getDocument()["max-frame-rate"].GetFloat();
     float duration = 1.0f / 60.0f;
@@ -85,11 +85,11 @@ void Game::start() {
         float rest = MIN_DURATION - duration;
         if (rest >= 0.005) {
             _global_timer.sleep(rest);
-            global_logger->log<float>(60.0f, LogLevel::LOG_LEVEL_DEBUG);
+//            global_logger->log<float>(60.0f, LogLevel::LOG_LEVEL_DEBUG);
             duration = MIN_DURATION;
         }
         else {
-            global_logger->log<float>(1.0f / duration, LogLevel::LOG_LEVEL_DEBUG);
+//            global_logger->log<float>(1.0f / duration, LogLevel::LOG_LEVEL_DEBUG);
         }
     }
 }
