@@ -4,5 +4,4 @@ set(LOG_HEADER
         kernel/log/logger_factory.h)
 
 set(LOG_SRC
-        kernel/log/logger.cc
         kernel/log/logger_factory.cc)
