@@ -34,11 +34,10 @@
 #include "filesystem/file_output_stream.h"
 
 namespace ngind {
-/**
-@class
-    This class is used to log text information for debug and recording data. You should
-not create the instance directly. Try to use factory instead.
-*/
+
+/** This class is used to log text information for debug and recording data. You should
+ * not create the instance directly. Try to use factory instead.
+ */
 class Logger {
 public:
     /**
@@ -91,6 +90,11 @@ public:
         _output->write(format_msg);
     }
 
+    /**
+     * Output some message to logger file
+     * @param msg: the message to be outputted
+     * @param level: the type of log information
+     */
     void log(const std::string& msg, const LogLevel& level = LogLevel::LOG_LEVEL_DEBUG) {
         if (level < this->_level) {
             return;

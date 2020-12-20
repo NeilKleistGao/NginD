@@ -21,31 +21,9 @@
  * SOFTWARE.
  */
 
-/// @file resource.h
+/// @file opengl.h
 
-#ifndef NGIND_RESOURCE_H
-#define NGIND_RESOURCE_H
+#ifndef NGIND_OPENGL_H
+#define NGIND_OPENGL_H
 
-#include <iostream>
-
-#include "memory/auto_collection_object.h"
-
-namespace ngind {
-
-class Resource : public AutoCollectionObject {
-public:
-    Resource() = default;
-    virtual ~Resource() = default;
-    virtual void load(const std::string&) = 0;
-
-    inline const std::string getResourcePath() const {
-        return _path;
-    }
-
-protected:
-    std::string _path;
-};
-
-} // namespace ngind
-
-#endif //NGIND_RESOURCE_H
+#endif //NGIND_OPENGL_H
