@@ -61,7 +61,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 
 ## Dependent Libraries
 ### Engine Dependent Libraries
-+ [GLEW2.1.0](https://github.com/nigels-com/glew)
++ [GLEW 2.1.0](https://github.com/nigels-com/glew)
 + [GLFW 3.3.2](https://www.glfw.org/)
 + [libpng 1.6.34](http://www.libpng.org/pub/png/libpng.html)
 + [C++ Boost 1.74.0](https://www.boost.org/)
@@ -70,6 +70,8 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [FreeType 2.10.3](https://www.freetype.org/index.html)
 + [SOIL2 1.20](https://github.com/SpartanJ/SOIL2)
 + [glm 0.9.9.8](https://glm.g-truc.net/0.9.9/index.html)
++ [Lua 5.4.2](https://www.lua.org/)
++ [Lua Bridge 2.6](https://github.com/vinniefalco/LuaBridge)
 
 ### Editor Dependent Libraries
 + [electron 10.1.5](https://www.electronjs.org/)
@@ -96,8 +98,12 @@ However, here are some exceptions:
 
 The engine will support for Windows and MacOS later.
 
-## Acknowledgements
+## Special Acknowledgements
 + Humphrey_Yang
 + riceblast
 + JzJerry
 + PtCu
++ youyadefeng
++ yxlei
++ magwer
++ Chin

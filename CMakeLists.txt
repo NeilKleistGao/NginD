@@ -8,6 +8,7 @@ include(extern/CMakeLists.txt)
 include(plugin/CMakeLists.txt)
 
 add_definitions(-D PLATFORM_LINUX)
+add_definitions(-D RENDER_BACKEND_OPENGL)
 
 include_directories(.)
 include_directories(kernel)
@@ -33,7 +34,7 @@ add_executable(NginD main.cc
         ${EXTERN_HEADER}
         ${EXTERN_SRC}
         ${PLUGIN_HEADER}
-        ${PLUGIN_SRC} kernel/render/adapter/opengl.h)
+        ${PLUGIN_SRC})
 
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libGLEW.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libglfw.so")

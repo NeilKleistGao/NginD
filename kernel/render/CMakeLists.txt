@@ -1,3 +1,5 @@
+include(kernel/render/adapter/CMakeLists.txt)
+
 set(RENDER_HEADER
         kernel/render/font_factory.h
         kernel/render/perspective.h

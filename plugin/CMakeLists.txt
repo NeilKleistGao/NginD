@@ -1,4 +1,4 @@
 project(NginD)
 
-set(PLUGIN_HEADER )
+set(PLUGIN_HEADER plugin/config.h)
 set(PLUGIN_SRC )
