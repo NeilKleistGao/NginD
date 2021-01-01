@@ -9,14 +9,13 @@ include(plugin/CMakeLists.txt)
 
 add_definitions(-D PLATFORM_LINUX)
 add_definitions(-D RENDER_BACKEND_OPENGL)
+add_definitions(-D MODE_DEBUG)
 
 include_directories(.)
 include_directories(kernel)
 include_directories(include)
 include_directories(include/opengl)
-include_directories(include/libpng)
 include_directories(resources)
-
 include_directories(/usr/local/include/freetype2)
 
 set(Boost_USE_STATIC_LIBS ON)
@@ -45,7 +44,7 @@ target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libX11
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXrand.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libXi.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libXi.a")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/libpng/libpng16.so.16")
+#target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/libpng/libpng16.so.16")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soil2/libsoil2.a")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soil2/libsoil2.so")
 target_link_libraries(NginD "/usr/local/lib/libfreetype.so")

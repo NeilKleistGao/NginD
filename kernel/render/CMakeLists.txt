@@ -3,7 +3,6 @@ include(kernel/render/adapter/CMakeLists.txt)
 set(RENDER_HEADER
         kernel/render/font_factory.h
         kernel/render/perspective.h
-        kernel/render/png_image.h
         kernel/render/program.h
         kernel/render/quad.h
         kernel/render/render.h
@@ -18,7 +17,6 @@ set(RENDER_HEADER
 set(RENDER_SRC
         kernel/render/font_factory.cc
         kernel/render/perspective.cc
-        kernel/render/png_image.cc
         kernel/render/program.cc
         kernel/render/quad.cc
         kernel/render/render.cc

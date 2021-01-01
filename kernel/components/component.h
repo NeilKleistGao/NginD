@@ -25,9 +25,12 @@
 #define NGIND_COMPONENT_H
 
 #include <string>
+#include <vector>
 
 #include "objects/updatable_object.h"
 #include "resources/config_resource.h"
+#include "resources/resource.h"
+#include "resources/resources_manager.h"
 
 namespace ngind {
 
@@ -41,7 +44,14 @@ class Object;
 class Component : public UpdatableObject {
 public:
     Component() = default;
-    virtual ~Component() = default;
+    virtual ~Component() {
+        for (auto& r : _resources_list) {
+            ResourcesManager::getInstance()->release(r->getResourcePath());
+        }
+
+        _resources_list.clear();
+    }
+
     Component(const Component&) = delete;
     Component& operator= (const Component&) = delete;
 
@@ -54,13 +64,11 @@ public:
      * Initialization function of this class used by configuration creating method.
      * @param object: the configuration data
      * this component initialization process requires.
-     * @return void
      */
     virtual void init(const typename ConfigResource::JsonObject& object) {}
 
     /**
      * Get the parent object of this component.
-     * @param void
      * @return Object*, the parent object's pointer
      */
     inline Object* getParent() const {
@@ -81,6 +89,8 @@ protected:
      * Parent object of this component
      */
     Object* _parent;
+
+    std::vector<Resource*> _resources_list;
 };
 
 } // namespace ngind
