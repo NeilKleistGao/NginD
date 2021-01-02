@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,67 +19,29 @@
  * SOFTWARE.
  */
 
-/// @file input_stream.cc
+/// @file game_exception.h
 
-#include "input_stream.h"
+#include <exception>
+#include <string>
 
-#include <cstring>
+#ifndef NGIND_GAME_EXCEPTION_H
+#define NGIND_GAME_EXCEPTION_H
 
-namespace ngind::filesystem {
-
-std::string InputStream::read(const size_t& len) {
-    std::string buff;
-    for (size_t i = 0; i < len; i++) {
-        auto ch = this->read();
-        if (ch == 0) {
-            break;
-        }
-
-        buff += ch;
+namespace ngind::exceptions {
+class GameException : public std::exception {
+public:
+    GameException(std::string module, std::string function, std::string error_info)
+    : _what(std::move(module) + ", " + std::move(function) + ": " + std::move(error_info)) {
     }
 
-    return buff;
+    ~GameException() = default;
+
+    virtual const char* what() const noexcept {
+        return _what.c_str();
+    }
+private:
+    std::string _what;
+};
 }
 
-std::string InputStream::readNCharacters(const size_t& n) {
-    if (n == 0) {
-        return "";
-    }
-
-    std::string buff;
-    return this->read(n);
-}
-
-size_t InputStream::skip(const size_t& n) {
-    if (n == 0) {
-        return 0;
-    }
-
-    for (size_t i = 0; i < n; i++) {
-        char c = this->read();
-        if (c == 0) {
-            return i + 1;
-        }
-    }
-
-    return n;
-}
-
-size_t InputStream::transferTo(OutputStream* output) {
-    size_t length = 0;
-    std::string buff;
-
-    while (true) {
-        buff = this->read(MAX_BUFF_SIZE);
-        length += buff.length();
-        output->write(buff);
-        if (length < MAX_BUFF_SIZE) {
-            break;
-        }
-    }
-
-    return length;
-}
-
-} // namespace ngind::filesystem
-
+#endif //NGIND_GAME_EXCEPTION_H

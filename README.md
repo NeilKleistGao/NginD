@@ -63,7 +63,6 @@ A game engine for 2D pixel game powered by C++ (自家用).
 ### Engine Dependent Libraries
 + [GLEW 2.1.0](https://github.com/nigels-com/glew)
 + [GLFW 3.3.2](https://www.glfw.org/)
-+ [libpng 1.6.34](http://www.libpng.org/pub/png/libpng.html)
 + [C++ Boost 1.74.0](https://www.boost.org/)
 + [RTTR 0.9.6](https://www.rttr.org/)
 + [RapidJSON 1.1.0](http://rapidjson.org/)
@@ -107,3 +106,4 @@ The engine will support for Windows and MacOS later.
 + yxlei
 + magwer
 + Chin
++ sonikk

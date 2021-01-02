@@ -16,7 +16,7 @@
       "z-order": 0,
       "components": [
         {
-          "name": "SpriteRender",
+          "name": "SpriteRenderer",
           "filename": "test.jpg"
         }
       ]

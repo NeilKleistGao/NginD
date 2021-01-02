@@ -76,7 +76,7 @@ Object* World::generateObject(Object* self, const typename ConfigResource::JsonO
     if (data.HasMember("components")) {
         auto components = data["components"].GetArray();
         for (const auto& com : components) {
-            Component* next = generateComponent(com);
+            components::Component* next = generateComponent(com);
             object->addComponent(com["name"].GetString(), next);
         }
     }
@@ -91,13 +91,13 @@ Object* World::generateObject(Object* self, const typename ConfigResource::JsonO
     return object;
 }
 
-Component* World::generateComponent(const typename ConfigResource::JsonObject& data) {
+components::Component* World::generateComponent(const typename ConfigResource::JsonObject& data) {
     rttr::type type = rttr::type::get_by_name(data["name"].GetString());
     rttr::variant temp = type.create();
     rttr::method create_func = type.get_method("create");
     rttr::variant var = create_func.invoke(temp, data);
 
-    Component* com = var.get_value<Component*>();
+    components::Component* com = var.get_value<components::Component*>();
     com->init(data);
     return com;
 }

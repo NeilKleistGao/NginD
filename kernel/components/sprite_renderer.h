@@ -21,8 +21,8 @@
 
 /// @file: sprite_render.h
 
-#ifndef NGIND_SPRITE_RENDER_H
-#define NGIND_SPRITE_RENDER_H
+#ifndef NGIND_SPRITE_RENDERER_H
+#define NGIND_SPRITE_RENDERER_H
 
 #include <string>
 
@@ -38,18 +38,18 @@
 
 #include "rttr/registration.h"
 
-namespace ngind {
+namespace ngind::components {
 
 /**
- * The render component for sprite. You can create an instance both by new and by create
+ * The renderer component for sprite. You can create an instance both by new and by create
  * method. Just draw a lovely sprite on your screen!
  */
-class SpriteRender : public RenderComponent {
+class SpriteRenderer : public RenderComponent {
 public:
-    SpriteRender();
-    ~SpriteRender() override;
-    SpriteRender(const SpriteRender&) = delete;
-    SpriteRender& operator= (const SpriteRender&) = delete;
+    SpriteRenderer();
+    ~SpriteRenderer() override;
+    SpriteRenderer(const SpriteRenderer&) = delete;
+    SpriteRenderer& operator= (const SpriteRenderer&) = delete;
 
     /**
      * @see objects/updatable_object.h
@@ -66,9 +66,9 @@ public:
     /**
      * Static function used by configuration creators. This function create a new instance of Sprite
      * @param data: the configuration data this component initialization process requires.
-     * @return SpriteRender*, a pointer to the new instance.
+     * @return SpriteRenderer*, a pointer to the new instance.
      */
-    static SpriteRender* create(const typename ConfigResource::JsonObject& data);
+    static SpriteRenderer* create(const typename ConfigResource::JsonObject& data);
 
     /**
      * Set a new image to this render. It will release the old one texture resource.
@@ -189,10 +189,10 @@ protected:
 };
 
 RTTR_REGISTRATION {
-    rttr::registration::class_<SpriteRender>("SpriteRender")
-        .method("create", &SpriteRender::create);
+    rttr::registration::class_<SpriteRenderer>("SpriteRenderer")
+        .method("create", &SpriteRenderer::create);
 }
 
-} // namespace ngind
+} // namespace ngind::components
 
-#endif //NGIND_SPRITE_RENDER_H
+#endif //NGIND_SPRITE_RENDERER_H

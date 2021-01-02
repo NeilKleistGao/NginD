@@ -35,7 +35,7 @@
 namespace ngind {
 
 class Object;
-
+namespace components {
 /**
  * Basic class of all components. You can create an instance either by newing or
  * by create/init functions. We do not allow user to create a basic component in
@@ -93,6 +93,7 @@ protected:
     std::vector<Resource*> _resources_list;
 };
 
+} // namespace components
 } // namespace ngind
 
 #endif //NGIND_COMPONENT_H

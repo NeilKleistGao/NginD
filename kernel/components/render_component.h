@@ -26,7 +26,7 @@
 
 #include "component.h"
 
-namespace ngind {
+namespace ngind::components {
 
 /**
  * Basic class of all render component. This class is a abstract class so you can't
@@ -59,6 +59,6 @@ protected:
     virtual void draw() = 0;
 };
 
-} // namespace ngind
+} // namespace ngind::components
 
 #endif //NGIND_RENDER_COMPONENT_H

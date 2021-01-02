@@ -103,7 +103,7 @@ public:
     /// @param const std::string& name: name of component
     /// @param Component* component: component pointer
     /// @return void
-    virtual inline void addComponent(const std::string& name, Component* component) {
+    virtual inline void addComponent(const std::string& name, components::Component* component) {
         if (_components.find(name) == _components.end()) {
             _components[name] = component;
             component->setParent(this);
@@ -115,7 +115,7 @@ public:
     /// @tparam Type: the actual type of component
     /// @param const std::string& name: the name of component
     /// @return Type*, the pointer of component
-    template<typename Type, typename std::enable_if_t<std::is_base_of_v<Component, Type>> N = 0>
+    template<typename Type, typename std::enable_if_t<std::is_base_of_v<components::Component, Type>> N = 0>
     Type* getComponent(const std::string& name) {
         if (_components.find(name) == _components.end()) {
             return nullptr;
@@ -129,7 +129,7 @@ public:
     /// @tparam Type: the actual type of component
     /// @param const std::string& name: the name of component
     /// @return void
-    template<typename Type, typename std::enable_if_t<std::is_base_of_v<Component, Type>> N = 0>
+    template<typename Type, typename std::enable_if_t<std::is_base_of_v<components::Component, Type>> N = 0>
     void removeComponent(const std::string& name) {
         if (_components.find(name) == _components.end()) {
             return;
@@ -148,7 +148,7 @@ protected:
 
     /// @protected
     /// @property A RB-tree maintaining all components
-    std::map<std::string, Component*> _components;
+    std::map<std::string, components::Component*> _components;
 
     /// @protected
     /// @property Parent object

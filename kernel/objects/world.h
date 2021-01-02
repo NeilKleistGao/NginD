@@ -114,7 +114,7 @@ private:
     /// @param Object*: parent object
     /// @param const typename ConfigResource::JsonObject&: part of config file
     /// @return Object*, the new component
-    Component* generateComponent(const typename ConfigResource::JsonObject&);
+    components::Component* generateComponent(const typename ConfigResource::JsonObject&);
 };
 
 } // namespace ngind

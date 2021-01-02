@@ -24,6 +24,7 @@
 /// @file input_stream.h
 
 #include <cstdio>
+#include <string>
 
 #include "output_stream.h"
 
@@ -46,38 +47,27 @@ public:
      */
     virtual char read() = 0;
 
-    /**
-     * Read data and write into buff as possible.
-     * @param buff: buffer to store the data
-     * @return size_t, the length of data read
-     */
-    inline size_t read(char* buff) {
-        return read(buff, 0, MAX_BUFF_SIZE);
-    }
-
-    /**
-     * Read data and write into buff with given offset and length
-     * @param buff: buffer to store the data
-     * @param offset: offset of buffer. Head of data would be written in buffer[offset]
+    virtual /**
+     * Read data into string avoiding using char[].
      * @param len: how many characters you hope it reads
-     * @return size_t, the actual length of data
+     * @return std::string, string buffer
      */
-    size_t read(char* buff, const size_t& offset, const size_t& len);
+    std::string read(const size_t& len);
 
     /**
      * Read all characters. The length must be less than max buff size.
-     * @return char*, the buffer pointer. Delete it using delete[].
+     * @return std::string, the buffer string.
      */
-    inline char* readAllCharacters() {
+    inline std::string readAllCharacters() {
         return this->readNCharacters(MAX_BUFF_SIZE);
     }
 
     /**
      * Read some characters.
      * @param n: the number of characters.
-     * @return char*, the buffer pointer. Delete it using delete[].
+     * @return std::string, the buffer pointer. Delete it using delete[].
      */
-    char* readNCharacters(const size_t& n);
+    std::string readNCharacters(const size_t& n);
 
     /**
      * Skip some characters.

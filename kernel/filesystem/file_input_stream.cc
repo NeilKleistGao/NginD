@@ -24,6 +24,7 @@
 /// @file file_input_stream.cc
 
 #include "file_input_stream.h"
+#include "exceptions/game_exception.h"
 
 namespace ngind::filesystem {
 
@@ -42,22 +43,27 @@ void FileInputStream::open(const std::string& filename) {
         this->close();
     }
 
-    _fp = fopen(filename.c_str(), "r");
+    _fp = fopen(filename.c_str(), "rb");
     if (_fp == nullptr) {
-        /// @todo throw
+        throw exceptions::GameException("filesystem::FileInputStream",
+                                        "open",
+                                        "can't open file " + filename);
     }
 }
 
 char FileInputStream::read() {
     if (_fp == nullptr) {
-        /// @todo throw
+        throw exceptions::GameException("filesystem::FileInputStream",
+                                        "read",
+                                        "can't read file " + this->_filename);
     }
 
     if (feof(_fp)) {
         return 0;
     }
 
-    return fgetc(_fp);
+    auto c = fgetc(_fp);
+    return (c == EOF) ? 0 : c;
 }
 
 std::string FileInputStream::read(const size_t& size) {

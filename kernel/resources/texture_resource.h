@@ -38,29 +38,56 @@ public:
 
     TextureResource() = default;
     ~TextureResource() override = default;
+
+    /**
+     * @see kernel/resources/resource.h
+     */
     virtual void load(const std::string&);
 
+    /**
+     * Get the id of texture in OpenGL.
+     * @return GLuint, id of texture
+     */
     inline GLuint getTextureID() const {
         return _texture->getTextureID();
     }
 
+    /**
+     * Get the size of texture.
+     * @return Vector2D, size of texture
+     */
     inline Vector2D getTextureSize() const {
         return _texture->getSize();
     }
 
+    /**
+     * Get width of texture.
+     * @return float, width of texture
+     */
     inline float getTextureWidth() const {
         return _texture->getWidth();
     }
 
+    /**
+     * Get height of texture.
+     * @return float, height of texture
+     */
     inline float getTextureHeight() const {
         return _texture->getHeight();
     }
 
+    /**
+     * Get color mode of texture.
+     * @return TextureColorMode, color mode of texture
+     */
     inline TextureColorMode getTextureColorMode() const {
         return _texture->getColorMode();
     }
 
 private:
+    /**
+     * Texture pointer.
+     */
     Texture* _texture;
 };
 

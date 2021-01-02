@@ -58,7 +58,7 @@ public:
      * Write a string in a file.
      * @param str: string to be written.
      */
-    inline void write(const std::string& str) {
+    virtual inline void write(const std::string& str) {
         this->write(str.c_str(), 0, str.length());
     }
 

@@ -184,7 +184,7 @@ public:
     }
 
     /// @see kernel/objects/object.h
-    inline void addComponent(const std::string& name, Component* component) override {
+    inline void addComponent(const std::string& name, components::Component* component) override {
         if (_components.find(name) == _components.end()) {
             _components[name] = component;
             component->setParent(this);

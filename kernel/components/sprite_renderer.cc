@@ -21,23 +21,24 @@
 
 /// @file sprite_render.cc
 
-#include "sprite_render.h"
+#include "sprite_renderer.h"
 
 #include <vector>
 
 #include "render/render.h"
 #include "render/perspective.h"
 #include "resources/resources_manager.h"
+#include "exceptions/game_exception.h"
 
-namespace ngind {
+namespace ngind::components {
 
-SpriteRender::SpriteRender()
+SpriteRenderer::SpriteRenderer()
         : _color("#FFFFFFFF"), _command(nullptr),
         _quad(nullptr), _program(nullptr),
         _texture(nullptr), _lb(), _rt() {
 }
 
-SpriteRender::~SpriteRender() {
+SpriteRenderer::~SpriteRenderer() {
     if (_texture != nullptr) {
         ResourcesManager::getInstance()->release(_texture->getResourcePath());
         delete _texture;
@@ -56,12 +57,12 @@ SpriteRender::~SpriteRender() {
     }
 }
 
-void SpriteRender::update(const float& delta) {
+void SpriteRenderer::update(const float& delta) {
     RenderComponent::update(delta);
     this->draw();
 }
 
-void SpriteRender::setImage(const std::string& filename) {
+void SpriteRenderer::setImage(const std::string& filename) {
     if (_texture->getResourcePath() == filename) {
         return;
     }
@@ -72,14 +73,16 @@ void SpriteRender::setImage(const std::string& filename) {
     _texture = ResourcesManager::getInstance()->load<TextureResource>(filename);
 }
 
-void SpriteRender::setImage(const std::string& filename, const Vector2D& lb, const Vector2D& rt) {
+void SpriteRenderer::setImage(const std::string& filename, const Vector2D& lb, const Vector2D& rt) {
     this->setImage(filename);
     setBound(lb, rt);
 }
 
-void SpriteRender::draw() {
+void SpriteRenderer::draw() {
     if (_parent == nullptr) {
-        /// @todo error detected
+        throw exceptions::GameException("components::SpriteRenderer",
+                                        "draw",
+                                        "can't get parent object");
     }
 
     auto temp = static_cast<EntityObject*>(_parent);
@@ -112,7 +115,7 @@ void SpriteRender::draw() {
     Render::getInstance()->addRenderCommand(_command);
 }
 
-void SpriteRender::init(const typename ConfigResource::JsonObject& data) {
+void SpriteRenderer::init(const typename ConfigResource::JsonObject& data) {
     std::string name = data["filename"].GetString();
     if (!name.empty()) {
         _texture = ResourcesManager::getInstance()->load<TextureResource>(name);
@@ -122,10 +125,10 @@ void SpriteRender::init(const typename ConfigResource::JsonObject& data) {
     }
 }
 
-SpriteRender* SpriteRender::create(const typename ConfigResource::JsonObject& data) {
-    auto* com = new SpriteRender();
+SpriteRenderer* SpriteRenderer::create(const typename ConfigResource::JsonObject& data) {
+    auto* com = new SpriteRenderer();
     com->init(data);
     return com;
 }
 
-} // namespace ngind
+} // namespace ngind::components
