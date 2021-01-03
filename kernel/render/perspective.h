@@ -32,6 +32,8 @@ SOFTWARE.
 
 namespace ngind {
 
+using Vector2D = math::Vector2D;
+
 /**
 @class
     Player's perspective in game. It can project rendered objects to

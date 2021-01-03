@@ -1,32 +1,27 @@
-/** MIT License
-Copyright (c) 2020 NeilKleistGao
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+/**
+ * @copybrief
+ * MIT License
+ * Copyright (c) 2020 NeilKleistGao
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 /// @file keyboard_input.h
-/// @date 2020/10/24
-
-/**
-@brief
-    This file includes keyboard codes and keyboard input manager. You should not
-visit keyboard input class directly but use input class instead.
-*/
 
 #ifndef NGIND_KEYBOARD_INPUT_H
 #define NGIND_KEYBOARD_INPUT_H
@@ -35,13 +30,12 @@ visit keyboard input class directly but use input class instead.
 
 #include "glfw3.h"
 
-namespace ngind {
+namespace ngind::input {
 
 /**
-@enum
-    The keyboard code for keyboard input. It's a simple map for GLFW_KEY prefixing
-macros.
-*/
+* The keyboard code for keyboard input. It's a simple map for GLFW_KEY prefixing
+* macros.
+ */
 enum KeyboardCode {
     UNKNOWN = GLFW_KEY_UNKNOWN,
     SPACE = GLFW_KEY_SPACE,
@@ -138,34 +132,40 @@ enum KeyboardCode {
 };
 
 /**
-@class
-    The keyboard input manager. This is a more sophisticated interface with
-GLFWwindow as a param. Use Input class instead.
-*/
+ * The keyboard input manager. This is a more sophisticated interface with
+ * GLFWwindow as a param. Use Input class instead.
+ */
 class KeyboardInput {
 public:
-    /// @public
-    /// @param GLFWwindow* window: the GLFW window that is the event listener
+    /**
+     * @param window: the GLFW window that is the event listener
+     */
     explicit KeyboardInput(GLFWwindow* window);
 
-    /// @public
     ~KeyboardInput() = default;
 
-    /// @see kernel/input/input.h
-    bool getKeyPressed(GLFWwindow*, const KeyboardCode&);
+    /**
+     * @see kernel/input/input.h
+     */
+    bool getKeyPressed(GLFWwindow* window, const KeyboardCode& code);
 
-    /// @see kernel/input/input.h
-    bool getKey(GLFWwindow *, const KeyboardCode&);
+    /**
+     * @see kernel/input/input.h
+     */
+    bool getKey(GLFWwindow* window, const KeyboardCode& code);
 
-    /// @see kernel/input/input.h
-    bool getKeyReleased(GLFWwindow*, const KeyboardCode&);
+    /**
+     * @see kernel/input/input.h
+     */
+    bool getKeyReleased(GLFWwindow* window, const KeyboardCode& code);
 
 private:
-    /// @private
-    /// @property Record the press state of all keys
+    /**
+     * Record the press state of all keys
+     */
     std::set<KeyboardCode> _pressed;
 };
 
-} // namespace ngind
+} // namespace ngind::input
 
 #endif //NGIND_KEYBOARD_INPUT_H

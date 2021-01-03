@@ -32,6 +32,8 @@ SOFTWARE.
 
 namespace ngind {
 
+using Vector2D = math::Vector2D;
+
 /**
 @enum
     The color mode in textures. It's a mapping from GL macro to the enum form.

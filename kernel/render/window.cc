@@ -50,7 +50,7 @@ Window::Window(const size_t& width,
     }
 
     glfwMakeContextCurrent(this->_window);
-    Input::getInstance()->setWindowHandler(this->_window);
+    input::Input::getInstance()->setWindowHandler(this->_window);
 }
 
 Window::~Window() {

@@ -33,7 +33,7 @@
 #include "log_level.h"
 #include "filesystem/file_output_stream.h"
 
-namespace ngind {
+namespace ngind::log {
 
 /** This class is used to log text information for debug and recording data. You should
  * not create the instance directly. Try to use factory instead.
@@ -161,6 +161,6 @@ private:
 
     filesystem::FileOutputStream* _output;
 };
-} // namespace ngind
+} // namespace ngind::log
 
 #endif //NGIND_LOGGER_H

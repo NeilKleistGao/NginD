@@ -36,6 +36,8 @@ function for position/scale operation.
 
 namespace ngind {
 
+using Vector2D = math::Vector2D;
+
 /**
 @class
     This class is a special kind of object that you can specify its position,
