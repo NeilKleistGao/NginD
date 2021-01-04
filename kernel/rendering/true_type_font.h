@@ -8,10 +8,8 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,50 +19,41 @@
  * SOFTWARE.
  */
 
-/// @file memory_pool.cc
+/// @file true_type_font.h
 
-#include "memory_pool.h"
+#ifndef NGIND_TRUE_TYPE_FONT_H
+#define NGIND_TRUE_TYPE_FONT_H
 
-#include <iostream>
+#include <string>
 
-namespace ngind::memory {
-MemoryPool* MemoryPool::_instance = nullptr;
+#include <freetype2/ft2build.h>
+#include FT_FREETYPE_H
 
-MemoryPool* MemoryPool::getInstance() {
-    if (_instance == nullptr) {
-        _instance = new(std::nothrow) MemoryPool();
+namespace ngind::rendering {
+
+/**
+ * True type font(TTF) data. It's still being developed.
+ */
+class TrueTypeFont {
+public:
+    TrueTypeFont();
+
+    ~TrueTypeFont();
+
+    /**
+     * Set font face
+     * @param face: font face
+     */
+    inline void setFontFace(FT_Face face) {
+        _font_face = face;
     }
+private:
+    /**
+     * Font face data
+     */
+    FT_Face _font_face;
+};
 
-    return _instance;
-}
+} // namespace ngind::rendering
 
-void MemoryPool::destroyInstance() {
-    delete _instance;
-    _instance = nullptr;
-}
-
-void MemoryPool::clear() {
-    for (auto it : this->_pool) {
-        delete it;
-        it = nullptr;
-    }
-
-    this->_pool.clear();
-}
-
-MemoryPool::MemoryPool() {
-    this->_pool.clear();
-}
-
-MemoryPool::~MemoryPool() {
-    this->clear();
-}
-
-void MemoryPool::remove(AutoCollectionObject* obj) {
-    auto it = this->_pool.find(obj);
-    if (it != this->_pool.end()) {
-        this->_pool.erase(it);
-    }
-}
-
-} // namespace ngind
+#endif //NGIND_TRUE_TYPE_FONT_H

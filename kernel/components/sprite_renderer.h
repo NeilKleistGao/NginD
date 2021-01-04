@@ -26,20 +26,21 @@
 
 #include <string>
 
-#include "render/render_command.h"
+#include "rendering/render_command.h"
 #include "render_component.h"
 #include "resources/texture_resource.h"
 #include "math/vector.h"
-#include "render/rgba.h"
-#include "render/program.h"
-#include "render/quad.h"
+#include "rendering/rgba.h"
+#include "rendering/program.h"
+#include "rendering/quad.h"
 #include "objects/entity_object.h"
 #include "resources/program_resource.h"
 
 #include "rttr/registration.h"
 
-namespace ngind::components {
-
+namespace ngind {
+namespace components {
+using Vector2D = math::Vector2D;
 /**
  * The renderer component for sprite. You can create an instance both by new and by create
  * method. Just draw a lovely sprite on your screen!
@@ -61,23 +62,23 @@ public:
      * is inherited from Component
      * @param data: the configuration data this component initialization process requires.
      */
-    void init(const typename ConfigResource::JsonObject& data) override;
+    void init(const typename resources::ConfigResource::JsonObject& data) override;
 
     /**
      * Static function used by configuration creators. This function create a new instance of Sprite
      * @param data: the configuration data this component initialization process requires.
      * @return SpriteRenderer*, a pointer to the new instance.
      */
-    static SpriteRenderer* create(const typename ConfigResource::JsonObject& data);
+    static SpriteRenderer* create(const typename resources::ConfigResource::JsonObject& data);
 
     /**
-     * Set a new image to this render. It will release the old one texture resource.
+     * Set a new image to this rendering. It will release the old one texture resource.
      * @param filename: the image' filename
      */
     void setImage(const std::string& filename);
 
     /**
-     * Set a new image and new boundary to this render.
+     * Set a new image and new boundary to this rendering.
      * @param filename: the image' filename
      * @param lb: the left bottom boundary
      * @param rt: the right top boundary
@@ -85,7 +86,7 @@ public:
     void setImage(const std::string& filename, const Vector2D& lb, const Vector2D& rt);
 
     /**
-     * Get the filename of the texture used in this render.
+     * Get the filename of the texture used in this rendering.
      * @return std::string, the filename of texture
      */
     inline std::string getImageName() {
@@ -138,7 +139,7 @@ public:
      * Set the color mask of this sprite. The default color is pure white(#FFFFFFFF).
      * @param color: the color
      */
-    inline void setColor(const RGBA& color) {
+    inline void setColor(const rendering::RGBA& color) {
         _color = color;
     }
 
@@ -146,7 +147,7 @@ public:
      * Get the color mask of this sprite. The default color is pure white(#FFFFFFFF).
      * @return RGBA, the color
      */
-    inline RGBA getColor() const {
+    inline rendering::RGBA getColor() const {
         return _color;
     }
 
@@ -154,7 +155,7 @@ private:
     /**
      * The texture resource reference this sprite use.
      */
-    TextureResource* _texture;
+    resources::TextureResource* _texture;
 
     /**
      * The boundary vectors.
@@ -164,22 +165,22 @@ private:
     /**
      * Mask color.
      */
-    RGBA _color;
+    rendering::RGBA _color;
 
     /**
      * Render command this sprite used.
      */
-    QuadRenderCommand* _command;
+    rendering::QuadRenderCommand* _command;
 
     /**
      * Vertex shader and fragment shader this sprite used.
      */
-    ProgramResource* _program;
+    resources::ProgramResource* _program;
 
     /**
      * Quad information.
      */
-    Quad* _quad;
+    rendering::Quad* _quad;
 
 protected:
     /**
@@ -190,9 +191,9 @@ protected:
 
 RTTR_REGISTRATION {
     rttr::registration::class_<SpriteRenderer>("SpriteRenderer")
-        .method("create", &SpriteRenderer::create);
+            .method("create", &SpriteRenderer::create);
 }
-
-} // namespace ngind::components
+} // namespace components
+} // namespace ngind
 
 #endif //NGIND_SPRITE_RENDERER_H

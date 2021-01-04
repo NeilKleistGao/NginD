@@ -25,7 +25,7 @@
 
 #include "filesystem/file_input_stream.h"
 
-namespace ngind {
+namespace ngind::resources {
 const std::string ConfigResource::CONFIG_RESOURCE_PATH = "resources/config";
 
 void ConfigResource::load(const std::string& filename) {

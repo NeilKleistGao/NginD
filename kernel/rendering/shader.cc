@@ -8,10 +8,8 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,50 +19,37 @@
  * SOFTWARE.
  */
 
-/// @file memory_pool.cc
+/// @file shader.cc
 
-#include "memory_pool.h"
+#include "shader.h"
 
-#include <iostream>
+#include "filesystem/file_input_stream.h"
 
-namespace ngind::memory {
-MemoryPool* MemoryPool::_instance = nullptr;
+namespace ngind::rendering {
 
-MemoryPool* MemoryPool::getInstance() {
-    if (_instance == nullptr) {
-        _instance = new(std::nothrow) MemoryPool();
+Shader::Shader(const std::string& filename, const int& type) {
+    auto stream = new filesystem::FileInputStream(filename);
+    std::string code = stream->readAllCharacters();
+    stream->close();
+
+    this->_shader = glCreateShader(type);
+    const GLchar* str = code.c_str();
+
+    glShaderSource(this->_shader, 1, &str, nullptr);
+    glCompileShader(this->_shader);
+
+    GLint success;
+    glGetShaderiv(this->_shader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        // TODO:
     }
 
-    return _instance;
+    delete stream;
+    stream = nullptr;
 }
 
-void MemoryPool::destroyInstance() {
-    delete _instance;
-    _instance = nullptr;
+Shader::~Shader() {
+    glDeleteShader(this->_shader);
 }
 
-void MemoryPool::clear() {
-    for (auto it : this->_pool) {
-        delete it;
-        it = nullptr;
-    }
-
-    this->_pool.clear();
-}
-
-MemoryPool::MemoryPool() {
-    this->_pool.clear();
-}
-
-MemoryPool::~MemoryPool() {
-    this->clear();
-}
-
-void MemoryPool::remove(AutoCollectionObject* obj) {
-    auto it = this->_pool.find(obj);
-    if (it != this->_pool.end()) {
-        this->_pool.erase(it);
-    }
-}
-
-} // namespace ngind
+} // namespace ngind::rendering

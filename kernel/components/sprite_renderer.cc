@@ -25,8 +25,8 @@
 
 #include <vector>
 
-#include "render/render.h"
-#include "render/perspective.h"
+#include "rendering/renderer.h"
+#include "rendering/perspective.h"
 #include "resources/resources_manager.h"
 #include "exceptions/game_exception.h"
 
@@ -40,13 +40,13 @@ SpriteRenderer::SpriteRenderer()
 
 SpriteRenderer::~SpriteRenderer() {
     if (_texture != nullptr) {
-        ResourcesManager::getInstance()->release(_texture->getResourcePath());
+        resources::ResourcesManager::getInstance()->release(_texture->getResourcePath());
         delete _texture;
         _texture = nullptr;
     }
 
     if (_program != nullptr) {
-        ResourcesManager::getInstance()->release(_program->getResourcePath());
+        resources::ResourcesManager::getInstance()->release(_program->getResourcePath());
         delete _program;
         _program = nullptr;
     }
@@ -68,9 +68,9 @@ void SpriteRenderer::setImage(const std::string& filename) {
     }
 
     if (_texture != nullptr) {
-        ResourcesManager::getInstance()->release(_texture->getResourcePath());
+        resources::ResourcesManager::getInstance()->release(_texture->getResourcePath());
     }
-    _texture = ResourcesManager::getInstance()->load<TextureResource>(filename);
+    _texture = resources::ResourcesManager::getInstance()->load<resources::TextureResource>(filename);
 }
 
 void SpriteRenderer::setImage(const std::string& filename, const Vector2D& lb, const Vector2D& rt) {
@@ -85,20 +85,20 @@ void SpriteRenderer::draw() {
                                         "can't get parent object");
     }
 
-    auto temp = static_cast<EntityObject*>(_parent);
+    auto temp = static_cast<objects::EntityObject*>(_parent);
     auto pos = temp->getPosition();
     auto sz = _texture->getTextureSize();
 
     if (_command == nullptr) {
-        _command = new QuadRenderCommand();
+        _command = new rendering::QuadRenderCommand();
     }
 
     if (_quad == nullptr) {
-        auto color_size = (_texture->getTextureColorMode() == TextureColorMode::MODE_RGB) ? 3 : 4;
-        auto bound = Perspective::getInstance()->getPerspectiveSize() * 0.5f;
+        auto color_size = (_texture->getTextureColorMode() == rendering::TextureColorMode::MODE_RGB) ? 3 : 4;
+        auto bound = rendering::Perspective::getInstance()->getPerspectiveSize() * 0.5f;
         auto texture_size = _texture->getTextureSize();
 
-        _quad = new Quad({
+        _quad = new rendering::Quad({
                 (pos.getX() + texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() + texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // Top Right
                 (pos.getX() + texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() - texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // Bottom Right
                 (pos.getX() - texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() - texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // Bottom Left
@@ -112,20 +112,20 @@ void SpriteRenderer::draw() {
     _command->transparent = false;
     _command->program = _program->getProgram();
 
-    Render::getInstance()->addRenderCommand(_command);
+    rendering::Renderer::getInstance()->addRendererCommand(_command);
 }
 
-void SpriteRenderer::init(const typename ConfigResource::JsonObject& data) {
+void SpriteRenderer::init(const typename resources::ConfigResource::JsonObject& data) {
     std::string name = data["filename"].GetString();
     if (!name.empty()) {
-        _texture = ResourcesManager::getInstance()->load<TextureResource>(name);
+        _texture = resources::ResourcesManager::getInstance()->load<resources::TextureResource>(name);
     }
     if (_program == nullptr) {
-        _program = ResourcesManager::getInstance()->load<ProgramResource>("sprite"); // default sprite shader
+        _program = resources::ResourcesManager::getInstance()->load<resources::ProgramResource>("sprite"); // default sprite shader
     }
 }
 
-SpriteRenderer* SpriteRenderer::create(const typename ConfigResource::JsonObject& data) {
+SpriteRenderer* SpriteRenderer::create(const typename resources::ConfigResource::JsonObject& data) {
     auto* com = new SpriteRenderer();
     com->init(data);
     return com;

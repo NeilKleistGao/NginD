@@ -27,7 +27,7 @@
 #include "input/input.h"
 #include "SOIL2/SOIL2.h"
 
-namespace ngind {
+namespace ngind::rendering {
 
 Window::Window(const size_t& width,
         const size_t& height,
@@ -72,7 +72,7 @@ void Window::setIcon(const std::string& path) {
         // TODO:
     }
 
-    this->_icon->pixels = SOIL_load_image((TextureResource::IMAGE_RESOURCE_PATH + "/" + path).c_str(),
+    this->_icon->pixels = SOIL_load_image((resources::TextureResource::IMAGE_RESOURCE_PATH + "/" + path).c_str(),
                                           &this->_icon->width, &this->_icon->height,
                                           nullptr, SOIL_LOAD_RGBA);
 

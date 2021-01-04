@@ -21,50 +21,42 @@
  * SOFTWARE.
  */
 
-/// @file memory_pool.cc
+/// @file font_factory.h
 
-#include "memory_pool.h"
+#include "font_factory.h"
 
-#include <iostream>
+namespace ngind::rendering {
+FontFactory* FontFactory::_instance = nullptr;
 
-namespace ngind::memory {
-MemoryPool* MemoryPool::_instance = nullptr;
+FontFactory::FontFactory() : _library(nullptr) {
+    auto error = FT_Init_FreeType(&_library);
+    if (error) {
+        // TODO: throw
+    }
+}
 
-MemoryPool* MemoryPool::getInstance() {
+FontFactory* FontFactory::getInstance() {
     if (_instance == nullptr) {
-        _instance = new(std::nothrow) MemoryPool();
+        _instance = new(std::nothrow) FontFactory();
     }
 
     return _instance;
 }
 
-void MemoryPool::destroyInstance() {
-    delete _instance;
-    _instance = nullptr;
-}
-
-void MemoryPool::clear() {
-    for (auto it : this->_pool) {
-        delete it;
-        it = nullptr;
-    }
-
-    this->_pool.clear();
-}
-
-MemoryPool::MemoryPool() {
-    this->_pool.clear();
-}
-
-MemoryPool::~MemoryPool() {
-    this->clear();
-}
-
-void MemoryPool::remove(AutoCollectionObject* obj) {
-    auto it = this->_pool.find(obj);
-    if (it != this->_pool.end()) {
-        this->_pool.erase(it);
+void FontFactory::destroyInstance() {
+    if (_instance != nullptr) {
+        delete _instance;
+        _instance = nullptr;
     }
 }
 
-} // namespace ngind
+FT_Face FontFactory::loadFontFace(const std::string& filename, const long& index) {
+    FT_Face face = nullptr;
+    auto error = FT_New_Face(_library, filename.c_str(), index, &face);
+    if (error) {
+        face = nullptr;
+    }
+
+    return face;
+}
+} // namespace ngind::rendering

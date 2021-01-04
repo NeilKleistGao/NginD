@@ -19,32 +19,21 @@
  * SOFTWARE.
  */
 
-/// @file shader.h
+/// @file true_type_font.cc
+/// @date 2020/10/19
 
+#include "true_type_font.h"
 
-#ifndef NGIND_SHADER_H
-#define NGIND_SHADER_H
+namespace ngind::rendering {
 
-#include <string>
+TrueTypeFont::TrueTypeFont() : _font_face(nullptr) {
+}
 
-#include "GL/glew.h"
-
-namespace ngind {
-
-class Shader {
-public:
-    Shader(const std::string&, const int&);
-    ~Shader();
-    Shader(const Shader&) = delete;
-    Shader& operator= (const Shader&) = delete;
-
-    inline GLuint getShader() const {
-        return _shader;
+TrueTypeFont::~TrueTypeFont() {
+    auto error = FT_Done_Face(_font_face);
+    if (error) {
+        ///@todo
     }
-private:
-    GLuint _shader;
-};
+}
 
-} // namespace ngind
-
-#endif //NGIND_SHADER_H
+} // namespace ngind::rendering

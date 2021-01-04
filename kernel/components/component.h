@@ -34,19 +34,22 @@
 
 namespace ngind {
 
+namespace objects {
 class Object;
+} // namespace objects
 namespace components {
+using Object = objects::Object;
 /**
  * Basic class of all components. You can create an instance either by newing or
  * by create/init functions. We do not allow user to create a basic component in
  * configuration files so create function is not declared.
  */
-class Component : public UpdatableObject {
+class Component : public objects::UpdatableObject {
 public:
     Component() = default;
     virtual ~Component() {
         for (auto& r : _resources_list) {
-            ResourcesManager::getInstance()->release(r->getResourcePath());
+            resources::ResourcesManager::getInstance()->release(r->getResourcePath());
         }
 
         _resources_list.clear();
@@ -65,7 +68,7 @@ public:
      * @param object: the configuration data
      * this component initialization process requires.
      */
-    virtual void init(const typename ConfigResource::JsonObject& object) {}
+    virtual void init(const typename resources::ConfigResource::JsonObject& object) {}
 
     /**
      * Get the parent object of this component.
@@ -90,7 +93,7 @@ protected:
      */
     Object* _parent;
 
-    std::vector<Resource*> _resources_list;
+    std::vector<resources::Resource*> _resources_list;
 };
 
 } // namespace components

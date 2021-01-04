@@ -23,7 +23,7 @@
 
 #include "texture_resource.h"
 
-namespace ngind {
+namespace ngind::resources {
 const std::string TextureResource::IMAGE_RESOURCE_PATH = "resources/images";
 
 void TextureResource::load(const std::string& filename) {
@@ -38,10 +38,10 @@ void TextureResource::load(const std::string& filename) {
     std::string ext = filename.substr(pos + 1);
 
     if (ext == "png") {
-        _texture = new Texture(IMAGE_RESOURCE_PATH + "/" + filename, TextureColorMode::MODE_RGBA);
+        _texture = new rendering::Texture(IMAGE_RESOURCE_PATH + "/" + filename, rendering::TextureColorMode::MODE_RGBA);
     }
     else if (ext == "jpg") {
-        _texture = new Texture(IMAGE_RESOURCE_PATH + "/" + filename, TextureColorMode::MODE_RGB);
+        _texture = new rendering::Texture(IMAGE_RESOURCE_PATH + "/" + filename, rendering::TextureColorMode::MODE_RGB);
     }
     else {
         // TODO: unsupported format

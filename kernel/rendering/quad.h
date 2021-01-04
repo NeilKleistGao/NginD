@@ -21,50 +21,59 @@
  * SOFTWARE.
  */
 
-/// @file memory_pool.cc
+/// @file quad.h
 
-#include "memory_pool.h"
+#ifndef NGIND_QUAD_H
+#define NGIND_QUAD_H
 
-#include <iostream>
+#include "GL/glew.h"
 
-namespace ngind::memory {
-MemoryPool* MemoryPool::_instance = nullptr;
+#include <initializer_list>
+#include <cstdio>
 
-MemoryPool* MemoryPool::getInstance() {
-    if (_instance == nullptr) {
-        _instance = new(std::nothrow) MemoryPool();
+namespace ngind::rendering {
+
+/**
+ * The quad data to be rendered.
+ */
+class Quad {
+public:
+    /**
+     * @param vs: the data of vertices
+     * @param color_size: the number of color channel
+     */
+    Quad(std::initializer_list<GLfloat> vs, const size_t& color_size);
+
+    ~Quad();
+
+    Quad(const Quad&) = delete;
+    Quad& operator= (const Quad&) = delete;
+
+    /**
+     * Get the vertices array object index
+     * @return GLuint, the index of vao
+     */
+    inline GLuint getVAO() const {
+        return _vao;
     }
 
-    return _instance;
-}
+private:
+    /**
+     * The vertices array object
+     */
+    GLuint _vao;
 
-void MemoryPool::destroyInstance() {
-    delete _instance;
-    _instance = nullptr;
-}
+    /**
+     * The vertices buffer object
+     */
+    GLuint _vbo;
 
-void MemoryPool::clear() {
-    for (auto it : this->_pool) {
-        delete it;
-        it = nullptr;
-    }
+    /**
+     * The elements buffer object
+     */
+    GLuint _ebo;
+};
 
-    this->_pool.clear();
-}
+} // namespace ngind::rendering
 
-MemoryPool::MemoryPool() {
-    this->_pool.clear();
-}
-
-MemoryPool::~MemoryPool() {
-    this->clear();
-}
-
-void MemoryPool::remove(AutoCollectionObject* obj) {
-    auto it = this->_pool.find(obj);
-    if (it != this->_pool.end()) {
-        this->_pool.erase(it);
-    }
-}
-
-} // namespace ngind
+#endif //NGIND_QUAD_H

@@ -1,28 +1,27 @@
-/** MIT License
-Copyright (c) 2020 NeilKleistGao
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+/**
+ * @copybrief
+ * MIT License
+ * Copyright (c) 2020 NeilKleistGao
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 /// @file world.h
-/// @date 2020/10/31
-
-/// @brief This file includes the implementation of world.
 
 #include "world.h"
 
@@ -30,11 +29,11 @@ SOFTWARE.
 #include "entity_object.h"
 #include "rttr/registration.h"
 
-namespace ngind {
+namespace ngind::objects {
 
 World::World(std::string name) : _name(std::move(name)), _config(nullptr), _background_color() {
-    _config = ResourcesManager::getInstance()->load<ConfigResource>("world-" + _name + ".json");
-    _background_color = RGBA(_config->getDocument()["background-color"].GetString());
+    _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("world-" + _name + ".json");
+    _background_color = rendering::RGBA(_config->getDocument()["background-color"].GetString());
 
     loadObjects();
 }
@@ -52,7 +51,7 @@ void World::loadObjects() {
     }
 }
 
-Object* World::generateObject(Object* self, const typename ConfigResource::JsonObject& data) {
+Object* World::generateObject(Object* self, const typename resources::ConfigResource::JsonObject& data) {
     Object* object = nullptr;
     if (std::string(data["type"].GetString()) == "entity") {
         object = new EntityObject();
@@ -91,7 +90,7 @@ Object* World::generateObject(Object* self, const typename ConfigResource::JsonO
     return object;
 }
 
-components::Component* World::generateComponent(const typename ConfigResource::JsonObject& data) {
+components::Component* World::generateComponent(const typename resources::ConfigResource::JsonObject& data) {
     rttr::type type = rttr::type::get_by_name(data["name"].GetString());
     rttr::variant temp = type.create();
     rttr::method create_func = type.get_method("create");
@@ -102,4 +101,4 @@ components::Component* World::generateComponent(const typename ConfigResource::J
     return com;
 }
 
-} // namespace ngind
+} // namespace ngind::objects

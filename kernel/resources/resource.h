@@ -30,22 +30,36 @@
 
 #include "memory/auto_collection_object.h"
 
-namespace ngind {
+namespace ngind::resources {
 
-class Resource : public AutoCollectionObject {
+/**
+ * Basic resource class. All kinds of resources must implement the load function.
+ */
+class Resource : public memory::AutoCollectionObject {
 public:
     Resource() = default;
     virtual ~Resource() = default;
-    virtual void load(const std::string&) = 0;
+    /**
+     * Load resource.
+     * @param name: name of resource
+     */
+    virtual void load(const std::string& name) = 0;
 
+    /**
+     * Get path of resource.
+     * @return std::string, path of resource
+     */
     inline const std::string getResourcePath() const {
         return _path;
     }
 
 protected:
+    /**
+     * Path of resource.
+     */
     std::string _path;
 };
 
-} // namespace ngind
+} // namespace ngind::resources
 
 #endif //NGIND_RESOURCE_H

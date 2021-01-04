@@ -21,50 +21,28 @@
  * SOFTWARE.
  */
 
-/// @file memory_pool.cc
+/// @file rgba.h
 
-#include "memory_pool.h"
+#ifndef NGIND_RGBA_H
+#define NGIND_RGBA_H
 
-#include <iostream>
+#include "utils/converter.h"
 
-namespace ngind::memory {
-MemoryPool* MemoryPool::_instance = nullptr;
+namespace ngind::rendering {
 
-MemoryPool* MemoryPool::getInstance() {
-    if (_instance == nullptr) {
-        _instance = new(std::nothrow) MemoryPool();
+struct RGBA {
+    RGBA() = default;
+    explicit RGBA(const std::string& code) {
+        auto color = Converter::convertHexString(code.substr(1));
+        r = (color & 0xFF000000) >> 24;
+        g = (color & 0x00FF0000) >> 16;
+        b = (color & 0x0000FF00) >> 8;
+        a = color & 0x000000FF;
     }
 
-    return _instance;
-}
+    unsigned char r, g, b, a;
+};
 
-void MemoryPool::destroyInstance() {
-    delete _instance;
-    _instance = nullptr;
-}
+} // namespace ngind::rendering
 
-void MemoryPool::clear() {
-    for (auto it : this->_pool) {
-        delete it;
-        it = nullptr;
-    }
-
-    this->_pool.clear();
-}
-
-MemoryPool::MemoryPool() {
-    this->_pool.clear();
-}
-
-MemoryPool::~MemoryPool() {
-    this->clear();
-}
-
-void MemoryPool::remove(AutoCollectionObject* obj) {
-    auto it = this->_pool.find(obj);
-    if (it != this->_pool.end()) {
-        this->_pool.erase(it);
-    }
-}
-
-} // namespace ngind
+#endif //NGIND_RGBA_H

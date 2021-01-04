@@ -21,50 +21,57 @@
  * SOFTWARE.
  */
 
-/// @file memory_pool.cc
+/// @file render_command.h
 
-#include "memory_pool.h"
+#ifndef NGIND_RENDER_COMMAND_H
+#define NGIND_RENDER_COMMAND_H
 
-#include <iostream>
+#include "quad.h"
+#include "program.h"
+#include "math/vector.h"
+#include "rgba.h"
 
-namespace ngind::memory {
-MemoryPool* MemoryPool::_instance = nullptr;
+namespace ngind::rendering {
 
-MemoryPool* MemoryPool::getInstance() {
-    if (_instance == nullptr) {
-        _instance = new(std::nothrow) MemoryPool();
-    }
+enum RenderCommandType {
+    UNKNOWN_COMMAND,
+    QUAD_COMMAND,
+    // TODO: other types
+};
 
-    return _instance;
-}
+struct RenderCommand {
+public:
+    unsigned int z_order{};
+    const RenderCommandType type;
+    bool transparent{};
 
-void MemoryPool::destroyInstance() {
-    delete _instance;
-    _instance = nullptr;
-}
+    explicit RenderCommand(const RenderCommandType& t = UNKNOWN_COMMAND)
+        : type(t) {}
+};
 
-void MemoryPool::clear() {
-    for (auto it : this->_pool) {
-        delete it;
-        it = nullptr;
-    }
+/**
+ * This command is designed for quad rendering.
+ */
+struct QuadRenderCommand : public RenderCommand {
+    /**
+     * ID of texture that rendering will use
+     */
+    GLuint texture_id{};
 
-    this->_pool.clear();
-}
+    /**
+     * Quad data
+     */
+    Quad* quad;
 
-MemoryPool::MemoryPool() {
-    this->_pool.clear();
-}
+    /**
+     * Render program
+     */
+    Program* program;
 
-MemoryPool::~MemoryPool() {
-    this->clear();
-}
-
-void MemoryPool::remove(AutoCollectionObject* obj) {
-    auto it = this->_pool.find(obj);
-    if (it != this->_pool.end()) {
-        this->_pool.erase(it);
-    }
-}
+    QuadRenderCommand()
+        : RenderCommand(QUAD_COMMAND), quad(nullptr), program(nullptr) {}
+};
 
 } // namespace ngind
+
+#endif //NGIND_RENDER_COMMAND_H

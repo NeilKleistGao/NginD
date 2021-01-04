@@ -29,7 +29,7 @@
 namespace ngind::components {
 
 /**
- * Basic class of all render component. This class is a abstract class so you can't
+ * Basic class of all rendering component. This class is a abstract class so you can't
  * create an instance unless you implement the draw function.
  * If your component will not show anything on the screen, use simple Component class
  * instead.
@@ -50,10 +50,10 @@ public:
      * Initialization function of this class used by configuration creating method.
      * @param data: the configuration data this component initialization process requires.
      */
-    virtual void init(const typename ConfigResource::JsonObject& data) {};
+    virtual void init(const typename resources::ConfigResource::JsonObject& data) {};
 protected:
     /**
-     * Create some render command and send them to the render queue in order to show
+     * Create some rendering command and send them to the rendering queue in order to show
      * something on the screen. This method should be called in update.
      */
     virtual void draw() = 0;

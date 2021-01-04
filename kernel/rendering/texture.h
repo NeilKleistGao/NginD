@@ -19,83 +19,101 @@
  * SOFTWARE.
  */
 
-/// @file texture_resource.h
+/// @file texture.h
 
-#ifndef NGIND_TEXTURE_RESOURCE_H
-#define NGIND_TEXTURE_RESOURCE_H
+#ifndef NGIND_TEXTURE_H
+#define NGIND_TEXTURE_H
 
-#include <iostream>
+#include <string>
 
-#include "rendering/texture.h"
-#include "resource.h"
+#include "GL/glew.h"
 #include "math/vector.h"
 
-namespace ngind::resources {
+namespace ngind::rendering {
 
 using Vector2D = math::Vector2D;
 
 /**
- * Resource class containing texture data.
+ * The color mode in textures. It's a mapping from GL macro to the enum form.
  */
-class TextureResource : public Resource {
+enum TextureColorMode {
+    MODE_RGB = GL_RGB,
+    MODE_RGBA = GL_RGBA
+};
+
+/**
+ * Texture container used for rendering. It only supports JPEG and PNG formats now.
+ */
+class Texture {
 public:
-    const static std::string IMAGE_RESOURCE_PATH;
-
-    TextureResource() = default;
-    ~TextureResource() override = default;
-
     /**
-     * @see kernel/resources/resource.h
+     * @param filename: picture path
+     * @param mode: color mode of picture
      */
-    virtual void load(const std::string&);
+    Texture(const std::string& filename, const TextureColorMode& mode);
+
+    ~Texture();
+
+    Texture(const Texture&) = delete;
+    Texture& operator= (const Texture&) = delete;
 
     /**
-     * Get the id of texture in OpenGL.
+     * Get the id of texture
      * @return GLuint, id of texture
      */
     inline GLuint getTextureID() const {
-        return _texture->getTextureID();
+        return _texture_id;
     }
 
     /**
-     * Get the size of texture.
-     * @return Vector2D, size of texture
-     */
-    inline Vector2D getTextureSize() const {
-        return _texture->getSize();
-    }
-
-    /**
-     * Get width of texture.
+     * Get the width of texture
      * @return float, width of texture
      */
-    inline float getTextureWidth() const {
-        return _texture->getWidth();
+    inline float getWidth() const {
+        return _size.getX();
     }
 
     /**
-     * Get height of texture.
+     * Get the height of texture
      * @return float, height of texture
      */
-    inline float getTextureHeight() const {
-        return _texture->getHeight();
+    inline float getHeight() const {
+        return _size.getY();
     }
 
     /**
-     * Get color mode of texture.
+     * Get the size of texture
+     * @return Vector2D, size of texture
+     */
+    inline Vector2D getSize() const {
+        return _size;
+    }
+
+    /**
+     * Get color mode of texture
      * @return TextureColorMode, color mode of texture
      */
-    inline rendering::TextureColorMode getTextureColorMode() const {
-        return _texture->getColorMode();
+    inline TextureColorMode getColorMode() const {
+        return _mode;
     }
 
 private:
     /**
-     * Texture pointer.
+     * Texture id
      */
-    rendering::Texture* _texture;
+    GLuint _texture_id;
+
+    /**
+     * Size of texture
+     */
+    Vector2D _size;
+
+    /**
+     * Color mode of texture
+     */
+    TextureColorMode _mode;
 };
 
-}
+} // namespace ngind::rendering
 
-#endif //NGIND_TEXTURE_RESOURCE_H
+#endif //NGIND_TEXTURE_H

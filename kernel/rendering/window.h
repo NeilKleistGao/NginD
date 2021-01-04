@@ -29,7 +29,7 @@
 
 #include "include/opengl/glfw3.h"
 
-namespace ngind {
+namespace ngind::rendering {
 
 /**
  * Window management class. It's an encapsulation for glfw window.
@@ -61,7 +61,7 @@ public:
     }
 
     /**
-     * Swap render buffers.
+     * Swap rendering buffers.
      */
     inline void swapBuffer() {
         glfwSwapBuffers(this->_window);

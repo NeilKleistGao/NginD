@@ -8,8 +8,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,51 +21,70 @@
  * SOFTWARE.
  */
 
-/// @file config_resource.h
+/// @file render_queue.h
 
-#ifndef NGIND_CONFIG_RESOURCE_H
-#define NGIND_CONFIG_RESOURCE_H
+#ifndef NGIND_RENDERING_QUEUE_H
+#define NGIND_RENDERING_QUEUE_H
 
-#include "resource.h"
+#include "render_command.h"
 
-#include "include/rapidjson/document.h"
+#include <vector>
 
-namespace ngind::resources {
+namespace ngind::rendering {
 
 /**
- * Resource class containing configure data.
+ * A simple queue used to store the rendering commands.
  */
-class ConfigResource : public Resource {
+class RenderingQueue {
 public:
-    /**
-     * Path all configure files stored
-     */
-    const static std::string CONFIG_RESOURCE_PATH;
+    RenderingQueue() = default;
+    ~RenderingQueue() = default;
 
-    ConfigResource() = default;
-    ~ConfigResource() override = default;
+    using iterator = std::vector<RenderCommand*>::iterator;
 
     /**
-     * @see kernel/resources/resource.h
+     * Get iterator pointing the beginning of queue
+     * @return iterator, beginning iterator
      */
-    virtual void load(const std::string&);
-
-    using JsonObject = rapidjson::GenericValue<rapidjson::UTF8<>>;
-
-    /**
-     * Get JSON document object.
-     * @return
-     */
-    inline rapidjson::Document& getDocument() {
-        return _doc;
+    inline iterator begin() {
+        return _queue.begin();
     }
+
+    /**
+     * Get iterator pointing the end of queue
+     * @return iterator, end iterator
+     */
+    inline iterator end() {
+        return _queue.end();
+    }
+
+    /**
+     * Clean the queue
+     */
+    inline void clear() {
+        _queue.clear();
+    }
+
+    /**
+     * Push a command pointer into queue
+     * @param command: command to be pushed
+     */
+    inline void push(RenderCommand* command) {
+        _queue.push_back(command);
+    }
+
+    /**
+     * Sort all commands by order in z-dim
+     */
+    void sort();
+
 private:
     /**
-     * JSON document object
+     * Vector buffer to store commands
      */
-    rapidjson::Document _doc;
+    std::vector<RenderCommand*> _queue;
 };
 
-} // namespace ngind::resources
+} // namespace ngind::rendering
 
-#endif //NGIND_CONFIG_RESOURCE_H
+#endif //NGIND_RENDERING_QUEUE_H

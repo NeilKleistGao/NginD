@@ -139,7 +139,7 @@ typedef struct GLXRender {
 #define __GLX_MAX_RENDER_CMD_SIZE	64000
 
 /*
-** Large render command request.  A single large rendering command
+** Large rendering command request.  A single large rendering command
 ** is output in multiple X extension requests.	The first packet
 ** contains an opcode dependent header (see below) that describes
 ** the data that follows.

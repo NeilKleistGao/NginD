@@ -1,48 +1,61 @@
-/** MIT License
-Copyright (c) 2020 NeilKleistGao
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+/**
+ * @copybrief
+ * MIT License
+ * Copyright (c) 2020 NeilKleistGao
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
-    The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
-// FILENAME: program_resource.h
-// LAST MODIFY: 2020/11/1
+/// @file program_resource.h
 
 #ifndef NGIND_PROGRAM_RESOURCE_H
 #define NGIND_PROGRAM_RESOURCE_H
 
 #include "resource.h"
-#include "render/program.h"
+#include "rendering/program.h"
 
-namespace ngind {
+namespace ngind::resources {
 
+/**
+ * Resource class containing program data.
+ */
 class ProgramResource : public Resource {
 public:
     ProgramResource();
     ~ProgramResource();
 
+    /**
+     * @see kernel/resources/resource.h
+     */
     void load(const std::string&) override;
 
-    inline Program* getProgram() const {
+    /**
+     * Get program object
+     * @return Program*, the program object
+     */
+    inline rendering::Program* getProgram() const {
         return _program;
     }
 private:
-    Program* _program;
+    /**
+     * The program object
+     */
+    rendering::Program* _program;
 };
 
-} // namespace ngind
+} // namespace ngind::resources
 
 #endif //NGIND_PROGRAM_RESOURCE_H

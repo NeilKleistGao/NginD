@@ -32,11 +32,22 @@
 #include "resource.h"
 #include "coroutine/coroutine.h"
 
-namespace ngind {
+namespace ngind::resources {
 
+/**
+ * Manager of all kinds of resources.
+ */
 class ResourcesManager {
 public:
+    /**
+     * Get the instance of resources manager.
+     * @return ResourcesManager*, the instance of resources manager
+     */
     static ResourcesManager* getInstance();
+
+    /**
+     * Destory the instance of resources manager.
+     */
     static void destroyInstance();
 
 //    template<typename Type, typename std::enable_if_t<std::is_base_of_v<Resource, Type>, int> N = 0>
@@ -46,6 +57,12 @@ public:
 //        return coroutine;
 //    }
 
+    /**
+     * Load resource by path.
+     * @tparam Type: specific type of resource
+     * @param path: the path of resource
+     * @return Type*, the resource object
+     */
     template<typename Type, typename std::enable_if_t<std::is_base_of_v<Resource, Type>, int> N = 0>
     Type* load(const std::string& path) {
         if (this->_resources.find(path) != this->_resources.end()) {
@@ -65,7 +82,11 @@ public:
         return static_cast<Type*>(this->_resources[path]);
     }
 
-    void release(const std::string&);
+    /**
+     * Release resource by path
+     * @param path: path of resource
+     */
+    void release(const std::string& path);
 
     ResourcesManager(const ResourcesManager&) = delete;
     ResourcesManager(ResourcesManager&&) = delete;
@@ -73,10 +94,17 @@ private:
     ResourcesManager() = default;
     ~ResourcesManager() = default;
 
+    /**
+     * The instance of resources manager
+     */
     static ResourcesManager* _instance;
+
+    /**
+     * The RB-Tree storing mapping between paths and resources.
+     */
     std::map<std::string, Resource*> _resources;
 };
 
-} // namespace ngind
+} // namespace ngind::resources
 
 #endif //NGIND_RESOURCES_MANAGER_H

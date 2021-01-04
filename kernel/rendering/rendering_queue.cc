@@ -21,50 +21,23 @@
  * SOFTWARE.
  */
 
-/// @file memory_pool.cc
+/// @file render_queue.cc
 
-#include "memory_pool.h"
+#include "rendering_queue.h"
 
-#include <iostream>
+#include <algorithm>
 
-namespace ngind::memory {
-MemoryPool* MemoryPool::_instance = nullptr;
+namespace ngind::rendering {
 
-MemoryPool* MemoryPool::getInstance() {
-    if (_instance == nullptr) {
-        _instance = new(std::nothrow) MemoryPool();
+void RenderingQueue::sort() {
+    if (_queue.empty()) {
+        return;
     }
 
-    return _instance;
+    std::sort(_queue.begin(), _queue.end(),
+              [](RenderCommand* c1, RenderCommand* c2) -> bool {
+        return c1->z_order < c2->z_order;
+    });
 }
 
-void MemoryPool::destroyInstance() {
-    delete _instance;
-    _instance = nullptr;
-}
-
-void MemoryPool::clear() {
-    for (auto it : this->_pool) {
-        delete it;
-        it = nullptr;
-    }
-
-    this->_pool.clear();
-}
-
-MemoryPool::MemoryPool() {
-    this->_pool.clear();
-}
-
-MemoryPool::~MemoryPool() {
-    this->clear();
-}
-
-void MemoryPool::remove(AutoCollectionObject* obj) {
-    auto it = this->_pool.find(obj);
-    if (it != this->_pool.end()) {
-        this->_pool.erase(it);
-    }
-}
-
-} // namespace ngind
+} // namespace

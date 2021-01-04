@@ -8,10 +8,8 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,57 +19,46 @@
  * SOFTWARE.
  */
 
-/// @file render_command.h
+/// @file shader.h
 
-#ifndef NGIND_RENDER_COMMAND_H
-#define NGIND_RENDER_COMMAND_H
 
-#include "quad.h"
-#include "program.h"
-#include "math/vector.h"
-#include "rgba.h"
+#ifndef NGIND_SHADER_H
+#define NGIND_SHADER_H
 
-namespace ngind {
+#include <string>
 
-enum RenderCommandType {
-    UNKNOWN_COMMAND,
-    QUAD_COMMAND,
-    // TODO: other types
-};
+#include "GL/glew.h"
 
-struct RenderCommand {
-public:
-    unsigned int z_order{};
-    const RenderCommandType type;
-    bool transparent{};
-
-    explicit RenderCommand(const RenderCommandType& t = UNKNOWN_COMMAND)
-        : type(t) {}
-};
+namespace ngind::rendering {
 
 /**
- * This command is designed for quad render.
+ * This class contains a reference of OpenGL rendering shader.
  */
-struct QuadRenderCommand : public RenderCommand {
+class Shader {
+public:
     /**
-     * ID of texture that render will use
+     * @param filename: shader file's name
+     * @param type: type of shader
      */
-    GLuint texture_id{};
+    Shader(const std::string& filename, const int& type);
+    ~Shader();
+    Shader(const Shader&) = delete;
+    Shader& operator= (const Shader&) = delete;
 
     /**
-     * Quad data
+     * Get index of shader in OpenGL
+     * @return GLuint, index of shader
      */
-    Quad* quad;
-
+    inline GLuint getShader() const {
+        return _shader;
+    }
+private:
     /**
-     * Render program
+     * Index of shader
      */
-    Program* program;
-
-    QuadRenderCommand()
-        : RenderCommand(QUAD_COMMAND), quad(nullptr), program(nullptr) {}
+    GLuint _shader;
 };
 
-} // namespace ngind
+} // namespace ngind::rendering
 
-#endif //NGIND_RENDER_COMMAND_H
+#endif //NGIND_SHADER_H

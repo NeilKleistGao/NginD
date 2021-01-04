@@ -30,7 +30,7 @@
 #include "mouse_input.h"
 #include "text_input.h"
 
-#include "render/window.h"
+#include "rendering/window.h"
 
 namespace ngind::input {
 /**
@@ -132,7 +132,7 @@ public:
         _text_mod = is_enable;
     }
 
-    friend class ngind::Window;
+    friend class ngind::rendering::Window;
 private:
     /**
      * The instance object

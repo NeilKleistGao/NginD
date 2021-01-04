@@ -21,50 +21,56 @@
  * SOFTWARE.
  */
 
-/// @file memory_pool.cc
+/// @file font_factory.h
 
-#include "memory_pool.h"
+#ifndef NGIND_FONT_FACTORY_H
+#define NGIND_FONT_FACTORY_H
 
-#include <iostream>
+#include <string>
 
-namespace ngind::memory {
-MemoryPool* MemoryPool::_instance = nullptr;
+#include "freetype2/ft2build.h"
+#include FT_FREETYPE_H
 
-MemoryPool* MemoryPool::getInstance() {
-    if (_instance == nullptr) {
-        _instance = new(std::nothrow) MemoryPool();
-    }
+namespace ngind::rendering {
 
-    return _instance;
-}
+/**
+ * This class is defined for font face data creating.
+ */
+class FontFactory {
+public:
+    /**
+     * Get instance of factory
+     * @return FontFactory*, the instance of factory
+     */
+    static FontFactory* getInstance();
 
-void MemoryPool::destroyInstance() {
-    delete _instance;
-    _instance = nullptr;
-}
+    /**
+     * Destroy instance of factory
+     */
+    static void destroyInstance();
 
-void MemoryPool::clear() {
-    for (auto it : this->_pool) {
-        delete it;
-        it = nullptr;
-    }
+    /**
+     * Load font face data from file
+     * @param filename: filename of font
+     * @param index: face index
+     * @return FT_Face, face data of font
+     */
+    FT_Face loadFontFace(const std::string& filename, const long& index);
+private:
+    FontFactory();
+    ~FontFactory() = default;
 
-    this->_pool.clear();
-}
+    /**
+     * The instance of font factory
+     */
+    static FontFactory* _instance;
 
-MemoryPool::MemoryPool() {
-    this->_pool.clear();
-}
+    /**
+     * The font library
+     */
+    FT_Library _library;
+};
 
-MemoryPool::~MemoryPool() {
-    this->clear();
-}
+} // namespace ngind::rendering
 
-void MemoryPool::remove(AutoCollectionObject* obj) {
-    auto it = this->_pool.find(obj);
-    if (it != this->_pool.end()) {
-        this->_pool.erase(it);
-    }
-}
-
-} // namespace ngind
+#endif //NGIND_FONT_FACTORY_H

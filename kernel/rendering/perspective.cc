@@ -21,50 +21,46 @@
  * SOFTWARE.
  */
 
-/// @file memory_pool.cc
+/// @file perspective.cc
 
-#include "memory_pool.h"
+#include "perspective.h"
 
 #include <iostream>
 
-namespace ngind::memory {
-MemoryPool* MemoryPool::_instance = nullptr;
+#include "resources/program_resource.h"
 
-MemoryPool* MemoryPool::getInstance() {
+namespace ngind::rendering {
+Perspective* Perspective::_instance = nullptr;
+
+Perspective::Perspective() : _width(0), _height(0) {
+}
+
+Perspective* Perspective::getInstance() {
     if (_instance == nullptr) {
-        _instance = new(std::nothrow) MemoryPool();
+        _instance = new(std::nothrow) Perspective();
+
+        if (_instance == nullptr) {
+            // TODO: throw
+        }
     }
 
     return _instance;
 }
 
-void MemoryPool::destroyInstance() {
-    delete _instance;
-    _instance = nullptr;
-}
-
-void MemoryPool::clear() {
-    for (auto it : this->_pool) {
-        delete it;
-        it = nullptr;
-    }
-
-    this->_pool.clear();
-}
-
-MemoryPool::MemoryPool() {
-    this->_pool.clear();
-}
-
-MemoryPool::~MemoryPool() {
-    this->clear();
-}
-
-void MemoryPool::remove(AutoCollectionObject* obj) {
-    auto it = this->_pool.find(obj);
-    if (it != this->_pool.end()) {
-        this->_pool.erase(it);
+void Perspective::destroyInstance() {
+    if (_instance != nullptr) {
+        delete _instance;
+        _instance = nullptr;
     }
 }
 
-} // namespace ngind
+void Perspective::init(const Vector2D& center, const size_t& width, const size_t& height) {
+    glViewport(center.getX() - width / 2, center.getY() - height / 2,
+               width, height);
+    _projection = glm::ortho(0.0f, static_cast<float>(width),
+                                      static_cast<float>(height), 0.0f,
+                                      -1.0f, 1.0f); //TODO:
+
+    _width = width; _height = height;
+}
+} // namespace ngind::rendering

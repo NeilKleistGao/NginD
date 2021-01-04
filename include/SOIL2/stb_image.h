@@ -6424,7 +6424,7 @@ static void stbi__out_gif_code(stbi__gif *g, stbi__uint16 code)
    g->history[idx / 4] = 1;
 
    c = &g->color_table[g->codes[code].suffix * 4];
-   if (c[3] > 128) { // don't render transparent pixels;
+   if (c[3] > 128) { // don't rendering transparent pixels;
       p[0] = c[2];
       p[1] = c[1];
       p[2] = c[0];

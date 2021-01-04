@@ -8,8 +8,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,37 +21,35 @@
  * SOFTWARE.
  */
 
-/// @file shader.cc
+/// @file program.cc
 
-#include "shader.h"
+#include "program.h"
 
-#include "filesystem/file_input_stream.h"
+#include "resources/resources_manager.h"
 
-namespace ngind {
+namespace ngind::rendering {
 
-Shader::Shader(const std::string& filename, const int& type) {
-    auto stream = new filesystem::FileInputStream(filename);
-    std::string code = stream->readAllCharacters();
-    stream->close();
+Program::Program(const std::string& program_name) {
+    auto* vertex = resources::ResourcesManager::getInstance()->load<resources::ShaderResource>(program_name + ".vs");
+    auto* fragment = resources::ResourcesManager::getInstance()->load<resources::ShaderResource>(program_name + ".fs");
 
-    this->_shader = glCreateShader(type);
-    const GLchar* str = code.c_str();
-
-    glShaderSource(this->_shader, 1, &str, nullptr);
-    glCompileShader(this->_shader);
+    this->_program = glCreateProgram();
+    glAttachShader(this->_program, vertex->getShader());
+    glAttachShader(this->_program, fragment->getShader());
+    glLinkProgram(this->_program);
 
     GLint success;
-    glGetShaderiv(this->_shader, GL_COMPILE_STATUS, &success);
+    glGetProgramiv(this->_program, GL_LINK_STATUS, &success);
     if (!success) {
-        // TODO:
+        /// @todo error process
     }
 
-    delete stream;
-    stream = nullptr;
+    resources::ResourcesManager::getInstance()->release(vertex->getResourcePath());
+    resources::ResourcesManager::getInstance()->release(fragment->getResourcePath());
 }
 
-Shader::~Shader() {
-    glDeleteShader(this->_shader);
+Program::~Program() {
+    glDeleteProgram(this->_program);
 }
 
-} // namespace ngind
+} // namespace ngind::rendering

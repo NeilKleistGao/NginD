@@ -1,30 +1,29 @@
-/** MIT License
-Copyright (c) 2020 NeilKleistGao
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+/**
+ * @copybrief
+ * MIT License
+ * Copyright (c) 2020 NeilKleistGao
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 /// @file game.cc
-/// @date 2020/11/1
 
 #include "game.h"
 
-#include "render/render.h"
+#include "rendering/renderer.h"
 #include "resources/resources_manager.h"
 #include "log/logger_factory.h"
 
@@ -32,11 +31,11 @@ namespace ngind {
 Game* Game::_instance = nullptr;
 
 Game::Game() : _global_timer(), _loop_flag(true), _current_world(nullptr) {
-    this->_global_settings = ResourcesManager::getInstance()->load<ConfigResource>("global_settings.json");
+    this->_global_settings = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("global_settings.json");
 }
 
 Game::~Game() {
-    ResourcesManager::getInstance()->release(this->_global_settings->getResourcePath());
+    resources::ResourcesManager::getInstance()->release(this->_global_settings->getResourcePath());
 
     while (!_stack.empty()) {
         _stack.pop();
@@ -61,7 +60,7 @@ void Game::destroyInstance() {
 }
 
 void Game::start() {
-    auto render = Render::getInstance();
+    auto render = rendering::Renderer::getInstance();
     render->createWindow(_global_settings->getDocument()["window-width"].GetInt(),
             _global_settings->getDocument()["window-height"].GetInt(),
             _global_settings->getDocument()["window-title"].GetString(),
@@ -79,7 +78,7 @@ void Game::start() {
         glfwPollEvents();
         render->clearScene(_current_world->getBackgroundColor());
         this->_current_world->update(duration);
-        _loop_flag &= render->startRenderLoopOnce();
+        _loop_flag &= render->startRenderingLoopOnce();
 
         duration = _global_timer.getTick();
         float rest = MIN_DURATION - duration;
@@ -96,7 +95,7 @@ void Game::start() {
 
 void Game::loadWorld(const std::string& name) {
     if (this->_worlds.find(name) == this->_worlds.end()) {
-        this->_worlds[name] = new World(name);
+        this->_worlds[name] = new objects::World(name);
         this->_worlds[name]->addReference();
     }
 
