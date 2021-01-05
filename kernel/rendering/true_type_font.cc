@@ -24,9 +24,11 @@
 
 #include "true_type_font.h"
 
+#include <iostream>
+
 namespace ngind::rendering {
 
-TrueTypeFont::TrueTypeFont() : _font_face(nullptr) {
+TrueTypeFont::TrueTypeFont() : _font_face(nullptr), _cache() {
 }
 
 TrueTypeFont::~TrueTypeFont() {
@@ -34,6 +36,44 @@ TrueTypeFont::~TrueTypeFont() {
     if (error) {
         ///@todo
     }
+
+    for (const auto& [_, ch] : _cache) {
+        glDeleteTextures(1, &ch.texture);
+    }
+
+    _cache.clear();
+}
+
+Character TrueTypeFont::generateCharacterData(const char& c) {
+    if (_cache.find(c) == _cache.end()) {
+        FT_Set_Pixel_Sizes(_font_face, 0, DEFAULT_FONT_SIZE);
+        if (FT_Load_Char(_font_face, c, FT_LOAD_RENDER)) {
+            ///@todo
+        }
+
+        Character character;
+        glGenTextures(1, &character.texture);
+        glBindTexture(GL_TEXTURE_2D, character.texture);
+        character.size = {_font_face->glyph->bitmap.width, _font_face->glyph->bitmap.rows};
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+                     character.size.x, character.size.y,
+                     0, GL_RED, GL_UNSIGNED_BYTE,
+                     _font_face->glyph->bitmap.buffer);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        character.bearing = {_font_face->glyph->bitmap_left, _font_face->glyph->bitmap_top};
+        character.advance = _font_face->glyph->advance.x;
+
+        _cache[c] = character;
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    return _cache[c];
 }
 
 } // namespace ngind::rendering

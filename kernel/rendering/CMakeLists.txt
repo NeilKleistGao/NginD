@@ -12,7 +12,8 @@ set(RENDER_HEADER
         kernel/rendering/shader.h
         kernel/rendering/texture.h
         kernel/rendering/true_type_font.h
-        kernel/rendering/window.h)
+        kernel/rendering/window.h
+        kernel/rendering/character.h)
 
 set(RENDER_SRC
         kernel/rendering/font_factory.cc

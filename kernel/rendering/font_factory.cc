@@ -35,6 +35,10 @@ FontFactory::FontFactory() : _library(nullptr) {
     }
 }
 
+FontFactory::~FontFactory() {
+    FT_Done_FreeType(_library);
+}
+
 FontFactory* FontFactory::getInstance() {
     if (_instance == nullptr) {
         _instance = new(std::nothrow) FontFactory();

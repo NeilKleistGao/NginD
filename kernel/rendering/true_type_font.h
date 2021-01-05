@@ -25,17 +25,22 @@
 #define NGIND_TRUE_TYPE_FONT_H
 
 #include <string>
+#include <map>
 
 #include <freetype2/ft2build.h>
 #include FT_FREETYPE_H
 
+#include "character.h"
+
 namespace ngind::rendering {
 
 /**
- * True type font(TTF) data. It's still being developed.
+ * True type font(TTF) data.
  */
 class TrueTypeFont {
 public:
+    constexpr static size_t DEFAULT_FONT_SIZE = 48;
+
     TrueTypeFont();
 
     ~TrueTypeFont();
@@ -47,11 +52,14 @@ public:
     inline void setFontFace(FT_Face face) {
         _font_face = face;
     }
+
+    Character generateCharacterData(const char& c);
 private:
     /**
      * Font face data
      */
     FT_Face _font_face;
+    std::map<char, Character> _cache;
 };
 
 } // namespace ngind::rendering

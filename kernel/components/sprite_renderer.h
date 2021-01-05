@@ -38,8 +38,7 @@
 
 #include "rttr/registration.h"
 
-namespace ngind {
-namespace components {
+namespace ngind::components {
 using Vector2D = math::Vector2D;
 /**
  * The renderer component for sprite. You can create an instance both by new and by create
@@ -193,7 +192,6 @@ RTTR_REGISTRATION {
     rttr::registration::class_<SpriteRenderer>("SpriteRenderer")
             .method("create", &SpriteRenderer::create);
 }
-} // namespace components
-} // namespace ngind
+} // namespace ngind::components
 
 #endif //NGIND_SPRITE_RENDERER_H

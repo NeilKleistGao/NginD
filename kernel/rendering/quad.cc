@@ -27,50 +27,85 @@
 
 namespace ngind::rendering {
 
-Quad::Quad(std::initializer_list<GLfloat> vs, const size_t& color_size) {
-    if (vs.size() == 0) {
-        // TODO: error detected
+Quad::Quad(std::initializer_list<GLfloat> vs,
+           const size_t& color_size,
+           const bool& dynamic) : _dynamic(dynamic) {
+    _size = vs.size();
+    if (_size == 0) {
+        // TODO:
     }
 
-    size_t size = vs.size();
-    auto* vertex = new GLfloat[size];
+    _vertex = new GLfloat[_size];
     auto it = vs.begin();
-    for (int i = 0; i < size; i++, it++) {
-        vertex[i] = *it;
+    for (int i = 0; i < _size; i++, it++) {
+        _vertex[i] = *it;
     }
-
-    constexpr GLuint indices[] = {
-            0, 1, 3,
-            1, 2, 3
-    };
 
     glGenVertexArrays(1, &_vao);
     glGenBuffers(1, &_vbo);
-    glGenBuffers(1, &_ebo);
 
-    glBindVertexArray(_vao);
+    if (!dynamic) {
+        glGenBuffers(1, &_ebo);
+        glBindVertexArray(_vao);
 
-    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * size, vertex, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * _size, _vertex, GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
+        constexpr GLuint indices[] = {
+                0, 1, 3,
+                1, 2, 3
+        };
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    // TODO: dynamic size
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(6 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(2);
+        // TODO: dynamic size
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(6 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(2);
 
-    glBindVertexArray(0);
+        glBindVertexArray(0);
+
+        delete[] _vertex;
+        _vertex = nullptr;
+    }
+    else {
+        _ebo = 0;
+        glBindVertexArray(_vao);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * _size, nullptr, GL_DYNAMIC_DRAW);
+        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        glBindVertexArray(0);
+    }
 }
 
 Quad::~Quad() {
     glDeleteVertexArrays(1, &_vao);
     glDeleteBuffers(1, &_vbo);
-    glDeleteBuffers(1, &_ebo);
+
+    if (_dynamic) {
+        delete[] _vertex;
+        _vertex = nullptr;
+    }
+    else {
+        glDeleteBuffers(1, &_ebo);
+    }
+}
+
+void Quad::bindSubData() {
+    if (!_dynamic) {
+        return;
+    }
+
+    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * _size, _vertex);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 } // namespace ngind::rendering

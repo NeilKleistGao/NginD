@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,56 +19,21 @@
  * SOFTWARE.
  */
 
-/// @file font_factory.h
+/// @file character.h
 
-#ifndef NGIND_FONT_FACTORY_H
-#define NGIND_FONT_FACTORY_H
+#ifndef NGIND_CHARACTER_H
+#define NGIND_CHARACTER_H
 
-#include <string>
-
-#include "freetype2/ft2build.h"
-#include FT_FREETYPE_H
+#include "GL/glew.h"
+#include "glm/glm.hpp"
 
 namespace ngind::rendering {
-
-/**
- * This class is defined for font face data creating.
- */
-class FontFactory {
-public:
-    /**
-     * Get instance of factory
-     * @return FontFactory*, the instance of factory
-     */
-    static FontFactory* getInstance();
-
-    /**
-     * Destroy instance of factory
-     */
-    static void destroyInstance();
-
-    /**
-     * Load font face data from file
-     * @param filename: filename of font
-     * @param index: face index
-     * @return FT_Face, face data of font
-     */
-    FT_Face loadFontFace(const std::string& filename, const long& index);
-private:
-    FontFactory();
-    ~FontFactory();
-
-    /**
-     * The instance of font factory
-     */
-    static FontFactory* _instance;
-
-    /**
-     * The font library
-     */
-    FT_Library _library;
+struct Character {
+    GLuint texture;
+    glm::ivec2 size;
+    glm::ivec2 bearing;
+    GLuint advance;
 };
-
 } // namespace ngind::rendering
 
-#endif //NGIND_FONT_FACTORY_H
+#endif //NGIND_CHARACTER_H

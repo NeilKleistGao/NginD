@@ -19,15 +19,18 @@ A game engine for 2D pixel game powered by C++ (自家用).
 ### 0.1
 + [ ] Sprite Transform
 + [ ] Label Component
-+ [ ] Lua Support
++ [ ] Visual Debugger
+
 
 ### 0.2
-+ [ ] Visual Debugger
-+ [ ] Button Component
-+ [ ] I18N
++ [ ] Lua Support
++ [ ] FSM
++ [ ] Message Passing
 
 ### 0.3
 + [ ] Audio System
++ [ ] Button Component
++ [ ] I18N
 
 ### 0.4
 + [ ] Visual Editor

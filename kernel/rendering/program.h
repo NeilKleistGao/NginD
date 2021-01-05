@@ -83,6 +83,10 @@ public:
     inline void setInteger(const std::string& name, const int& i) {
         glUniform1i(glGetUniformLocation(this->_program, name.c_str()), i);
     }
+
+    inline void setFloat3(const std::string& name, const float& x, const float& y, const float& z) {
+        glUniform3f(glGetUniformLocation(this->_program, name.c_str()), x, y, z);
+    }
 private:
     /**
      * The index of program

@@ -2,10 +2,10 @@
   "background-color": "#000000FF",
   "children": [
     {
-      "name": "logo",
+      "name": "title",
       "type": "entity",
       "position": {
-        "x": 512,
+        "x": 100,
         "y": 384
       },
       "scale": {
@@ -16,8 +16,11 @@
       "z-order": 0,
       "components": [
         {
-          "name": "SpriteRenderer",
-          "filename": "test.jpg"
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 36,
+          "text": "Welcome to Engine-D!",
+          "color": "#FFFFFFFF"
         }
       ]
     }

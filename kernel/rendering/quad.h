@@ -42,7 +42,9 @@ public:
      * @param vs: the data of vertices
      * @param color_size: the number of color channel
      */
-    Quad(std::initializer_list<GLfloat> vs, const size_t& color_size);
+    Quad(std::initializer_list<GLfloat> vs,
+         const size_t& color_size,
+         const bool& dynamic = false);
 
     ~Quad();
 
@@ -56,6 +58,12 @@ public:
     inline GLuint getVAO() const {
         return _vao;
     }
+
+    inline bool isDynamic() const {
+        return _dynamic;
+    }
+
+    void bindSubData();
 
 private:
     /**
@@ -72,6 +80,12 @@ private:
      * The elements buffer object
      */
     GLuint _ebo;
+
+    GLfloat* _vertex;
+
+    bool _dynamic;
+
+    size_t _size;
 };
 
 } // namespace ngind::rendering

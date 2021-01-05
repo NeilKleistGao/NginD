@@ -51,6 +51,7 @@ void Renderer::destroyInstance() {
 Renderer::Renderer()
     : _window(nullptr), _queue(nullptr) {
     _queue = new RenderingQueue();
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 }
 
 Renderer::~Renderer() {
@@ -103,11 +104,27 @@ void Renderer::execute(RenderCommand* cmd) {
 }
 
 void Renderer::drawQuad(QuadRenderCommand* cmd) {
-    glBindTexture(GL_TEXTURE_2D, cmd->texture_id);
-    cmd->program->use();
-    glBindVertexArray(cmd->quad->getVAO());
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
+    if (cmd->quad->isDynamic()) {
+        cmd->program->use();
+        cmd->program->setFloat3("text_color", 1.0f, 1.0f, 1.0f); // TODO:
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindVertexArray(cmd->quad->getVAO());
+        glBindTexture(GL_TEXTURE_2D, cmd->texture_id);
+
+        cmd->quad->bindSubData();
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindVertexArray(0);
+    }
+    else {
+        glBindTexture(GL_TEXTURE_2D, cmd->texture_id);
+        cmd->program->use();
+        glBindVertexArray(cmd->quad->getVAO());
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+    }
 }
 
-} // namespace ngind
+} // namespace ngind::rendering

@@ -41,14 +41,10 @@ SpriteRenderer::SpriteRenderer()
 SpriteRenderer::~SpriteRenderer() {
     if (_texture != nullptr) {
         resources::ResourcesManager::getInstance()->release(_texture->getResourcePath());
-        delete _texture;
-        _texture = nullptr;
     }
 
     if (_program != nullptr) {
         resources::ResourcesManager::getInstance()->release(_program->getResourcePath());
-        delete _program;
-        _program = nullptr;
     }
 
     if (_quad != nullptr) {
@@ -99,10 +95,10 @@ void SpriteRenderer::draw() {
         auto texture_size = _texture->getTextureSize();
 
         _quad = new rendering::Quad({
-                (pos.getX() + texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() + texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // Top Right
-                (pos.getX() + texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() - texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // Bottom Right
-                (pos.getX() - texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() - texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // Bottom Left
-                (pos.getX() - texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() + texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  0.0f, 0.0f, 0.0f, 0.0f, 0.0f  // Top Left
+                (pos.getX() + texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() + texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f, // Top Right
+                (pos.getX() + texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() - texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 1.0f, // Bottom Right
+                (pos.getX() - texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() - texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 1.0f, // Bottom Left
+                (pos.getX() - texture_size.getX() / 2 - bound.getX()) / bound.getX(), (pos.getY() + texture_size.getY() / 2 - bound.getY()) / bound.getY(), 0.0f,  0.0f, 0.0f, 0.0f,  0.0f, 0.0f  // Top Left
         }, color_size);
     }
 

@@ -46,6 +46,10 @@ public:
      * @see kernel/resources/resource.h
      */
     void load(const std::string&) override;
+
+    inline rendering::Character getCharacter(const char& c) {
+        return _font->generateCharacterData(c);
+    }
 private:
     /**
      * True type font object

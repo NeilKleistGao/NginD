@@ -39,7 +39,7 @@ FontResource::~FontResource() {
 
 void FontResource::load(const std::string& filename) {
     if (_font != nullptr) {
-        auto face = rendering::FontFactory::getInstance()->loadFontFace(filename, 0);
+        auto face = rendering::FontFactory::getInstance()->loadFontFace(FONT_RESOURCE_PATH + "/" + filename, 0);
         _font->setFontFace(face);
     }
 }
