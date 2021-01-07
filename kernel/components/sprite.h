@@ -21,15 +21,14 @@
 
 /// @file: sprite_render.h
 
-#ifndef NGIND_SPRITE_RENDERER_H
-#define NGIND_SPRITE_RENDERER_H
+#ifndef NGIND_SPRITE_H
+#define NGIND_SPRITE_H
 
 #include <string>
 
 #include "rendering/render_command.h"
 #include "render_component.h"
 #include "resources/texture_resource.h"
-#include "math/vector.h"
 #include "rendering/rgba.h"
 #include "rendering/program.h"
 #include "rendering/quad.h"
@@ -39,17 +38,16 @@
 #include "rttr/registration.h"
 
 namespace ngind::components {
-using Vector2D = math::Vector2D;
 /**
  * The renderer component for sprite. You can create an instance both by new and by create
  * method. Just draw a lovely sprite on your screen!
  */
-class SpriteRenderer : public RenderComponent {
+class Sprite : public RenderComponent {
 public:
-    SpriteRenderer();
-    ~SpriteRenderer() override;
-    SpriteRenderer(const SpriteRenderer&) = delete;
-    SpriteRenderer& operator= (const SpriteRenderer&) = delete;
+    Sprite();
+    ~Sprite() override;
+    Sprite(const Sprite&) = delete;
+    Sprite& operator= (const Sprite&) = delete;
 
     /**
      * @see objects/updatable_object.h
@@ -66,9 +64,9 @@ public:
     /**
      * Static function used by configuration creators. This function create a new instance of Sprite
      * @param data: the configuration data this component initialization process requires.
-     * @return SpriteRenderer*, a pointer to the new instance.
+     * @return Sprite*, a pointer to the new instance.
      */
-    static SpriteRenderer* create(const typename resources::ConfigResource::JsonObject& data);
+    static Sprite* create(const typename resources::ConfigResource::JsonObject& data);
 
     /**
      * Set a new image to this rendering. It will release the old one texture resource.
@@ -82,7 +80,7 @@ public:
      * @param lb: the left bottom boundary
      * @param rt: the right top boundary
      */
-    void setImage(const std::string& filename, const Vector2D& lb, const Vector2D& rt);
+    void setImage(const std::string& filename, const glm::vec2& lb, const glm::vec2& rt);
 
     /**
      * Get the filename of the texture used in this rendering.
@@ -97,7 +95,7 @@ public:
      * @param lb: the left bottom boundary position
      * @param rt: the right top boundary position
      */
-    inline void setBound(const Vector2D& lb, const Vector2D& rt) {
+    inline void setBound(const glm::vec2& lb, const glm::vec2& rt) {
         setLeftBottomBound(lb);
         setRightTopBound(rt);
     }
@@ -106,7 +104,7 @@ public:
      * Set the left bottom boundary.
      * @param lb: the left bottom boundary position
      */
-    inline void setLeftBottomBound(const Vector2D& lb) {
+    inline void setLeftBottomBound(const glm::vec2& lb) {
         _lb = lb;
     }
 
@@ -114,7 +112,7 @@ public:
      * Set the right top boundary.
      * @param rt: the right top boundary position
      */
-    inline void setRightTopBound(const Vector2D& rt) {
+    inline void setRightTopBound(const glm::vec2& rt) {
         _rt = rt;
     }
 
@@ -122,7 +120,7 @@ public:
      * Get the left bottom boundary.
      * @return Vector2D, the left bottom boundary position
      */
-    inline Vector2D getLeftBottomBound() const {
+    inline glm::vec2 getLeftBottomBound() const {
         return _lb;
     }
 
@@ -130,7 +128,7 @@ public:
      * Get the right top boundary.
      * @return Vector2D, the right top boundary position
      */
-    inline Vector2D getRightTopBound() const {
+    inline glm::vec2 getRightTopBound() const {
         return _rt;
     }
 
@@ -159,7 +157,7 @@ private:
     /**
      * The boundary vectors.
      */
-    Vector2D _lb, _rt;
+    glm::vec2 _lb, _rt;
 
     /**
      * Mask color.
@@ -189,9 +187,9 @@ protected:
 };
 
 RTTR_REGISTRATION {
-    rttr::registration::class_<SpriteRenderer>("SpriteRenderer")
-            .method("create", &SpriteRenderer::create);
+    rttr::registration::class_<Sprite>("Sprite")
+            .method("create", &Sprite::create);
 }
 } // namespace ngind::components
 
-#endif //NGIND_SPRITE_RENDERER_H
+#endif //NGIND_SPRITE_H

@@ -28,7 +28,6 @@
 namespace ngind::rendering {
 
 Quad::Quad(std::initializer_list<GLfloat> vs,
-           const size_t& color_size,
            const bool& dynamic) : _dynamic(dynamic) {
     _size = vs.size();
     if (_size == 0) {
@@ -58,13 +57,8 @@ Quad::Quad(std::initializer_list<GLfloat> vs,
         };
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-        // TODO: dynamic size
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
+        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat)));
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(6 * sizeof(GLfloat)));
-        glEnableVertexAttribArray(2);
 
         glBindVertexArray(0);
 

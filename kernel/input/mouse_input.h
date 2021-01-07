@@ -28,13 +28,12 @@
 
 #include "glfw3.h"
 
-#include "math/vector.h"
+#include "glm/glm.hpp"
 
 #include <set>
 
 namespace ngind::input {
 
-using Vector2D = math::Vector2D;
 
 /**
  * The keyboard code for keyboard input. It's a simple map for GLFW_MOUSE prefixing
@@ -62,22 +61,22 @@ public:
     /**
      * @see kernel/input/input.h
      */
-    Vector2D getMousePressed(GLFWwindow*& window, const MouseCode& code);
+    glm::vec2 getMousePressed(GLFWwindow*& window, const MouseCode& code);
 
     /**
      * @see kernel/input/input.h
      */
-    Vector2D getMouse(GLFWwindow*& window, const MouseCode& code);
+    glm::vec2 getMouse(GLFWwindow*& window, const MouseCode& code);
 
     /**
      * @see kernel/input/input.h
      */
-    Vector2D getMouseReleased(GLFWwindow*& window, const MouseCode& code);
+    glm::vec2 getMouseReleased(GLFWwindow*& window, const MouseCode& code);
 
     /**
      * @see kernel/input/input.h
      */
-    Vector2D getMouseMoving(GLFWwindow*& window);
+    glm::vec2 getMouseMoving(GLFWwindow*& window);
 private:
     /**
      * Record the press state of all mice

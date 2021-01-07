@@ -28,11 +28,9 @@
 
 #include "rendering/texture.h"
 #include "resource.h"
-#include "math/vector.h"
+#include "glm/glm.hpp"
 
 namespace ngind::resources {
-
-using Vector2D = math::Vector2D;
 
 /**
  * Resource class containing texture data.
@@ -61,7 +59,7 @@ public:
      * Get the size of texture.
      * @return Vector2D, size of texture
      */
-    inline Vector2D getTextureSize() const {
+    inline glm::vec2 getTextureSize() const {
         return _texture->getSize();
     }
 

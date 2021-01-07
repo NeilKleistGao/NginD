@@ -26,13 +26,9 @@
 #ifndef NGIND_PERSPECTIVE_H
 #define NGIND_PERSPECTIVE_H
 
-#include "math/vector.h"
 #include "include/glm/glm.hpp"
 
 namespace ngind::rendering {
-
-using Vector2D = math::Vector2D;
-
 /**
  * Player's perspective in game. It can project rendered objects to
  * screen.
@@ -59,13 +55,13 @@ public:
      * @param width: the width of perspective
      * @param height: the height of perspective
      */
-    void init(const Vector2D& center, const size_t& width, const size_t& height);
+    void init(const glm::vec2& center, const size_t& width, const size_t& height);
 
     /**
      * Move perspective to specified position
      * @param center: the center position of
      */
-    inline void moveTo(const Vector2D& center) {
+    inline void moveTo(const glm::vec2& center) {
         init(center, _width, _height);
     }
 
@@ -81,8 +77,8 @@ public:
      * Get perspective's size
      * @return Vector2D, the size
      */
-    inline Vector2D getPerspectiveSize() const {
-        return Vector2D{_width, _height};
+    inline glm::vec2 getPerspectiveSize() const {
+        return glm::vec2{_width, _height};
     }
 private:
     Perspective();

@@ -80,35 +80,35 @@ public:
     /**
      * Get whether some mouse key is clicked firstly.
      * @param code: the mouse key's code
-     * @return Vector2D, the mouse's position, Vector2D::INVALID if user never clicks
+     * @return glm::vec2, the mouse's position, glm::vec2::INVALID if user never clicks
      */
-    inline Vector2D getMousePressed(const MouseCode& code) {
+    inline glm::vec2 getMousePressed(const MouseCode& code) {
         return this->_mouse->getMousePressed(_window_handler, code);
     }
 
     /**
      * Get whether some mouse key is being clicked.
      * @param code: the mouse key's code
-     * @return Vector2D, the mouse's position, Vector2D::INVALID if user never clicks
+     * @return glm::vec2, the mouse's position, glm::vec2::INVALID if user never clicks
      */
-    inline Vector2D getMouse(const MouseCode& code) {
+    inline glm::vec2 getMouse(const MouseCode& code) {
         return this->_mouse->getMouse(_window_handler, code);
     }
 
     /**
      * Get whether some mouse key is released.
      * @param code: the mouse key's code
-     * @return Vector2D, the mouse's position, Vector2D::INVALID if user never clicks
+     * @return glm::vec2, the mouse's position, glm::vec2::INVALID if user never clicks
      */
-    inline Vector2D getMouseReleased(const MouseCode& code) {
+    inline glm::vec2 getMouseReleased(const MouseCode& code) {
         return this->_mouse->getMouseReleased(_window_handler, code);
     }
 
     /**
      * Get current mouse's position.
-     * @return Vector2D, the mouse's position
+     * @return glm::vec2, the mouse's position
      */
-    inline Vector2D getMouseMoving() {
+    inline glm::vec2 getMouseMoving() {
         return this->_mouse->getMouseMoving(_window_handler);
     }
 

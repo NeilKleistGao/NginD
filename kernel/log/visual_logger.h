@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,44 +19,9 @@
  * SOFTWARE.
  */
 
-/// @file perspective.cc
+/// @file visual_logger.h
 
-#include "perspective.h"
+#ifndef NGIND_VISUAL_LOGGER_H
+#define NGIND_VISUAL_LOGGER_H
 
-#include <iostream>
-
-#include "resources/program_resource.h"
-
-namespace ngind::rendering {
-Perspective* Perspective::_instance = nullptr;
-
-Perspective::Perspective() : _width(0), _height(0) {
-}
-
-Perspective* Perspective::getInstance() {
-    if (_instance == nullptr) {
-        _instance = new(std::nothrow) Perspective();
-
-        if (_instance == nullptr) {
-            // TODO: throw
-        }
-    }
-
-    return _instance;
-}
-
-void Perspective::destroyInstance() {
-    if (_instance != nullptr) {
-        delete _instance;
-        _instance = nullptr;
-    }
-}
-
-void Perspective::init(const glm::vec2& center, const size_t& width, const size_t& height) {
-    glViewport(center.x - width / 2, center.y - height / 2,
-               width, height);
-    _projection = glm::ortho(0.0f, static_cast<GLfloat>(width), 0.0f, static_cast<GLfloat>(height), -1.0f, 1.0f);
-
-    _width = width; _height = height;
-}
-} // namespace ngind::rendering
+#endif //NGIND_VISUAL_LOGGER_H

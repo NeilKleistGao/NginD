@@ -31,6 +31,9 @@
 #include <initializer_list>
 #include <cstdio>
 
+#include "rendering/rgba.h"
+#include "glm/glm.hpp"
+
 namespace ngind::rendering {
 
 /**
@@ -43,7 +46,6 @@ public:
      * @param color_size: the number of color channel
      */
     Quad(std::initializer_list<GLfloat> vs,
-         const size_t& color_size,
          const bool& dynamic = false);
 
     ~Quad();
@@ -65,6 +67,30 @@ public:
 
     void bindSubData();
 
+    inline void setColor(const RGBA& color) {
+        _color = color;
+    }
+
+    inline RGBA getColor() const {
+        return _color;
+    }
+
+    inline void setProjection(const glm::mat4& prj) {
+        _projection = prj;
+    }
+
+    inline glm::mat4 getProjection() const {
+        return _projection;
+    }
+
+    inline void setModel(const glm::mat4& model) {
+        _model = model;
+    }
+
+    inline glm::mat4 getModel() {
+        return _model;
+    }
+
 private:
     /**
      * The vertices array object
@@ -76,9 +102,6 @@ private:
      */
     GLuint _vbo;
 
-    /**
-     * The elements buffer object
-     */
     GLuint _ebo;
 
     GLfloat* _vertex;
@@ -86,6 +109,12 @@ private:
     bool _dynamic;
 
     size_t _size;
+
+    rendering::RGBA _color;
+
+    glm::mat4 _projection;
+
+    glm::mat4 _model;
 };
 
 } // namespace ngind::rendering

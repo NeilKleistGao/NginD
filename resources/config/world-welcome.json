@@ -5,8 +5,8 @@
       "name": "title",
       "type": "entity",
       "position": {
-        "x": 100,
-        "y": 384
+        "x": 250,
+        "y": 700
       },
       "scale": {
         "x": 1,
@@ -21,6 +21,26 @@
           "size": 36,
           "text": "Welcome to Engine-D!",
           "color": "#FFFFFFFF"
+        }
+      ]
+    },
+    {
+      "name": "icon",
+      "type": "entity",
+      "position": {
+        "x": 512,
+        "y": 384
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "name": "Sprite",
+          "filename": "test.jpg"
         }
       ]
     }

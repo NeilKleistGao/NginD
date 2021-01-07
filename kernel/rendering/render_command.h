@@ -28,7 +28,6 @@
 
 #include "quad.h"
 #include "program.h"
-#include "math/vector.h"
 #include "rgba.h"
 
 namespace ngind::rendering {
@@ -72,6 +71,6 @@ struct QuadRenderCommand : public RenderCommand {
         : RenderCommand(QUAD_COMMAND), quad(nullptr), program(nullptr) {}
 };
 
-} // namespace ngind
+} // namespace ngind::rendering
 
 #endif //NGIND_RENDER_COMMAND_H

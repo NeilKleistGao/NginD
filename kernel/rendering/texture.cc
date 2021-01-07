@@ -56,7 +56,7 @@ Texture::Texture(const std::string& filename, const TextureColorMode& mode) {
         // TODO:
     }
 
-    _size = Vector2D{width, height};
+    _size = glm::vec2{width, height};
     SOIL_free_image_data(img);
     _mode = mode;
 

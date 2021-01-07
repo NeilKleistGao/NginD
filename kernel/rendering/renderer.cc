@@ -104,10 +104,14 @@ void Renderer::execute(RenderCommand* cmd) {
 }
 
 void Renderer::drawQuad(QuadRenderCommand* cmd) {
-    if (cmd->quad->isDynamic()) {
-        cmd->program->use();
-        cmd->program->setFloat3("text_color", 1.0f, 1.0f, 1.0f); // TODO:
+    cmd->program->use();
+    auto color = cmd->quad->getColor();
+    cmd->program->setFloat4("my_color", color.r / 255.0f, color.g / 255.0f,
+                            color.b / 255.0f, color.a / 255.0f);
+    cmd->program->setMatrix4("projection", Perspective::getInstance()->getProjection());
+    cmd->program->setMatrix4("model", cmd->quad->getModel());
 
+    if (cmd->quad->isDynamic()) {
         glActiveTexture(GL_TEXTURE0);
         glBindVertexArray(cmd->quad->getVAO());
         glBindTexture(GL_TEXTURE_2D, cmd->texture_id);
@@ -119,10 +123,12 @@ void Renderer::drawQuad(QuadRenderCommand* cmd) {
         glBindVertexArray(0);
     }
     else {
+        glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, cmd->texture_id);
-        cmd->program->use();
         glBindVertexArray(cmd->quad->getVAO());
+//        glDrawArrays(GL_TRIANGLES, 0, 6);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
     }
 }

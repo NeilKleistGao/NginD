@@ -27,12 +27,9 @@
 #define NGIND_ENTITY_OBJECT_H
 
 #include "object.h"
-#include "math/vector.h"
+#include "glm/glm.hpp"
 
 namespace ngind::objects {
-
-using Vector2D = math::Vector2D;
-
 /**
  * This class is a special kind of object that you can specify its position,
  * rotation and scale. If it's no need for this properties, use normal object instead.
@@ -53,7 +50,7 @@ public:
      * Set position for this object
      * @param v: new position
      */
-    inline void setPosition(const Vector2D& v) {
+    inline void setPosition(const glm::vec2& v) {
         _position = v;
     }
 
@@ -62,7 +59,7 @@ public:
      * @param f: x component
      */
     inline void setPositionX(const float& f) {
-        _position.setX(f);
+        _position.x = f;
     }
 
     /**
@@ -70,14 +67,14 @@ public:
      * @param f: y component
      */
     inline void setPositionY(const float& f) {
-        _position.setY(f);
+        _position.y = f;
     }
 
     /**
      * Get the position
      * @return Vector2D, the position
      */
-    inline Vector2D getPosition() const {
+    inline glm::vec2 getPosition() const {
         return _position;
     }
 
@@ -86,7 +83,7 @@ public:
      * @return float, x component
      */
     inline float getPositionX() const {
-        return _position.getX();
+        return _position.x;
     }
 
     /**
@@ -94,14 +91,14 @@ public:
      * @return float, y component
      */
     inline float getPositionY() const {
-        return _position.getY();
+        return _position.y;
     }
 
     /**
      * Set scale property of this object
      * @param v: new scale
      */
-    inline void setScale(const Vector2D& v) {
+    inline void setScale(const glm::vec2& v) {
         _scale = v;
     }
 
@@ -110,7 +107,7 @@ public:
      * @param f: x component
      */
     inline void setScaleX(const float& f) {
-        _scale.setX(f);
+        _scale.x = f;
     }
 
     /**
@@ -118,14 +115,14 @@ public:
      * @param f: y component
      */
     inline void setScaleY(const float& f) {
-        _scale.setY(f);
+        _scale.y = f;
     }
 
     /**
      * Get the scale
      * @return Vector2D, the scale
      */
-    inline Vector2D getScale() const {
+    inline glm::vec2 getScale() const {
         return _scale;
     }
 
@@ -134,7 +131,7 @@ public:
      * @return float, x component
      */
     inline float getScaleX() const {
-        return _scale.getX();
+        return _scale.x;
     }
 
     /**
@@ -142,7 +139,7 @@ public:
      * @return float, y component
      */
     inline float getScaleY() const {
-        return _scale.getY();
+        return _scale.y;
     }
 
     /**
@@ -191,12 +188,12 @@ private:
     /**
      * The position of this object
      */
-    Vector2D _position;
+    glm::vec2 _position;
 
     /**
      * The scale of this object
      */
-    Vector2D _scale;
+    glm::vec2 _scale;
 
     /**
      * The rotation angle of this object

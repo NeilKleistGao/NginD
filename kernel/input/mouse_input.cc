@@ -32,7 +32,7 @@ MouseInput::MouseInput(GLFWwindow*& window) {
     _pressed.clear();
 }
 
-Vector2D MouseInput::getMousePressed(GLFWwindow*& window, const MouseCode& code) {
+glm::vec2 MouseInput::getMousePressed(GLFWwindow*& window, const MouseCode& code) {
     int state = glfwGetMouseButton(window, code);
     if (state == GLFW_PRESS) {
         if (_pressed.find(code) == _pressed.end()) {
@@ -46,10 +46,10 @@ Vector2D MouseInput::getMousePressed(GLFWwindow*& window, const MouseCode& code)
         }
     }
 
-    return Vector2D::INVALID;
+    return glm::vec2{NAN, NAN};
 }
 
-Vector2D MouseInput::getMouse(GLFWwindow*& window, const MouseCode& code) {
+glm::vec2 MouseInput::getMouse(GLFWwindow*& window, const MouseCode& code) {
     int state = glfwGetMouseButton(window, code);
     if (state == GLFW_PRESS) {
         if (_pressed.find(code) != _pressed.end()) {
@@ -65,10 +65,10 @@ Vector2D MouseInput::getMouse(GLFWwindow*& window, const MouseCode& code) {
         }
     }
 
-    return Vector2D::INVALID;
+    return glm::vec2{NAN, NAN};
 }
 
-Vector2D MouseInput::getMouseReleased(GLFWwindow*& window, const MouseCode& code) {
+glm::vec2 MouseInput::getMouseReleased(GLFWwindow*& window, const MouseCode& code) {
     int state = glfwGetMouseButton(window, code);
     if (state == GLFW_PRESS) {
         if (_pressed.find(code) == _pressed.end()) {
@@ -82,13 +82,13 @@ Vector2D MouseInput::getMouseReleased(GLFWwindow*& window, const MouseCode& code
         }
     }
 
-    return Vector2D::INVALID;
+    return glm::vec2{NAN, NAN};
 }
 
-Vector2D MouseInput::getMouseMoving(GLFWwindow*& window) {
+glm::vec2 MouseInput::getMouseMoving(GLFWwindow*& window) {
     double x, y;
     glfwGetCursorPos(window, &x, &y);
-    return Vector2D(static_cast<float>(x), static_cast<float>(y));
+    return glm::vec2(static_cast<float>(x), static_cast<float>(y));
 }
 
 } // namespace ngind::input

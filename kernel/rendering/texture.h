@@ -27,11 +27,9 @@
 #include <string>
 
 #include "GL/glew.h"
-#include "math/vector.h"
+#include "glm/glm.hpp"
 
 namespace ngind::rendering {
-
-using Vector2D = math::Vector2D;
 
 /**
  * The color mode in textures. It's a mapping from GL macro to the enum form.
@@ -70,7 +68,7 @@ public:
      * @return float, width of texture
      */
     inline float getWidth() const {
-        return _size.getX();
+        return _size.x;
     }
 
     /**
@@ -78,14 +76,14 @@ public:
      * @return float, height of texture
      */
     inline float getHeight() const {
-        return _size.getY();
+        return _size.y;
     }
 
     /**
      * Get the size of texture
      * @return Vector2D, size of texture
      */
-    inline Vector2D getSize() const {
+    inline glm::vec2 getSize() const {
         return _size;
     }
 
@@ -106,7 +104,7 @@ private:
     /**
      * Size of texture
      */
-    Vector2D _size;
+    glm::vec2 _size;
 
     /**
      * Color mode of texture

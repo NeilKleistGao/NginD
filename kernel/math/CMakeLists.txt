@@ -1,7 +1,5 @@
 set(MATH_HEADER
-        kernel/math/random.h
-        kernel/math/vector.h)
+        kernel/math/random.h)
 
 set(MATH_SRC
-        kernel/math/random.cc
-        kernel/math/vector.cc)
+        kernel/math/random.cc)

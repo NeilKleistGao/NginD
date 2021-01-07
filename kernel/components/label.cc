@@ -57,11 +57,6 @@ void Label::init(const typename resources::ConfigResource::JsonObject& data) {
     _size = data["size"].GetInt();
     _color = rendering::RGBA{data["color"].GetString()};
     _text = data["text"].GetString();
-
-    // TODO: test
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(1024), 0.0f, static_cast<GLfloat>(768));
-    _program->getProgram()->use();
-    _program->getProgram()->setMatrix4("projection", projection);
 }
 
 Label* Label::create(const typename resources::ConfigResource::JsonObject& data) {
@@ -91,8 +86,8 @@ void Label::draw() {
     for (int i = 0; i < _commands.size(); i++) {
         auto& cmd = _commands[i];
         auto ch = _font->getCharacter(_text[i]);
-        auto x = pos.getX() + ch.bearing.x * scale;
-        auto y = pos.getY() - (ch.size.y - ch.bearing.y) * scale;
+        auto x = pos.x + ch.bearing.x * scale;
+        auto y = pos.y - (ch.size.y - ch.bearing.y) * scale;
         auto width = ch.size.x * scale;
         auto height = ch.size.y * scale;
 
@@ -105,7 +100,8 @@ void Label::draw() {
                 x, y + height, 0.0f, 0.0f,
                 x + width, y, 1.0f, 1.0f,
                 x + width, y + height, 1.0f, 0.0f,
-                }, 4, true};
+                }, true};
+            cmd->quad->setColor(_color);
         }
 
         cmd->texture_id = ch.texture;
@@ -114,7 +110,7 @@ void Label::draw() {
         cmd->program = _program->getProgram();
 
         rendering::Renderer::getInstance()->addRendererCommand(cmd);
-        pos.setX(pos.getX() + (ch.advance >> 6) * scale);
+        pos.x += (ch.advance >> 6) * scale;
     }
 }
 
