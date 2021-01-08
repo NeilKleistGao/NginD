@@ -195,6 +195,8 @@ private:
      */
     glm::vec2 _scale;
 
+    glm::vec2 _anchor;
+
     /**
      * The rotation angle of this object
      */

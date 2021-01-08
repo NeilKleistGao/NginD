@@ -21,8 +21,8 @@
 
 /// @file: render_component.h
 
-#ifndef NGIND_RENDER_COMPONENT_H
-#define NGIND_RENDER_COMPONENT_H
+#ifndef NGIND_RENDERER_COMPONENT_H
+#define NGIND_RENDERER_COMPONENT_H
 
 #include "component.h"
 
@@ -34,12 +34,12 @@ namespace ngind::components {
  * If your component will not show anything on the screen, use simple Component class
  * instead.
  */
-class RenderComponent : public Component {
+class RendererComponent : public Component {
 public:
-    RenderComponent() = default;
-    virtual ~RenderComponent() {}
-    RenderComponent(const RenderComponent&) = delete;
-    RenderComponent& operator= (const RenderComponent&) = delete;
+    RendererComponent() = default;
+    virtual ~RendererComponent() {}
+    RendererComponent(const RendererComponent&) = delete;
+    RendererComponent& operator= (const RendererComponent&) = delete;
 
     /**
      * @see kernel/objects/updatable_object.h
@@ -61,4 +61,4 @@ protected:
 
 } // namespace ngind::components
 
-#endif //NGIND_RENDER_COMPONENT_H
+#endif //NGIND_RENDERER_COMPONENT_H

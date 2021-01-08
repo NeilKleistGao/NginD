@@ -25,7 +25,7 @@
 
 #include "rendering/renderer.h"
 #include "resources/resources_manager.h"
-#include "log/logger_factory.h"
+#include "log/visual_logger.h"
 
 namespace ngind {
 Game* Game::_instance = nullptr;
@@ -69,26 +69,31 @@ void Game::start() {
 
     this->loadWorld(_global_settings->getDocument()["welcome-world"].GetString());
 
-//    auto global_logger = LoggerFactory::getInstance()->getLogger(Logger::STDOUT, LogLevel::LOG_LEVEL_DEBUG);
+    auto logger = log::VisualLogger::getInstance();
+    if (_global_settings->getDocument()["enable-visual-debug"].GetBool()) {
+        logger->enable();
+    }
 
     const float MIN_DURATION = 1.0f / _global_settings->getDocument()["max-frame-rate"].GetFloat();
     float duration = 1.0f / 60.0f;
+    logger->registerVariable("frame rate", "0");
     _global_timer.start();
     while (_loop_flag) {
         glfwPollEvents();
         render->clearScene(_current_world->getBackgroundColor());
         this->_current_world->update(duration);
+        logger->draw();
         _loop_flag &= render->startRenderingLoopOnce();
 
         duration = _global_timer.getTick();
         float rest = MIN_DURATION - duration;
         if (rest >= 0.005) {
             _global_timer.sleep(rest);
-//            global_logger->log<float>(60.0f, LogLevel::LOG_LEVEL_DEBUG);
+            logger->updateVariable("frame rate", 60.0);
             duration = MIN_DURATION;
         }
         else {
-//            global_logger->log<float>(1.0f / duration, LogLevel::LOG_LEVEL_DEBUG);
+            logger->updateVariable("frame rate", 1.0f / duration);
         }
     }
 }

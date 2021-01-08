@@ -32,7 +32,7 @@ struct Character {
     GLuint texture;
     glm::ivec2 size;
     glm::ivec2 bearing;
-    GLuint advance;
+    glm::ivec2 advance;
 };
 } // namespace ngind::rendering
 

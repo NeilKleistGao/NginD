@@ -54,7 +54,7 @@ Sprite::~Sprite() {
 }
 
 void Sprite::update(const float& delta) {
-    RenderComponent::update(delta);
+    RendererComponent::update(delta);
     this->draw();
 }
 

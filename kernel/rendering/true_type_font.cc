@@ -20,7 +20,6 @@
  */
 
 /// @file true_type_font.cc
-/// @date 2020/10/19
 
 #include "true_type_font.h"
 
@@ -28,7 +27,7 @@
 
 namespace ngind::rendering {
 
-TrueTypeFont::TrueTypeFont() : _font_face(nullptr), _cache() {
+TrueTypeFont::TrueTypeFont() : _font_face(nullptr), _cache(), _max_height(0) {
 }
 
 TrueTypeFont::~TrueTypeFont() {
@@ -60,13 +59,15 @@ Character TrueTypeFont::generateCharacterData(const char& c) {
                      0, GL_RED, GL_UNSIGNED_BYTE,
                      _font_face->glyph->bitmap.buffer);
 
+        _max_height = std::max<unsigned int>(_max_height, _font_face->glyph->bitmap.rows);
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         character.bearing = {_font_face->glyph->bitmap_left, _font_face->glyph->bitmap_top};
-        character.advance = _font_face->glyph->advance.x;
+        character.advance = {_font_face->glyph->advance.x, _font_face->glyph->advance.y};
 
         _cache[c] = character;
 

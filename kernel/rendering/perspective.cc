@@ -27,8 +27,6 @@
 
 #include <iostream>
 
-#include "resources/program_resource.h"
-
 namespace ngind::rendering {
 Perspective* Perspective::_instance = nullptr;
 

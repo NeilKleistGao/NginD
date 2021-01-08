@@ -27,7 +27,7 @@
 #include <string>
 
 #include "rendering/render_command.h"
-#include "render_component.h"
+#include "renderer_component.h"
 #include "resources/texture_resource.h"
 #include "rendering/rgba.h"
 #include "rendering/program.h"
@@ -42,7 +42,7 @@ namespace ngind::components {
  * The renderer component for sprite. You can create an instance both by new and by create
  * method. Just draw a lovely sprite on your screen!
  */
-class Sprite : public RenderComponent {
+class Sprite : public RendererComponent {
 public:
     Sprite();
     ~Sprite() override;

@@ -26,8 +26,9 @@
 
 #include <string>
 #include <vector>
+#include <tuple>
 
-#include "render_component.h"
+#include "renderer_component.h"
 #include "rendering/rgba.h"
 #include "resources/font_resource.h"
 #include "resources/program_resource.h"
@@ -36,9 +37,13 @@
 
 #include "rttr/registration.h"
 
+namespace ngind::log {
+class VisualLogger;
+}
+
 namespace ngind::components {
 
-class Label : public RenderComponent {
+class Label : public RendererComponent {
 public:
     Label();
     ~Label();
@@ -54,12 +59,14 @@ public:
 
     inline void setText(const std::string& text) {
         _text = text;
+        parseText();
     }
 
     inline std::string getText() {
         return _text;
     }
 
+    friend class ngind::log::VisualLogger;
 private:
     std::string _text;
     rendering::RGBA _color;
@@ -67,6 +74,11 @@ private:
     resources::ProgramResource* _program;
     size_t _size;
     std::vector<rendering::QuadRenderCommand*> _commands;
+    std::vector<std::tuple<rendering::RGBA, unsigned int, unsigned int>> _colors;
+    size_t _line_space;
+
+    void parseText();
+    void replaceEscape();
 protected:
     virtual void draw();
 };

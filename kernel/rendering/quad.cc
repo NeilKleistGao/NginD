@@ -24,6 +24,7 @@
 /// @file quad.h
 
 #include "quad.h"
+#include "log/logger_factory.h"
 
 namespace ngind::rendering {
 
@@ -31,7 +32,9 @@ Quad::Quad(std::initializer_list<GLfloat> vs,
            const bool& dynamic) : _dynamic(dynamic) {
     _size = vs.size();
     if (_size == 0) {
-        // TODO:
+        auto log = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LOG_LEVEL_ERROR);
+        log->log("zero size of vertex data when creating quad.");
+        exit(-1);
     }
 
     _vertex = new GLfloat[_size];

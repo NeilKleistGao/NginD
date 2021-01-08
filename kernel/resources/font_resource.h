@@ -50,6 +50,10 @@ public:
     inline rendering::Character getCharacter(const char& c) {
         return _font->generateCharacterData(c);
     }
+
+    inline size_t getMaxHeight() {
+        return _font->getMaxHeight();
+    }
 private:
     /**
      * True type font object

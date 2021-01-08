@@ -24,4 +24,51 @@
 #ifndef NGIND_VISUAL_LOGGER_H
 #define NGIND_VISUAL_LOGGER_H
 
+#include <map>
+
+#include "objects/entity_object.h"
+#include "components/label.h"
+#include "utils/converter.h"
+
+namespace ngind::log {
+
+class VisualLogger {
+public:
+    static VisualLogger* getInstance();
+    static void destroyInstance();
+
+    void enable();
+    inline void disable() {
+        _enable = false;
+    }
+
+    void draw();
+
+    void registerVariable(const std::string& key, const std::string default_value = "");
+
+    template<typename T>
+    void updateVariable(const std::string& key, const T& value) {
+        if (_var.find(key) != _var.end()) {
+            _var[key] = std::to_string(value);
+        }
+    }
+
+    void resignVariable(const std::string& key);
+private:
+    VisualLogger();
+    ~VisualLogger();
+
+    static VisualLogger* _instance;
+
+    bool _enable;
+    std::map<std::string, std::string> _var;
+
+    objects::EntityObject* _entity;
+    components::Label* _label;
+
+    std::string _text;
+};
+
+} // namespace ningd::log
+
 #endif //NGIND_VISUAL_LOGGER_H

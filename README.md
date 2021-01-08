@@ -18,8 +18,8 @@ A game engine for 2D pixel game powered by C++ (自家用).
 ## TODO List
 ### 0.1
 + [ ] Sprite Transform
-+ [ ] Label Component
-+ [ ] Visual Debugger
++ [x] Label Component
++ [x] Visual Debugger
 
 
 ### 0.2

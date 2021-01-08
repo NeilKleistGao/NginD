@@ -27,6 +27,7 @@
 #define NGIND_PERSPECTIVE_H
 
 #include "include/glm/glm.hpp"
+#include "resources/program_resource.h"
 
 namespace ngind::rendering {
 /**
@@ -79,6 +80,12 @@ public:
      */
     inline glm::vec2 getPerspectiveSize() const {
         return glm::vec2{_width, _height};
+    }
+
+    inline glm::mat4 getDefaultProjection() {
+        return glm::ortho(0.0f, static_cast<GLfloat>(_width),
+                          0.0f, static_cast<GLfloat>(_height),
+                          -1.0f, 1.0f);
     }
 private:
     Perspective();

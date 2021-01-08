@@ -23,6 +23,8 @@
 
 #include "label.h"
 
+#include <regex>
+
 #include "resources/resources_manager.h"
 #include "exceptions/game_exception.h"
 #include "objects/entity_object.h"
@@ -31,7 +33,7 @@
 namespace ngind::components {
 
 Label::Label() : _text(""), _color("#FFFFFFFF"),
-_program(nullptr), _font(nullptr), _size(12) {
+_program(nullptr), _font(nullptr), _size(12), _line_space{3} {
 
 }
 
@@ -47,7 +49,7 @@ Label::~Label() {
 }
 
 void Label::update(const float& delta) {
-    RenderComponent::update(delta);
+    RendererComponent::update(delta);
     this->draw();
 }
 
@@ -71,28 +73,56 @@ void Label::draw() {
                                         "draw",
                                         "can't get parent object");
     }
-
-    auto temp = static_cast<objects::EntityObject*>(_parent);
-    auto pos = temp->getPosition();
-
     if (_commands.empty()) {
-        for (const auto& c : _text) {
-            _commands.push_back(new rendering::QuadRenderCommand{});
-        }
+        parseText();
     }
-
-    float scale = static_cast<float>(_size) / rendering::TrueTypeFont::DEFAULT_FONT_SIZE;
 
     for (int i = 0; i < _commands.size(); i++) {
         auto& cmd = _commands[i];
+        rendering::Renderer::getInstance()->addRendererCommand(cmd);
+    }
+}
+
+void Label::parseText() {
+    if (_text.empty()) {
+        return;
+    }
+
+    if (!_commands.empty()) {
+        for (auto& c : _commands) {
+            delete c;
+            c = nullptr;
+        }
+
+        _commands.clear();
+    }
+
+    this->replaceEscape();
+
+    auto temp = static_cast<objects::EntityObject*>(_parent);
+    auto pos = temp->getPosition();
+    float scale = static_cast<float>(_size) / rendering::TrueTypeFont::DEFAULT_FONT_SIZE;
+    auto cl_it = _colors.begin();
+    auto color = (cl_it == _colors.end()) ? _color : std::get<0>(*cl_it);
+    auto left = (cl_it == _colors.end()) ? 0 : std::get<1>(*cl_it),
+            right = (cl_it == _colors.end()) ? 0 : std::get<2>(*cl_it);
+
+    for (int i = 0; i < _text.length(); i++) {
+        if (_text[i] == '\n') {
+            pos.y -= static_cast<float>(_font->getMaxHeight()) * scale + _line_space;
+            pos.x = temp->getPosition().x;
+            continue;
+        }
+
+        _commands.push_back(new rendering::QuadRenderCommand{});
+        auto& cmd = _commands.back();
         auto ch = _font->getCharacter(_text[i]);
         auto x = pos.x + ch.bearing.x * scale;
         auto y = pos.y - (ch.size.y - ch.bearing.y) * scale;
         auto width = ch.size.x * scale;
         auto height = ch.size.y * scale;
 
-        if (cmd->quad == nullptr) {
-            cmd->quad = new rendering::Quad{{
+        cmd->quad = new rendering::Quad{{
                 x, y + height, 0.0f, 0.0f,
                 x, y, 0.0f, 1.0f,
                 x + width, y, 1.0f, 1.0f,
@@ -100,7 +130,16 @@ void Label::draw() {
                 x, y + height, 0.0f, 0.0f,
                 x + width, y, 1.0f, 1.0f,
                 x + width, y + height, 1.0f, 0.0f,
-                }, true};
+        }, true};
+        if (!_colors.empty() && i >= left && i < right) {
+            cmd->quad->setColor(color);
+            if (i == right - 1 && cl_it + 1 != _colors.end()) {
+                cl_it++;
+                color = std::get<0>(*cl_it);
+                left = std::get<1>(*cl_it), right = std::get<2>(*cl_it);
+            }
+        }
+        else {
             cmd->quad->setColor(_color);
         }
 
@@ -109,8 +148,19 @@ void Label::draw() {
         cmd->transparent = false;
         cmd->program = _program->getProgram();
 
-        rendering::Renderer::getInstance()->addRendererCommand(cmd);
-        pos.x += (ch.advance >> 6) * scale;
+        pos.x += (ch.advance.x >> 6) * scale;
+    }
+}
+
+void Label::replaceEscape() {
+    _colors.clear();
+
+    std::smatch res;
+    std::regex reg{"(\\\\)*\\<color=(#[0123456789ABCDEF]{8})\\>(.*)(\\\\)*\\</color\\>"};
+    while (std::regex_search(_text, res, reg)) {
+        auto text = res.str(3);
+        _colors.push_back(std::make_tuple(rendering::RGBA{res.str(2)}, res.position(), res.position() + text.length()));
+        _text = res.prefix().str() + text + res.suffix().str();
     }
 }
 

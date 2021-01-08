@@ -54,12 +54,17 @@ public:
     }
 
     Character generateCharacterData(const char& c);
+
+    inline size_t getMaxHeight() {
+        return _max_height;
+    }
 private:
     /**
      * Font face data
      */
     FT_Face _font_face;
     std::map<char, Character> _cache;
+    size_t _max_height;
 };
 
 } // namespace ngind::rendering
