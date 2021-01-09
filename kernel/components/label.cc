@@ -32,8 +32,9 @@
 
 namespace ngind::components {
 
-Label::Label() : _text(""), _color("#FFFFFFFF"),
-_program(nullptr), _font(nullptr), _size(12), _line_space{3} {
+Label::Label() : RendererComponent(),
+_text(""),_font(nullptr),
+_size(12), _line_space{3}, _alignment{ALIGNMENT_LEFT} {
 
 }
 
@@ -59,6 +60,7 @@ void Label::init(const typename resources::ConfigResource::JsonObject& data) {
     _size = data["size"].GetInt();
     _color = rendering::RGBA{data["color"].GetString()};
     _text = data["text"].GetString();
+    _alignment = static_cast<Alignment>(data["alignment"].GetInt());
 }
 
 Label* Label::create(const typename resources::ConfigResource::JsonObject& data) {
@@ -101,24 +103,30 @@ void Label::parseText() {
 
     auto temp = static_cast<objects::EntityObject*>(_parent);
     auto pos = temp->getPosition();
+
     float scale = static_cast<float>(_size) / rendering::TrueTypeFont::DEFAULT_FONT_SIZE;
     auto cl_it = _colors.begin();
     auto color = (cl_it == _colors.end()) ? _color : std::get<0>(*cl_it);
     auto left = (cl_it == _colors.end()) ? 0 : std::get<1>(*cl_it),
             right = (cl_it == _colors.end()) ? 0 : std::get<2>(*cl_it);
 
+    float max_width = 0, max_height = 0, current_width = 0;
+    std::vector<float> widths;
+
     for (int i = 0; i < _text.length(); i++) {
         if (_text[i] == '\n') {
-            pos.y -= static_cast<float>(_font->getMaxHeight()) * scale + _line_space;
-            pos.x = temp->getPosition().x;
+            max_width = std::max(max_width, current_width);
+            widths.push_back(current_width);
+            max_height += static_cast<float>(_font->getMaxHeight()) * scale + _line_space;
+            current_width = 0;
             continue;
         }
 
         _commands.push_back(new rendering::QuadRenderCommand{});
         auto& cmd = _commands.back();
         auto ch = _font->getCharacter(_text[i]);
-        auto x = pos.x + ch.bearing.x * scale;
-        auto y = pos.y - (ch.size.y - ch.bearing.y) * scale;
+        auto x = current_width + ch.bearing.x * scale;
+        auto y = -max_height - (ch.size.y - ch.bearing.y) * scale;
         auto width = ch.size.x * scale;
         auto height = ch.size.y * scale;
 
@@ -148,7 +156,24 @@ void Label::parseText() {
         cmd->transparent = false;
         cmd->program = _program->getProgram();
 
-        pos.x += (ch.advance.x >> 6) * scale;
+        current_width += (ch.advance.x >> 6) * scale;
+    }
+
+    max_width = std::max(max_width, current_width);
+    widths.push_back(current_width);
+    max_height += static_cast<float>(_font->getMaxHeight()) * scale + _line_space;
+
+    glm::mat4 model = getModelMatrix(max_width, widths[0], max_height);;
+    for (int i = 0, j = 0, k = 0; i < _text.length(); i++, j++) {
+        const auto& c = _text[i];
+        if (c == '\n') {
+            j--; k++;
+            model = getModelMatrix(max_width, widths[k], max_height);
+            continue;
+        }
+
+        auto& cmd = _commands[j];
+        cmd->quad->setModel(model);
     }
 }
 
@@ -162,6 +187,39 @@ void Label::replaceEscape() {
         _colors.push_back(std::make_tuple(rendering::RGBA{res.str(2)}, res.position(), res.position() + text.length()));
         _text = res.prefix().str() + text + res.suffix().str();
     }
+}
+
+glm::mat4 Label::getModelMatrix(const float& max_width, const float& width, const float& max_height) {
+    auto temp = static_cast<objects::EntityObject*>(_parent);
+    auto pos = temp->getPosition();
+    auto global_scale = temp->getScale();
+    auto rotate = temp->getRotation();
+    auto anchor = temp->getAnchor();
+
+    float scale = static_cast<float>(_size) / rendering::TrueTypeFont::DEFAULT_FONT_SIZE;
+    pos.y -= static_cast<float>(_font->getMaxHeight()) * scale;
+
+    glm::mat4 model{1.0f};
+    if (_alignment == ALIGNMENT_LEFT) {
+        model = glm::translate(model, glm::vec3{pos.x - max_width * global_scale.x * anchor.x,
+                                                pos.y - max_height * global_scale.y * anchor.y, 0.0f});
+    }
+    else if (_alignment == ALIGNMENT_RIGHT) {
+        model = glm::translate(model, glm::vec3{pos.x - max_width * global_scale.x * anchor.x + max_width - width,
+                                                pos.y - max_height * global_scale.y * anchor.y, 0.0f});
+    }
+    else {
+        model = glm::translate(model, glm::vec3{pos.x - max_width * global_scale.x * anchor.x + (max_width - width) * 0.5f,
+                                                pos.y - max_height * global_scale.y * anchor.y, 0.0f});
+    }
+    model = glm::translate(model, glm::vec3{max_width * global_scale.x * anchor.x,
+                                            max_height * global_scale.y * anchor.y, 0.0f});
+    model = glm::rotate(model, rotate, glm::vec3{0.0f, 0.0f, 1.0f});
+    model = glm::translate(model, glm::vec3{-max_width * global_scale.x * anchor.x,
+                                            max_height * global_scale.y * anchor.y, 0.0f});
+    model = glm::scale(model, glm::vec3{global_scale, 1.0f});
+
+    return model;
 }
 
 } // namespace ngind::components

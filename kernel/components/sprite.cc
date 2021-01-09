@@ -33,8 +33,8 @@
 namespace ngind::components {
 
 Sprite::Sprite()
-        : _color("#FFFFFFFF"), _command(nullptr),
-        _quad(nullptr), _program(nullptr),
+        : RendererComponent(),
+        _command(nullptr), _quad(nullptr),
         _texture(nullptr), _lb(), _rt() {
 }
 
@@ -82,17 +82,13 @@ void Sprite::draw() {
     }
 
     auto temp = static_cast<objects::EntityObject*>(_parent);
-    auto pos = temp->getPosition();
-    auto sz = _texture->getTextureSize();
+    auto texture_size = _texture->getTextureSize();
 
     if (_command == nullptr) {
         _command = new rendering::QuadRenderCommand();
     }
 
     if (_quad == nullptr) {
-        auto bound = rendering::Perspective::getInstance()->getPerspectiveSize() * 0.5f;
-        auto texture_size = _texture->getTextureSize();
-
         _quad = new rendering::Quad({
                 texture_size.x, texture_size.y, 1.0f, 0.0f, // Top Right
                 texture_size.x, 0.0f, 1.0f, 1.0f, // Bottom Right
@@ -100,16 +96,12 @@ void Sprite::draw() {
                 0.0f, texture_size.y, 0.0f, 0.0f  // Top Left
         });
         _quad->setColor(_color);
-        glm::mat4 model{1.0f};
-        model = glm::translate(model, glm::vec3{pos - texture_size * 0.5f, 0.0f});
-//        model = glm::translate(model, glm::vec3{texture_size, 0.0f});
-        _quad->setModel(model);
+        _quad->setModel(getModelMatrix());
     }
 
     _command->quad = _quad;
     _command->texture_id = _texture->getTextureID();
     _command->z_order = temp->getZOrder();
-    _command->transparent = false;
     _command->program = _program->getProgram();
 
     rendering::Renderer::getInstance()->addRendererCommand(_command);
@@ -129,6 +121,27 @@ Sprite* Sprite::create(const typename resources::ConfigResource::JsonObject& dat
     auto* com = new Sprite();
     com->init(data);
     return com;
+}
+
+glm::mat4 Sprite::getModelMatrix() {
+    auto temp = static_cast<objects::EntityObject*>(_parent);
+    auto pos = temp->getPosition();
+    auto rotate = temp->getRotation();
+    auto scale = temp->getScale();
+    auto anchor = temp->getAnchor();
+    auto texture_size = _texture->getTextureSize();
+
+    glm::mat4 model{1.0f};
+    model = glm::translate(model, glm::vec3{pos.x - texture_size.x * scale.x * anchor.x,
+                                            pos.y - texture_size.y * scale.y * anchor.y, 0.0f});
+    model = glm::translate(model, glm::vec3{texture_size.x * scale.x * anchor.x,
+                                            texture_size.y * scale.y * anchor.y, 0.0f});
+    model = glm::rotate(model, rotate, glm::vec3{0.0f, 0.0f, 1.0f});
+    model = glm::translate(model, glm::vec3{-texture_size.x * scale.x * anchor.x,
+                                            -texture_size.y * scale.y * anchor.y, 0.0f});
+    model = glm::scale(model, glm::vec3{scale, 1.0f});
+
+    return model;
 }
 
 } // namespace ngind::components

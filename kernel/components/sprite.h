@@ -132,22 +132,6 @@ public:
         return _rt;
     }
 
-    /**
-     * Set the color mask of this sprite. The default color is pure white(#FFFFFFFF).
-     * @param color: the color
-     */
-    inline void setColor(const rendering::RGBA& color) {
-        _color = color;
-    }
-
-    /**
-     * Get the color mask of this sprite. The default color is pure white(#FFFFFFFF).
-     * @return RGBA, the color
-     */
-    inline rendering::RGBA getColor() const {
-        return _color;
-    }
-
 private:
     /**
      * The texture resource reference this sprite use.
@@ -160,24 +144,16 @@ private:
     glm::vec2 _lb, _rt;
 
     /**
-     * Mask color.
-     */
-    rendering::RGBA _color;
-
-    /**
      * Render command this sprite used.
      */
     rendering::QuadRenderCommand* _command;
 
     /**
-     * Vertex shader and fragment shader this sprite used.
-     */
-    resources::ProgramResource* _program;
-
-    /**
      * Quad information.
      */
     rendering::Quad* _quad;
+
+    glm::mat4 getModelMatrix();
 
 protected:
     /**

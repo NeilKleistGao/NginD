@@ -25,6 +25,9 @@
 #define NGIND_RENDERER_COMPONENT_H
 
 #include "component.h"
+#include "resources/program_resource.h"
+#include "rendering/rgba.h"
+#include "glm/glm.hpp"
 
 namespace ngind::components {
 
@@ -36,7 +39,9 @@ namespace ngind::components {
  */
 class RendererComponent : public Component {
 public:
-    RendererComponent() = default;
+    RendererComponent() : _color("#FFFFFFFF"), _program(nullptr), _dirty(false) {
+
+    };
     virtual ~RendererComponent() {}
     RendererComponent(const RendererComponent&) = delete;
     RendererComponent& operator= (const RendererComponent&) = delete;
@@ -51,12 +56,34 @@ public:
      * @param data: the configuration data this component initialization process requires.
      */
     virtual void init(const typename resources::ConfigResource::JsonObject& data) {};
+
+    /**
+     * Set the color mask of this sprite. The default color is pure white(#FFFFFFFF).
+     * @param color: the color
+     */
+    inline void setColor(const rendering::RGBA& color) {
+        _color = color;
+    }
+
+    /**
+     * Get the color mask of this sprite. The default color is pure white(#FFFFFFFF).
+     * @return RGBA, the color
+     */
+    inline rendering::RGBA getColor() const {
+        return _color;
+    }
+
 protected:
     /**
      * Create some rendering command and send them to the rendering queue in order to show
      * something on the screen. This method should be called in update.
      */
     virtual void draw() = 0;
+
+    bool _dirty; // TODO:
+
+    rendering::RGBA _color;
+    resources::ProgramResource* _program;
 };
 
 } // namespace ngind::components

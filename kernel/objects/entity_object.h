@@ -184,6 +184,29 @@ public:
         }
     }
 
+    inline void setAnchor(const glm::vec2& anchor) {
+        _anchor = anchor;
+    }
+
+    inline void setAnchorX(const float& x) {
+        _anchor.x = x;
+    }
+
+    inline void setAnchorY(const float& y) {
+        _anchor.y = y;
+    }
+
+    inline glm::vec2 getAnchor() const {
+        return _anchor;
+    }
+
+    inline float getAnchorX() const {
+        return _anchor.x;
+    }
+
+    inline float getAnchorY() const {
+        return _anchor.y;
+    }
 private:
     /**
      * The position of this object

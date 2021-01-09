@@ -62,7 +62,8 @@ void VisualLogger::enable() {
         _entity = new objects::EntityObject();
         _entity->addReference();
         _entity->setZOrder(999);
-        _entity->setPosition({0, 750});
+        _entity->setAnchor({0, 0});
+        _entity->setPosition({0, 768});
 
         _label = new components::Label();
         _label->_color = rendering::RGBA{"#FFFFFFAA"};

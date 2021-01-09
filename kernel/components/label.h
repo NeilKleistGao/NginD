@@ -31,7 +31,6 @@
 #include "renderer_component.h"
 #include "rendering/rgba.h"
 #include "resources/font_resource.h"
-#include "resources/program_resource.h"
 #include "rendering/quad.h"
 #include "rendering/render_command.h"
 
@@ -47,6 +46,12 @@ class Label : public RendererComponent {
 public:
     Label();
     ~Label();
+
+    enum Alignment {
+        ALIGNMENT_LEFT = 0,
+        ALIGNMENT_RIGHT = 1,
+        ALIGNMENT_CENTER = 2
+    };
 
     Label(const Label&) = delete;
     Label& operator= (const Label&) = delete;
@@ -69,16 +74,17 @@ public:
     friend class ngind::log::VisualLogger;
 private:
     std::string _text;
-    rendering::RGBA _color;
     resources::FontResource* _font;
-    resources::ProgramResource* _program;
     size_t _size;
     std::vector<rendering::QuadRenderCommand*> _commands;
     std::vector<std::tuple<rendering::RGBA, unsigned int, unsigned int>> _colors;
     size_t _line_space;
 
+    Alignment _alignment;
+
     void parseText();
     void replaceEscape();
+    glm::mat4 getModelMatrix(const float& max_width, const float& width, const float& max_height);
 protected:
     virtual void draw();
 };
