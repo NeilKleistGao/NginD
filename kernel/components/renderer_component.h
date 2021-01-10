@@ -28,6 +28,7 @@
 #include "resources/program_resource.h"
 #include "rendering/rgba.h"
 #include "glm/glm.hpp"
+#include "script/lua_registration.h"
 
 namespace ngind::components {
 
@@ -84,6 +85,14 @@ protected:
 
     rendering::RGBA _color;
     resources::ProgramResource* _program;
+};
+
+NGIND_LUA_BRIDGE_REGISTRATION(RendererComponent) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+            .beginNamespace("engine")
+            .beginClass<RendererComponent>("RendererComponent")
+            .endClass()
+            .endNamespace();
 };
 
 } // namespace ngind::components

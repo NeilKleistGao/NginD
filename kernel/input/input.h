@@ -31,6 +31,7 @@
 #include "text_input.h"
 
 #include "rendering/window.h"
+#include "script/lua_registration.h"
 
 namespace ngind::input {
 /**
@@ -73,8 +74,8 @@ public:
      * @param code: the key's code that should be checked
      * @return bool, true if user releases this key
      */
-    inline bool getKeyReleased(const KeyboardCode& code) {
-        return !_text_mod && this->_keyboard->getKeyReleased(this->_window_handler, code);
+    inline bool getKeyReleased(const int& code) {
+        return !_text_mod && this->_keyboard->getKeyReleased(this->_window_handler, static_cast<KeyboardCode>(code));
     }
 
     /**
@@ -179,6 +180,16 @@ private:
 
     ~Input();
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(Input) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+    .beginNamespace("engine")
+        .beginClass<Input>("Input")
+            .addStaticFunction("getInstance", &Input::getInstance)
+            .addFunction("getKeyReleased", &Input::getKeyReleased)
+        .endClass()
+    .endNamespace();
+}
 
 } // namespace ngind::input
 

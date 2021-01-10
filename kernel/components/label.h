@@ -35,6 +35,7 @@
 #include "rendering/render_command.h"
 
 #include "rttr/registration.h"
+#include "script/lua_registration.h"
 
 namespace ngind::log {
 class VisualLogger;
@@ -62,6 +63,8 @@ public:
 
     static Label* create(const typename resources::ConfigResource::JsonObject& data);
 
+    static Label* getComponent(Object* parent);
+
     inline void setText(const std::string& text) {
         _text = text;
         parseText();
@@ -70,6 +73,8 @@ public:
     inline std::string getText() {
         return _text;
     }
+
+    void setAlpha(const int& alpha);
 
     friend class ngind::log::VisualLogger;
 private:
@@ -93,6 +98,16 @@ RTTR_REGISTRATION {
     rttr::registration::class_<Label>("Label")
             .method("create", &Label::create);
 }
+
+NGIND_LUA_BRIDGE_REGISTRATION(Label) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+    .beginNamespace("engine")
+        .deriveClass<Label, RendererComponent>("Label")
+            .addStaticFunction("getComponent", &Label::getComponent)
+            .addFunction("setAlpha", &Label::setAlpha)
+        .endClass()
+    .endNamespace();
+};
 } // namespace ngind::components
 
 #endif //NGIND_LABEL_H

@@ -31,6 +31,7 @@
 #include "resources/config_resource.h"
 #include "timer/timer.h"
 #include "objects/world.h"
+#include "script/lua_registration.h"
 
 namespace ngind {
 
@@ -139,6 +140,16 @@ private:
      */
     bool _loop_flag;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(Input) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .beginClass<Game>("Game")
+                .addStaticFunction("getInstance", &Game::getInstance)
+                .addFunction("quit", &Game::quit)
+            .endClass()
+        .endNamespace();
+}
 
 } // namespace ngind
 

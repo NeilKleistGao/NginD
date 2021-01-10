@@ -222,4 +222,16 @@ glm::mat4 Label::getModelMatrix(const float& max_width, const float& width, cons
     return model;
 }
 
+Label* Label::getComponent(Object* parent) {
+    return parent->getComponent<Label>("Label");
+}
+
+void Label::setAlpha(const int& alpha) {
+    _color.a = alpha;
+//    std::cout << (int)alpha << std::endl;
+    for (auto& cmd : _commands) {
+        cmd->quad->setColor(_color);
+    }
+}
+
 } // namespace ngind::components

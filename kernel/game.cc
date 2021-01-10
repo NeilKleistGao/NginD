@@ -26,6 +26,7 @@
 #include "rendering/renderer.h"
 #include "resources/resources_manager.h"
 #include "log/visual_logger.h"
+#include "script/lua_state.h"
 
 namespace ngind {
 Game* Game::_instance = nullptr;
@@ -42,6 +43,7 @@ Game::~Game() {
     }
 
     _worlds.clear();
+    script::LuaState::getInstance()->destroyInstance();
 }
 
 Game* Game::getInstance() {
@@ -66,6 +68,8 @@ void Game::start() {
             _global_settings->getDocument()["window-title"].GetString(),
             _global_settings->getDocument()["window-icon"].GetString(),
             _global_settings->getDocument()["window-full-screen"].GetBool());
+
+    script::LuaState::getInstance()->loadScript("class.lua");
 
     this->loadWorld(_global_settings->getDocument()["welcome-world"].GetString());
 

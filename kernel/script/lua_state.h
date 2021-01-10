@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +6,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,18 +19,46 @@
  * SOFTWARE.
  */
 
-/// @file main.cc
+/// @file lua_state.h
 
-#include "kernel/game.h"
+#ifndef NGIND_LUA_STATE_H
+#define NGIND_LUA_STATE_H
 
-int main() {
-    auto game = ngind::Game::getInstance();
-    if (game == nullptr) {
-        exit(-1);
+#include <string>
+#include <unordered_set>
+#include <vector>
+
+#include "lua/lua.hpp"
+#include "LuaBridge/LuaBridge.h"
+
+namespace ngind::script {
+
+class LuaState {
+public:
+    const static std::string SCRIPT_PATH;
+    static LuaState* getInstance();
+    static void destroyInstance();
+
+    void loadScript(const std::vector<std::string>& filenames);
+    void loadScript(const std::string& name);
+
+    luabridge::LuaRef createStateMachine(const std::string& classname);
+
+    void destroyStateMachineInstance(luabridge::LuaRef& instance);
+
+    inline lua_State* getState() {
+        return _state;
     }
+private:
+    static LuaState* _instance;
 
-    // Good Luck, Have Fun.
-    game->start();
-    game->destroyInstance();
-    return 0;
-}
+    LuaState();
+    ~LuaState();
+
+    lua_State* _state;
+    std::unordered_set<std::string> _visit;
+};
+
+} // namespace ngind::script
+
+#endif //NGIND_LUA_STATE_H

@@ -1,5 +1,5 @@
 /*
-** $Id: lualib.h $
+** $Id: lualib.h,v 1.43.1.1 2013/04/12 18:48:47 roberto Exp $
 ** Lua standard libraries
 ** See Copyright Notice in lua.h
 */
@@ -10,9 +10,6 @@
 
 #include "lua.h"
 
-
-/* version suffix for environment variable names */
-#define LUA_VERSUFFIX          "_" LUA_VERSION_MAJOR "_" LUA_VERSION_MINOR
 
 
 LUAMOD_API int (luaopen_base) (lua_State *L);
@@ -32,8 +29,8 @@ LUAMOD_API int (luaopen_os) (lua_State *L);
 #define LUA_STRLIBNAME	"string"
 LUAMOD_API int (luaopen_string) (lua_State *L);
 
-#define LUA_UTF8LIBNAME	"utf8"
-LUAMOD_API int (luaopen_utf8) (lua_State *L);
+#define LUA_BITLIBNAME	"bit32"
+LUAMOD_API int (luaopen_bit32) (lua_State *L);
 
 #define LUA_MATHLIBNAME	"math"
 LUAMOD_API int (luaopen_math) (lua_State *L);

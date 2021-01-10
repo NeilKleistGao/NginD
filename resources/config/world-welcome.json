@@ -44,6 +44,35 @@
           "filename": "test.jpg"
         }
       ]
+    },
+    {
+      "name": "tip",
+      "type": "entity",
+      "position": {
+        "x": 512,
+        "y": 100
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 24,
+          "text": "PRESS SPACE TO EXIT",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        },
+        {
+          "name": "StateMachine",
+          "driver-script": "welcome.lua",
+          "classname": "WelcomeWorldAction"
+        }
+      ]
     }
   ]
 }

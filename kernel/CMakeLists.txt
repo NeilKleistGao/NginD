@@ -14,6 +14,7 @@ include(kernel/resources/CMakeLists.txt)
 include(kernel/timer/CMakeLists.txt)
 include(kernel/utils/CMakeLists.txt)
 include(kernel/exceptions/CMakeLists.txt)
+include(kernel/script/CMakeLists.txt)
 
 set(KERNEL_HEADER
         kernel/game.h
@@ -30,7 +31,8 @@ set(KERNEL_HEADER
         ${RESOURCES_HEADER}
         ${TIMER_HEADER}
         ${UTILS_HEADER}
-        ${EXCEPTIONS_HEADER})
+        ${EXCEPTIONS_HEADER}
+        ${SCRIPT_HEADER})
 
 set(KERNEL_SRC
         kernel/game.cc
@@ -47,4 +49,5 @@ set(KERNEL_SRC
         ${RESOURCES_SRC}
         ${TIMER_SRC}
         ${UTILS_SRC}
-        ${EXCEPTIONS_SRC})
+        ${EXCEPTIONS_SRC}
+        ${SCRIPT_SRC})

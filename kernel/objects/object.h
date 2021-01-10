@@ -33,6 +33,7 @@
 #include "memory/auto_collection_object.h"
 #include "updatable_object.h"
 #include "components/component.h"
+#include "script/lua_registration.h"
 
 namespace ngind::objects {
 
@@ -115,13 +116,13 @@ public:
      * @param name: the name of component
      * @return Type*, the pointer of component
      */
-    template<typename Type, typename std::enable_if_t<std::is_base_of_v<components::Component, Type>> N = 0>
+    template<typename Type>
     Type* getComponent(const std::string& name) {
         if (_components.find(name) == _components.end()) {
             return nullptr;
         }
 
-        return static_cast<Type>(_components[name]);
+        return static_cast<Type*>(_components[name]);
     }
 
     /**
@@ -157,8 +158,15 @@ protected:
      */
     Object* _parent;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(Object) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+    .beginNamespace("engine")
+        .beginClass<Object>("Object")
+        .endClass()
+    .endNamespace();
+}
+
 } // namespace ngind::objects
-
-
 
 #endif //NGIND_OBJECT_H

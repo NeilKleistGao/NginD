@@ -91,14 +91,12 @@ Object* World::generateObject(Object* self, const typename resources::ConfigReso
 }
 
 components::Component* World::generateComponent(const typename resources::ConfigResource::JsonObject& data) {
-    auto name = data["name"].GetString();
     rttr::type type = rttr::type::get_by_name(data["name"].GetString());
     rttr::variant temp = type.create();
     rttr::method create_func = type.get_method("create");
     rttr::variant var = create_func.invoke(temp, data);
 
     components::Component* com = var.get_value<components::Component*>();
-//    com->init(data);
     return com;
 }
 
