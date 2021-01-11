@@ -24,6 +24,9 @@
 #ifndef NGIND_STATE_MACHINE_H
 #define NGIND_STATE_MACHINE_H
 
+#include <map>
+#include <unordered_set>
+
 #include "component.h"
 #include "script/lua_state.h"
 #include "script/lua_registration.h"
@@ -51,11 +54,15 @@ public:
         Component::setParent(parent);
         _instance["game_object"] = _parent;
     }
+
+    void receive(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
 private:
     luabridge::LuaRef _instance;
 
     luabridge::LuaRef _update_function;
     std::string _state_name;
+
+    std::map<std::string, std::unordered_set<std::string>> _subscribe;
 };
 
 RTTR_REGISTRATION {

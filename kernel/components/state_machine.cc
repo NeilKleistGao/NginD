@@ -22,6 +22,7 @@
 /// @file state_machine.cc
 
 #include "state_machine.h"
+#include "script/observer.h"
 
 namespace ngind::components {
 StateMachine::StateMachine() :
@@ -46,6 +47,19 @@ void StateMachine::init(const typename resources::ConfigResource::JsonObject& da
 
     _instance["this"] = this;
     _instance["game_object"] = _parent;
+
+    auto subscribe = _instance["subscribe"];
+    if (subscribe.isTable()) {
+        for (int i = 1; i <= subscribe.length(); i++) {
+            auto item = subscribe[i];
+            auto name = item["name"].cast<std::string>();
+            _subscribe[name] = std::unordered_set<std::string>{};
+            auto whitelist = item["whitelist"];
+            for (int j = 1; j < whitelist.length(); j++) {
+                _subscribe[name].insert(whitelist[j].cast<std::string>());
+            }
+        }
+    }
 }
 
 StateMachine* StateMachine::create(const typename resources::ConfigResource::JsonObject& data) {
@@ -78,6 +92,19 @@ void StateMachine::update(const float& dlt) {
     }
 
     _update_function(_instance, dlt);
+}
+
+void StateMachine::receive(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data) {
+    const auto& whitelist = _subscribe[name];
+    if (whitelist.find(_state_name) != whitelist.end() ||
+        whitelist.find("__all__") != whitelist.end()) {
+        auto receive_function = _instance["receive" + name];
+        if (receive_function.isNil() || !receive_function.isFunction()) {
+            // TODO:
+        }
+
+        receive_function(_instance, sender, data);
+    }
 }
 
 } // namespace ngind::components
