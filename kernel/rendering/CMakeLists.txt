@@ -1,5 +1,3 @@
-include(kernel/rendering/adapter/CMakeLists.txt)
-
 set(RENDER_HEADER
         kernel/rendering/font_factory.h
         kernel/rendering/perspective.h
@@ -7,13 +5,15 @@ set(RENDER_HEADER
         kernel/rendering/quad.h
         kernel/rendering/renderer.h
         kernel/rendering/rendering_queue.h
-        kernel/rendering/render_command.h
+        kernel/rendering/rendering_command.h
         kernel/rendering/rgba.h
         kernel/rendering/shader.h
         kernel/rendering/texture.h
         kernel/rendering/true_type_font.h
         kernel/rendering/window.h
-        kernel/rendering/character.h)
+        kernel/rendering/character.h
+        kernel/rendering/quad_rendering_command.h
+        kernel/rendering/batch_quad_rendering_command.h)
 
 set(RENDER_SRC
         kernel/rendering/font_factory.cc
@@ -25,4 +25,6 @@ set(RENDER_SRC
         kernel/rendering/shader.cc
         kernel/rendering/texture.cc
         kernel/rendering/true_type_font.cc
-        kernel/rendering/window.cc)
+        kernel/rendering/window.cc
+        kernel/rendering/quad_rendering_command.cc
+        kernel/rendering/batch_quad_rendering_command.cc)

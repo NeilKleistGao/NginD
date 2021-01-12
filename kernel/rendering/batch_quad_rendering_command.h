@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,70 +19,46 @@
  * SOFTWARE.
  */
 
-/// @file render_queue.h
+/// @file batch_quad_rendering_command.h
 
-#ifndef NGIND_RENDERING_QUEUE_H
-#define NGIND_RENDERING_QUEUE_H
-
-#include "rendering_command.h"
+#ifndef NGIND_BATCH_QUAD_RENDERING_COMMAND_H
+#define NGIND_BATCH_QUAD_RENDERING_COMMAND_H
 
 #include <vector>
+#include <initializer_list>
+
+#include "rendering_command.h"
+#include "quad.h"
 
 namespace ngind::rendering {
 
-/**
- * A simple queue used to store the rendering commands.
- */
-class RenderingQueue {
+class BatchQuadRenderingCommand : public RenderingCommand {
 public:
-    RenderingQueue() = default;
-    ~RenderingQueue() = default;
+    BatchQuadRenderingCommand(Quad* quad, const size_t& size);
+    ~BatchQuadRenderingCommand();
+    BatchQuadRenderingCommand(const BatchQuadRenderingCommand&) = delete;
+    BatchQuadRenderingCommand& operator= (const BatchQuadRenderingCommand&) = delete;
 
-    using iterator = std::vector<RenderingCommand*>::iterator;
+    void call() override;
 
-    /**
-     * Get iterator pointing the beginning of queue
-     * @return iterator, beginning iterator
-     */
-    inline iterator begin() {
-        return _queue.begin();
+    inline void push(std::initializer_list<GLfloat> vertex, const GLuint& texture) {
+        _vertex.push_back(new GLfloat[_size]);
+        auto& v = _vertex.back();
+        int i = 0;
+        for (const auto& f : vertex) {
+            v[i++] = f;
+        }
+
+        _textures.push_back(texture);
     }
-
-    /**
-     * Get iterator pointing the end of queue
-     * @return iterator, end iterator
-     */
-    inline iterator end() {
-        return _queue.end();
-    }
-
-    /**
-     * Clean the queue
-     */
-    inline void clear() {
-        _queue.clear();
-    }
-
-    /**
-     * Push a command pointer into queue
-     * @param command: command to be pushed
-     */
-    inline void push(RenderingCommand* command) {
-        _queue.push_back(command);
-    }
-
-    /**
-     * Sort all commands by order in z-dim
-     */
-    void sort();
-
 private:
-    /**
-     * Vector buffer to store commands
-     */
-    std::vector<RenderingCommand*> _queue;
+    Quad* _quad;
+    std::vector<GLfloat*> _vertex;
+    std::vector<GLuint> _textures;
+
+    size_t _size;
 };
 
 } // namespace ngind::rendering
 
-#endif //NGIND_RENDERING_QUEUE_H
+#endif //NGIND_BATCH_QUAD_RENDERING_COMMAND_H

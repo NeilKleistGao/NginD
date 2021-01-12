@@ -64,9 +64,9 @@ public:
         if (level < this->_level) {
             return;
         }
-        std::string string_msg;
-        _string_stream << msg;
-        _string_stream >> string_msg;
+        std::string string_msg = msg;
+//        _string_stream << msg;
+//        _string_stream >> string_msg;
 
         std::string format_msg;
         switch (level) {
@@ -84,38 +84,6 @@ public:
                 break;
             default:
                 format_msg = std::move(string_msg);
-                break;
-        }
-
-        _output->write(format_msg);
-    }
-
-    /**
-     * Output some message to logger file
-     * @param msg: the message to be outputted
-     * @param level: the type of log information
-     */
-    void log(const std::string& msg, const LogLevel& level = LogLevel::LOG_LEVEL_DEBUG) {
-        if (level < this->_level) {
-            return;
-        }
-
-        std::string format_msg;
-        switch (level) {
-            case LOG_LEVEL_INFO:
-                format_msg = std::string{INFO_FORMAT}.append(msg);
-                break;
-            case LOG_LEVEL_DEBUG:
-                format_msg = std::string{DEBUG_FORMAT}.append(msg);
-                break;
-            case LOG_LEVEL_WARNING:
-                format_msg = std::string{WARNING_FORMAT}.append(msg);
-                break;
-            case LOG_LEVEL_ERROR:
-                format_msg = std::string{ERROR_FORMAT}.append(msg);
-                break;
-            default:
-                format_msg = msg;
                 break;
         }
 
@@ -161,6 +129,7 @@ private:
 
     filesystem::FileOutputStream* _output;
 };
+
 } // namespace ngind::log
 
 #endif //NGIND_LOGGER_H

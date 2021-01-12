@@ -28,25 +28,22 @@
 
 namespace ngind::rendering {
 
-Quad::Quad(std::initializer_list<GLfloat> vs,
-           const bool& dynamic) : _dynamic(dynamic) {
+Quad::Quad(std::initializer_list<GLfloat> vs){
     _size = vs.size();
+
     if (_size == 0) {
-        auto log = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LOG_LEVEL_ERROR);
-        log->log("zero size of vertex data when creating quad.");
-        exit(-1);
+        // TODO:
     }
+    else {
+        glGenVertexArrays(1, &_vao);
+        glGenBuffers(1, &_vbo);
 
-    _vertex = new GLfloat[_size];
-    auto it = vs.begin();
-    for (int i = 0; i < _size; i++, it++) {
-        _vertex[i] = *it;
-    }
+        _vertex = new GLfloat[_size];
+        auto it = vs.begin();
+        for (int i = 0; i < _size; i++, it++) {
+            _vertex[i] = *it;
+        }
 
-    glGenVertexArrays(1, &_vao);
-    glGenBuffers(1, &_vbo);
-
-    if (!dynamic) {
         glGenBuffers(1, &_ebo);
         glBindVertexArray(_vao);
 
@@ -68,41 +65,30 @@ Quad::Quad(std::initializer_list<GLfloat> vs,
         delete[] _vertex;
         _vertex = nullptr;
     }
-    else {
-        _ebo = 0;
-        glBindVertexArray(_vao);
+}
 
-        glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * _size, nullptr, GL_DYNAMIC_DRAW);
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+Quad::Quad(const size_t& size) : _size(size) {
+    glGenVertexArrays(1, &_vao);
+    glGenBuffers(1, &_vbo);
 
-        glBindVertexArray(0);
-    }
+    _ebo = 0;
+    glBindVertexArray(_vao);
+
+    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * _size, nullptr, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glBindVertexArray(0);
 }
 
 Quad::~Quad() {
     glDeleteVertexArrays(1, &_vao);
     glDeleteBuffers(1, &_vbo);
 
-    if (_dynamic) {
-        delete[] _vertex;
-        _vertex = nullptr;
-    }
-    else {
+    if (_size) {
         glDeleteBuffers(1, &_ebo);
     }
 }
-
-void Quad::bindSubData() {
-    if (!_dynamic) {
-        return;
-    }
-
-    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * _size, _vertex);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
 } // namespace ngind::rendering

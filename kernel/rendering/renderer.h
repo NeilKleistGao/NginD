@@ -83,7 +83,7 @@ public:
      * Add a rendering command to rendering queue
      * @param cmd: rendering command
      */
-    inline void addRendererCommand(RenderCommand* cmd) {
+    inline void addRendererCommand(RenderingCommand* cmd) {
         _queue->push(cmd);
     }
 
@@ -107,13 +107,7 @@ private:
      * Execute a rendering command
      * @param cmd: the command to be executed
      */
-    void execute(RenderCommand* cmd);
-
-    /**
-     * Execute a quad rendering command
-     * @param cmd: the command to be executed
-     */
-    void drawQuad(QuadRenderCommand* cmd);
+    void execute(RenderingCommand* cmd);
 
     Renderer();
 

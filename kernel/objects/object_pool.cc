@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,56 +19,5 @@
  * SOFTWARE.
  */
 
-/// @file render_command.h
+/// @file object_pool.cc
 
-#ifndef NGIND_RENDER_COMMAND_H
-#define NGIND_RENDER_COMMAND_H
-
-#include "quad.h"
-#include "program.h"
-#include "rgba.h"
-
-namespace ngind::rendering {
-
-enum RenderCommandType {
-    UNKNOWN_COMMAND,
-    QUAD_COMMAND,
-    // TODO: other types
-};
-
-struct RenderCommand {
-public:
-    unsigned int z_order{};
-    const RenderCommandType type;
-    bool transparent{};
-
-    explicit RenderCommand(const RenderCommandType& t = UNKNOWN_COMMAND)
-        : type(t) {}
-};
-
-/**
- * This command is designed for quad rendering.
- */
-struct QuadRenderCommand : public RenderCommand {
-    /**
-     * ID of texture that rendering will use
-     */
-    GLuint texture_id{};
-
-    /**
-     * Quad data
-     */
-    Quad* quad;
-
-    /**
-     * Render program
-     */
-    Program* program;
-
-    QuadRenderCommand()
-        : RenderCommand(QUAD_COMMAND), quad(nullptr), program(nullptr) {}
-};
-
-} // namespace ngind::rendering
-
-#endif //NGIND_RENDER_COMMAND_H

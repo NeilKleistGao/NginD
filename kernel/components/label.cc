@@ -97,6 +97,13 @@ void Label::parseText() {
         }
 
         _commands.clear();
+
+        for (auto& q : _quads) {
+            delete q;
+            q = nullptr;
+        }
+
+        _quads.clear();
     }
 
     this->replaceEscape();
@@ -113,8 +120,8 @@ void Label::parseText() {
     float max_width = 0, max_height = 0, current_width = 0;
     std::vector<float> widths;
 
-    for (int i = 0; i < _text.length(); i++) {
-        if (_text[i] == '\n') {
+    for (const auto& c : _text) {
+        if (c == '\n') {
             max_width = std::max(max_width, current_width);
             widths.push_back(current_width);
             max_height += static_cast<float>(_font->getMaxHeight()) * scale + _line_space;
@@ -122,40 +129,7 @@ void Label::parseText() {
             continue;
         }
 
-        _commands.push_back(new rendering::QuadRenderCommand{});
-        auto& cmd = _commands.back();
-        auto ch = _font->getCharacter(_text[i]);
-        auto x = current_width + ch.bearing.x * scale;
-        auto y = -max_height - (ch.size.y - ch.bearing.y) * scale;
-        auto width = ch.size.x * scale;
-        auto height = ch.size.y * scale;
-
-        cmd->quad = new rendering::Quad{{
-                x, y + height, 0.0f, 0.0f,
-                x, y, 0.0f, 1.0f,
-                x + width, y, 1.0f, 1.0f,
-
-                x, y + height, 0.0f, 0.0f,
-                x + width, y, 1.0f, 1.0f,
-                x + width, y + height, 1.0f, 0.0f,
-        }, true};
-        if (!_colors.empty() && i >= left && i < right) {
-            cmd->quad->setColor(color);
-            if (i == right - 1 && cl_it + 1 != _colors.end()) {
-                cl_it++;
-                color = std::get<0>(*cl_it);
-                left = std::get<1>(*cl_it), right = std::get<2>(*cl_it);
-            }
-        }
-        else {
-            cmd->quad->setColor(_color);
-        }
-
-        cmd->texture_id = ch.texture;
-        cmd->z_order = temp->getZOrder();
-        cmd->transparent = false;
-        cmd->program = _program->getProgram();
-
+        auto ch = _font->getCharacter(c);
         current_width += (ch.advance.x >> 6) * scale;
     }
 
@@ -163,17 +137,56 @@ void Label::parseText() {
     widths.push_back(current_width);
     max_height += static_cast<float>(_font->getMaxHeight()) * scale + _line_space;
 
-    glm::mat4 model = getModelMatrix(max_width, widths[0], max_height);;
-    for (int i = 0, j = 0, k = 0; i < _text.length(); i++, j++) {
-        const auto& c = _text[i];
-        if (c == '\n') {
-            j--; k++;
-            model = getModelMatrix(max_width, widths[k], max_height);
+    current_width = 0; max_height = 0;
+    glm::mat4 model = getModelMatrix(max_width, widths[0], max_height);
+    for (int i = 0, j = 0; i < _text.length(); i++) {
+        if (_text[i] == '\n') {
+            j++;
+            current_width = 0;
+            max_height += static_cast<float>(_font->getMaxHeight()) * scale + _line_space;
+            model = getModelMatrix(max_width, widths[j], max_height);
+        }
+
+        if (_quads.empty() || (!_colors.empty() && (i == left || i == right)) || _text[i] == '\n') {
+            _quads.push_back(new rendering::Quad(24));
+            _commands.push_back(new rendering::BatchQuadRenderingCommand{_quads.back(), 24});
+            _commands.back()->setProgram(_program->getProgram());
+            _commands.back()->setZ(temp->getZOrder());
+            _commands.back()->setModel(model);
+
+            if (!_colors.empty() && i >= left && i < right) {
+                if (i == right && cl_it + 1 != _colors.end()) {
+                    cl_it++;
+                    color = std::get<0>(*cl_it);
+                    left = std::get<1>(*cl_it), right = std::get<2>(*cl_it);
+                }
+
+                _commands.back()->setColor(color);
+            }
+            else {
+                _commands.back()->setColor(_color);
+            }
+        }
+
+        if (_text[i] == '\n') {
             continue;
         }
 
-        auto& cmd = _commands[j];
-        cmd->quad->setModel(model);
+        auto& cmd = _commands.back();
+        auto ch = _font->getCharacter(_text[i]);
+        auto x = current_width + ch.bearing.x * scale;
+        auto y = -max_height - (ch.size.y - ch.bearing.y) * scale;
+        auto width = ch.size.x * scale;
+        auto height = ch.size.y * scale;
+
+        cmd->push({x, y + height, 0.0f, 0.0f,
+                   x, y, 0.0f, 1.0f,
+                   x + width, y, 1.0f, 1.0f,
+
+                   x, y + height, 0.0f, 0.0f,
+                   x + width, y, 1.0f, 1.0f,
+                   x + width, y + height, 1.0f, 0.0f}, ch.texture);
+        current_width += (ch.advance.x >> 6) * scale;
     }
 }
 
@@ -181,10 +194,10 @@ void Label::replaceEscape() {
     _colors.clear();
 
     std::smatch res;
-    std::regex reg{"(\\\\)*\\<color=(#[0123456789ABCDEF]{8})\\>(.*)(\\\\)*\\</color\\>"};
+    std::regex reg{R"((\\)*\<color=(#[0123456789ABCDEF]{8})\>(.*)(\\)*\</color\>)"};
     while (std::regex_search(_text, res, reg)) {
         auto text = res.str(3);
-        _colors.push_back(std::make_tuple(rendering::RGBA{res.str(2)}, res.position(), res.position() + text.length()));
+        _colors.emplace_back(rendering::RGBA{res.str(2)}, res.position(), res.position() + text.length());
         _text = res.prefix().str() + text + res.suffix().str();
     }
 }
@@ -230,7 +243,7 @@ void Label::setAlpha(const int& alpha) {
     _color.a = alpha;
 //    std::cout << (int)alpha << std::endl;
     for (auto& cmd : _commands) {
-        cmd->quad->setColor(_color);
+        cmd->setColor(_color);
     }
 }
 

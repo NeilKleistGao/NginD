@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,23 +19,9 @@
  * SOFTWARE.
  */
 
-/// @file render_queue.cc
+/// @file object_pool.h
 
-#include "rendering_queue.h"
+#ifndef NGIND_OBJECT_POOL_H
+#define NGIND_OBJECT_POOL_H
 
-#include <algorithm>
-
-namespace ngind::rendering {
-
-void RenderingQueue::sort() {
-    if (_queue.empty()) {
-        return;
-    }
-
-    std::sort(_queue.begin(), _queue.end(),
-              [](RenderingCommand* c1, RenderingCommand* c2) -> bool {
-        return c1->getZ() < c2->getZ();
-    });
-}
-
-} // namespace
+#endif //NGIND_OBJECT_POOL_H

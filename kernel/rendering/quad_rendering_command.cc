@@ -19,13 +19,23 @@
  * SOFTWARE.
  */
 
-/// @file backend.h
+/// @file quad_rendering_command.cc
 
-//
-// Created by neilkleistgao on 2020/12/21.
-//
+#include "quad_rendering_command.h"
 
-#ifndef NGIND_BACKEND_H
-#define NGIND_BACKEND_H
+namespace ngind::rendering {
 
-#endif //NGIND_BACKEND_H
+QuadRenderingCommand::QuadRenderingCommand(Quad* quad, const GLuint& tid) :
+_quad(quad), _texture(tid){
+}
+
+void QuadRenderingCommand::call() {
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _texture);
+    glBindVertexArray(_quad->getVAO());
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindVertexArray(0);
+}
+
+} // namespace ngind::rendering

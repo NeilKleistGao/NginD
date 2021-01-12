@@ -46,11 +46,6 @@ Sprite::~Sprite() {
     if (_program != nullptr) {
         resources::ResourcesManager::getInstance()->release(_program->getResourcePath());
     }
-
-    if (_quad != nullptr) {
-        delete _quad;
-        _quad = nullptr;
-    }
 }
 
 void Sprite::update(const float& delta) {
@@ -82,27 +77,22 @@ void Sprite::draw() {
     }
 
     auto temp = static_cast<objects::EntityObject*>(_parent);
-    auto texture_size = _texture->getTextureSize();
 
     if (_command == nullptr) {
-        _command = new rendering::QuadRenderCommand();
-    }
-
-    if (_quad == nullptr) {
+        auto texture_size = _texture->getTextureSize();
         _quad = new rendering::Quad({
                 texture_size.x, texture_size.y, 1.0f, 0.0f, // Top Right
                 texture_size.x, 0.0f, 1.0f, 1.0f, // Bottom Right
                 0.0f, 0.0f, 0.0f, 1.0f, // Bottom Left
                 0.0f, texture_size.y, 0.0f, 0.0f  // Top Left
         });
-        _quad->setColor(_color);
-        _quad->setModel(getModelMatrix());
+        _command = new rendering::QuadRenderingCommand(_quad, _texture->getTextureID());
     }
 
-    _command->quad = _quad;
-    _command->texture_id = _texture->getTextureID();
-    _command->z_order = temp->getZOrder();
-    _command->program = _program->getProgram();
+    _command->setModel(getModelMatrix());
+    _command->setColor(_color);
+    _command->setZ(temp->getZOrder());
+    _command->setProgram(_program->getProgram());
 
     rendering::Renderer::getInstance()->addRendererCommand(_command);
 }

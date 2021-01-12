@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,70 +19,30 @@
  * SOFTWARE.
  */
 
-/// @file render_queue.h
+/// @file quad_rendering_command.h
 
-#ifndef NGIND_RENDERING_QUEUE_H
-#define NGIND_RENDERING_QUEUE_H
+#ifndef NGIND_QUAD_RENDERING_COMMAND_H
+#define NGIND_QUAD_RENDERING_COMMAND_H
 
 #include "rendering_command.h"
-
-#include <vector>
+#include "quad.h"
 
 namespace ngind::rendering {
 
-/**
- * A simple queue used to store the rendering commands.
- */
-class RenderingQueue {
+class QuadRenderingCommand : public RenderingCommand {
 public:
-    RenderingQueue() = default;
-    ~RenderingQueue() = default;
+    QuadRenderingCommand(Quad* quad, const GLuint& tid);
+    ~QuadRenderingCommand() = default;
+    QuadRenderingCommand(const QuadRenderingCommand&) = delete;
+    QuadRenderingCommand& operator= (const QuadRenderingCommand&) = delete;
 
-    using iterator = std::vector<RenderingCommand*>::iterator;
-
-    /**
-     * Get iterator pointing the beginning of queue
-     * @return iterator, beginning iterator
-     */
-    inline iterator begin() {
-        return _queue.begin();
-    }
-
-    /**
-     * Get iterator pointing the end of queue
-     * @return iterator, end iterator
-     */
-    inline iterator end() {
-        return _queue.end();
-    }
-
-    /**
-     * Clean the queue
-     */
-    inline void clear() {
-        _queue.clear();
-    }
-
-    /**
-     * Push a command pointer into queue
-     * @param command: command to be pushed
-     */
-    inline void push(RenderingCommand* command) {
-        _queue.push_back(command);
-    }
-
-    /**
-     * Sort all commands by order in z-dim
-     */
-    void sort();
-
+    void call() override;
 private:
-    /**
-     * Vector buffer to store commands
-     */
-    std::vector<RenderingCommand*> _queue;
+    Quad* _quad;
+
+    GLuint _texture;
 };
 
 } // namespace ngind::rendering
 
-#endif //NGIND_RENDERING_QUEUE_H
+#endif //NGIND_QUAD_RENDERING_COMMAND_H

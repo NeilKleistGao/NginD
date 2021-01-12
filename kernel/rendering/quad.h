@@ -36,6 +36,8 @@
 
 namespace ngind::rendering {
 
+class Renderer;
+
 /**
  * The quad data to be rendered.
  */
@@ -45,8 +47,8 @@ public:
      * @param vs: the data of vertices
      * @param color_size: the number of color channel
      */
-    Quad(std::initializer_list<GLfloat> vs,
-         const bool& dynamic = false);
+    explicit Quad(std::initializer_list<GLfloat> vs);
+    explicit Quad(const size_t& size);
 
     ~Quad();
 
@@ -61,36 +63,9 @@ public:
         return _vao;
     }
 
-    inline bool isDynamic() const {
-        return _dynamic;
+    inline GLuint getVBO() const {
+        return _vbo;
     }
-
-    void bindSubData();
-
-    inline void setColor(const RGBA& color) {
-        _color = color;
-    }
-
-    inline RGBA getColor() const {
-        return _color;
-    }
-
-    inline void setProjection(const glm::mat4& prj) {
-        _projection = prj;
-    }
-
-    inline glm::mat4 getProjection() const {
-        return _projection;
-    }
-
-    inline void setModel(const glm::mat4& model) {
-        _model = model;
-    }
-
-    inline glm::mat4 getModel() {
-        return _model;
-    }
-
 private:
     /**
      * The vertices array object
@@ -106,15 +81,7 @@ private:
 
     GLfloat* _vertex;
 
-    bool _dynamic;
-
     size_t _size;
-
-    rendering::RGBA _color;
-
-    glm::mat4 _projection;
-
-    glm::mat4 _model;
 };
 
 } // namespace ngind::rendering

@@ -32,7 +32,7 @@
 #include "rendering/rgba.h"
 #include "resources/font_resource.h"
 #include "rendering/quad.h"
-#include "rendering/render_command.h"
+#include "rendering/batch_quad_rendering_command.h"
 
 #include "rttr/registration.h"
 #include "script/lua_registration.h"
@@ -81,7 +81,8 @@ private:
     std::string _text;
     resources::FontResource* _font;
     size_t _size;
-    std::vector<rendering::QuadRenderCommand*> _commands;
+    std::vector<rendering::Quad*> _quads;
+    std::vector<rendering::BatchQuadRenderingCommand*> _commands;
     std::vector<std::tuple<rendering::RGBA, unsigned int, unsigned int>> _colors;
     size_t _line_space;
 

@@ -26,7 +26,7 @@
 
 #include <string>
 
-#include "rendering/render_command.h"
+#include "rendering/quad_rendering_command.h"
 #include "renderer_component.h"
 #include "resources/texture_resource.h"
 #include "rendering/rgba.h"
@@ -146,7 +146,7 @@ private:
     /**
      * Render command this sprite used.
      */
-    rendering::QuadRenderCommand* _command;
+    rendering::QuadRenderingCommand* _command;
 
     /**
      * Quad information.

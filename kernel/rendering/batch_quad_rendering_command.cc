@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,9 +19,40 @@
  * SOFTWARE.
  */
 
-/// @file opengl.h
+/// @file batch_quad_rendering_command.h
 
-#ifndef NGIND_OPENGL_H
-#define NGIND_OPENGL_H
+#include "batch_quad_rendering_command.h"
 
-#endif //NGIND_OPENGL_H
+namespace ngind::rendering {
+
+BatchQuadRenderingCommand::BatchQuadRenderingCommand(Quad* quad, const size_t& size) :
+_quad(quad), _size(size) {
+}
+
+BatchQuadRenderingCommand::~BatchQuadRenderingCommand() {
+    for (auto& v : _vertex) {
+        delete[] v;
+        v = nullptr;
+    }
+
+    _vertex.clear();
+    _textures.clear();
+}
+
+void BatchQuadRenderingCommand::call() {
+    glActiveTexture(GL_TEXTURE0);
+    glBindVertexArray(_quad->getVAO());
+
+    for (int i = 0; i < _vertex.size(); i++) {
+        glBindTexture(GL_TEXTURE_2D, _textures[i]);
+        glBindBuffer(GL_ARRAY_BUFFER, _quad->getVBO());
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * _size, _vertex[i]);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+    }
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindVertexArray(0);
+}
+
+} // namespace ngind::rendering
