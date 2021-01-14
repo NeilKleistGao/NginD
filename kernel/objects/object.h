@@ -37,6 +37,8 @@
 
 namespace ngind::objects {
 
+class EntityObject;
+
 /**
  * This class is base of all objects in the game world. It can be serialized, auto collected
  * and update itself in each frame.
@@ -62,7 +64,7 @@ public:
      * @param name: the name of child
      * @param object: the pointer to child object
      */
-    void addChild(const std::string& name, Object* object);
+    void addChild(const std::string& name, EntityObject* object);
 
     /**
      * Remove a reference of a child. If child is not found, nothing
@@ -70,12 +72,18 @@ public:
      */
     void removeChild(const std::string& name);
 
+    void removeAllChildren(const std::string& name);
+
     /**
      * Get the child. If child doesn't exist, it returns a null pointer
      * @param name: the name of child
      * @return Object*, the pointer to child
      */
-    Object* getChildByName(const std::string& name);
+    EntityObject* getChildByName(const std::string& name);
+
+    std::vector<EntityObject*> getChildrenByName(const std::string& name);
+
+    void getChildrenByName(luabridge::LuaRef ref, const std::string& name);
 
     /**
      * Set parent object of this one
@@ -146,7 +154,7 @@ protected:
     /**
      * A RB-tree maintaining all children
      */
-    std::map<std::string, Object*> _children;
+    std::multimap<std::string, EntityObject*> _children;
 
     /**
      * A RB-tree maintaining all components
@@ -162,7 +170,15 @@ protected:
 NGIND_LUA_BRIDGE_REGISTRATION(Object) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
     .beginNamespace("engine")
-        .beginClass<Object>("Object")
+        .deriveClass<Object, memory::AutoCollectionObject>("Object")
+            .addFunction("addChild", &Object::addChild)
+            .addFunction("removeChild", &Object::removeChild)
+            .addFunction("removeAllChildren", &Object::removeAllChildren)
+            .addFunction("getChildByName", &Object::getChildByName)
+            .addFunction<void>("getChildrenByName", &Object::getChildrenByName)
+            .addFunction("addComponent", &Object::addComponent)
+            .addFunction("setParent", &Object::setParent)
+            .addFunction("getParent", &Object::getParent)
         .endClass()
     .endNamespace();
 }

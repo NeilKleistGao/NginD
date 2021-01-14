@@ -46,31 +46,25 @@ void World::loadObjects() {
     auto children = _config->getDocument()["children"].GetArray();
 
     for (const auto& child : children) {
-        Object* obj = generateObject(this, child);
+        EntityObject* obj = generateObject(this, child);
         this->addChild(child["name"].GetString(), obj);
     }
 }
 
-Object* World::generateObject(Object* self, const typename resources::ConfigResource::JsonObject& data) {
-    Object* object = nullptr;
-    if (std::string(data["type"].GetString()) == "entity") {
-        object = new EntityObject();
-        auto* entity = static_cast<EntityObject*>(object);
+EntityObject* World::generateObject(Object* self, const typename resources::ConfigResource::JsonObject& data) {
+    EntityObject* object = new EntityObject();
+    auto* entity = static_cast<EntityObject*>(object);
 
-        auto position = data["position"].GetObject();
-        entity->setPositionX(position["x"].GetFloat());
-        entity->setPositionY(position["y"].GetFloat());
+    auto position = data["position"].GetObject();
+    entity->setPositionX(position["x"].GetFloat());
+    entity->setPositionY(position["y"].GetFloat());
 
-        auto scale = data["scale"].GetObject();
-        entity->setScaleX(scale["x"].GetFloat());
-        entity->setScaleY(scale["y"].GetFloat());
+    auto scale = data["scale"].GetObject();
+    entity->setScaleX(scale["x"].GetFloat());
+    entity->setScaleY(scale["y"].GetFloat());
 
-        entity->setRotation(data["rotate"].GetFloat());
-        entity->setZOrder(data["z-order"].GetInt());
-    }
-    else {
-        object = new Object();
-    }
+    entity->setRotation(data["rotate"].GetFloat());
+    entity->setZOrder(data["z-order"].GetInt());
 
     if (data.HasMember("components")) {
         auto components = data["components"].GetArray();
@@ -82,7 +76,7 @@ Object* World::generateObject(Object* self, const typename resources::ConfigReso
     if (data.HasMember("children")) {
         auto children = data["children"].GetArray();
         for (const auto& child : children) {
-            Object* next = generateObject(object, child);
+            EntityObject* next = generateObject(object, child);
             self->addChild(child["name"].GetString(), next);
         }
     }

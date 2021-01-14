@@ -56,8 +56,8 @@ public:
      * @param code: the key's code that should be checked
      * @return bool, true if user keeps press
      */
-    inline bool getKey(const KeyboardCode& code) {
-        return !_text_mod && this->_keyboard->getKey(this->_window_handler, code);
+    inline bool getKey(const int& code) {
+        return !_text_mod && this->_keyboard->getKey(this->_window_handler, static_cast<KeyboardCode>(code));
     }
 
     /**
@@ -65,8 +65,8 @@ public:
      * @param code: the key's code that should be checked
      * @return bool, true if user firstly presses this key
      */
-    inline bool getKeyPressed(const KeyboardCode& code) {
-        return !_text_mod && this->_keyboard->getKeyPressed(this->_window_handler, code);
+    inline bool getKeyPressed(const int& code) {
+        return !_text_mod && this->_keyboard->getKeyPressed(this->_window_handler, static_cast<KeyboardCode>(code));
     }
 
     /**
@@ -83,8 +83,8 @@ public:
      * @param code: the mouse key's code
      * @return glm::vec2, the mouse's position, glm::vec2::INVALID if user never clicks
      */
-    inline glm::vec2 getMousePressed(const MouseCode& code) {
-        return this->_mouse->getMousePressed(_window_handler, code);
+    inline glm::vec2 getMousePressed(const int& code) {
+        return this->_mouse->getMousePressed(_window_handler, static_cast<MouseCode>(code));
     }
 
     /**
@@ -92,8 +92,8 @@ public:
      * @param code: the mouse key's code
      * @return glm::vec2, the mouse's position, glm::vec2::INVALID if user never clicks
      */
-    inline glm::vec2 getMouse(const MouseCode& code) {
-        return this->_mouse->getMouse(_window_handler, code);
+    inline glm::vec2 getMouse(const int& code) {
+        return this->_mouse->getMouse(_window_handler, static_cast<MouseCode>(code));
     }
 
     /**
@@ -101,8 +101,8 @@ public:
      * @param code: the mouse key's code
      * @return glm::vec2, the mouse's position, glm::vec2::INVALID if user never clicks
      */
-    inline glm::vec2 getMouseReleased(const MouseCode& code) {
-        return this->_mouse->getMouseReleased(_window_handler, code);
+    inline glm::vec2 getMouseReleased(const int& code) {
+        return this->_mouse->getMouseReleased(_window_handler, static_cast<MouseCode>(code));
     }
 
     /**
@@ -187,6 +187,12 @@ NGIND_LUA_BRIDGE_REGISTRATION(Input) {
         .beginClass<Input>("Input")
             .addStaticFunction("getInstance", &Input::getInstance)
             .addFunction("getKeyReleased", &Input::getKeyReleased)
+            .addFunction("getKey", &Input::getKey)
+            .addFunction("getKeyPressed", &Input::getKeyPressed)
+            .addFunction("getMousePressed", &Input::getMousePressed)
+            .addFunction("getMouseMoving", &Input::getMouseMoving)
+            .addFunction("getMouse", &Input::getMouse)
+            .addFunction("getMouseReleased", &Input::getMouseReleased)
         .endClass()
     .endNamespace();
 }

@@ -42,6 +42,10 @@ public:
     void loadScript(const std::vector<std::string>& filenames);
     void loadScript(const std::string& name);
 
+    void preload(const std::string& path);
+
+    void restart();
+
     luabridge::LuaRef createStateMachine(const std::string& classname);
 
     void destroyStateMachineInstance(luabridge::LuaRef& instance);
@@ -57,6 +61,7 @@ private:
 
     lua_State* _state;
     std::unordered_set<std::string> _visit;
+    std::vector<std::string> _preload_list;
 };
 
 } // namespace ngind::script

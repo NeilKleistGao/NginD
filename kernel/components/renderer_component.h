@@ -89,10 +89,12 @@ protected:
 
 NGIND_LUA_BRIDGE_REGISTRATION(RendererComponent) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
-            .beginNamespace("engine")
-            .beginClass<RendererComponent>("RendererComponent")
-            .endClass()
-            .endNamespace();
+        .beginNamespace("engine")
+        .deriveClass<RendererComponent, Component>("RendererComponent")
+            .addFunction("setColor", &RendererComponent::setColor)
+            .addFunction("getColor", &RendererComponent::getColor)
+        .endClass()
+        .endNamespace();
 };
 
 } // namespace ngind::components

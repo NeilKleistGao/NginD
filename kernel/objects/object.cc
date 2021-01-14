@@ -24,6 +24,7 @@
 /// @file object.cc
 
 #include "object.h"
+#include "entity_object.h"
 
 namespace ngind::objects {
 
@@ -57,13 +58,10 @@ void Object::serialize(std::ostream& stream) const {
 void Object::deserialize(std::istream& stream) {
 }
 
-void Object::addChild(const std::string& name, Object* object) {
-    auto it = this->_children.find(name);
-    if (it == this->_children.end()) {
-        this->_children[name] = object;
-        object->addReference();
-        object->setParent(this);
-    }
+void Object::addChild(const std::string& name, EntityObject* object) {
+    this->_children.emplace(name, object);
+    object->addReference();
+    object->setParent(this);
 }
 
 void Object::removeChild(const std::string& name) {
@@ -84,8 +82,8 @@ void Object::removeChild(const std::string& name) {
     }
 }
 
-Object* Object::getChildByName(const std::string& name) {
-    Object* object = nullptr;
+EntityObject* Object::getChildByName(const std::string& name) {
+    EntityObject* object = nullptr;
     auto it = this->_children.find(name);
     if (it != this->_children.end()) {
         object = it->second;
@@ -95,12 +93,48 @@ Object* Object::getChildByName(const std::string& name) {
 }
 
 void Object::update(const float& delta) {
+    for (auto component : this->_components) {
+        component.second->update(delta);
+    }
+
     for (auto child : this->_children) {
         child.second->update(delta);
     }
+}
 
-    for (auto component : this->_components) {
-        component.second->update(delta);
+void Object::removeAllChildren(const std::string& name) {
+    for (auto it = this->_children.find(name); it != this->_children.end(); it = this->_children.find(name)) {
+        Object* object =it->second;
+        if (object != nullptr) {
+            object->removeReference();
+            object->setParent(nullptr);
+            if (object->getSustain() == 0) {
+                delete object;
+                object = nullptr;
+            }
+        }
+    }
+
+    this->_children.erase(name);
+}
+
+std::vector<EntityObject*> Object::getChildrenByName(const std::string& name) {
+    std::vector<EntityObject*> res;
+    for (auto it = this->_children.find(name); it != this->_children.end(); it = this->_children.find(name)) {
+        res.push_back(it->second);
+    }
+
+    return res;
+}
+
+void Object::getChildrenByName(luabridge::LuaRef ref, const std::string& name) {
+    if (!ref.isTable()) {
+        // TODO:
+    }
+
+    auto vec = this->getChildrenByName(name);
+    for (int i = 0; i < vec.size(); i++) {
+        ref[i] = vec[i];
     }
 }
 

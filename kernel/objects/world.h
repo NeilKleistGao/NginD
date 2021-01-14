@@ -109,7 +109,7 @@ private:
      * @param data: part of config file
      * @return Object*, the new object
      */
-    Object* generateObject(Object* self, const typename resources::ConfigResource::JsonObject& data);
+    EntityObject* generateObject(Object* self, const typename resources::ConfigResource::JsonObject& data);
 
     /**
      * Generate a new component.

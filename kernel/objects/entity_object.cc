@@ -36,4 +36,61 @@ void EntityObject::update(const float& delta) {
     Object::update(delta);
 }
 
+void EntityObject::adjustGlobalPosition() {
+    auto p = dynamic_cast<EntityObject*>(_parent);
+    if (p == nullptr) {
+        _global_position = _position;
+    }
+    else {
+        _global_position = p->_global_position + _position;
+    }
+
+    for (auto& [_, child] : _children) {
+        child->_global_position = child->_position + _global_position;
+        child->adjustGlobalPosition();
+    }
+
+    setDirtyComponents();
+}
+
+void EntityObject::adjustGlobalScale() {
+    auto p = dynamic_cast<EntityObject*>(_parent);
+    if (p == nullptr) {
+        _global_scale = _scale;
+    }
+    else {
+        _global_scale = p->_global_scale * _scale;
+    }
+
+    for (auto& [_, child] : _children) {
+        child->_global_scale = child->_scale * _global_scale;
+        child->adjustGlobalScale();
+    }
+
+    setDirtyComponents();
+}
+
+void EntityObject::adjustGlobalRotation() {
+    auto p = dynamic_cast<EntityObject*>(_parent);
+    if (p == nullptr) {
+        _global_rotation = _rotation;
+    }
+    else {
+        _global_rotation = p->_global_rotation + _rotation;
+    }
+
+    for (auto& [_, child] : _children) {
+        child->_global_rotation = child->_rotation + _global_rotation;
+        child->adjustGlobalRotation();
+    }
+
+    setDirtyComponents();
+}
+
+void EntityObject::setDirtyComponents() {
+    for (auto& [_, com] : _components) {
+        com->setDirty();
+    }
+}
+
 } // namespace ngind::objects

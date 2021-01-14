@@ -28,6 +28,7 @@
 
 #include "object.h"
 #include "glm/glm.hpp"
+#include "script/lua_registration.h"
 
 namespace ngind::objects {
 /**
@@ -52,6 +53,7 @@ public:
      */
     inline void setPosition(const glm::vec2& v) {
         _position = v;
+        adjustGlobalPosition();
     }
 
     /**
@@ -60,6 +62,7 @@ public:
      */
     inline void setPositionX(const float& f) {
         _position.x = f;
+        adjustGlobalPosition();
     }
 
     /**
@@ -68,6 +71,7 @@ public:
      */
     inline void setPositionY(const float& f) {
         _position.y = f;
+        adjustGlobalPosition();
     }
 
     /**
@@ -95,11 +99,36 @@ public:
     }
 
     /**
+     * Get the position
+     * @return Vector2D, the position
+     */
+    inline glm::vec2 getGlobalPosition() const {
+        return _global_position;
+    }
+
+    /**
+     * Get x component of position vector
+     * @return float, x component
+     */
+    inline float getGlobalPositionX() const {
+        return _global_position.x;
+    }
+
+    /**
+     * Get y component of position vector
+     * @return float, y component
+     */
+    inline float getGlobalPositionY() const {
+        return _global_position.y;
+    }
+
+    /**
      * Set scale property of this object
      * @param v: new scale
      */
     inline void setScale(const glm::vec2& v) {
         _scale = v;
+        adjustGlobalScale();
     }
 
     /**
@@ -108,6 +137,7 @@ public:
      */
     inline void setScaleX(const float& f) {
         _scale.x = f;
+        adjustGlobalScale();
     }
 
     /**
@@ -116,6 +146,7 @@ public:
      */
     inline void setScaleY(const float& f) {
         _scale.y = f;
+        adjustGlobalScale();
     }
 
     /**
@@ -143,11 +174,36 @@ public:
     }
 
     /**
+     * Get the scale
+     * @return Vector2D, the scale
+     */
+    inline glm::vec2 getGlobalScale() const {
+        return _global_scale;
+    }
+
+    /**
+     * Get x component of scale vector
+     * @return float, x component
+     */
+    inline float getGlobalScaleX() const {
+        return _global_scale.x;
+    }
+
+    /**
+     * Get y component of scale vector
+     * @return float, y component
+     */
+    inline float getGlobalScaleY() const {
+        return _global_scale.y;
+    }
+
+    /**
      * Set rotation for this object
      * @param f: new rotation angle
      */
     inline void setRotation(const float& f) {
         _rotation = f;
+        adjustGlobalRotation();
     }
 
     /**
@@ -156,6 +212,14 @@ public:
      */
     inline float getRotation() const {
         return _rotation;
+    }
+
+    /**
+     * Get rotation for this object
+     * @return float, the angle of rotation
+     */
+    inline float getGlobalRotation() const {
+        return _global_rotation;
     }
 
     /**
@@ -172,16 +236,7 @@ public:
      */
     inline void setZOrder(const int& z) {
         _z_order = z;
-    }
-
-    /**
-     * @see kernel/objects/object.h
-     */
-    inline void addComponent(const std::string& name, components::Component* component) override {
-        if (_components.find(name) == _components.end()) {
-            _components[name] = component;
-            component->setParent(this);
-        }
+        setDirtyComponents();
     }
 
     inline void setAnchor(const glm::vec2& anchor) {
@@ -212,11 +267,13 @@ private:
      * The position of this object
      */
     glm::vec2 _position;
+    glm::vec2 _global_position;
 
     /**
      * The scale of this object
      */
     glm::vec2 _scale;
+    glm::vec2 _global_scale;
 
     glm::vec2 _anchor;
 
@@ -224,13 +281,52 @@ private:
      * The rotation angle of this object
      */
     float _rotation;
+    float _global_rotation;
 
     /**
      * The z order of this object
      */
     int _z_order;
+
+    void adjustGlobalPosition();
+    void adjustGlobalScale();
+    void adjustGlobalRotation();
+    void setDirtyComponents();
 };
 
+NGIND_LUA_BRIDGE_REGISTRATION(vec2) {
+luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+    .beginNamespace("engine")
+        .beginClass<glm::vec2>("vec2")
+            .addProperty("x", &glm::vec2::x)
+            .addProperty("y", &glm::vec2::y)
+        .endClass()
+    .endNamespace();
+}
+
+NGIND_LUA_BRIDGE_REGISTRATION(EntityObject) {
+luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+        .deriveClass<EntityObject, Object>("EntityObject")
+            .addFunction("setPosition", &EntityObject::setPosition)
+            .addFunction("setPositionX", &EntityObject::setPositionX)
+            .addFunction("setPositionY", &EntityObject::setPositionY)
+            .addFunction("getPosition", &EntityObject::getPosition)
+            .addFunction("getPositionX", &EntityObject::getPositionX)
+            .addFunction("getPositionY", &EntityObject::getPositionY)
+            .addFunction("setScale", &EntityObject::setScale)
+            .addFunction("setScaleX", &EntityObject::setScaleX)
+            .addFunction("setScaleY", &EntityObject::setScaleY)
+            .addFunction("getScale", &EntityObject::getScale)
+            .addFunction("getScaleX", &EntityObject::getScaleX)
+            .addFunction("getScaleY", &EntityObject::getScaleY)
+            .addFunction("setRotation", &EntityObject::setRotation)
+            .addFunction("getRotation", &EntityObject::getRotation)
+            .addFunction("setZOrder", &EntityObject::setZOrder)
+            .addFunction("getZOrder", &EntityObject::getZOrder)
+        .endClass()
+        .endNamespace();
+}
 
 } // namespace ngind::objects
 

@@ -36,6 +36,7 @@
 #include "resources/program_resource.h"
 
 #include "rttr/registration.h"
+#include "script/lua_registration.h"
 
 namespace ngind::components {
 /**
@@ -73,6 +74,10 @@ public:
      * @param filename: the image' filename
      */
     void setImage(const std::string& filename);
+
+    inline void setImage(const char* filename) {
+        setImage(std::string{filename});
+    }
 
     /**
      * Set a new image and new boundary to this rendering.
@@ -165,6 +170,21 @@ protected:
 RTTR_REGISTRATION {
     rttr::registration::class_<Sprite>("Sprite")
             .method("create", &Sprite::create);
+}
+
+NGIND_LUA_BRIDGE_REGISTRATION(Sprite) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<Sprite, RendererComponent>("Sprite")
+                .addFunction<void, const char*>("setImage", &Sprite::setImage)
+                .addFunction("getImageName", &Sprite::getImageName)
+                .addFunction("setBound", &Sprite::setBound)
+                .addFunction("setLeftBottomBound", &Sprite::setLeftBottomBound)
+                .addFunction("setRightTopBound", &Sprite::setRightTopBound)
+                .addFunction("getLeftBottomBound", &Sprite::getLeftBottomBound)
+                .addFunction("getRightTopBound", &Sprite::getRightTopBound)
+            .endClass()
+        .endNamespace();
 }
 } // namespace ngind::components
 

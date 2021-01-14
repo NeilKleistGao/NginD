@@ -78,7 +78,7 @@ void Sprite::draw() {
 
     auto temp = static_cast<objects::EntityObject*>(_parent);
 
-    if (_command == nullptr) {
+    if (_command == nullptr || _dirty) {
         auto texture_size = _texture->getTextureSize();
         _quad = new rendering::Quad({
                 texture_size.x, texture_size.y, 1.0f, 0.0f, // Top Right
@@ -87,12 +87,14 @@ void Sprite::draw() {
                 0.0f, texture_size.y, 0.0f, 0.0f  // Top Left
         });
         _command = new rendering::QuadRenderingCommand(_quad, _texture->getTextureID());
-    }
 
-    _command->setModel(getModelMatrix());
-    _command->setColor(_color);
-    _command->setZ(temp->getZOrder());
-    _command->setProgram(_program->getProgram());
+        _command->setModel(getModelMatrix());
+        _command->setColor(_color);
+        _command->setZ(temp->getZOrder());
+        _command->setProgram(_program->getProgram());
+
+        _dirty = false;
+    }
 
     rendering::Renderer::getInstance()->addRendererCommand(_command);
 }

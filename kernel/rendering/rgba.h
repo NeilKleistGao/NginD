@@ -27,6 +27,7 @@
 #define NGIND_RGBA_H
 
 #include "utils/converter.h"
+#include "script/lua_registration.h"
 
 namespace ngind::rendering {
 
@@ -42,6 +43,18 @@ struct RGBA {
 
     unsigned char r, g, b, a;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(RGBA) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .beginClass<RGBA>("RGBA")
+                .addProperty("r", &RGBA::r)
+                .addProperty("g", &RGBA::g)
+                .addProperty("b", &RGBA::b)
+                .addProperty("a", &RGBA::a)
+            .endClass()
+        .endNamespace();
+}
 
 } // namespace ngind::rendering
 

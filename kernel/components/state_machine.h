@@ -56,6 +56,9 @@ public:
     }
 
     void receive(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
+
+    void notify(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
+    void notifyAll(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
 private:
     luabridge::LuaRef _instance;
 
@@ -76,6 +79,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(StateMachine) {
         .beginClass<StateMachine>("StateMachine")
             .addFunction("move", &StateMachine::move)
             .addFunction("halt", &StateMachine::halt)
+            .addFunction("notify", &StateMachine::notify)
+            .addFunction("notifyAll", &StateMachine::notifyAll)
         .endClass()
     .endNamespace();
 }

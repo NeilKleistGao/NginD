@@ -106,6 +106,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(Label) {
         .deriveClass<Label, RendererComponent>("Label")
             .addStaticFunction("getComponent", &Label::getComponent)
             .addFunction("setAlpha", &Label::setAlpha)
+            .addFunction("setText", &Label::setText)
+            .addFunction("getText", &Label::getText)
         .endClass()
     .endNamespace();
 };

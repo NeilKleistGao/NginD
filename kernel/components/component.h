@@ -31,6 +31,7 @@
 #include "resources/config_resource.h"
 #include "resources/resource.h"
 #include "resources/resources_manager.h"
+#include "script/lua_registration.h"
 
 namespace ngind {
 
@@ -46,7 +47,7 @@ using Object = objects::Object;
  */
 class Component : public objects::UpdatableObject {
 public:
-    Component() = default;
+    Component() : _parent(nullptr), _dirty(false) {};
     virtual ~Component() {
         for (auto& r : _resources_list) {
             resources::ResourcesManager::getInstance()->release(r->getResourcePath());
@@ -87,6 +88,10 @@ public:
         _parent = parent;
     }
 
+    inline void setDirty() {
+        _dirty = true;
+    }
+
 protected:
     /**
      * Parent object of this component
@@ -94,7 +99,17 @@ protected:
     Object* _parent;
 
     std::vector<resources::Resource*> _resources_list;
+
+    bool _dirty;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(Component) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .beginClass<Component>("Component")
+            .endClass()
+        .endNamespace();
+}
 
 } // namespace components
 } // namespace ngind

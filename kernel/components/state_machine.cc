@@ -107,4 +107,14 @@ void StateMachine::receive(luabridge::LuaRef sender, const std::string& name, lu
     }
 }
 
+void StateMachine::notify(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data) {
+    auto ob = script::Observer::getInstance();
+    ob->notify(sender, name, data);
+}
+
+void StateMachine::notifyAll(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data) {
+    auto ob = script::Observer::getInstance();
+    ob->notifyAll(sender, name, data);
+}
+
 } // namespace ngind::components

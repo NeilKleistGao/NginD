@@ -3,7 +3,6 @@
   "children": [
     {
       "name": "title",
-      "type": "entity",
       "position": {
         "x": 512,
         "y": 700
@@ -27,7 +26,6 @@
     },
     {
       "name": "icon",
-      "type": "entity",
       "position": {
         "x": 512,
         "y": 384
@@ -47,7 +45,6 @@
     },
     {
       "name": "tip",
-      "type": "entity",
       "position": {
         "x": 512,
         "y": 100

@@ -23,6 +23,8 @@
 
 #include "lua_state.h"
 
+#include <filesystem>
+
 namespace ngind::script {
 LuaState* LuaState::_instance = nullptr;
 const std::string LuaState::SCRIPT_PATH = "resources/script";
@@ -85,6 +87,31 @@ luabridge::LuaRef LuaState::createStateMachine(const std::string& classname) {
 void LuaState::destroyStateMachineInstance(luabridge::LuaRef& instance) {
     if (!instance.isNil()) {
         instance = luabridge::Nil{};
+    }
+}
+
+void LuaState::preload(const std::string& path) {
+    for (auto& p : std::filesystem::directory_iterator(SCRIPT_PATH + "/" + path)) {
+        if (!p.is_directory()) {
+            auto filename = path + "/" + p.path().filename().string();
+            _preload_list.push_back(filename);
+            this->loadScript(filename);
+        }
+    }
+}
+
+void LuaState::restart() {
+    if (_state != nullptr) {
+        lua_close(_state);
+        _state = nullptr;
+    }
+
+    _state = luaL_newstate();
+    luaL_openlibs(_state);
+
+    _visit.clear();
+    for (const auto& s : _preload_list) {
+        this->loadScript(s);
     }
 }
 

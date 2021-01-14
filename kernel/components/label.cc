@@ -75,8 +75,9 @@ void Label::draw() {
                                         "draw",
                                         "can't get parent object");
     }
-    if (_commands.empty()) {
+    if (_commands.empty() || _dirty) {
         parseText();
+        _dirty = false;
     }
 
     for (int i = 0; i < _commands.size(); i++) {
@@ -124,7 +125,6 @@ void Label::parseText() {
         if (c == '\n') {
             max_width = std::max(max_width, current_width);
             widths.push_back(current_width);
-            max_height += static_cast<float>(_font->getMaxHeight()) * scale + _line_space;
             current_width = 0;
             continue;
         }
@@ -135,7 +135,6 @@ void Label::parseText() {
 
     max_width = std::max(max_width, current_width);
     widths.push_back(current_width);
-    max_height += static_cast<float>(_font->getMaxHeight()) * scale + _line_space;
 
     current_width = 0; max_height = 0;
     glm::mat4 model = getModelMatrix(max_width, widths[0], max_height);

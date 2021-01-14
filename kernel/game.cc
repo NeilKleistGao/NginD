@@ -69,7 +69,7 @@ void Game::start() {
             _global_settings->getDocument()["window-icon"].GetString(),
             _global_settings->getDocument()["window-full-screen"].GetBool());
 
-    script::LuaState::getInstance()->loadScript("class.lua");
+    script::LuaState::getInstance()->preload("kernel");
 
     this->loadWorld(_global_settings->getDocument()["welcome-world"].GetString());
 

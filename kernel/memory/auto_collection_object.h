@@ -26,6 +26,8 @@
 #ifndef NGIND_AUTO_COLLECTION_OBJECT_H
 #define NGIND_AUTO_COLLECTION_OBJECT_H
 
+#include "script/lua_registration.h"
+
 namespace ngind::memory {
 /**
  * This class enables object to recycle itself if there is no reference
@@ -71,6 +73,18 @@ private:
      */
     short _sustain;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(AutoCollectionObject) {
+luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .beginClass<AutoCollectionObject>("AutoCollectionObject")
+                .addFunction("addReference", &AutoCollectionObject::addReference)
+                .addFunction("removeReference", &AutoCollectionObject::removeReference)
+                .addFunction("getSustain", &AutoCollectionObject::getSustain)
+            .endClass()
+        .endNamespace();
+}
+
 } // namespace ngind::memory
 
 #endif //NGIND_AUTO_COLLECTION_OBJECT_H
