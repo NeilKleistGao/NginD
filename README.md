@@ -16,11 +16,6 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + ...
 
 ## TODO List
-### 0.2
-+ [ ] Lua Support
-+ [ ] FSM
-+ [ ] Message Passing
-
 ### 0.3
 + [ ] Audio System
 + [ ] Button Component
@@ -61,7 +56,6 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [GLEW 2.1.0](https://github.com/nigels-com/glew)
 + [GLFW 3.3.2](https://www.glfw.org/)
 + [C++ Boost 1.74.0](https://www.boost.org/)
-+ [RTTR 0.9.6](https://www.rttr.org/)
 + [RapidJSON 1.1.0](http://rapidjson.org/)
 + [FreeType 2.10.3](https://www.freetype.org/index.html)
 + [SOIL2 1.20](https://github.com/SpartanJ/SOIL2)

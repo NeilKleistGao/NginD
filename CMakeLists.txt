@@ -49,7 +49,6 @@ target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soil2/libsoi
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/lua/liblua52.so")
 target_link_libraries(NginD "/usr/local/lib/libfreetype.so")
 target_link_libraries(NginD "/usr/local/lib/libfreetype.a")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/rttr/librttr_core.so")
 target_link_libraries (NginD ${Boost_LIBRARIES})
 
 add_custom_command(TARGET ${PROJECT_NAME}

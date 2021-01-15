@@ -21,3 +21,18 @@
 - ]]
 
 --- @file input.lua
+
+KEY_CODE = {}
+KEY_CODE.COMMA = 44
+KEY_CODE.PERIOD = 46
+KEY_CODE.ESCAPE = 256
+KEY_CODE.RIGHT = 262
+KEY_CODE.LEFT = 263
+
+Input = {}
+
+Input.__input = engine.Input.getInstance()
+
+Input.getKeyReleased = function(key)
+    return Input.__input.getKeyReleased(Input.__input, key)
+end

@@ -100,7 +100,7 @@ void StateMachine::receive(luabridge::LuaRef sender, const std::string& name, lu
         whitelist.find("__all__") != whitelist.end()) {
         auto receive_function = _instance["receive" + name];
         if (receive_function.isNil() || !receive_function.isFunction()) {
-            // TODO:
+            return;
         }
 
         receive_function(_instance, sender, data);

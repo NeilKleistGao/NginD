@@ -115,8 +115,7 @@ void Game::destroyWorld(const std::string& name) {
     if (this->_worlds.find(name) != this->_worlds.end()) {
         auto current_name = this->_current_world->getName();
 
-        delete this->_worlds[name];
-        this->_worlds[name] = nullptr;
+        this->_worlds[name]->removeReference();
         this->_worlds.erase(name);
 
         if (current_name == name) {
@@ -143,7 +142,7 @@ void Game::popAndLoadWorld(const bool& has_destroy_current = true) {
     }
 }
 
-void Game::DestroyAndLoadWorld(const std::string& name) {
+void Game::destroyAndLoadWorld(const std::string& name) {
     auto destroy_name = this->_current_world->getName();
     loadWorld(name);
     destroyWorld(destroy_name);

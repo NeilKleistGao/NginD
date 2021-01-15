@@ -64,13 +64,14 @@ void VisualLogger::enable() {
         _entity->setZOrder(999);
         _entity->setAnchor({0, 0});
         _entity->setPosition({0, 768});
+        _entity->setScale({1, 1});
+        _entity->setRotation(0);
 
         _label = new components::Label();
         _label->_color = rendering::RGBA{"#FFFFFFAA"};
         _label->_text = "Visual Logger\n";
         _label->_font = resources::ResourcesManager::getInstance()->load<resources::FontResource>("manaspc.ttf");
         _label->_size = 18;
-        _label->_line_space = 5;
         _label->_program = resources::ResourcesManager::getInstance()->load<resources::ProgramResource>("text");
 
         _entity->addComponent("Label", _label);

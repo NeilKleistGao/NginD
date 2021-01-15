@@ -88,6 +88,10 @@ public:
         _parent = parent;
     }
 
+    /**
+     * Make this component dirty, which means this component need
+     * to recalculate some properties.
+     */
     inline void setDirty() {
         _dirty = true;
     }
@@ -98,8 +102,14 @@ protected:
      */
     Object* _parent;
 
+    /**
+     * Resources list that this component uses
+     */
     std::vector<resources::Resource*> _resources_list;
 
+    /**
+     * Is this component need to be updated
+     */
     bool _dirty;
 };
 

@@ -30,48 +30,101 @@
 #include "component.h"
 #include "script/lua_state.h"
 #include "script/lua_registration.h"
-#include "rttr/registration.h"
+#include "component_factory.h"
 
 namespace ngind::components {
 
+/**
+ * State machine driven by Lua.
+ * The core of this engine.
+ */
 class StateMachine : public Component {
 public:
     StateMachine();
     ~StateMachine() override;
 
+    /**
+     * @see kernel/components/component.h
+     */
     void init(const typename resources::ConfigResource::JsonObject& data) override;
+
+    /**
+     * Create a state machine.
+     * @param data: the configuration data this component initialization process requires.
+     * @return StateMachine*, a new state machine
+     */
     static StateMachine* create(const typename resources::ConfigResource::JsonObject& data);
 
+    /**
+     * Move to another state.
+     * @param state_name: the name of next state
+     */
     inline void move(const std::string& state_name) {
         _state_name = state_name;
     }
 
+    /**
+     * Stop running this state machine.
+     */
     void halt();
 
+    /**
+     * @see kernel/objects/updatable_object.h
+     */
     void update(const float& dlt) override;
 
+    /**
+     * @see kernel/components/component.h
+     */
     inline void setParent(Object* parent) override {
         Component::setParent(parent);
         _instance["game_object"] = _parent;
     }
 
+    /**
+     * Receive a new message from observer.
+     * @param sender: who sent this message
+     * @param name: the name of this message
+     * @param data: the data attended
+     */
     void receive(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
 
+    /**
+     * Publish a new message to a random target.
+     * @param sender: who sent this message
+     * @param name: the name of this message
+     * @param data: the data attended
+     */
     void notify(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
+
+    /**
+     * Publish a new message to all targets.
+     * @param sender: who sent this message
+     * @param name: the name of this message
+     * @param data: the data attended
+     */
     void notifyAll(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
 private:
+    /**
+     * The instance of this component in lua environment.
+     */
     luabridge::LuaRef _instance;
 
+    /**
+     * Current update function.
+     */
     luabridge::LuaRef _update_function;
+
+    /**
+     * Name of current state
+     */
     std::string _state_name;
 
+    /**
+     * Subscribe information, determining which message can be received in some state.
+     */
     std::map<std::string, std::unordered_set<std::string>> _subscribe;
 };
-
-RTTR_REGISTRATION {
-    rttr::registration::class_<StateMachine>("StateMachine")
-            .method("create", &StateMachine::create);
-}
 
 NGIND_LUA_BRIDGE_REGISTRATION(StateMachine) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
@@ -83,6 +136,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(StateMachine) {
             .addFunction("notifyAll", &StateMachine::notifyAll)
         .endClass()
     .endNamespace();
+
+    ComponentFactory::getInstance()->registerComponent<StateMachine>("StateMachine");
 }
 
 } // namespace ngind::components

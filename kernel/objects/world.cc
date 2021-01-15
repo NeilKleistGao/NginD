@@ -27,7 +27,7 @@
 
 #include "resources/resources_manager.h"
 #include "entity_object.h"
-#include "rttr/registration.h"
+#include "components/component_factory.h"
 
 namespace ngind::objects {
 
@@ -48,6 +48,13 @@ void World::loadObjects() {
     for (const auto& child : children) {
         EntityObject* obj = generateObject(this, child);
         this->addChild(child["name"].GetString(), obj);
+    }
+
+    auto components = _config->getDocument()["components"].GetArray();
+
+    for (const auto& component : components) {
+        auto com = generateComponent(component);
+        this->addComponent(component["name"].GetString(), com);
     }
 }
 
@@ -85,12 +92,8 @@ EntityObject* World::generateObject(Object* self, const typename resources::Conf
 }
 
 components::Component* World::generateComponent(const typename resources::ConfigResource::JsonObject& data) {
-    rttr::type type = rttr::type::get_by_name(data["name"].GetString());
-    rttr::variant temp = type.create();
-    rttr::method create_func = type.get_method("create");
-    rttr::variant var = create_func.invoke(temp, data);
-
-    components::Component* com = var.get_value<components::Component*>();
+    auto factory = components::ComponentFactory::getInstance();
+    components::Component* com = factory->create(data["type"].GetString(), data);
     return com;
 }
 

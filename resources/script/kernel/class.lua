@@ -23,7 +23,10 @@
 --- @file class.lua
 
 function class(classname)
-    local cls = {ctor = function() end}
+    local cls = {
+        ctor = function() end,
+    }
+
     cls.__cname = classname
     cls.__ctype = 2
     cls.__index = cls
@@ -34,6 +37,10 @@ function class(classname)
     function cls.new(...)
         local instance = setmetatable({}, cls)
         instance.class = cls
+        instance.move = function(state_name) instance.this.move(instance.this, state_name) end
+        instance.halt = function() instance.this.halt(instance.this) end
+        instance.notify = function(msg, data) instance.this.notify(instance.this, instance, msg, data) end
+        instance.notifyAll = function(msg, data) instance.this.notifyAll(instance.this, instance, msg, data) end
         instance:ctor(...)
         return instance
     end

@@ -1,0 +1,157 @@
+{
+  "background-color": "#000000FF",
+  "children": [
+    {
+      "name": "title",
+      "position": {
+        "x": 512,
+        "y": 700
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 36,
+          "text": "Colorful Labels",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "position": {
+        "x": 512,
+        "y": 600
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 24,
+          "text": "small text",
+          "color": "#FF0000FF",
+          "alignment": 2
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "position": {
+        "x": 512,
+        "y": 500
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 48,
+          "text": "large text",
+          "color": "#00FF00FF",
+          "alignment": 2
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "position": {
+        "x": 512,
+        "y": 400
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 24,
+          "text": "multi-lines\n text",
+          "color": "#0000FFFF",
+          "alignment": 1
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "position": {
+        "x": 512,
+        "y": 300
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 24,
+          "text": "<color=#77777777>special</color> label",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "position": {
+        "x": 512,
+        "y": 200
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 3.1415926535,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 24,
+          "text": "rotated label",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "StateMachine",
+      "name": "WorldSwitch",
+      "driver-script": "world_switch.lua",
+      "classname": "WorldSwitch"
+    }
+  ]
+}

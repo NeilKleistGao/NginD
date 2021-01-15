@@ -28,7 +28,7 @@
 namespace ngind::objects {
 
 EntityObject::EntityObject() : Object(), _position(), _scale(1, 1),
-_rotation(0.0f), _z_order(0), _anchor(0.5f, 0.5f) {
+_rotation(0.0f), _z_order(0), _anchor(0.5f, 0.5f), _global_rotation(0.0f), _global_scale(), _global_position() {
 
 }
 

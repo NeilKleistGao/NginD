@@ -110,7 +110,7 @@ void Label::parseText() {
     this->replaceEscape();
 
     auto temp = static_cast<objects::EntityObject*>(_parent);
-    auto pos = temp->getPosition();
+    auto pos = temp->getGlobalPosition();
 
     float scale = static_cast<float>(_size) / rendering::TrueTypeFont::DEFAULT_FONT_SIZE;
     auto cl_it = _colors.begin();
@@ -142,7 +142,7 @@ void Label::parseText() {
         if (_text[i] == '\n') {
             j++;
             current_width = 0;
-            max_height += static_cast<float>(_font->getMaxHeight()) * scale + _line_space;
+            max_height += static_cast<float>(_font->getMaxHeight()) * scale * 2 + _line_space;
             model = getModelMatrix(max_width, widths[j], max_height);
         }
 
@@ -202,10 +202,10 @@ void Label::replaceEscape() {
 }
 
 glm::mat4 Label::getModelMatrix(const float& max_width, const float& width, const float& max_height) {
-    auto temp = static_cast<objects::EntityObject*>(_parent);
-    auto pos = temp->getPosition();
-    auto global_scale = temp->getScale();
-    auto rotate = temp->getRotation();
+    auto temp = dynamic_cast<objects::EntityObject*>(_parent);
+    auto pos = temp->getGlobalPosition();
+    auto global_scale = temp->getGlobalScale();
+    auto rotate = temp->getGlobalRotation();
     auto anchor = temp->getAnchor();
 
     float scale = static_cast<float>(_size) / rendering::TrueTypeFont::DEFAULT_FONT_SIZE;
@@ -236,14 +236,6 @@ glm::mat4 Label::getModelMatrix(const float& max_width, const float& width, cons
 
 Label* Label::getComponent(Object* parent) {
     return parent->getComponent<Label>("Label");
-}
-
-void Label::setAlpha(const int& alpha) {
-    _color.a = alpha;
-//    std::cout << (int)alpha << std::endl;
-    for (auto& cmd : _commands) {
-        cmd->setColor(_color);
-    }
 }
 
 } // namespace ngind::components

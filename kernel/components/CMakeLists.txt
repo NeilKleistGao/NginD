@@ -3,8 +3,10 @@ set(COMPONENTS_HEADER
         kernel/components/renderer_component.h
         kernel/components/sprite.h
         kernel/components/label.h
-        kernel/components/state_machine.h)
+        kernel/components/state_machine.h
+        kernel/components/component_factory.h)
 set(COMPONENTS_SRC
         kernel/components/sprite.cc
         kernel/components/label.cc
-        kernel/components/state_machine.cc)
+        kernel/components/state_machine.cc
+        kernel/components/component_factory.cc)

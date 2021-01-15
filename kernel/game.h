@@ -79,7 +79,7 @@ public:
      * Load a game world into memory and destroy current world
      * @param name: world's name
      */
-    void DestroyAndLoadWorld(const std::string& name);
+    void destroyAndLoadWorld(const std::string& name);
 
     /**
      * Start playing game.
@@ -99,6 +99,10 @@ public:
      */
     inline void quit() {
         this->_loop_flag = false;
+    }
+
+    inline std::string getCurrentWorldName() {
+        return this->_current_world->getName();
     }
 
 private:
@@ -147,6 +151,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(Input) {
             .beginClass<Game>("Game")
                 .addStaticFunction("getInstance", &Game::getInstance)
                 .addFunction("quit", &Game::quit)
+                .addFunction("destroyAndLoadWorld", &Game::destroyAndLoadWorld)
+                .addFunction("getCurrentWorldName", &Game::getCurrentWorldName)
             .endClass()
         .endNamespace();
 }

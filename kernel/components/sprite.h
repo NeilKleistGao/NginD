@@ -35,7 +35,7 @@
 #include "objects/entity_object.h"
 #include "resources/program_resource.h"
 
-#include "rttr/registration.h"
+#include "component_factory.h"
 #include "script/lua_registration.h"
 
 namespace ngind::components {
@@ -74,10 +74,6 @@ public:
      * @param filename: the image' filename
      */
     void setImage(const std::string& filename);
-
-    inline void setImage(const char* filename) {
-        setImage(std::string{filename});
-    }
 
     /**
      * Set a new image and new boundary to this rendering.
@@ -158,6 +154,10 @@ private:
      */
     rendering::Quad* _quad;
 
+    /**
+    * Calculate the model matrix
+    * @return glm::mat4, the model matrix
+    */
     glm::mat4 getModelMatrix();
 
 protected:
@@ -167,16 +167,11 @@ protected:
     virtual void draw();
 };
 
-RTTR_REGISTRATION {
-    rttr::registration::class_<Sprite>("Sprite")
-            .method("create", &Sprite::create);
-}
-
 NGIND_LUA_BRIDGE_REGISTRATION(Sprite) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
         .beginNamespace("engine")
             .deriveClass<Sprite, RendererComponent>("Sprite")
-                .addFunction<void, const char*>("setImage", &Sprite::setImage)
+                .addFunction<void, const std::string&>("setImage", &Sprite::setImage)
                 .addFunction("getImageName", &Sprite::getImageName)
                 .addFunction("setBound", &Sprite::setBound)
                 .addFunction("setLeftBottomBound", &Sprite::setLeftBottomBound)
@@ -185,6 +180,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(Sprite) {
                 .addFunction("getRightTopBound", &Sprite::getRightTopBound)
             .endClass()
         .endNamespace();
+
+    ComponentFactory::getInstance()->registerComponent<Sprite>("Sprite");
 }
 } // namespace ngind::components
 

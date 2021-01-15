@@ -40,7 +40,7 @@ namespace ngind::components {
  */
 class RendererComponent : public Component {
 public:
-    RendererComponent() : _color("#FFFFFFFF"), _program(nullptr), _dirty(false) {
+    RendererComponent() : _color("#FFFFFFFF"), _program(nullptr) {
 
     };
     virtual ~RendererComponent() {}
@@ -74,14 +74,21 @@ public:
         return _color;
     }
 
+    /**
+     * Set alpha to this component
+     * @param alpha: the new alpha value
+     */
+    inline void setAlpha(const int& alpha) {
+        _color.a = alpha;
+        _dirty = true;
+    }
+
 protected:
     /**
      * Create some rendering command and send them to the rendering queue in order to show
      * something on the screen. This method should be called in update.
      */
     virtual void draw() = 0;
-
-    bool _dirty; // TODO:
 
     rendering::RGBA _color;
     resources::ProgramResource* _program;

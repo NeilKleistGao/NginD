@@ -21,3 +21,19 @@
 - ]]
 
 --- @file game.lua
+
+Game = {}
+
+Game.__game = engine.Game.getInstance()
+
+Game.getCurrentWorldName = function()
+    return Game.__game.getCurrentWorldName(Game.__game)
+end
+
+Game.destroyAndLoadWorld = function(world_name)
+    return Game.__game.destroyAndLoadWorld(Game.__game, world_name)
+end
+
+Game.quit = function()
+    Game.__game.quit(Game.__game)
+end

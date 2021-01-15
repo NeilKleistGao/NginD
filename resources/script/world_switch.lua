@@ -20,36 +20,36 @@
 - SOFTWARE.
 - ]]
 
---- @file welcome.lua
+--- @file world_switch.lua
 
-WelcomeWorldAction = class("WelcomeWorldAction")
+WorldSwitch = class("WorldSwitch")
 
-function WelcomeWorldAction:ctor()
-    self.alpha = 255
-    self.timer = 0
+function WorldSwitch:ctor()
 end
 
-function WelcomeWorldAction:entry()
-    self.label = engine.Label.getComponent(self.game_object)
-    self.input = engine.Input.getInstance()
-    self.this.move(self.this, "Idle")
+function WorldSwitch:entry()
+    self.move("Idle")
 end
 
-function WelcomeWorldAction:exit()
-    print("goodbye")
-end
-
-function WelcomeWorldAction:updateIdle(dlt)
-    self.timer = self.timer + dlt
-    if self.timer >= 1.0 then
-        self.alpha = 255 - self.alpha
-        self.timer = self.timer - 1.0
-        self.label.setAlpha(self.label, self.alpha)
-    end
-
-    local test = self.input.getKeyReleased(self.input, 32)
-    if test == true then
-        local game = engine.Game.getInstance()
-        game.quit(game)
+function WorldSwitch:updateIdle()
+    if Input.getKeyReleased(KEY_CODE.LEFT) then
+        local name = Game.getCurrentWorldName()
+        Game.destroyAndLoadWorld(WORLD_SWITCH_TABLE[name].prev)
+    elseif Input.getKeyReleased(KEY_CODE.RIGHT) then
+        local name = Game.getCurrentWorldName()
+        Game.destroyAndLoadWorld(WORLD_SWITCH_TABLE[name].next)
+    elseif Input.getKeyReleased(KEY_CODE.ESCAPE) then
+        Game.quit()
     end
 end
+
+function WorldSwitch:exit()
+end
+
+WORLD_SWITCH_TABLE = {}
+WORLD_SWITCH_TABLE["welcome"] = {}
+WORLD_SWITCH_TABLE["welcome"]["next"] = "colorful-labels"
+WORLD_SWITCH_TABLE["welcome"]["prev"] = "colorful-labels"
+WORLD_SWITCH_TABLE["colorful-labels"] = {}
+WORLD_SWITCH_TABLE["colorful-labels"]["next"] = "welcome"
+WORLD_SWITCH_TABLE["colorful-labels"]["prev"] = "welcome"
