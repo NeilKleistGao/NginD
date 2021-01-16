@@ -22,6 +22,7 @@
 /// @file visual_logger.cc
 
 #include "visual_logger.h"
+#include "memory/memory_pool.h"
 
 namespace ngind::log {
 VisualLogger* VisualLogger::_instance = nullptr;
@@ -59,7 +60,7 @@ void VisualLogger::enable() {
     _enable = true;
 
     if (_entity == nullptr) {
-        _entity = new objects::EntityObject();
+        _entity = memory::MemoryPool::getInstance()->create<objects::EntityObject>();
         _entity->addReference();
         _entity->setZOrder(999);
         _entity->setAnchor({0, 0});
@@ -67,7 +68,7 @@ void VisualLogger::enable() {
         _entity->setScale({1, 1});
         _entity->setRotation(0);
 
-        _label = new components::Label();
+        _label = memory::MemoryPool::getInstance()->create<components::Label>();
         _label->_color = rendering::RGBA{"#FFFFFFAA"};
         _label->_text = "Visual Logger\n";
         _label->_font = resources::ResourcesManager::getInstance()->load<resources::FontResource>("manaspc.ttf");

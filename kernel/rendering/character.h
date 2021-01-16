@@ -28,10 +28,28 @@
 #include "glm/glm.hpp"
 
 namespace ngind::rendering {
+/**
+ * Character rendering data.
+ */
 struct Character {
+    /**
+     * Texture id
+     */
     GLuint texture;
+
+    /**
+     * Size of bitmap
+     */
     glm::ivec2 size;
+
+    /**
+     * Bearing of bitmap
+     */
     glm::ivec2 bearing;
+
+    /**
+     * Advance of bitmap
+     */
     glm::ivec2 advance;
 };
 } // namespace ngind::rendering

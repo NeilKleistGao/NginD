@@ -81,6 +81,10 @@ public:
     inline glm::vec2 getPerspectiveSize() const {
         return glm::vec2{_width, _height};
     }
+    /**
+     * Get the default view projection matrix
+     * @return glm::mat4, the projection matrix
+     */
 
     inline glm::mat4 getDefaultProjection() {
         return glm::ortho(0.0f, static_cast<GLfloat>(_width),

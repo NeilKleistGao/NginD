@@ -32,8 +32,7 @@
 
 namespace ngind::objects {
 /**
- * This class is a special kind of object that you can specify its position,
- * rotation and scale. If it's no need for this properties, use normal object instead.
+ * This class is a special kind of object that you can specify its position, rotation and scale.
  */
 class EntityObject : public Object {
 public:
@@ -76,7 +75,7 @@ public:
 
     /**
      * Get the position
-     * @return Vector2D, the position
+     * @return glm::vec2, the position
      */
     inline glm::vec2 getPosition() const {
         return _position;
@@ -99,15 +98,15 @@ public:
     }
 
     /**
-     * Get the position
-     * @return Vector2D, the position
+     * Get the global position
+     * @return glm::vec2, the position
      */
     inline glm::vec2 getGlobalPosition() const {
         return _global_position;
     }
 
     /**
-     * Get x component of position vector
+     * Get x component of global position vector
      * @return float, x component
      */
     inline float getGlobalPositionX() const {
@@ -115,7 +114,7 @@ public:
     }
 
     /**
-     * Get y component of position vector
+     * Get y component of global position vector
      * @return float, y component
      */
     inline float getGlobalPositionY() const {
@@ -151,7 +150,7 @@ public:
 
     /**
      * Get the scale
-     * @return Vector2D, the scale
+     * @return glm::vec2, the scale
      */
     inline glm::vec2 getScale() const {
         return _scale;
@@ -174,15 +173,15 @@ public:
     }
 
     /**
-     * Get the scale
-     * @return Vector2D, the scale
+     * Get the global scale
+     * @return glm::vec2, the scale
      */
     inline glm::vec2 getGlobalScale() const {
         return _global_scale;
     }
 
     /**
-     * Get x component of scale vector
+     * Get x component of global scale vector
      * @return float, x component
      */
     inline float getGlobalScaleX() const {
@@ -190,7 +189,7 @@ public:
     }
 
     /**
-     * Get y component of scale vector
+     * Get y component of global scale vector
      * @return float, y component
      */
     inline float getGlobalScaleY() const {
@@ -215,7 +214,7 @@ public:
     }
 
     /**
-     * Get rotation for this object
+     * Get global rotation for this object
      * @return float, the angle of rotation
      */
     inline float getGlobalRotation() const {
@@ -239,26 +238,51 @@ public:
         setDirtyComponents();
     }
 
+    /**
+     * Set the anchor of object. It will not change other properties.
+     * The (0, 0) points left top vertex and (1, 1) points right bottom vertex.
+     * @param anchor: new anchor point
+     */
     inline void setAnchor(const glm::vec2& anchor) {
         _anchor = anchor;
     }
 
+    /**
+     * Set component x of the anchor of object.
+     * @param x: component x
+     */
     inline void setAnchorX(const float& x) {
         _anchor.x = x;
     }
 
+    /**
+     * Set component y of the anchor of object.
+     * @param y: component y
+     */
     inline void setAnchorY(const float& y) {
         _anchor.y = y;
     }
 
+    /**
+     * Get the anchor of object.
+     * @return glm::vec2, the anchor of object
+     */
     inline glm::vec2 getAnchor() const {
         return _anchor;
     }
 
+    /**
+     * Get component x of the anchor of object.
+     * @return float, component x
+     */
     inline float getAnchorX() const {
         return _anchor.x;
     }
 
+    /**
+     * Get component y of the anchor of object.
+     * @return float, component y
+     */
     inline float getAnchorY() const {
         return _anchor.y;
     }
@@ -267,20 +291,35 @@ private:
      * The position of this object
      */
     glm::vec2 _position;
+
+    /**
+     * The global position of this object
+     */
     glm::vec2 _global_position;
 
     /**
      * The scale of this object
      */
     glm::vec2 _scale;
+
+    /**
+     * The global scale of this object
+     */
     glm::vec2 _global_scale;
 
+    /**
+     * The anchor of this object
+     */
     glm::vec2 _anchor;
 
     /**
      * The rotation angle of this object
      */
     float _rotation;
+
+    /**
+     * The global rotation angle of this object
+     */
     float _global_rotation;
 
     /**
@@ -288,9 +327,24 @@ private:
      */
     int _z_order;
 
+    /**
+     * Adjust global position and push down the change when local position changed.
+     */
     void adjustGlobalPosition();
+
+    /**
+     * Adjust global scale and push down the change when local scale changed.
+     */
     void adjustGlobalScale();
+
+    /**
+     * Adjust global rotation and push down the change when local rotation changed.
+     */
     void adjustGlobalRotation();
+
+    /**
+     * Set all components dirty so that components will redraw with new data.
+     */
     void setDirtyComponents();
 };
 

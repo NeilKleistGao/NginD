@@ -30,12 +30,12 @@
 namespace ngind::rendering {
 
 Program::Program(const std::string& program_name) {
-    auto* vertex = resources::ResourcesManager::getInstance()->load<resources::ShaderResource>(program_name + ".vs");
-    auto* fragment = resources::ResourcesManager::getInstance()->load<resources::ShaderResource>(program_name + ".fs");
+    _vs = resources::ResourcesManager::getInstance()->load<resources::ShaderResource>(program_name + ".vs");
+    _fs = resources::ResourcesManager::getInstance()->load<resources::ShaderResource>(program_name + ".fs");
 
     this->_program = glCreateProgram();
-    glAttachShader(this->_program, vertex->getShader());
-    glAttachShader(this->_program, fragment->getShader());
+    glAttachShader(this->_program, _vs->getShader());
+    glAttachShader(this->_program, _fs->getShader());
     glLinkProgram(this->_program);
 
     GLint success;
@@ -43,9 +43,6 @@ Program::Program(const std::string& program_name) {
     if (!success) {
         /// @todo error process
     }
-
-    resources::ResourcesManager::getInstance()->release(vertex->getResourcePath());
-    resources::ResourcesManager::getInstance()->release(fragment->getResourcePath());
 }
 
 Program::~Program() {

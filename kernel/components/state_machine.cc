@@ -23,6 +23,7 @@
 
 #include "state_machine.h"
 #include "script/observer.h"
+#include "memory/memory_pool.h"
 
 namespace ngind::components {
 StateMachine::StateMachine() :
@@ -63,11 +64,7 @@ void StateMachine::init(const typename resources::ConfigResource::JsonObject& da
 }
 
 StateMachine* StateMachine::create(const typename resources::ConfigResource::JsonObject& data) {
-    auto machine = new(std::nothrow) StateMachine();
-    if (machine == nullptr) {
-        // TODO:
-    }
-
+    auto machine = memory::MemoryPool::getInstance()->create<StateMachine>();
     machine->init(data);
     return machine;
 }

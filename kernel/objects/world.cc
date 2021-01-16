@@ -28,10 +28,11 @@
 #include "resources/resources_manager.h"
 #include "entity_object.h"
 #include "components/component_factory.h"
+#include "memory/memory_pool.h"
 
 namespace ngind::objects {
 
-World::World(std::string name) : _name(std::move(name)), _config(nullptr), _background_color() {
+World::World(std::string name) : Object(), _name(std::move(name)), _config(nullptr), _background_color() {
     _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("world-" + _name + ".json");
     _background_color = rendering::RGBA(_config->getDocument()["background-color"].GetString());
 
@@ -59,9 +60,7 @@ void World::loadObjects() {
 }
 
 EntityObject* World::generateObject(Object* self, const typename resources::ConfigResource::JsonObject& data) {
-    EntityObject* object = new EntityObject();
-    auto* entity = static_cast<EntityObject*>(object);
-
+    EntityObject* entity = memory::MemoryPool::getInstance()->create<EntityObject>();
     auto position = data["position"].GetObject();
     entity->setPositionX(position["x"].GetFloat());
     entity->setPositionY(position["y"].GetFloat());
@@ -77,18 +76,18 @@ EntityObject* World::generateObject(Object* self, const typename resources::Conf
         auto components = data["components"].GetArray();
         for (const auto& com : components) {
             components::Component* next = generateComponent(com);
-            object->addComponent(com["name"].GetString(), next);
+            entity->addComponent(com["name"].GetString(), next);
         }
     }
     if (data.HasMember("children")) {
         auto children = data["children"].GetArray();
         for (const auto& child : children) {
-            EntityObject* next = generateObject(object, child);
+            EntityObject* next = generateObject(entity, child);
             self->addChild(child["name"].GetString(), next);
         }
     }
 
-    return object;
+    return entity;
 }
 
 components::Component* World::generateComponent(const typename resources::ConfigResource::JsonObject& data) {

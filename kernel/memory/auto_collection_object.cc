@@ -28,8 +28,7 @@
 
 namespace ngind::memory {
 
-AutoCollectionObject::AutoCollectionObject() : _sustain(0) {
-    MemoryPool::getInstance()->insert(this);
+AutoCollectionObject::AutoCollectionObject() : _sustain(1) {
 }
 
 void AutoCollectionObject::removeReference() {

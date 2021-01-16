@@ -31,6 +31,7 @@
 
 #include "resource.h"
 #include "coroutine/coroutine.h"
+#include "memory/memory_pool.h"
 
 namespace ngind::resources {
 
@@ -50,13 +51,6 @@ public:
      */
     static void destroyInstance();
 
-//    template<typename Type, typename std::enable_if_t<std::is_base_of_v<Resource, Type>, int> N = 0>
-//    Coroutine<Type*, std::string> preLoad(const std::string& path, std::function<void(Type*)> callback) {
-//        auto coroutine = Coroutine<Type*, std::string>(load, callback);
-//        coroutine.run(path);
-//        return coroutine;
-//    }
-
     /**
      * Load resource by path.
      * @tparam Type: specific type of resource
@@ -70,7 +64,7 @@ public:
             return static_cast<Type*>(this->_resources[path]);
         }
 
-        this->_resources[path] = new(std::nothrow) Type();
+        this->_resources[path] = memory::MemoryPool::getInstance()->create<Type>();
         if (this->_resources[path] == nullptr) {
             //TODO: Exception Detect
         }
@@ -87,6 +81,10 @@ public:
      * @param path: path of resource
      */
     void release(const std::string& path);
+
+    inline void release(Resource* resource) {
+        this->release(resource->getResourcePath());
+    }
 
     ResourcesManager(const ResourcesManager&) = delete;
     ResourcesManager(ResourcesManager&&) = delete;

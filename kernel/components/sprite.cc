@@ -29,6 +29,7 @@
 #include "rendering/perspective.h"
 #include "resources/resources_manager.h"
 #include "exceptions/game_exception.h"
+#include "memory/memory_pool.h"
 
 namespace ngind::components {
 
@@ -40,11 +41,7 @@ Sprite::Sprite()
 
 Sprite::~Sprite() {
     if (_texture != nullptr) {
-        resources::ResourcesManager::getInstance()->release(_texture->getResourcePath());
-    }
-
-    if (_program != nullptr) {
-        resources::ResourcesManager::getInstance()->release(_program->getResourcePath());
+        resources::ResourcesManager::getInstance()->release(_texture);
     }
 }
 
@@ -110,7 +107,7 @@ void Sprite::init(const typename resources::ConfigResource::JsonObject& data) {
 }
 
 Sprite* Sprite::create(const typename resources::ConfigResource::JsonObject& data) {
-    auto* com = new Sprite();
+    auto* com = memory::MemoryPool::getInstance()->create<Sprite>();
     com->init(data);
     return com;
 }

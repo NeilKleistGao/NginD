@@ -33,34 +33,92 @@
 
 namespace ngind::script {
 
+/**
+ * The lua runtime environment.
+ */
 class LuaState {
 public:
+    /**
+     * Script files path.
+     */
     const static std::string SCRIPT_PATH;
+
+    /**
+     * Get environment instance.
+     * @return LuaState*, the instance
+     */
     static LuaState* getInstance();
+
+    /**
+     * Destroy the environment instance.
+     */
     static void destroyInstance();
 
+    /**
+     * Load scripts on list.
+     * @param filenames: filenames list
+     */
     void loadScript(const std::vector<std::string>& filenames);
+
+    /**
+     * Load a script.
+     * @param name: name of script
+     */
     void loadScript(const std::string& name);
 
+    /**
+     * Preload scripts in a fold. These scripts will be loaded again automatically when restarting.
+     * @param path: the preload fold's name
+     */
     void preload(const std::string& path);
 
+    /**
+     * Restart the interpreter.
+     */
     void restart();
 
+    /**
+     * Create a state machine driven by lua.
+     * @param classname: state machine class name
+     * @return luabridge::LuaRef, the reference of state machine
+     */
     luabridge::LuaRef createStateMachine(const std::string& classname);
 
+    /**
+     * Destroy a state machine driven by lua.
+     * @param instance: the reference of state machine
+     */
     void destroyStateMachineInstance(luabridge::LuaRef& instance);
 
+    /**
+     * Get native lua state point.
+     * @return lua_State*, the native lua state point
+     */
     inline lua_State* getState() {
         return _state;
     }
 private:
+    /**
+     * The instance of lua state
+     */
     static LuaState* _instance;
 
     LuaState();
     ~LuaState();
 
+    /**
+     * Native lua state point
+     */
     lua_State* _state;
+
+    /**
+     * Visit list recording files that have been loaded
+     */
     std::unordered_set<std::string> _visit;
+
+    /**
+     * Preloading files list
+     */
     std::vector<std::string> _preload_list;
 };
 

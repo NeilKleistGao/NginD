@@ -29,17 +29,33 @@
 
 namespace ngind::rendering {
 
+/**
+ * Rendering command for quad drawing
+ */
 class QuadRenderingCommand : public RenderingCommand {
 public:
+    /**
+     * @param quad: the quad data
+     * @param tid: texture id
+     */
     QuadRenderingCommand(Quad* quad, const GLuint& tid);
     ~QuadRenderingCommand() = default;
     QuadRenderingCommand(const QuadRenderingCommand&) = delete;
     QuadRenderingCommand& operator= (const QuadRenderingCommand&) = delete;
 
+    /**
+     * @see kernel/rendering/rendering_command.h
+     */
     void call() override;
 private:
+    /**
+     * Quad data
+     */
     Quad* _quad;
 
+    /**
+     * Texture id
+     */
     GLuint _texture;
 };
 

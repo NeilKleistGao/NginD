@@ -61,17 +61,17 @@ public:
 
     /**
      * Get the number of reference.
-     * @return short, the number of reference
+     * @return int, the number of reference
      */
-    inline short getSustain() const {
-        return this->_sustain;
+    int getSustain() const {
+        return _sustain;
     }
 
 private:
     /**
      * The number of reference.
      */
-    short _sustain;
+    int _sustain;
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(AutoCollectionObject) {

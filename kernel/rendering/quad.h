@@ -63,6 +63,10 @@ public:
         return _vao;
     }
 
+    /**
+     * Get the vertices buffer object index
+     * @return GLuint, the index of vbo
+     */
     inline GLuint getVBO() const {
         return _vbo;
     }
@@ -77,10 +81,19 @@ private:
      */
     GLuint _vbo;
 
+    /**
+     * The element buffer object
+     */
     GLuint _ebo;
 
+    /**
+     * The vertex array
+     */
     GLfloat* _vertex;
 
+    /**
+     * Size of vertex
+     */
     size_t _size;
 };
 

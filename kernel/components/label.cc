@@ -29,6 +29,7 @@
 #include "exceptions/game_exception.h"
 #include "objects/entity_object.h"
 #include "rendering/renderer.h"
+#include "memory/memory_pool.h"
 
 namespace ngind::components {
 
@@ -39,12 +40,8 @@ _size(12), _line_space{3}, _alignment{ALIGNMENT_LEFT} {
 }
 
 Label::~Label() {
-    if (_program != nullptr) {
-        resources::ResourcesManager::getInstance()->release(_program->getResourcePath());
-        _program = nullptr;
-    }
     if (_font != nullptr) {
-        resources::ResourcesManager::getInstance()->release(_font->getResourcePath());
+        resources::ResourcesManager::getInstance()->release(_font);
         _font = nullptr;
     }
 }
@@ -64,7 +61,7 @@ void Label::init(const typename resources::ConfigResource::JsonObject& data) {
 }
 
 Label* Label::create(const typename resources::ConfigResource::JsonObject& data) {
-    auto com = new Label();
+    auto com = memory::MemoryPool::getInstance()->create<Label>();
     com->init(data);
     return com;
 }

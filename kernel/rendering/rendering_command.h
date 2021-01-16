@@ -31,92 +31,99 @@
 #include "rgba.h"
 
 namespace ngind::rendering {
-
-enum RenderCommandType {
-    UNKNOWN_COMMAND,
-    QUAD_COMMAND,
-    BATCH_QUAD_COMMAND,
-    // TODO: other types
-};
-
+/**
+ * Command for rendering.
+ */
 class RenderingCommand {
 public:
+    /**
+     * execute the command.
+     */
     virtual void call() = 0;
 
+    /**
+     * Set the z order.
+     * @param z: the z order
+     */
     inline void setZ(const unsigned int& z) {
         _z = z;
     }
 
+    /**
+     * Get the z order.
+     * @return unsigned int, the z order
+     */
     inline unsigned int getZ() const {
         return _z;
     }
 
+    /**
+     * Set the color for rendering.
+     * @param color: the color.
+     */
     inline void setColor(const rendering::RGBA& color) {
         _color = color;
     }
 
+    /**
+     * Get the color for rendering.
+     * @return rendering::RGBA, the color for rendering
+     */
     inline rendering::RGBA getColor() const {
         return _color;
     }
 
+    /**
+     * Set the model matrix.
+     * @param model: the model matrix
+     */
     inline void setModel(const glm::mat4& model) {
         _model = model;
     }
 
+    /**
+     * Get the model matrix.
+     * @return glm::mat4, he model matrix
+     */
     inline glm::mat4 getModel() const {
         return _model;
     }
 
+    /**
+     * Set the program that rendering uses.
+     * @param program: the program that rendering uses
+     */
     inline void setProgram(Program* program) {
         _program = program;
     }
 
+    /**
+     * Get the program that rendering uses.
+     * @return Program*, the program that rendering uses
+     */
     inline Program* getProgram() const {
         return _program;
     }
 private:
+    /**
+     * The z order
+     */
     unsigned int _z;
 
+    /**
+     * The color for rendering
+     */
     rendering::RGBA _color;
 
+    /**
+     * Model projection matrix
+     */
     glm::mat4 _model;
 
     /**
      * Render program
      */
     Program* _program;
-};
-
-struct RenderCommand {
-public:
-    unsigned int z_order{};
-    const RenderCommandType type;
-
-    explicit RenderCommand(const RenderCommandType& t = UNKNOWN_COMMAND)
-        : type(t) {}
-};
-
-/**
- * This command is designed for quad rendering.
- */
-struct QuadRenderCommand : public RenderCommand {
-    /**
-     * ID of texture that rendering will use
-     */
-    GLuint texture_id{};
-
-    /**
-     * Quad data
-     */
-    Quad* quad;
-
-    /**
-     * Render program
-     */
-    Program* program;
-
-    QuadRenderCommand()
-        : RenderCommand(QUAD_COMMAND), quad(nullptr), program(nullptr) {}
 };
 
 } // namespace ngind::rendering

@@ -84,10 +84,25 @@ public:
         glUniform1i(glGetUniformLocation(this->_program, name.c_str()), i);
     }
 
+    /**
+     * Set 3 float properties in this program
+     * @param name: name of property
+     * @param x: the first property
+     * @param y: the second property
+     * @param z: the third property
+     */
     inline void setFloat3(const std::string& name, const float& x, const float& y, const float& z) {
         glUniform3f(glGetUniformLocation(this->_program, name.c_str()), x, y, z);
     }
 
+    /**
+     * Set 4 float properties in this program
+     * @param name: name of property
+     * @param r: the first property
+     * @param g: the second property
+     * @param b: the third property
+     * @param a: the fourth property
+     */
     inline void setFloat4(const std::string& name, const float& r, const float& g, const float& b, const float& a) {
         glUniform4f(glGetUniformLocation(this->_program, name.c_str()), r, g, b, a);
     }
@@ -96,6 +111,16 @@ private:
      * The index of program
      */
     GLuint _program;
+
+    /**
+     * Reference of vertex shader
+     */
+    resources::ShaderResource* _vs;
+
+    /**
+     * Reference of segment shader
+     */
+    resources::ShaderResource* _fs;
 };
 
 } // namespace ngind::rendering

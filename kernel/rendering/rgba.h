@@ -31,6 +31,9 @@
 
 namespace ngind::rendering {
 
+/**
+ * RGBA color data.
+ */
 struct RGBA {
     RGBA() = default;
     explicit RGBA(const std::string& code) {
@@ -41,6 +44,9 @@ struct RGBA {
         a = color & 0x000000FF;
     }
 
+    /**
+     * R,G,B,A components.
+     */
     unsigned char r, g, b, a;
 };
 

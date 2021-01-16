@@ -41,9 +41,12 @@ namespace ngind::components {
 class RendererComponent : public Component {
 public:
     RendererComponent() : _color("#FFFFFFFF"), _program(nullptr) {
-
     };
-    virtual ~RendererComponent() {}
+    virtual ~RendererComponent() {
+        if (_program != nullptr) {
+            resources::ResourcesManager::getInstance()->release(_program);
+        }
+    }
     RendererComponent(const RendererComponent&) = delete;
     RendererComponent& operator= (const RendererComponent&) = delete;
 

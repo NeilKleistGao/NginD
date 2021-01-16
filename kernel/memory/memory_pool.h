@@ -28,6 +28,8 @@
 
 #include <set>
 #include <memory>
+#include <vector>
+#include <map>
 
 #include "auto_collection_object.h"
 
@@ -55,18 +57,38 @@ public:
     void clear();
 
     /**
-     * Insert a new auto collection object into memory pool
-     * @param object: the object to be inserted
-     */
-    inline void insert(AutoCollectionObject* object) {
-        this->_pool.insert(object);
-    }
-
-    /**
      * Remove an object from memory pool
      * @param obj: the object to be removed
      */
-    void remove(AutoCollectionObject* obj);
+    inline void remove(AutoCollectionObject* obj) {
+        obj->~AutoCollectionObject();
+    }
+
+    /**
+     * Create an instance of given type.
+     * @tparam T: type of instance
+     * @return T*, the instance
+     */
+    template<typename T, std::enable_if_t<std::is_base_of_v<AutoCollectionObject, T>, int> N = 0>
+    T* create() {
+        auto p = allocate(sizeof(T));
+        new(p) T();
+        return reinterpret_cast<T*>(p);
+    }
+
+    /**
+     * Create an instance of given type and params.
+     * @tparam T: type of instance
+     * @tparam P: type list of params
+     * @param params: params
+     * @return T*, the instance
+     */
+    template<typename T, typename ...P, std::enable_if_t<std::is_base_of_v<AutoCollectionObject, T>, int> N = 0>
+    T* create(P... params) {
+        auto p = allocate(sizeof(T));
+        new(p) T(params...);
+        return reinterpret_cast<T*>(p);
+    }
 
 private:
     /**
@@ -75,9 +97,21 @@ private:
     static MemoryPool* _instance;
 
     /**
+     * Should pool be cleaned.
+     */
+    bool _dirty;
+
+    /**
+     * Allocate a piece of memory from pool
+     * @param size: size of memory piece
+     * @return AutoCollectionObject*, new memory area
+     */
+    AutoCollectionObject* allocate(const size_t& size);
+
+    /**
      * A RB-Tree to manage objects
      */
-    std::set<AutoCollectionObject*> _pool;
+    std::map<size_t, std::vector<AutoCollectionObject*>> _pool;
 
     MemoryPool();
 

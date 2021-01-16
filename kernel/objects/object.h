@@ -114,6 +114,7 @@ public:
     virtual inline void addComponent(const std::string& name, components::Component* component) {
         if (_components.find(name) == _components.end()) {
             _components[name] = component;
+            component->addReference();
             component->setParent(this);
         }
     }

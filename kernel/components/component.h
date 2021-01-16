@@ -32,6 +32,7 @@
 #include "resources/resource.h"
 #include "resources/resources_manager.h"
 #include "script/lua_registration.h"
+#include "memory/auto_collection_object.h"
 
 namespace ngind {
 
@@ -45,16 +46,10 @@ using Object = objects::Object;
  * by create/init functions. We do not allow user to create a basic component in
  * configuration files so create function is not declared.
  */
-class Component : public objects::UpdatableObject {
+class Component :  public memory::AutoCollectionObject, public objects::UpdatableObject {
 public:
     Component() : _parent(nullptr), _dirty(false) {};
-    virtual ~Component() {
-        for (auto& r : _resources_list) {
-            resources::ResourcesManager::getInstance()->release(r->getResourcePath());
-        }
-
-        _resources_list.clear();
-    }
+    virtual ~Component() = default;
 
     Component(const Component&) = delete;
     Component& operator= (const Component&) = delete;
@@ -101,11 +96,6 @@ protected:
      * Parent object of this component
      */
     Object* _parent;
-
-    /**
-     * Resources list that this component uses
-     */
-    std::vector<resources::Resource*> _resources_list;
 
     /**
      * Is this component need to be updated

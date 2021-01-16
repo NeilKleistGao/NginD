@@ -32,15 +32,30 @@
 
 namespace ngind::rendering {
 
+/**
+ * Batch of quad rendering commands.
+ */
 class BatchQuadRenderingCommand : public RenderingCommand {
 public:
+    /**
+     * @param quad: the quad data
+     * @param size: size of vertex
+     */
     BatchQuadRenderingCommand(Quad* quad, const size_t& size);
     ~BatchQuadRenderingCommand();
     BatchQuadRenderingCommand(const BatchQuadRenderingCommand&) = delete;
     BatchQuadRenderingCommand& operator= (const BatchQuadRenderingCommand&) = delete;
 
+    /**
+     * @see kernel/rendering/rendering_command.h
+     */
     void call() override;
 
+    /**
+     * Push new vertex data into batch.
+     * @param vertex: vertex data
+     * @param texture: the texture id
+     */
     inline void push(std::initializer_list<GLfloat> vertex, const GLuint& texture) {
         _vertex.push_back(new GLfloat[_size]);
         auto& v = _vertex.back();
@@ -52,10 +67,24 @@ public:
         _textures.push_back(texture);
     }
 private:
+    /**
+     * Quad data
+     */
     Quad* _quad;
+
+    /**
+     * Vertex list
+     */
     std::vector<GLfloat*> _vertex;
+
+    /**
+     * Texture list
+     */
     std::vector<GLuint> _textures;
 
+    /**
+     * Size of vertex
+     */
     size_t _size;
 };
 

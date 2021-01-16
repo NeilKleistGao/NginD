@@ -33,20 +33,63 @@
 
 namespace ngind::script {
 
+/**
+ * Observer used to passing message between two object.
+ */
 class Observer {
 public:
+    /**
+     * Get the observer instance.
+     * @return Observer*, the observer instance
+     */
     static Observer* getInstance();
+
+    /**
+     * Destroy the observer instance.
+     */
     static void destroyInstance();
 
+    /**
+     * Subscribe a message.
+     * @param machine: state machine who subscribes
+     * @param name: name of message
+     */
     void subscribe(components::StateMachine* machine, const std::string& name);
+
+    /**
+     * Notify a object randomly
+     * @param sender: sender of message
+     * @param name: name of message
+     * @param data: data attained
+     */
     void notify(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
+
+    /**
+     * Notify all objects that subscribe
+     * @param sender: sender of message
+     * @param name: name of message
+     * @param data: data attained
+     */
     void notifyAll(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
+
+    /**
+     * Cancel a subscription.
+     * @param machine: the subscriber
+     * @param name: name of message
+     */
     void cancel(components::StateMachine* machine, const std::string& name);
 private:
     Observer() = default;
     ~Observer();
 
+    /**
+     * Instance of observer
+     */
     static Observer* _instance;
+
+    /**
+     * Subscription list
+     */
     std::unordered_map<std::string, std::vector<components::StateMachine*>> _dependence;
 };
 

@@ -106,12 +106,8 @@ void Object::removeAllChildren(const std::string& name) {
     for (auto it = this->_children.find(name); it != this->_children.end(); it = this->_children.find(name)) {
         Object* object =it->second;
         if (object != nullptr) {
-            object->removeReference();
             object->setParent(nullptr);
-            if (object->getSustain() == 0) {
-                delete object;
-                object = nullptr;
-            }
+            object->removeReference();
         }
     }
 

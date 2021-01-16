@@ -27,6 +27,7 @@
 #include "resources/resources_manager.h"
 #include "log/visual_logger.h"
 #include "script/lua_state.h"
+#include "memory/memory_pool.h"
 
 namespace ngind {
 Game* Game::_instance = nullptr;
@@ -88,6 +89,7 @@ void Game::start() {
         this->_current_world->update(duration);
         logger->draw();
         _loop_flag &= render->startRenderingLoopOnce();
+        memory::MemoryPool::getInstance()->clear();
 
         duration = _global_timer.getTick();
         float rest = MIN_DURATION - duration;
@@ -104,7 +106,7 @@ void Game::start() {
 
 void Game::loadWorld(const std::string& name) {
     if (this->_worlds.find(name) == this->_worlds.end()) {
-        this->_worlds[name] = new objects::World(name);
+        this->_worlds[name] = memory::MemoryPool::getInstance()->create<objects::World>(name);
         this->_worlds[name]->addReference();
     }
 
