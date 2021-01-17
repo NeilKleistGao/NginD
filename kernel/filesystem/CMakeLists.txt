@@ -1,5 +1,4 @@
 set(FILESYSTEM_HEADER
-        kernel/filesystem/audio_stream.h
         kernel/filesystem/cipher_input_stream.h
         kernel/filesystem/cipher_output_stream.h
         kernel/filesystem/data_input_stream.h
@@ -12,7 +11,6 @@ set(FILESYSTEM_HEADER
         kernel/filesystem/zip_input_stream.h)
 
 set(FILESYSTEM_SRC
-        kernel/filesystem/audio_stream.cc
         kernel/filesystem/cipher_input_stream.cc
         kernel/filesystem/cipher_output_stream.cc
         kernel/filesystem/data_input_stream.cc

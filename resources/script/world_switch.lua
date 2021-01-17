@@ -49,7 +49,10 @@ end
 WORLD_SWITCH_TABLE = {}
 WORLD_SWITCH_TABLE["welcome"] = {}
 WORLD_SWITCH_TABLE["welcome"]["next"] = "colorful-labels"
-WORLD_SWITCH_TABLE["welcome"]["prev"] = "colorful-labels"
+WORLD_SWITCH_TABLE["welcome"]["prev"] = "audio"
 WORLD_SWITCH_TABLE["colorful-labels"] = {}
-WORLD_SWITCH_TABLE["colorful-labels"]["next"] = "welcome"
+WORLD_SWITCH_TABLE["colorful-labels"]["next"] = "audio"
 WORLD_SWITCH_TABLE["colorful-labels"]["prev"] = "welcome"
+WORLD_SWITCH_TABLE["audio"] = {}
+WORLD_SWITCH_TABLE["audio"]["next"] = "welcome"
+WORLD_SWITCH_TABLE["audio"]["prev"] = "colorful-labels"

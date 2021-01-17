@@ -28,6 +28,7 @@
 #include "log/visual_logger.h"
 #include "script/lua_state.h"
 #include "memory/memory_pool.h"
+#include "audio/audio_manager.h"
 
 namespace ngind {
 Game* Game::_instance = nullptr;

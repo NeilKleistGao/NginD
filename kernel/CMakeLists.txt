@@ -15,6 +15,7 @@ include(kernel/timer/CMakeLists.txt)
 include(kernel/utils/CMakeLists.txt)
 include(kernel/exceptions/CMakeLists.txt)
 include(kernel/script/CMakeLists.txt)
+include(kernel/audio/CMakeLists.txt)
 
 set(KERNEL_HEADER
         kernel/game.h
@@ -32,7 +33,8 @@ set(KERNEL_HEADER
         ${TIMER_HEADER}
         ${UTILS_HEADER}
         ${EXCEPTIONS_HEADER}
-        ${SCRIPT_HEADER})
+        ${SCRIPT_HEADER}
+        ${AUDIO_HEADER})
 
 set(KERNEL_SRC
         kernel/game.cc
@@ -50,4 +52,5 @@ set(KERNEL_SRC
         ${TIMER_SRC}
         ${UTILS_SRC}
         ${EXCEPTIONS_SRC}
-        ${SCRIPT_SRC})
+        ${SCRIPT_SRC}
+        ${AUDIO_SRC})

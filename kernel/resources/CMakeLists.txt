@@ -5,7 +5,9 @@ set(RESOURCES_HEADER
         kernel/resources/resource.h
         kernel/resources/resources_manager.h
         kernel/resources/shader_resource.h
-        kernel/resources/texture_resource.h)
+        kernel/resources/texture_resource.h
+        kernel/resources/music_resource.h
+        kernel/resources/effect_resource.h)
 
 set(RESOURCES_SRC
         kernel/resources/config_resource.cc
@@ -13,4 +15,6 @@ set(RESOURCES_SRC
         kernel/resources/program_resource.cc
         kernel/resources/resources_manager.cc
         kernel/resources/shader_resource.cc
-        kernel/resources/texture_resource.cc)
+        kernel/resources/texture_resource.cc
+        kernel/resources/music_resource.cc
+        kernel/resources/effect_resource.cc)

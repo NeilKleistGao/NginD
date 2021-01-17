@@ -45,8 +45,7 @@ target_link_libraries(NginD "${CMAKE_SOURCE_DIR}${PLATFORM_PREFIX}/opengl/libXra
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libXi.so")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libXi.a")
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soil2/libsoil2.a")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soloud/libsoloud.a")
-target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soil2/libsoil2.so")
+target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soloud/libsoloud_static_x64.a" -lasound -lSDL2main -lSDL2 -ldl -lpthread)
 target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/lua/liblua52.so")
 target_link_libraries(NginD "/usr/local/lib/libfreetype.so")
 target_link_libraries(NginD "/usr/local/lib/libfreetype.a")
@@ -58,6 +57,7 @@ add_custom_command(TARGET ${PROJECT_NAME}
         ARGS -E copy_directory "../resources" "${EXECUTABLE_OUTPUT_PATH}/resources"
         COMMENT "COPY RESOURCES FILES")
 
+add_compile_options(-ldl)
 add_compile_options(-pthread)
 add_compile_options(-lboost_fiber)
 add_compile_options(-lboost_context)

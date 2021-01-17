@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +6,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,18 +19,28 @@
  * SOFTWARE.
  */
 
-/// @file main.cc
+/// @file effect_resource.h
 
-#include "kernel/game.h"
+#include "effect_resource.h"
 
-int main(int argc, char* argv[]) {
-    auto game = ngind::Game::getInstance();
-    if (game == nullptr) {
-        exit(-1);
+namespace ngind::resources {
+const std::string EffectResource::EFFECT_RESOURCE_PATH = "resources/effect";
+
+EffectResource::EffectResource() : _effect(nullptr) {
+    _effect = new SoLoud::Sfxr();
+}
+
+EffectResource::~EffectResource() {
+    delete _effect;
+    _effect = nullptr;
+}
+
+void EffectResource::load(const std::string& name) {
+    auto err = _effect->loadParams((EFFECT_RESOURCE_PATH + "/" + name).c_str());
+    if (err) {
+        // TODO:
     }
 
-    // Good Luck, Have Fun.
-    game->start();
-    game->destroyInstance();
-    return 0;
+    this->_path = name;
 }
+} // namespace ngind::resources

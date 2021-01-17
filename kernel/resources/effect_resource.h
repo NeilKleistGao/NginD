@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +6,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,18 +19,41 @@
  * SOFTWARE.
  */
 
-/// @file main.cc
+/// @file effect_resource.h
 
-#include "kernel/game.h"
+#ifndef NGIND_EFFECT_RESOURCE_H
+#define NGIND_EFFECT_RESOURCE_H
 
-int main(int argc, char* argv[]) {
-    auto game = ngind::Game::getInstance();
-    if (game == nullptr) {
-        exit(-1);
+#include "resource.h"
+#include "soloud/soloud.h"
+#include "soloud/soloud_sfxr.h"
+
+namespace ngind::resources {
+
+class EffectResource : public Resource {
+public:
+    const static std::string EFFECT_RESOURCE_PATH;
+
+    EffectResource();
+    ~EffectResource();
+
+    void load(const std::string& name) override;
+
+    inline void setVolume(const float& vol) {
+        _effect->setVolume(vol);
     }
 
-    // Good Luck, Have Fun.
-    game->start();
-    game->destroyInstance();
-    return 0;
-}
+    inline float getVolume() const {
+        return _effect->mVolume;
+    }
+
+    inline SoLoud::Sfxr* getEffect() {
+        return _effect;
+    }
+private:
+    SoLoud::Sfxr* _effect;
+};
+
+} // namespace ngind::resources
+
+#endif //NGIND_EFFECT_RESOURCE_H

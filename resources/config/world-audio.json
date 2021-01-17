@@ -1,0 +1,37 @@
+{
+  "background-color": "#000000FF",
+  "children": [
+    {
+      "name": "title",
+      "position": {
+        "x": 512,
+        "y": 700
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 36,
+          "text": "Audio Test",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "StateMachine",
+      "name": "WorldSwitch",
+      "driver-script": "world_switch.lua",
+      "classname": "WorldSwitch"
+    }
+  ]
+}
