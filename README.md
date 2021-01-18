@@ -17,8 +17,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 
 ## TODO List
 ### 0.3
-+ [ ] Audio System
-+ [ ] Button Component
++ [x] Audio System
 + [ ] I18N
 
 ### 0.4
@@ -33,19 +32,17 @@ A game engine for 2D pixel game powered by C++ (自家用).
 
 ### 0.7
 + [ ] Textbox Component
-+ [ ] Encrypt System
++ [ ] Button Component
 
 ### 0.8
++ [ ] Encrypt System
 + [ ] Package and Compress
 
 ### 0.9
-+ [ ] Advanced Sprite Support
-
-### 0.10
 + [ ] Advanced Animation System
 + [ ] More Editor Support
 
-### 0.11
+### 0.10
 + [ ] Windows Version
 
 ### 1.0
@@ -62,6 +59,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [glm 0.9.9.8](https://glm.g-truc.net/0.9.9/index.html)
 + [Lua 5.4.2](https://www.lua.org/)
 + [Lua Bridge 2.6](https://github.com/vinniefalco/LuaBridge)
++ [SoLoud 20200207](http://sol.gfxile.net/soloud/index.html)
 
 ### Editor Dependent Libraries
 + [electron 10.1.5](https://www.electronjs.org/)
