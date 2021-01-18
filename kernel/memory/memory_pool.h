@@ -62,6 +62,7 @@ public:
      */
     inline void remove(AutoCollectionObject* obj) {
         obj->~AutoCollectionObject();
+        _dirty = true;
     }
 
     /**

@@ -32,6 +32,12 @@
       "name": "WorldSwitch",
       "driver-script": "world_switch.lua",
       "classname": "WorldSwitch"
+    },
+    {
+      "type": "MusicPlayer",
+      "name": "GTR",
+      "filename": "Bach.mp3",
+      "auto-play": true
     }
   ]
 }

@@ -145,9 +145,7 @@ public:
             return;
         }
 
-        auto p = static_cast<Type>(_components[name]);
-        delete p;
-        p = _components[name] = nullptr;
+        _components[name]->removeReference();
         _components.erase(name);
     }
 

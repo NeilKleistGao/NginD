@@ -48,7 +48,11 @@ void ResourcesManager::release(const std::string& path) {
         return;
     }
 
-    this->_resources[path]->removeReference();
+    auto res = this->_resources[path];
+    res->removeReference();
+    if (res->getSustain() == 1) {
+        this->_resources.erase(path);
+    }
 }
 
 } // namespace ngind

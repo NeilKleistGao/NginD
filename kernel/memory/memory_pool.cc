@@ -49,24 +49,24 @@ void MemoryPool::clear() {
         return;
     }
 
-    std::vector<std::vector<AutoCollectionObject*>::iterator> _todo;
     for (auto& [size, vec] : _pool) {
-        for (auto it = vec.begin(); it != vec.end(); it++) {
-            int sustain = (*it)->getSustain();
-            if (sustain == 0) {
-                _todo.push_back(it);
-            }
-            else if (sustain == 1) {
-                (*it)->removeReference();
+        bool flag;
+        do {
+            flag = false;
+            for (auto it = vec.begin(); it != vec.end(); it++) {
+                int sustain = (*it)->getSustain();
+                if (sustain == 0) {
+                    ::operator delete(*it);
+                    vec.erase(it);
+                    flag = true;
+                    break;
+                }
+                else if (sustain == 1) {
+                    (*it)->removeReference();
+                }
             }
         }
-
-        for (auto& p : _todo) {
-            AutoCollectionObject* temp = *p;
-            ::operator delete(temp);
-            vec.erase(p);
-        }
-        _todo.clear();
+        while (flag);
     }
 
     _dirty = false;
@@ -79,6 +79,9 @@ MemoryPool::MemoryPool() : _dirty(false) {
 MemoryPool::~MemoryPool() {
     for (auto& [size, vec] : _pool) {
         for (auto& p : vec) {
+            while (p->getSustain() > 1) {
+                p->removeReference();
+            }
             ::operator delete(p);
         }
 

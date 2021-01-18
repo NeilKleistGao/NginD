@@ -42,6 +42,7 @@ Sprite::Sprite()
 Sprite::~Sprite() {
     if (_texture != nullptr) {
         resources::ResourcesManager::getInstance()->release(_texture);
+        _texture = nullptr;
     }
 }
 

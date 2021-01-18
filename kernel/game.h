@@ -79,7 +79,7 @@ public:
      * Load a game world into memory and destroy current world
      * @param name: world's name
      */
-    void destroyAndLoadWorld(const std::string& name);
+    void destroyAndLoadWorld(std::string name);
 
     /**
      * Start playing game.
@@ -143,6 +143,10 @@ private:
      * Whether game still goes on
      */
     bool _loop_flag;
+
+    std::function<void(void)> _transition;
+    bool _trans_next;
+    std::string _next_world;
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(Input) {

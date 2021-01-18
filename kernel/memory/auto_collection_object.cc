@@ -34,7 +34,7 @@ AutoCollectionObject::AutoCollectionObject() : _sustain(1) {
 void AutoCollectionObject::removeReference() {
     this->_sustain--;
 
-    if (this->_sustain == 0) {
+    if (this->_sustain == 1) {
         MemoryPool::getInstance()->remove(this);
     }
 }

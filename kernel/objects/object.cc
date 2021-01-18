@@ -36,16 +36,10 @@ Object::Object() : AutoCollectionObject(), _parent(nullptr) {
 Object::~Object() {
     for (auto it : this->_children) {
         it.second->removeReference();
-
-        if (it.second->getSustain() == 0) {
-            delete it.second;
-            it.second = nullptr;
-        }
     }
 
     for (auto it : this->_components) {
-        delete it.second;
-        it.second = nullptr;
+        it.second->removeReference();
     }
 
     this->_children.clear();
@@ -75,10 +69,6 @@ void Object::removeChild(const std::string& name) {
     if (object != nullptr) {
         object->removeReference();
         object->setParent(nullptr);
-        if (object->getSustain() == 0) {
-            delete object;
-            object = nullptr;
-        }
     }
 }
 

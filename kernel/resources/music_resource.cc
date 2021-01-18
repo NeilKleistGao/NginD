@@ -23,6 +23,8 @@
 
 #include "music_resource.h"
 
+#include "audio/audio_manager.h"
+
 namespace ngind::resources {
 const std::string MusicResource::MUSIC_RESOURCE_PATH = "resources/music";
 
@@ -31,9 +33,11 @@ MusicResource::MusicResource() : _length(0.0), _is_looping(false) {
 }
 
 MusicResource::~MusicResource() {
-    _stream->stop();
-    delete _stream;
-    _stream = nullptr;
+    if (_stream) {
+        audio::AudioManager::getInstance()->stopMusic(this);
+        delete _stream;
+        _stream = nullptr;
+    }
 }
 
 void MusicResource::load(const std::string& name) {

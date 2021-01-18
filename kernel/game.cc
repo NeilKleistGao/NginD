@@ -33,7 +33,7 @@
 namespace ngind {
 Game* Game::_instance = nullptr;
 
-Game::Game() : _global_timer(), _loop_flag(true), _current_world(nullptr) {
+Game::Game() : _global_timer(), _loop_flag(true), _current_world(nullptr), _transition(), _trans_next(false) {
     this->_global_settings = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("global_settings.json");
 }
 
@@ -85,11 +85,17 @@ void Game::start() {
     logger->registerVariable("frame rate", "0");
     _global_timer.start();
     while (_loop_flag) {
+        if (_trans_next) {
+            _transition();
+            _trans_next = false;
+        }
+
         glfwPollEvents();
         render->clearScene(_current_world->getBackgroundColor());
         this->_current_world->update(duration);
         logger->draw();
         _loop_flag &= render->startRenderingLoopOnce();
+
         memory::MemoryPool::getInstance()->clear();
 
         duration = _global_timer.getTick();
@@ -145,10 +151,15 @@ void Game::popAndLoadWorld(const bool& has_destroy_current = true) {
     }
 }
 
-void Game::destroyAndLoadWorld(const std::string& name) {
-    auto destroy_name = this->_current_world->getName();
-    loadWorld(name);
-    destroyWorld(destroy_name);
+void Game::destroyAndLoadWorld(std::string name) {
+    _next_world = name;
+    _transition = [&]() {
+        auto destroy_name = this->_current_world->getName();
+        loadWorld(_next_world);
+        destroyWorld(destroy_name);
+    };
+
+    _trans_next = true;
 }
 
 } // namespace ngind
