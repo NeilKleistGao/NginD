@@ -16,31 +16,27 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + ...
 
 ## TODO List
-### 0.3
-+ [x] Audio System
-+ [ ] I18N
-
 ### 0.4
 + [ ] Visual Editor
 
 ### 0.5
-+ [ ] Simple Animation System
-+ [ ] Animation Editor Support
++ [ ] Textbox Component
++ [ ] Button Component
 
 ### 0.6
 + [ ] Tiled Map Support
 
 ### 0.7
-+ [ ] Textbox Component
-+ [ ] Button Component
++ [ ] Simple Animation System
++ [ ] Animation Editor Support
 
 ### 0.8
-+ [ ] Encrypt System
-+ [ ] Package and Compress
-
-### 0.9
 + [ ] Advanced Animation System
 + [ ] More Editor Support
+
+### 0.9
++ [ ] Encrypt System
++ [ ] Package and Compress
 
 ### 0.10
 + [ ] Windows Version

@@ -51,6 +51,10 @@ public:
         return _font->generateCharacterData(c);
     }
 
+    inline rendering::Character getCharacter(const wchar_t& c) {
+        return _font->generateCharacterData(c);
+    }
+
     inline size_t getMaxHeight() {
         return _font->getMaxHeight();
     }

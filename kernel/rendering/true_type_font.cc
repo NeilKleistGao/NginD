@@ -77,4 +77,38 @@ Character TrueTypeFont::generateCharacterData(const char& c) {
     return _cache[c];
 }
 
+Character TrueTypeFont::generateCharacterData(const wchar_t& c) {
+    if (_w_cache.find(c) == _w_cache.end()) {
+        FT_Set_Pixel_Sizes(_font_face, 0, DEFAULT_FONT_SIZE);
+        if (FT_Load_Char(_font_face, c, FT_LOAD_RENDER)) {
+            ///@todo
+        }
+
+        Character character;
+        glGenTextures(1, &character.texture);
+        glBindTexture(GL_TEXTURE_2D, character.texture);
+        character.size = {_font_face->glyph->bitmap.width, _font_face->glyph->bitmap.rows};
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+                     character.size.x, character.size.y,
+                     0, GL_RED, GL_UNSIGNED_BYTE,
+                     _font_face->glyph->bitmap.buffer);
+
+        _max_height = std::max<unsigned int>(_max_height, _font_face->glyph->bitmap.rows);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        character.bearing = {_font_face->glyph->bitmap_left, _font_face->glyph->bitmap_top};
+        character.advance = {_font_face->glyph->advance.x, _font_face->glyph->advance.y};
+
+        _w_cache[c] = character;
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    return _w_cache[c];
+}
+
 } // namespace ngind::rendering

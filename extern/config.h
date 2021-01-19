@@ -21,11 +21,11 @@
 
 /// @file config.h
 
-//
-// Created by neilkleistgao on 2020/12/21.
-//
-
 #ifndef NGIND_CONFIG_H
 #define NGIND_CONFIG_H
+
+#ifdef ENABLE_I18N
+
+#endif
 
 #endif //NGIND_CONFIG_H

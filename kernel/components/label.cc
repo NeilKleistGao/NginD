@@ -24,6 +24,7 @@
 #include "label.h"
 
 #include <regex>
+#include <cctype>
 
 #include "resources/resources_manager.h"
 #include "exceptions/game_exception.h"
@@ -118,7 +119,8 @@ void Label::parseText() {
     float max_width = 0, max_height = 0, current_width = 0;
     std::vector<float> widths;
 
-    for (const auto& c : _text) {
+    for (int i = 0; i < _text.length(); i++) {
+        auto c = _text[i];
         if (c == '\n') {
             max_width = std::max(max_width, current_width);
             widths.push_back(current_width);
@@ -126,8 +128,19 @@ void Label::parseText() {
             continue;
         }
 
-        auto ch = _font->getCharacter(c);
-        current_width += (ch.advance.x >> 6) * scale;
+        if ((c & 0x80) == 0) {
+            auto ch = _font->getCharacter(c);
+            current_width += (ch.advance.x >> 6) * scale;
+        }
+        else if (i < _text.length() - 1) {
+            wchar_t wc = (c << 8) | (_text[i + 1]);
+            auto ch = _font->getCharacter(wc);
+            current_width += (ch.advance.x >> 6) * scale;
+            i++;
+        }
+        else {
+            // TODO:
+        }
     }
 
     max_width = std::max(max_width, current_width);
@@ -169,7 +182,16 @@ void Label::parseText() {
         }
 
         auto& cmd = _commands.back();
-        auto ch = _font->getCharacter(_text[i]);
+        rendering::Character ch;
+        if ((_text[i] & 0x80) == 0) {
+            ch = _font->getCharacter(_text[i]);
+        }
+        else {
+            wchar_t wc = (_text[i] << 8) | _text[i + 1];
+            ch = _font->getCharacter(wc);
+            i++;
+        }
+
         auto x = current_width + ch.bearing.x * scale;
         auto y = -max_height - (ch.size.y - ch.bearing.y) * scale;
         auto width = ch.size.x * scale;

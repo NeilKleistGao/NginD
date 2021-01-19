@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +6,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,56 +19,47 @@
  * SOFTWARE.
  */
 
-/// @file true_type_font.h
+/// @file i18n.h
 
-#ifndef NGIND_TRUE_TYPE_FONT_H
-#define NGIND_TRUE_TYPE_FONT_H
+#ifndef NGIND_I18N_H
+#define NGIND_I18N_H
 
 #include <string>
 #include <map>
+#include <unordered_map>
+#include <vector>
 
-#include <freetype2/ft2build.h>
-#include FT_FREETYPE_H
+#include "lang_code.h"
 
-#include "character.h"
-
-namespace ngind::rendering {
-
-/**
- * True type font(TTF) data.
- */
-class TrueTypeFont {
+namespace ngind::i18n {
+class I18N {
 public:
-    constexpr static size_t DEFAULT_FONT_SIZE = 48;
+    const static std::string TEXT_PATH;
+    static I18N* getInstance();
+    static void destroyInstance();
 
-    TrueTypeFont();
-
-    ~TrueTypeFont();
-
-    /**
-     * Set font face
-     * @param face: font face
-     */
-    inline void setFontFace(FT_Face face) {
-        _font_face = face;
+    void loadLanguagePack(const LanguageCode& code, const std::string& filename);
+    inline void use(const LanguageCode& code) {
+        _lang = code;
     }
-
-    Character generateCharacterData(const char& c);
-    Character generateCharacterData(const wchar_t& c);
-
-    inline size_t getMaxHeight() const {
-        return _max_height;
-    }
+    std::string get(const std::string& name);
+    std::string get(const size_t & index);
 private:
-    /**
-     * Font face data
-     */
-    FT_Face _font_face;
-    std::map<char, Character> _cache;
-    std::map<wchar_t, Character> _w_cache;
-    size_t _max_height;
+    I18N() : _lang(LanguageCode::EN_US) {};
+    ~I18N() = default;
+
+    static I18N* _instance;
+    using LabeledLanguagePack = std::map<std::string, std::string>;
+    using DefaultLanguagePack = std::vector<std::string>;
+
+    std::map<LanguageCode, LabeledLanguagePack> _data;
+    std::map<LanguageCode, DefaultLanguagePack> _default;
+
+    LanguageCode _lang;
+
+    static std::unordered_map<LanguageCode, std::string> _mapping;
 };
 
-} // namespace ngind::rendering
+} // namespace ngind::i18n
 
-#endif //NGIND_TRUE_TYPE_FONT_H
+#endif //NGIND_I18N_H
