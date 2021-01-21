@@ -29,28 +29,51 @@
 #include "soloud/soloud_sfxr.h"
 
 namespace ngind::resources {
-
+/**
+ * Sound effect resource.
+ */
 class EffectResource : public Resource {
 public:
+    /**
+     * Path of sound effect resources.
+     */
     const static std::string EFFECT_RESOURCE_PATH;
 
     EffectResource();
     ~EffectResource();
 
+    /**
+     * @see kernel/resources/resource.h
+     */
     void load(const std::string& name) override;
 
+    /**
+     * Set volume of sound effect.
+     * @param vol: new volume value
+     */
     inline void setVolume(const float& vol) {
         _effect->setVolume(vol);
     }
 
+    /**
+     * Get the volume value.
+     * @return float, the volume
+     */
     inline float getVolume() const {
         return _effect->mVolume;
     }
 
+    /**
+     * Get SoLoud effect resource.
+     * @return SoLoud::Sfxr* sfxr effect pointer
+     */
     inline SoLoud::Sfxr* getEffect() {
         return _effect;
     }
 private:
+    /**
+     * SoLound Sfxr effect pointer.
+     */
     SoLoud::Sfxr* _effect;
 };
 

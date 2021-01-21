@@ -32,31 +32,84 @@
 #include "lang_code.h"
 
 namespace ngind::i18n {
+/**
+ * Internationalisation helper.
+ */
 class I18N {
 public:
+    /**
+     * Text resources path.
+     */
     const static std::string TEXT_PATH;
+
+    /**
+     * Get the unique instance of I18N helper.
+     * @return I18N*, the unique instance
+     */
     static I18N* getInstance();
+
+    /**
+     * Destroy the unique instance.
+     */
     static void destroyInstance();
 
+    /**
+     * Load language package from file.
+     * @param code: language code
+     * @param filename: filename of package
+     */
     void loadLanguagePack(const LanguageCode& code, const std::string& filename);
+
+    /**
+     * Use another language package.
+     * @param code: language code
+     */
     inline void use(const LanguageCode& code) {
         _lang = code;
     }
+
+    /**
+     * Get text by name.
+     * @param name: name of text item
+     * @return std::string, the I18N text
+     */
     std::string get(const std::string& name);
+
+    /**
+     * Get text by index.
+     * @param index: index of text item
+     * @return std::string, the I18N text
+     */
     std::string get(const size_t & index);
 private:
     I18N() : _lang(LanguageCode::EN_US) {};
     ~I18N() = default;
 
+    /**
+     * The unique instance.
+     */
     static I18N* _instance;
     using LabeledLanguagePack = std::map<std::string, std::string>;
     using DefaultLanguagePack = std::vector<std::string>;
 
+    /**
+     * Labeled data.
+     */
     std::map<LanguageCode, LabeledLanguagePack> _data;
+
+    /**
+     * All data with a default index.
+     */
     std::map<LanguageCode, DefaultLanguagePack> _default;
 
+    /**
+     * Current language.
+     */
     LanguageCode _lang;
 
+    /**
+     * A mapping from language code to string.
+     */
     static std::unordered_map<LanguageCode, std::string> _mapping;
 };
 

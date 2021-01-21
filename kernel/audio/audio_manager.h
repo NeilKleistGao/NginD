@@ -31,41 +31,92 @@
 #include "resources/effect_resource.h"
 
 namespace ngind::audio {
+/**
+ * Management for audio process.
+ */
 class AudioManager {
 public:
+    /**
+     * Get the unique instance of audio manager.
+     * @return AudioManager*, the unique instance
+     */
     static AudioManager* getInstance();
+
+    /**
+     * Destroy the unique instance.
+     */
     static void destroyInstance();
 
+    /**
+     * Start playing given music.
+     * @param music: music that will be played.
+     */
     void playMusic(resources::MusicResource* music);
 
+    /**
+     * Stop playing given music.
+     * @param music: music that will be stopped.
+     */
     void stopMusic(resources::MusicResource* music);
 
+    /**
+     * Stop all music.
+     */
     inline void stopAll() {
         _engine.stopAll();
     }
 
+    /**
+     * Pause given music.
+     * @param music: music that should be paused.
+     */
     void pauseMusic(resources::MusicResource* music);
+
+    /**
+     * Resume music that was stopped before.
+     * @param music: music that will be resumed to play.
+     */
     void resumeMusic(resources::MusicResource* music);
 
+    /**
+     * Pause all music.
+     */
     inline void pauseAll() {
         _engine.setPauseAll(true);
     }
 
+    /**
+     * Resume all music from stopping.
+     */
     inline void resumeAll() {
         _engine.setPauseAll(false);
     }
 
+    /**
+     * Play given effect audio.
+     * @param effect: given effect audio.
+     */
     inline void playEffect(resources::EffectResource* effect) {
         _engine.play(*effect->getEffect());
     }
 
 private:
+    /**
+     * The unique instance.
+     */
     static AudioManager* _instance;
+
+    /**
+     * SoLoud engine object.
+     */
     SoLoud::Soloud _engine;
 
     AudioManager();
     ~AudioManager();
 
+    /**
+     * Music playing handlers.
+     */
     std::map<std::string, SoLoud::handle> _handles;
 };
 } // namespace ngind::audio

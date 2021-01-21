@@ -25,7 +25,7 @@
 #define NGIND_CONFIG_H
 
 #ifdef ENABLE_I18N
-
+#include "i18n/i18n.h"
 #endif
 
 #endif //NGIND_CONFIG_H

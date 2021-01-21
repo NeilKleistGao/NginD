@@ -31,7 +31,9 @@
 #include "audio/audio_manager.h"
 
 namespace ngind::components {
-
+/**
+ * Sound effect player component.
+ */
 class EffectPlayer : public Component {
 public:
     EffectPlayer();
@@ -51,15 +53,35 @@ public:
      */
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
+    /**
+     * Create a sound effect component instance.
+     * @param data: the configuration data this component initialization process requires
+     * @return EffectPlayer*, the instance of sound effect component
+     */
     static EffectPlayer* create(const typename resources::ConfigResource::JsonObject& data);
 
+    /**
+     * Play this sound effect.
+     */
     inline void play() {
         audio::AudioManager::getInstance()->playEffect(_effect);
     }
 
+    /**
+     * Set volume of sound effect.
+     * @param vol: new volume value
+     */
     void setVolume(const float& vol);
+
+    /**
+     * Get the volume value.
+     * @return float, the volume
+     */
     float getVolume() const;
 private:
+    /**
+     * Sound effect resource.
+     */
     resources::EffectResource* _effect;
 };
 

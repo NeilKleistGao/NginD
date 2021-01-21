@@ -51,35 +51,85 @@ public:
      */
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
+    /**
+     * Create a music component instance.
+     * @param data: the configuration data this component initialization process requires
+     * @return MusicPlayer*, the instance of music component
+     */
     static MusicPlayer* create(const typename resources::ConfigResource::JsonObject& data);
 
+    /**
+     * Pause music playing.
+     */
     inline void pause() {
         audio::AudioManager::getInstance()->pauseMusic(_music);
     }
 
+    /**
+     * Resume music from pausing.
+     */
     inline void resume() {
         audio::AudioManager::getInstance()->resumeMusic(_music);
     }
 
+    /**
+     * Play this music.
+     */
     inline void play() {
         audio::AudioManager::getInstance()->playMusic(_music);
     }
 
+    /**
+     * Stop playing.
+     */
     inline void stop() {
         audio::AudioManager::getInstance()->stopMusic(_music);
     }
 
+    /**
+     * Set volume of sound effect.
+     * @param vol: new volume value
+     */
     void setVolume(const float& vol);
+
+    /**
+     * Get the volume value.
+     * @return float, the volume
+     */
     float getVolume() const;
 
-    void setLoop(const bool& loop);
+    /**
+     * Set whether play music in loop.
+     * @param loop: whether play music in loop
+     */
+    void setLooping(const bool& loop);
+
+    /**
+     * Get whether play music in loop.
+     * @return bool, whether play music in loop
+     */
     bool isLooping();
 
+    /**
+     * Set where music starts again.
+     * @param point: where music starts again
+     */
     void setLoopPoint(const double& point);
+
+    /**
+     * Get where music starts again.
+     * @return where music starts again
+     */
     double getLoopPoint();
 private:
+    /**
+     * Whether music starts automatically.
+     */
     bool _auto;
 
+    /**
+     * Music resource.
+     */
     resources::MusicResource* _music;
 };
 
@@ -93,7 +143,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(MusicPlayer) {
             .addFunction("stop", &MusicPlayer::stop)
             .addFunction("setVolume", &MusicPlayer::setVolume)
             .addFunction("getVolume", &MusicPlayer::getVolume)
-            .addFunction("setLoop", &MusicPlayer::setLoop)
+            .addFunction("setLooping", &MusicPlayer::setLooping)
             .addFunction("isLooping", &MusicPlayer::isLooping)
             .addFunction("setLoopPoint", &MusicPlayer::setLoopPoint)
             .addFunction("getLoopPoint", &MusicPlayer::getLoopPoint)

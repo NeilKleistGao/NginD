@@ -75,7 +75,7 @@ float MusicPlayer::getVolume() const {
     return 0.0f;
 }
 
-void MusicPlayer::setLoop(const bool& loop) {
+void MusicPlayer::setLooping(const bool& loop) {
     if (_music != nullptr) {
         _music->setLooping(loop);
     }

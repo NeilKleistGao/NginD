@@ -25,13 +25,16 @@
 #define NGIND_LANG_CODE_H
 
 namespace ngind::i18n {
-
+/**
+ * Language code for internationalisation.
+ */
 enum class LanguageCode {
     EN_US = -1,
     ZH_CN = 0,
     JA_JP = 1,
     FR_FR = 2,
-    DE_DE = 3
+    DE_DE = 3,
+    // Add more language code here
 };
 
 } // namespace ngind::i18n

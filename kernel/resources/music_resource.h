@@ -29,51 +29,102 @@
 #include "soloud/soloud_wavstream.h"
 
 namespace ngind::resources {
-
+/**
+ * Music resource.
+ */
 class MusicResource : public Resource {
 public:
+    /**
+     * Path of music resources.
+     */
     const static std::string MUSIC_RESOURCE_PATH;
 
     MusicResource();
     ~MusicResource();
+
+    /**
+     * @see kernel/resources/resource.h
+     */
     void load(const std::string& name) override;
 
+    /**
+     * Set volume of sound effect.
+     * @param vol: new volume value
+     */
     inline void setVolume(const float& vol) {
         _stream->setVolume(vol);
     }
 
+    /**
+     * Get the volume value.
+     * @return float, the volume
+     */
     inline float getVolume() const {
         return _stream->mVolume;
     }
 
+    /**
+     * Get the length of music.
+     * @return double, the length in seconds
+     */
     inline double getLength() const {
         return _length;
     }
 
+    /**
+     * Get whether play music in loop.
+     * @return bool, whether play music in loop
+     */
     inline bool isLooping() const {
         return _is_looping;
     }
 
+    /**
+     * Set whether play music in loop.
+     * @param loop: whether play music in loop
+     */
     inline void setLooping(const bool& loop) {
         _is_looping = loop;
         _stream->setLooping(loop);
     }
 
+    /**
+     * Set where music starts again.
+     * @param point: where music starts again
+     */
     inline void setLoopPoint(const double& point) {
         _stream->setLoopPoint(point);
     }
 
+    /**
+     * Get where music starts again.
+     * @return where music starts again
+     */
     inline double getLoopPoint() const {
         return _stream->getLoopPoint();
     }
 
+    /**
+     * Get SoLoud wave stream object.
+     * @return SoLoud::WavStream*, SoLoud wave stream object
+     */
     inline SoLoud::WavStream* getStream() {
         return _stream;
     }
 private:
+    /**
+     * SoLoud wave stream object.
+     */
     SoLoud::WavStream* _stream;
 
+    /**
+     * Length of music.
+     */
     double _length;
+
+    /**
+     * Is this music playing in loop.
+     */
     bool _is_looping;
 };
 
