@@ -40,7 +40,7 @@ public:
      */
     const static std::string CONFIG_RESOURCE_PATH;
 
-    ConfigResource() = default;
+    ConfigResource() : Resource() {};
     ~ConfigResource() override = default;
 
     /**

@@ -24,19 +24,18 @@
 /// @file auto_collection_object.h
 
 #include "auto_collection_object.h"
-#include "memory_pool.h"
 
 namespace ngind::memory {
 
-AutoCollectionObject::AutoCollectionObject() : _sustain(1) {
+AutoCollectionObject::AutoCollectionObject() : _sustain(0) {
 }
 
 void AutoCollectionObject::removeReference() {
-    this->_sustain--;
-
-    if (this->_sustain == 1) {
-        MemoryPool::getInstance()->remove(this);
+    if (this->_sustain == 0) {
+        return;
     }
+
+    this->_sustain--;
 }
 
 } // namespace ngind::memory

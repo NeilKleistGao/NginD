@@ -28,7 +28,7 @@
 namespace ngind::resources {
 const std::string MusicResource::MUSIC_RESOURCE_PATH = "resources/music";
 
-MusicResource::MusicResource() : _length(0.0), _is_looping(false) {
+MusicResource::MusicResource() : Resource(), _length(0.0), _is_looping(false) {
     _stream = new SoLoud::WavStream{};
 }
 

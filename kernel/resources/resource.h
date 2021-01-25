@@ -37,7 +37,7 @@ namespace ngind::resources {
  */
 class Resource : public memory::AutoCollectionObject {
 public:
-    Resource() = default;
+    Resource() : memory::AutoCollectionObject() { };
     virtual ~Resource() = default;
     /**
      * Load resource.

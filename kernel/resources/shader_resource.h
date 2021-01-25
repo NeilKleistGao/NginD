@@ -39,7 +39,7 @@ public:
      */
     const static std::string SHADER_RESOURCE_PATH;
 
-    ShaderResource() = default;
+    ShaderResource() : Resource() {};
     ~ShaderResource() override;
 
     /**

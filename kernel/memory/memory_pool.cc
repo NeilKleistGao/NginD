@@ -45,70 +45,79 @@ void MemoryPool::destroyInstance() {
 }
 
 void MemoryPool::clear() {
-    if (!_dirty) {
-        return;
+    for (auto& [size, list] : _open_pool) {
+        for (auto* item : list) {
+            ::operator delete(item);
+        }
+
+        list.clear();
     }
 
-    for (auto& [size, vec] : _pool) {
-        bool flag;
-        do {
-            flag = false;
-            for (auto it = vec.begin(); it != vec.end(); it++) {
-                int sustain = (*it)->getSustain();
-                if (sustain == 0) {
-                    ::operator delete(*it);
-                    vec.erase(it);
-                    flag = true;
-                    break;
+    for (auto& [size, list] : _closed_pool) {
+        auto prev = list.end();
+        for (auto it = list.begin(); it != list.end(); it++) {
+            auto temp = *it;
+            if (temp->getSustain() == 0) {
+                temp->~AutoCollectionObject();
+                _open_pool[size].push_back(temp);
+                list.erase(it);
+
+                if (prev == list.end()) {
+                    it = list.begin();
                 }
-                else if (sustain == 1) {
-                    (*it)->removeReference();
+                else {
+                    it = prev;
                 }
             }
-        }
-        while (flag);
-    }
 
-    _dirty = false;
+            prev = it;
+        }
+    }
 }
 
-MemoryPool::MemoryPool() : _dirty(false) {
-    this->_pool.clear();
+MemoryPool::MemoryPool() {
 }
 
 MemoryPool::~MemoryPool() {
-    for (auto& [size, vec] : _pool) {
-        for (auto& p : vec) {
-            while (p->getSustain() > 1) {
-                p->removeReference();
-            }
-            ::operator delete(p);
+    for (auto& [size, list] : _open_pool) {
+        for (auto* item : list) {
+            ::operator delete(item);
         }
 
-        vec.clear();
+        list.clear();
     }
 
-    _pool.clear();
+    for (auto& [size, list] : _closed_pool) {
+        for (auto* item : list) {
+            delete item;
+        }
+
+        list.clear();
+    }
+
+    _open_pool.clear();
+    _closed_pool.clear();
 }
 
 AutoCollectionObject* MemoryPool::allocate(const size_t& size) {
-    if (_pool.find(size) == _pool.end()) {
-        _pool[size] = std::vector<AutoCollectionObject*>{};
+    if (_closed_pool.find(size) == _closed_pool.end()) {
+        _closed_pool[size] = std::list<AutoCollectionObject*>{};
+        _open_pool[size] = std::list<AutoCollectionObject*>{};
     }
 
-    _dirty = true;
-
-    for (auto& p : _pool[size]) {
-        if (p->getSustain() == 0) {
-            std::memset(p, 0, size);
-            return p;
-        }
+    if (_open_pool[size].empty()) {
+        auto p = reinterpret_cast<AutoCollectionObject*>(::operator new(size));
+        std::memset(p, 0, size);
+        _closed_pool[size].push_back(p);
+        return p;
     }
-
-    auto p = reinterpret_cast<AutoCollectionObject*>(::operator new(size));
-    std::memset(p, 0, size);
-    _pool[size].push_back(p);
-    return p;
+    else {
+        auto p = _open_pool[size].front();
+        _open_pool[size].pop_front();
+        std::memset(p, 0, size);
+        _closed_pool[size].push_back(p);
+        return p;
+    }
 }
 
 } // namespace ngind

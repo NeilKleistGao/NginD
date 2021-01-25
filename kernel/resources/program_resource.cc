@@ -24,7 +24,7 @@
 #include "program_resource.h"
 
 namespace ngind::resources {
-ProgramResource::ProgramResource() : _program(nullptr) {
+ProgramResource::ProgramResource() : Resource(), _program(nullptr) {
 }
 
 ProgramResource::~ProgramResource() {

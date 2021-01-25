@@ -26,7 +26,7 @@
 namespace ngind::resources {
 const std::string EffectResource::EFFECT_RESOURCE_PATH = "resources/effect";
 
-EffectResource::EffectResource() : _effect(nullptr) {
+EffectResource::EffectResource() : Resource(), _effect(nullptr) {
     _effect = new SoLoud::Sfxr();
 }
 

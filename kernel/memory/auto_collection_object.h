@@ -38,7 +38,9 @@ class AutoCollectionObject {
 public:
     AutoCollectionObject();
 
-    virtual ~AutoCollectionObject() = default;
+    virtual ~AutoCollectionObject() {
+        _sustain = 0;
+    }
 
     /**
      * Increase the number of reference to this.
@@ -63,8 +65,8 @@ public:
      * Get the number of reference.
      * @return int, the number of reference
      */
-    int getSustain() const {
-        return _sustain;
+    inline int getSustain() const {
+        return this->_sustain;
     }
 
 private:

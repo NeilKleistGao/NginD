@@ -39,7 +39,7 @@ class TextureResource : public Resource {
 public:
     const static std::string IMAGE_RESOURCE_PATH;
 
-    TextureResource() = default;
+    TextureResource() : Resource() {};
     ~TextureResource() override = default;
 
     /**

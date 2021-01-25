@@ -46,12 +46,6 @@ Object::~Object() {
     this->_components.clear();
 }
 
-void Object::serialize(std::ostream& stream) const {
-}
-
-void Object::deserialize(std::istream& stream) {
-}
-
 void Object::addChild(const std::string& name, EntityObject* object) {
     this->_children.emplace(name, object);
     object->addReference();

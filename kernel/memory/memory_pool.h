@@ -28,7 +28,7 @@
 
 #include <set>
 #include <memory>
-#include <vector>
+#include <list>
 #include <map>
 
 #include "auto_collection_object.h"
@@ -55,15 +55,6 @@ public:
      * Clear the memory pool
      */
     void clear();
-
-    /**
-     * Remove an object from memory pool
-     * @param obj: the object to be removed
-     */
-    inline void remove(AutoCollectionObject* obj) {
-        obj->~AutoCollectionObject();
-        _dirty = true;
-    }
 
     /**
      * Create an instance of given type.
@@ -112,7 +103,7 @@ private:
     /**
      * A RB-Tree to manage objects
      */
-    std::map<size_t, std::vector<AutoCollectionObject*>> _pool;
+    std::map<size_t, std::list<AutoCollectionObject*>> _open_pool, _closed_pool;
 
     MemoryPool();
 

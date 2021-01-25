@@ -27,4 +27,3 @@
 bin/
 cmake-build-debug/
 .idea/
-doc/build/

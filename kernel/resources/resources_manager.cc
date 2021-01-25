@@ -50,7 +50,7 @@ void ResourcesManager::release(const std::string& path) {
 
     auto res = this->_resources[path];
     res->removeReference();
-    if (res->getSustain() == 1) {
+    if (res->getSustain() == 0) {
         this->_resources.erase(path);
     }
 }

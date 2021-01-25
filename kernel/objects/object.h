@@ -43,7 +43,7 @@ class EntityObject;
  * This class is base of all objects in the game world. It can be serialized, auto collected
  * and update itself in each frame.
  */
-class Object : public Serializable, public memory::AutoCollectionObject, public UpdatableObject {
+class Object : public memory::AutoCollectionObject, public UpdatableObject, public Serializable {
 public:
     Object();
 
@@ -52,12 +52,12 @@ public:
     /**
      * @see kernel/utils/serialization.h
      */
-    void serialize(std::ostream&) const override;
+    void serialize(std::ostream&) const override{};
 
     /**
      * @see kernel/utils/serialization.h
      */
-    void deserialize(std::istream&) override;
+    void deserialize(std::istream&) override{};
 
     /**
      * Add a child object

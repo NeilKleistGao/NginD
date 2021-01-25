@@ -28,7 +28,7 @@
 namespace ngind::resources {
 const std::string FontResource::FONT_RESOURCE_PATH = "resources/fonts";
 
-FontResource::FontResource() : _font(nullptr) {
+FontResource::FontResource() : Resource(), _font(nullptr) {
     _font = new rendering::TrueTypeFont();
 }
 
