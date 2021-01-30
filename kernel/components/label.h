@@ -169,7 +169,7 @@ protected:
     /**
      * @see components/render_component.h
      */
-    virtual void draw();
+    void draw() override;
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(Label) {

@@ -28,7 +28,7 @@
 
 namespace ngind::rendering {
 
-Quad::Quad(std::initializer_list<GLfloat> vs){
+Quad::Quad(std::initializer_list<GLfloat> vs) : AutoCollectionObject() {
     _size = vs.size();
 
     if (_size == 0) {

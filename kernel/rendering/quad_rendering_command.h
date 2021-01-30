@@ -39,7 +39,7 @@ public:
      * @param tid: texture id
      */
     QuadRenderingCommand(Quad* quad, const GLuint& tid);
-    ~QuadRenderingCommand() = default;
+    ~QuadRenderingCommand() override = default;
     QuadRenderingCommand(const QuadRenderingCommand&) = delete;
     QuadRenderingCommand& operator= (const QuadRenderingCommand&) = delete;
 

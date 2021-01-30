@@ -29,13 +29,16 @@
 #include "quad.h"
 #include "program.h"
 #include "rgba.h"
+#include "memory/auto_collection_object.h"
 
 namespace ngind::rendering {
 /**
  * Command for rendering.
  */
-class RenderingCommand {
+class RenderingCommand : public memory::AutoCollectionObject {
 public:
+    RenderingCommand() : AutoCollectionObject() {}
+
     /**
      * execute the command.
      */

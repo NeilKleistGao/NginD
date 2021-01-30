@@ -40,6 +40,14 @@ Sprite::Sprite()
 }
 
 Sprite::~Sprite() {
+    if (_command != nullptr) {
+        _quad->removeReference();
+        _quad = nullptr;
+
+        _command->removeReference();
+        _command = nullptr;
+    }
+
     if (_texture != nullptr) {
         resources::ResourcesManager::getInstance()->release(_texture);
         _texture = nullptr;
@@ -74,17 +82,31 @@ void Sprite::draw() {
                                         "can't get parent object");
     }
 
-    auto temp = static_cast<objects::EntityObject*>(_parent);
+    auto temp = dynamic_cast<objects::EntityObject*>(_parent);
 
     if (_command == nullptr || _dirty) {
+        if (_command != nullptr) {
+            _quad->removeReference();
+            _quad = nullptr;
+
+            _command->removeReference();
+            _command = nullptr;
+        }
+
         auto texture_size = _texture->getTextureSize();
-        _quad = new rendering::Quad({
-                texture_size.x, texture_size.y, 1.0f, 0.0f, // Top Right
-                texture_size.x, 0.0f, 1.0f, 1.0f, // Bottom Right
-                0.0f, 0.0f, 0.0f, 1.0f, // Bottom Left
-                0.0f, texture_size.y, 0.0f, 0.0f  // Top Left
-        });
-        _command = new rendering::QuadRenderingCommand(_quad, _texture->getTextureID());
+        _quad = memory::MemoryPool::getInstance()->create<rendering::Quad, std::initializer_list<GLfloat>>(
+                {
+                        texture_size.x, texture_size.y, 1.0f, 0.0f, // Top Right
+                        texture_size.x, 0.0f, 1.0f, 1.0f, // Bottom Right
+                        0.0f, 0.0f, 0.0f, 1.0f, // Bottom Left
+                        0.0f, texture_size.y, 0.0f, 0.0f  // Top Left
+                }
+                );
+        _quad->addReference();
+        _command = memory::MemoryPool::getInstance()
+                ->create<rendering::QuadRenderingCommand>(_quad, _texture->getTextureID());
+        _command->addReference();
+//        _command = new rendering::QuadRenderingCommand(_quad, _texture->getTextureID());
 
         _command->setModel(getModelMatrix());
         _command->setColor(_color);
@@ -114,7 +136,7 @@ Sprite* Sprite::create(const typename resources::ConfigResource::JsonObject& dat
 }
 
 glm::mat4 Sprite::getModelMatrix() {
-    auto temp = static_cast<objects::EntityObject*>(_parent);
+    auto temp = dynamic_cast<objects::EntityObject*>(_parent);
     auto pos = temp->getPosition();
     auto rotate = temp->getRotation();
     auto scale = temp->getScale();

@@ -35,8 +35,7 @@
 namespace ngind::components {
 
 Label::Label() : RendererComponent(),
-_text(""),_font(nullptr),
-_size(12), _line_space{3}, _alignment{ALIGNMENT_LEFT} {
+_font(nullptr), _size(12), _line_space{3}, _alignment{ALIGNMENT_LEFT} {
 
 }
 
@@ -45,6 +44,12 @@ Label::~Label() {
         resources::ResourcesManager::getInstance()->release(_font);
         _font = nullptr;
     }
+
+    for (auto& cmd : _commands) {
+        cmd->removeReference();
+    }
+
+    _commands.clear();
 }
 
 void Label::update(const float& delta) {
@@ -78,8 +83,7 @@ void Label::draw() {
         _dirty = false;
     }
 
-    for (int i = 0; i < _commands.size(); i++) {
-        auto& cmd = _commands[i];
+    for (auto & cmd : _commands) {
         rendering::Renderer::getInstance()->addRendererCommand(cmd);
     }
 }
@@ -91,23 +95,19 @@ void Label::parseText() {
 
     if (!_commands.empty()) {
         for (auto& c : _commands) {
-            delete c;
-            c = nullptr;
+            c->removeReference();
         }
-
         _commands.clear();
 
         for (auto& q : _quads) {
-            delete q;
-            q = nullptr;
+            q->removeReference();
         }
-
         _quads.clear();
     }
 
     this->replaceEscape();
 
-    auto temp = static_cast<objects::EntityObject*>(_parent);
+    auto temp = dynamic_cast<objects::EntityObject*>(_parent);
     auto pos = temp->getGlobalPosition();
 
     float scale = static_cast<float>(_size) / rendering::TrueTypeFont::DEFAULT_FONT_SIZE;
@@ -157,8 +157,14 @@ void Label::parseText() {
         }
 
         if (_quads.empty() || (!_colors.empty() && (i == left || i == right)) || _text[i] == '\n') {
-            _quads.push_back(new rendering::Quad(24));
-            _commands.push_back(new rendering::BatchQuadRenderingCommand{_quads.back(), 24});
+            auto quad = memory::MemoryPool::getInstance()->create<rendering::Quad>(24);
+            quad->addReference();
+            _quads.push_back(quad);
+
+            auto command = memory::MemoryPool::getInstance()
+                    ->create<rendering::BatchQuadRenderingCommand>(_quads.back(), 24);
+            command->addReference();
+            _commands.push_back(command);
             _commands.back()->setProgram(_program->getProgram());
             _commands.back()->setZ(temp->getZOrder());
             _commands.back()->setModel(model);

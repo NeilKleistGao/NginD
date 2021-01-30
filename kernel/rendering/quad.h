@@ -33,6 +33,7 @@
 
 #include "rendering/rgba.h"
 #include "glm/glm.hpp"
+#include "memory/memory_pool.h"
 
 namespace ngind::rendering {
 
@@ -41,7 +42,7 @@ class Renderer;
 /**
  * The quad data to be rendered.
  */
-class Quad {
+class Quad : public memory::AutoCollectionObject {
 public:
     /**
      * @param vs: the data of vertices

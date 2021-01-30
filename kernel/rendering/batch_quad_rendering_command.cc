@@ -26,7 +26,7 @@
 namespace ngind::rendering {
 
 BatchQuadRenderingCommand::BatchQuadRenderingCommand(Quad* quad, const size_t& size) :
-_quad(quad), _size(size) {
+RenderingCommand(), _quad(quad), _size(size) {
 }
 
 BatchQuadRenderingCommand::~BatchQuadRenderingCommand() {
@@ -37,6 +37,8 @@ BatchQuadRenderingCommand::~BatchQuadRenderingCommand() {
 
     _vertex.clear();
     _textures.clear();
+
+    _quad->removeReference();
 }
 
 void BatchQuadRenderingCommand::call() {

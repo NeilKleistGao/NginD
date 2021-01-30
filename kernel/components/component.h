@@ -48,7 +48,7 @@ using Object = objects::Object;
  */
 class Component :  public memory::AutoCollectionObject, public objects::UpdatableObject {
 public:
-    Component() : _parent(nullptr), _dirty(false) {};
+    Component() : AutoCollectionObject(), _parent(nullptr), _dirty(false) {};
     virtual ~Component() = default;
 
     Component(const Component&) = delete;
