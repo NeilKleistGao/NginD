@@ -23,19 +23,19 @@
 
 /// @file perspective.cc
 
-#include "perspective.h"
+#include "camera.h"
 
 #include <iostream>
 
 namespace ngind::rendering {
-Perspective* Perspective::_instance = nullptr;
+Camera* Camera::_instance = nullptr;
 
-Perspective::Perspective() : _width(0), _height(0) {
+Camera::Camera() : _width(0), _height(0) {
 }
 
-Perspective* Perspective::getInstance() {
+Camera* Camera::getInstance() {
     if (_instance == nullptr) {
-        _instance = new(std::nothrow) Perspective();
+        _instance = new(std::nothrow) Camera();
 
         if (_instance == nullptr) {
             // TODO: throw
@@ -45,14 +45,14 @@ Perspective* Perspective::getInstance() {
     return _instance;
 }
 
-void Perspective::destroyInstance() {
+void Camera::destroyInstance() {
     if (_instance != nullptr) {
         delete _instance;
         _instance = nullptr;
     }
 }
 
-void Perspective::init(const glm::vec2& center, const size_t& width, const size_t& height) {
+void Camera::init(const glm::vec2& center, const size_t& width, const size_t& height) {
     glViewport(center.x - width / 2, center.y - height / 2,
                width, height);
     _projection = glm::ortho(0.0f, static_cast<GLfloat>(width), 0.0f, static_cast<GLfloat>(height), -1.0f, 1.0f);

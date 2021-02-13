@@ -1,5 +1,10 @@
 {
+  "world-name": "audio",
   "background-color": "#000000FF",
+  "camera": {
+    "x": 512,
+    "y": 384
+  },
   "children": [
     {
       "name": "title",

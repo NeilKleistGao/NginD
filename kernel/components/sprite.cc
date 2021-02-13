@@ -26,7 +26,7 @@
 #include <vector>
 
 #include "rendering/renderer.h"
-#include "rendering/perspective.h"
+#include "rendering/camera.h"
 #include "resources/resources_manager.h"
 #include "exceptions/game_exception.h"
 #include "memory/memory_pool.h"

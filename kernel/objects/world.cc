@@ -29,6 +29,7 @@
 #include "entity_object.h"
 #include "components/component_factory.h"
 #include "memory/memory_pool.h"
+#include "rendering/camera.h"
 
 namespace ngind::objects {
 
@@ -37,6 +38,11 @@ World::World(std::string name) : Object(), _name(std::move(name)), _config(nullp
     _background_color = rendering::RGBA(_config->getDocument()["background-color"].GetString());
 
     loadObjects();
+
+    glm::vec2 center;
+    auto camera = _config->getDocument()["camera"].GetObject();
+    center.x = camera["x"].GetInt(); center.y = camera["y"].GetInt();
+    rendering::Camera::getInstance()->moveTo(center);
 }
 
 void World::update(const float& delta) {

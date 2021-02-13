@@ -1,6 +1,6 @@
 set(RENDER_HEADER
         kernel/rendering/font_factory.h
-        kernel/rendering/perspective.h
+        kernel/rendering/camera.h
         kernel/rendering/program.h
         kernel/rendering/quad.h
         kernel/rendering/renderer.h
@@ -17,7 +17,7 @@ set(RENDER_HEADER
 
 set(RENDER_SRC
         kernel/rendering/font_factory.cc
-        kernel/rendering/perspective.cc
+        kernel/rendering/camera.cc
         kernel/rendering/program.cc
         kernel/rendering/quad.cc
         kernel/rendering/renderer.cc

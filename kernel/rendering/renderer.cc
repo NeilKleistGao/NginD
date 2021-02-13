@@ -26,7 +26,7 @@
 #include "GL/glew.h"
 
 #include "renderer.h"
-#include "perspective.h"
+#include "camera.h"
 
 namespace ngind::rendering {
 Renderer* Renderer::_instance = nullptr;
@@ -90,7 +90,7 @@ void Renderer::createWindow(const int& width,
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    rendering::Perspective::getInstance()->init({width / 2.0f, height / 2.0f}, width, height);
+    Camera::getInstance()->init({width / 2.0f, height / 2.0f}, width, height);
 }
 
 void Renderer::execute(RenderingCommand* cmd) {
@@ -98,7 +98,7 @@ void Renderer::execute(RenderingCommand* cmd) {
     auto color = cmd->getColor();
     cmd->getProgram()->setFloat4("my_color", color.r / 255.0f, color.g / 255.0f,
                             color.b / 255.0f, color.a / 255.0f);
-    cmd->getProgram()->setMatrix4("projection", Perspective::getInstance()->getProjection());
+    cmd->getProgram()->setMatrix4("projection", Camera::getInstance()->getProjection());
     cmd->getProgram()->setMatrix4("model", cmd->getModel());
 
     cmd->call();

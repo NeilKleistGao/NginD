@@ -23,8 +23,8 @@
 
 /// @file perspective.h
 
-#ifndef NGIND_PERSPECTIVE_H
-#define NGIND_PERSPECTIVE_H
+#ifndef NGIND_CAMERA_H
+#define NGIND_CAMERA_H
 
 #include "include/glm/glm.hpp"
 #include "resources/program_resource.h"
@@ -34,21 +34,21 @@ namespace ngind::rendering {
  * Player's perspective in game. It can project rendered objects to
  * screen.
  */
-class Perspective {
+class Camera {
 public:
     /**
      * Get the instance of unique perspective in game
-     * @return Perspective*, pointer of instance
+     * @return Camera*, pointer of instance
      */
-    static Perspective* getInstance();
+    static Camera* getInstance();
 
     /**
      * Destroy the instance of unique perspective in game
      */
     static void destroyInstance();
 
-    Perspective(const Perspective&) = delete;
-    Perspective& operator= (const Perspective&) = delete;
+    Camera(const Camera&) = delete;
+    Camera& operator= (const Camera&) = delete;
 
     /**
      * Initialize perspective with position and size
@@ -78,7 +78,7 @@ public:
      * Get perspective's size
      * @return Vector2D, the size
      */
-    inline glm::vec2 getPerspectiveSize() const {
+    inline glm::vec2 getCameraSize() const {
         return glm::vec2{_width, _height};
     }
     /**
@@ -92,13 +92,13 @@ public:
                           -1.0f, 1.0f);
     }
 private:
-    Perspective();
-    ~Perspective() = default;
+    Camera();
+    ~Camera() = default;
 
     /**
      * The instance
      */
-    static Perspective* _instance;
+    static Camera* _instance;
 
     /**
      * The size
@@ -113,4 +113,4 @@ private:
 
 } // namespace ngind::rendering
 
-#endif //NGIND_PERSPECTIVE_H
+#endif //NGIND_CAMERA_H

@@ -29,7 +29,7 @@
 #include "rendering_queue.h"
 #include "window.h"
 #include "rgba.h"
-#include "perspective.h"
+#include "camera.h"
 
 namespace ngind::rendering {
 

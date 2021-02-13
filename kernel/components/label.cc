@@ -24,7 +24,6 @@
 #include "label.h"
 
 #include <regex>
-#include <cctype>
 
 #include "resources/resources_manager.h"
 #include "exceptions/game_exception.h"
