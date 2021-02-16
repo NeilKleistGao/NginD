@@ -30,6 +30,7 @@
 #include <vector>
 
 #include "lang_code.h"
+#include "kernel/script/lua_registration.h"
 
 namespace ngind::i18n {
 /**
@@ -55,17 +56,17 @@ public:
 
     /**
      * Load language package from file.
-     * @param code: language code
+     * @param icode: language code
      * @param filename: filename of package
      */
-    void loadLanguagePack(const LanguageCode& code, const std::string& filename);
+    void loadLanguagePack(const int& icode, const std::string& filename);
 
     /**
      * Use another language package.
      * @param code: language code
      */
-    inline void use(const LanguageCode& code) {
-        _lang = code;
+    inline void use(const int& code) {
+        _lang = static_cast<LanguageCode>(code);
     }
 
     /**
@@ -73,14 +74,14 @@ public:
      * @param name: name of text item
      * @return std::string, the I18N text
      */
-    std::string get(const std::string& name);
+    std::string getByName(const std::string& name);
 
     /**
      * Get text by index.
      * @param index: index of text item
      * @return std::string, the I18N text
      */
-    std::string get(const size_t & index);
+    std::string getByIndex(const size_t & index);
 private:
     I18N() : _lang(LanguageCode::EN_US) {};
     ~I18N() = default;
@@ -112,6 +113,19 @@ private:
      */
     static std::unordered_map<LanguageCode, std::string> _mapping;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(I18N) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .beginClass<I18N>("I18N")
+                .addStaticFunction("getInstance", &I18N::getInstance)
+                .addFunction("loadLanguagePack", &I18N::loadLanguagePack)
+                .addFunction("use", &I18N::use)
+                .addFunction("getByName", &I18N::getByName)
+                .addFunction("getByIndex", &I18N::getByIndex)
+            .endClass()
+        .endNamespace();
+}
 
 } // namespace ngind::i18n
 

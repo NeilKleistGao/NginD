@@ -1,0 +1,72 @@
+{
+  "world-name": "i18n",
+  "background-color": "#000000FF",
+  "camera": {
+    "x": 512,
+    "y": 384
+  },
+  "children": [
+    {
+      "name": "title",
+      "position": {
+        "x": 512,
+        "y": 700
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 36,
+          "text": "I18N",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "position": {
+        "x": 512,
+        "y": 600
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "msyh.ttf",
+          "size": 24,
+          "text": "",
+          "color": "#000000FF",
+          "alignment": 2
+        },
+        {
+          "type": "StateMachine",
+          "name": "I18NLoader",
+          "driver-script": "i18n_loader.lua",
+          "classname": "I18NLoader"
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "StateMachine",
+      "name": "WorldSwitch",
+      "driver-script": "world_switch.lua",
+      "classname": "WorldSwitch"
+    }
+  ]
+}

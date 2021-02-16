@@ -51,7 +51,8 @@ void I18N::destroyInstance() {
     }
 }
 
-void I18N::loadLanguagePack(const LanguageCode& code, const std::string& filename) {
+void I18N::loadLanguagePack(const int& icode, const std::string& filename) {
+    auto code = static_cast<LanguageCode>(icode);
     if (_data.find(code) != _data.end()) {
         return;
     }
@@ -99,7 +100,7 @@ void I18N::loadLanguagePack(const LanguageCode& code, const std::string& filenam
     }
 }
 
-std::string I18N::get(const std::string& name) {
+std::string I18N::getByName(const std::string& name) {
     if (_data.find(_lang) == _data.end()) {
         // TODO:
     }
@@ -112,7 +113,7 @@ std::string I18N::get(const std::string& name) {
     return "";
 }
 
-std::string I18N::get(const size_t & index) {
+std::string I18N::getByIndex(const size_t & index) {
     if (_default.find(_lang) == _default.end()) {
         // TODO:
     }

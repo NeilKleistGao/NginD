@@ -21,3 +21,8 @@
 - ]]
 
 --- @file label.lua
+
+Label = {}
+Label.getComponent = function(object)
+    return engine.Label.getComponent(object)
+end

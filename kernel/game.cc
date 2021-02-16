@@ -72,12 +72,13 @@ void Game::start() {
             _global_settings->getDocument()["window-full-screen"].GetBool());
 
     script::LuaState::getInstance()->preload("kernel");
+    script::LuaState::getInstance()->preload("extern"); // TODO:
 
     this->loadWorld(_global_settings->getDocument()["welcome-world"].GetString());
 
     auto logger = log::VisualLogger::getInstance();
     if (_global_settings->getDocument()["enable-visual-debug"].GetBool()) {
-        logger->enable();
+//        logger->enable();
     }
 
     const float MIN_DURATION = 1.0f / _global_settings->getDocument()["max-frame-rate"].GetFloat();

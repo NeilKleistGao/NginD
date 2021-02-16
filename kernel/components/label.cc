@@ -24,6 +24,7 @@
 #include "label.h"
 
 #include <regex>
+#include <codecvt>
 
 #include "resources/resources_manager.h"
 #include "exceptions/game_exception.h"
@@ -118,6 +119,22 @@ void Label::parseText() {
     float max_width = 0, max_height = 0, current_width = 0;
     std::vector<float> widths;
 
+    std::wstring w_text = L"";
+    bool utf8 = false;
+    for (const auto& c : _text) {
+        if ((c & 0x80) != 0) {
+            utf8 = true;
+            std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+            w_text = conv.from_bytes(_text);
+            break;
+        }
+    }
+
+    if (utf8) {
+        this->parseUTF8Text(w_text);
+        return;
+    }
+
     for (int i = 0; i < _text.length(); i++) {
         auto c = _text[i];
         if (c == '\n') {
@@ -127,19 +144,8 @@ void Label::parseText() {
             continue;
         }
 
-        if ((c & 0x80) == 0) {
-            auto ch = _font->getCharacter(c);
-            current_width += (ch.advance.x >> 6) * scale;
-        }
-        else if (i < _text.length() - 1) {
-            wchar_t wc = (c << 8) | (_text[i + 1]);
-            auto ch = _font->getCharacter(wc);
-            current_width += (ch.advance.x >> 6) * scale;
-            i++;
-        }
-        else {
-            // TODO:
-        }
+        auto ch = _font->getCharacter(c);
+        current_width += (ch.advance.x >> 6) * scale;
     }
 
     max_width = std::max(max_width, current_width);
@@ -187,15 +193,7 @@ void Label::parseText() {
         }
 
         auto& cmd = _commands.back();
-        rendering::Character ch;
-        if ((_text[i] & 0x80) == 0) {
-            ch = _font->getCharacter(_text[i]);
-        }
-        else {
-            wchar_t wc = (_text[i] << 8) | _text[i + 1];
-            ch = _font->getCharacter(wc);
-            i++;
-        }
+        rendering::Character ch = _font->getCharacter(_text[i]);
 
         auto x = current_width + ch.bearing.x * scale;
         auto y = -max_height - (ch.size.y - ch.bearing.y) * scale;
@@ -260,6 +258,95 @@ glm::mat4 Label::getModelMatrix(const float& max_width, const float& width, cons
 
 Label* Label::getComponent(Object* parent) {
     return parent->getComponent<Label>("Label");
+}
+
+void Label::parseUTF8Text(const std::wstring& text) {
+    auto temp = dynamic_cast<objects::EntityObject*>(_parent);
+    auto pos = temp->getGlobalPosition();
+
+    float scale = static_cast<float>(_size) / rendering::TrueTypeFont::DEFAULT_FONT_SIZE;
+    auto cl_it = _colors.begin();
+    auto color = (cl_it == _colors.end()) ? _color : std::get<0>(*cl_it);
+    auto left = (cl_it == _colors.end()) ? 0 : std::get<1>(*cl_it),
+            right = (cl_it == _colors.end()) ? 0 : std::get<2>(*cl_it);
+
+    float max_width = 0, max_height = 0, current_width = 0;
+    std::vector<float> widths;
+
+    for (int i = 0; i < text.length(); i++) {
+        auto c = text[i];
+        if (c == '\n') {
+            max_width = std::max(max_width, current_width);
+            widths.push_back(current_width);
+            current_width = 0;
+            continue;
+        }
+
+        auto ch = _font->getCharacter(c);
+        current_width += (ch.advance.x >> 6) * scale;
+    }
+
+    max_width = std::max(max_width, current_width);
+    widths.push_back(current_width);
+
+    current_width = 0; max_height = 0;
+    glm::mat4 model = getModelMatrix(max_width, widths[0], max_height);
+    for (int i = 0, j = 0; i < text.length(); i++) {
+        if (text[i] == L'\n') {
+            j++;
+            current_width = 0;
+            max_height += static_cast<float>(_font->getMaxHeight()) * scale * 2 + _line_space;
+            model = getModelMatrix(max_width, widths[j], max_height);
+        }
+
+        if (_quads.empty() || (!_colors.empty() && (i == left || i == right)) || text[i] == L'\n') {
+            auto quad = memory::MemoryPool::getInstance()->create<rendering::Quad>(24);
+            quad->addReference();
+            _quads.push_back(quad);
+
+            auto command = memory::MemoryPool::getInstance()
+                    ->create<rendering::BatchQuadRenderingCommand>(_quads.back(), 24);
+            command->addReference();
+            _commands.push_back(command);
+            _commands.back()->setProgram(_program->getProgram());
+            _commands.back()->setZ(temp->getZOrder());
+            _commands.back()->setModel(model);
+
+            if (!_colors.empty() && i >= left && i < right) {
+                if (i == right && cl_it + 1 != _colors.end()) {
+                    cl_it++;
+                    color = std::get<0>(*cl_it);
+                    left = std::get<1>(*cl_it), right = std::get<2>(*cl_it);
+                }
+
+                _commands.back()->setColor(color);
+            }
+            else {
+                _commands.back()->setColor(_color);
+            }
+        }
+
+        if (text[i] == L'\n') {
+            continue;
+        }
+
+        auto& cmd = _commands.back();
+        rendering::Character ch = _font->getCharacter(_text[i]);
+
+        auto x = current_width + ch.bearing.x * scale;
+        auto y = -max_height - (ch.size.y - ch.bearing.y) * scale;
+        auto width = ch.size.x * scale;
+        auto height = ch.size.y * scale;
+
+        cmd->push({x, y + height, 0.0f, 0.0f,
+                   x, y, 0.0f, 1.0f,
+                   x + width, y, 1.0f, 1.0f,
+
+                   x, y + height, 0.0f, 0.0f,
+                   x + width, y, 1.0f, 1.0f,
+                   x + width, y + height, 1.0f, 0.0f}, ch.texture);
+        current_width += (ch.advance.x >> 6) * scale;
+    }
 }
 
 } // namespace ngind::components

@@ -151,6 +151,7 @@ private:
      * Parse the text to determine rendering commands
      */
     void parseText();
+    void parseUTF8Text(const std::wstring& text);
 
     /**
      * Replace all <color></color>
