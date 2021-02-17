@@ -47,9 +47,9 @@
           "type": "Label",
           "name": "Label",
           "font": "msyh.ttf",
-          "size": 24,
-          "text": "",
-          "color": "#000000FF",
+          "size": 36,
+          "text": "...",
+          "color": "#FFFFFFFF",
           "alignment": 2
         },
         {

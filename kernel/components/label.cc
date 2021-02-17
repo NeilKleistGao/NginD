@@ -107,18 +107,6 @@ void Label::parseText() {
 
     this->replaceEscape();
 
-    auto temp = dynamic_cast<objects::EntityObject*>(_parent);
-    auto pos = temp->getGlobalPosition();
-
-    float scale = static_cast<float>(_size) / rendering::TrueTypeFont::DEFAULT_FONT_SIZE;
-    auto cl_it = _colors.begin();
-    auto color = (cl_it == _colors.end()) ? _color : std::get<0>(*cl_it);
-    auto left = (cl_it == _colors.end()) ? 0 : std::get<1>(*cl_it),
-            right = (cl_it == _colors.end()) ? 0 : std::get<2>(*cl_it);
-
-    float max_width = 0, max_height = 0, current_width = 0;
-    std::vector<float> widths;
-
     std::wstring w_text = L"";
     bool utf8 = false;
     for (const auto& c : _text) {
@@ -134,6 +122,18 @@ void Label::parseText() {
         this->parseUTF8Text(w_text);
         return;
     }
+
+    auto temp = dynamic_cast<objects::EntityObject*>(_parent);
+    auto pos = temp->getGlobalPosition();
+
+    float scale = static_cast<float>(_size) / rendering::TrueTypeFont::DEFAULT_FONT_SIZE;
+    auto cl_it = _colors.begin();
+    auto color = (cl_it == _colors.end()) ? _color : std::get<0>(*cl_it);
+    auto left = (cl_it == _colors.end()) ? 0 : std::get<1>(*cl_it),
+            right = (cl_it == _colors.end()) ? 0 : std::get<2>(*cl_it);
+
+    float max_width = 0, max_height = 0, current_width = 0;
+    std::vector<float> widths;
 
     for (int i = 0; i < _text.length(); i++) {
         auto c = _text[i];
@@ -331,7 +331,7 @@ void Label::parseUTF8Text(const std::wstring& text) {
         }
 
         auto& cmd = _commands.back();
-        rendering::Character ch = _font->getCharacter(_text[i]);
+        rendering::Character ch = _font->getCharacter(text[i]);
 
         auto x = current_width + ch.bearing.x * scale;
         auto y = -max_height - (ch.size.y - ch.bearing.y) * scale;

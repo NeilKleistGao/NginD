@@ -45,6 +45,7 @@ TrueTypeFont::~TrueTypeFont() {
 
 Character TrueTypeFont::generateCharacterData(const char& c) {
     if (_cache.find(c) == _cache.end()) {
+        FT_Select_Charmap(_font_face, FT_ENCODING_NONE);
         FT_Set_Pixel_Sizes(_font_face, 0, DEFAULT_FONT_SIZE);
         if (FT_Load_Char(_font_face, c, FT_LOAD_RENDER)) {
             ///@todo
@@ -79,6 +80,7 @@ Character TrueTypeFont::generateCharacterData(const char& c) {
 
 Character TrueTypeFont::generateCharacterData(const wchar_t& c) {
     if (_w_cache.find(c) == _w_cache.end()) {
+        FT_Select_Charmap(_font_face, FT_ENCODING_UNICODE);
         FT_Set_Pixel_Sizes(_font_face, 0, DEFAULT_FONT_SIZE);
         if (FT_Load_Char(_font_face, c, FT_LOAD_RENDER)) {
             ///@todo
