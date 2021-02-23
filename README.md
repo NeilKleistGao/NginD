@@ -17,24 +17,24 @@ A game engine for 2D pixel game powered by C++ (自家用).
 
 ## TODO List
 ### 0.4
-+ [ ] Full Render Interfaces
++ [ ] Animation System
 
 ### 0.5
 + [ ] UI System
 
 ### 0.6
-+ [ ] Animation System
++ [ ] Tiled Map Support
 
 ### 0.7
++ [ ] Full Render Interfaces
 + [ ] Windows Version
-+ [ ] Tiled Map Support
 
 ### 0.8
 + [ ] Encrypt System
 + [ ] Package and Compress
 
 ### 1.0
-+ [ ] Visual Editor
++ [ ] Visual Editor(?)
 
 ## Dependent Libraries
 ### Engine Dependent Libraries
@@ -82,3 +82,5 @@ The engine will support for Windows and MacOS later.
 + magwer
 + Chin
 + sonikk
++ AlohaWorld
++ mxx
