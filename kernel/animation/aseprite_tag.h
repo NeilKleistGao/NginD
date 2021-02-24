@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,47 +19,51 @@
  * SOFTWARE.
  */
 
-/// @file rgba.h
+/// @file aseprite_tag.h
 
-#ifndef NGIND_RGBA_H
-#define NGIND_RGBA_H
+#ifndef NGIND_ASEPRITE_TAG_H
+#define NGIND_ASEPRITE_TAG_H
 
-#include "utils/converter.h"
-#include "script/lua_registration.h"
+#include <string>
 
-namespace ngind::rendering {
+#include "resources/config_resource.h"
 
-/**
- * RGBA color data.
- */
-struct RGBA {
-    RGBA() = default;
-    explicit RGBA(const std::string& code) {
-        auto color = Converter::convertHexString(code.substr(1));
-        r = (color & 0xFF000000) >> 24;
-        g = (color & 0x00FF0000) >> 16;
-        b = (color & 0x0000FF00) >> 8;
-        a = color & 0x000000FF;
+namespace ngind::animation {
+
+class AsepriteTag {
+public:
+    AsepriteTag(const typename resources::ConfigResource::JsonObject& data);
+    ~AsepriteTag() = default;
+
+    enum class AnimationDirection {
+        DIRECTION_FORWARD = 0,
+        DIRECTION_REVERSE,
+        DIRECTION_PING_PONG
+    };
+
+    inline std::string getName() const {
+        return _name;
     }
 
-    /**
-     * R,G,B,A components.
-     */
-    unsigned char r, g, b, a;
+    inline unsigned int begin() const {
+        return _from;
+    }
+
+    inline unsigned int end() const {
+        return _to;
+    }
+
+    inline AnimationDirection getDirection() const {
+        return _direction;
+    }
+
+private:
+    std::string _name;
+    unsigned int _from;
+    unsigned int _to;
+    AnimationDirection _direction;
 };
 
-NGIND_LUA_BRIDGE_REGISTRATION(RGBA) {
-    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
-        .beginNamespace("engine")
-            .beginClass<RGBA>("RGBA")
-                .addProperty("r", &RGBA::r)
-                .addProperty("g", &RGBA::g)
-                .addProperty("b", &RGBA::b)
-                .addProperty("a", &RGBA::a)
-            .endClass()
-        .endNamespace();
-}
+} // namespace ngind::animation
 
-} // namespace ngind::rendering
-
-#endif //NGIND_RGBA_H
+#endif //NGIND_ASEPRITE_TAG_H

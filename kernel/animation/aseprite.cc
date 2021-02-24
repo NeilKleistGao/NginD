@@ -23,6 +23,66 @@
 
 #include "aseprite.h"
 
+#include "resources/resources_manager.h"
+
 namespace ngind::animation {
+
+Aseprite::Aseprite(const std::string& name) : _current_index(), _current_tag(nullptr) {
+    _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>(name + ".json");
+
+    auto frames = _config->getDocument()["frames"].GetArray();
+    for (const auto& frame : frames) {
+        _frames.emplace_back(frame);
+    }
+
+    auto meta = _config->getDocument()["meta"].GetObject();
+    _image_path = meta["image"].GetString();
+
+    auto tags = meta["frameTags"].GetArray();
+    for (const auto& tag : tags) {
+        _tags.emplace_back(tag);
+    }
+}
+
+Aseprite::~Aseprite() {
+    _frames.clear();
+    _tags.clear();
+
+    resources::ResourcesManager::getInstance()->release(_config);
+    _config = nullptr;
+}
+
+AsepriteFrame Aseprite::play(const std::string& name) {
+    _current_tag = nullptr;
+    for (auto& tag : _tags) {
+        if (tag.getName() == name) {
+            _current_tag = &tag;
+            _current_index = tag.begin();
+            break;
+        }
+    }
+
+    return _frames[_current_index];
+}
+
+AsepriteFrame Aseprite::next() {
+    if (_current_tag == nullptr && _current_index < _frames.size()) {
+        _current_index++;
+    }
+    else if (_current_index < _current_tag->end()) {
+        _current_index++;
+    }
+
+    return _frames[_current_index];
+}
+
+bool Aseprite::isEnd() const {
+    if (_current_tag == nullptr) {
+        return _current_index + 1 == _frames.size();
+    }
+    else {
+        return _current_index + 1 == _current_tag->end();
+    }
+}
 
 } // namespace ngind::animation

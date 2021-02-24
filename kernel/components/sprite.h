@@ -29,7 +29,7 @@
 #include "rendering/quad_rendering_command.h"
 #include "renderer_component.h"
 #include "resources/texture_resource.h"
-#include "rendering/rgba.h"
+#include "rendering/color.h"
 #include "rendering/program.h"
 #include "rendering/quad.h"
 #include "objects/entity_object.h"

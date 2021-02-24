@@ -26,7 +26,7 @@
 
 #include "component.h"
 #include "resources/program_resource.h"
-#include "rendering/rgba.h"
+#include "rendering/color.h"
 #include "glm/glm.hpp"
 #include "script/lua_registration.h"
 
@@ -65,15 +65,15 @@ public:
      * Set the color mask of this sprite. The default color is pure white(#FFFFFFFF).
      * @param color: the color
      */
-    inline void setColor(const rendering::RGBA& color) {
+    inline void setColor(const rendering::Color& color) {
         _color = color;
     }
 
     /**
      * Get the color mask of this sprite. The default color is pure white(#FFFFFFFF).
-     * @return RGBA, the color
+     * @return Color, the color
      */
-    inline rendering::RGBA getColor() const {
+    inline rendering::Color getColor() const {
         return _color;
     }
 
@@ -93,7 +93,7 @@ protected:
      */
     virtual void draw() = 0;
 
-    rendering::RGBA _color;
+    rendering::Color _color;
     resources::ProgramResource* _program;
 };
 

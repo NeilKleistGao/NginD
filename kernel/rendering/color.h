@@ -8,8 +8,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,46 +21,47 @@
  * SOFTWARE.
  */
 
-/// @file aseprite.h
+/// @file rgba.h
 
-#ifndef NGIND_ASEPRITE_H
-#define NGIND_ASEPRITE_H
+#ifndef NGIND_COLOR_H
+#define NGIND_COLOR_H
 
-#include <vector>
-#include <string>
+#include "utils/converter.h"
+#include "script/lua_registration.h"
 
-#include "aseprite_frame.h"
-#include "aseprite_tag.h"
+namespace ngind::rendering {
 
-namespace ngind::animation {
-
-class Aseprite {
-public:
-    explicit Aseprite(const std::string& name);
-    ~Aseprite();
-    Aseprite(const Aseprite&) = delete;
-    Aseprite& operator= (const Aseprite&) = delete;
-
-    inline std::string getFilename() const {
-        return _image_path;
+/**
+ * RGBA color data.
+ */
+struct Color {
+    Color() = default;
+    explicit Color(const std::string& code) {
+        auto color = Converter::convertHexString(code.substr(1));
+        r = (color & 0xFF000000) >> 24;
+        g = (color & 0x00FF0000) >> 16;
+        b = (color & 0x0000FF00) >> 8;
+        a = color & 0x000000FF;
     }
 
-    AsepriteFrame play(const std::string& name);
-    AsepriteFrame next();
-
-    bool isEnd() const;
-
-private:
-    std::string _image_path;
-    std::vector<AsepriteFrame> _frames;
-    std::vector<AsepriteTag> _tags;
-
-    AsepriteTag* _current_tag;
-    unsigned int _current_index;
-
-    resources::ConfigResource* _config;
+    /**
+     * R,G,B,A components.
+     */
+    unsigned char r, g, b, a;
 };
 
-} // namespace ngind::animation
+NGIND_LUA_BRIDGE_REGISTRATION(RGBA) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .beginClass<Color>("Color")
+                .addProperty("r", &Color::r)
+                .addProperty("g", &Color::g)
+                .addProperty("b", &Color::b)
+                .addProperty("a", &Color::a)
+            .endClass()
+        .endNamespace();
+}
 
-#endif //NGIND_ASEPRITE_H
+} // namespace ngind::rendering
+
+#endif //NGIND_COLOR_H

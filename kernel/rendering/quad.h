@@ -31,7 +31,7 @@
 #include <initializer_list>
 #include <cstdio>
 
-#include "rendering/rgba.h"
+#include "rendering/color.h"
 #include "glm/glm.hpp"
 #include "memory/memory_pool.h"
 

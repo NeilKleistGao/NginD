@@ -6,7 +6,7 @@ set(RENDER_HEADER
         kernel/rendering/renderer.h
         kernel/rendering/rendering_queue.h
         kernel/rendering/rendering_command.h
-        kernel/rendering/rgba.h
+        kernel/rendering/color.h
         kernel/rendering/shader.h
         kernel/rendering/texture.h
         kernel/rendering/true_type_font.h

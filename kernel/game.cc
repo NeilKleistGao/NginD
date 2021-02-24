@@ -78,10 +78,11 @@ void Game::start() {
 
     auto logger = log::VisualLogger::getInstance();
     if (_global_settings->getDocument()["enable-visual-debug"].GetBool()) {
-//        logger->enable();
+        logger->enable();
     }
 
-    const float MIN_DURATION = 1.0f / _global_settings->getDocument()["max-frame-rate"].GetFloat();
+    const float MAX_FRAME_RATE = _global_settings->getDocument()["max-frame-rate"].GetFloat();
+    const float MIN_DURATION = 1.0f / MAX_FRAME_RATE;
     float duration = 1.0f / 60.0f;
     logger->registerVariable("frame rate", "0");
     _global_timer.start();
@@ -103,7 +104,11 @@ void Game::start() {
         float rest = MIN_DURATION - duration;
         if (rest >= 0.005) {
             _global_timer.sleep(rest);
-            logger->updateVariable("frame rate", 60.0);
+            logger->updateVariable("frame rate", MAX_FRAME_RATE);
+            duration = MIN_DURATION;
+        }
+        else if (std::abs(rest) <= 0.0075) {
+            logger->updateVariable("frame rate", MAX_FRAME_RATE);
             duration = MIN_DURATION;
         }
         else {

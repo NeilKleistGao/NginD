@@ -31,7 +31,7 @@
 #include "object.h"
 #include "components/component.h"
 #include "resources/config_resource.h"
-#include "rendering/rgba.h"
+#include "rendering/color.h"
 
 namespace ngind::objects {
 
@@ -56,9 +56,9 @@ public:
 
     /**
      * Get the background color of this world
-     * @return RGBA, the background color
+     * @return Color, the background color
      */
-    inline rendering::RGBA getBackgroundColor() const {
+    inline rendering::Color getBackgroundColor() const {
         return _background_color;
     }
 
@@ -66,7 +66,7 @@ public:
      * Set the background color of this world
      * @param color: the background color
      */
-    inline void setBackgroundColor(const rendering::RGBA& color) {
+    inline void setBackgroundColor(const rendering::Color& color) {
         _background_color = color;
     }
 
@@ -75,7 +75,7 @@ public:
      * @param code: the code of background color
      */
     inline void setBackgroundColor(const std::string& code) {
-        _background_color = rendering::RGBA{code};
+        _background_color = rendering::Color{code};
     }
 
     /**
@@ -96,7 +96,7 @@ private:
     /**
      * Background color of this world
      */
-    rendering::RGBA _background_color;
+    rendering::Color _background_color;
 
     /**
      * Load children objects using config file

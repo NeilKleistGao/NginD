@@ -69,7 +69,7 @@ void VisualLogger::enable() {
         _entity->setRotation(0);
 
         _label = memory::MemoryPool::getInstance()->create<components::Label>();
-        _label->_color = rendering::RGBA{"#FFFFFFAA"};
+        _label->_color = rendering::Color{"#FFFFFFAA"};
         _label->_text = "Visual Logger\n";
         _label->_font = resources::ResourcesManager::getInstance()->load<resources::FontResource>("manaspc.ttf");
         _label->_size = 18;

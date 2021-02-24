@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +6,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,46 +19,46 @@
  * SOFTWARE.
  */
 
-/// @file aseprite.h
+/// @file aseprite_frame.h
 
-#ifndef NGIND_ASEPRITE_H
-#define NGIND_ASEPRITE_H
+#ifndef NGIND_ASEPRITE_FRAME_H
+#define NGIND_ASEPRITE_FRAME_H
 
-#include <vector>
-#include <string>
+#include <chrono>
 
-#include "aseprite_frame.h"
-#include "aseprite_tag.h"
+#include "glm/glm.hpp"
+#include "resources/config_resource.h"
 
 namespace ngind::animation {
 
-class Aseprite {
+class AsepriteFrame {
 public:
-    explicit Aseprite(const std::string& name);
-    ~Aseprite();
-    Aseprite(const Aseprite&) = delete;
-    Aseprite& operator= (const Aseprite&) = delete;
+    AsepriteFrame(const typename resources::ConfigResource::JsonObject& data);
+    ~AsepriteFrame() = default;
 
-    inline std::string getFilename() const {
-        return _image_path;
+    inline glm::vec4 getRect() const {
+        return _rect;
     }
 
-    AsepriteFrame play(const std::string& name);
-    AsepriteFrame next();
+    inline glm::vec2 getPosition() const {
+        return _position;
+    }
 
-    bool isEnd() const;
+    inline glm::vec2 getSize() const {
+        return _original_size;
+    }
 
+    inline std::chrono::milliseconds getDuration() const {
+        return _duration;
+    }
 private:
-    std::string _image_path;
-    std::vector<AsepriteFrame> _frames;
-    std::vector<AsepriteTag> _tags;
-
-    AsepriteTag* _current_tag;
-    unsigned int _current_index;
-
-    resources::ConfigResource* _config;
+    bool _trimmed;
+    glm::vec4 _rect{};
+    glm::vec2 _position{};
+    glm::vec2 _original_size{};
+    std::chrono::milliseconds _duration{};
 };
 
 } // namespace ngind::animation
 
-#endif //NGIND_ASEPRITE_H
+#endif //NGIND_ASEPRITE_FRAME_H

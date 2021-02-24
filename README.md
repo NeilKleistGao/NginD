@@ -48,6 +48,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [Lua 5.4.2](https://www.lua.org/)
 + [Lua Bridge 2.6](https://github.com/vinniefalco/LuaBridge)
 + [SoLoud 20200207](http://sol.gfxile.net/soloud/index.html)
++ [Aseprite 1.2.25dev](http://www.aseprite.org/)
 
 
 ### Documentation Libraries

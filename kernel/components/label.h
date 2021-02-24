@@ -29,7 +29,7 @@
 #include <tuple>
 
 #include "renderer_component.h"
-#include "rendering/rgba.h"
+#include "rendering/color.h"
 #include "resources/font_resource.h"
 #include "rendering/quad.h"
 #include "rendering/batch_quad_rendering_command.h"
@@ -135,7 +135,7 @@ private:
     /**
      * Colors each segment uses
      */
-    std::vector<std::tuple<rendering::RGBA, unsigned int, unsigned int>> _colors;
+    std::vector<std::tuple<rendering::Color, unsigned int, unsigned int>> _colors;
 
     /**
      * Additional space between two lines

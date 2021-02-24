@@ -61,7 +61,7 @@ void Label::init(const typename resources::ConfigResource::JsonObject& data) {
     _font = resources::ResourcesManager::getInstance()->load<resources::FontResource>(data["font"].GetString());
     _program = resources::ResourcesManager::getInstance()->load<resources::ProgramResource>("text");
     _size = data["size"].GetInt();
-    _color = rendering::RGBA{data["color"].GetString()};
+    _color = rendering::Color{data["color"].GetString()};
     _text = data["text"].GetString();
     _alignment = static_cast<Alignment>(data["alignment"].GetInt());
 }
@@ -218,7 +218,7 @@ void Label::replaceEscape() {
     std::regex reg{R"((\\)*\<color=(#[0123456789ABCDEF]{8})\>(.*)(\\)*\</color\>)"};
     while (std::regex_search(_text, res, reg)) {
         auto text = res.str(3);
-        _colors.emplace_back(rendering::RGBA{res.str(2)}, res.position(), res.position() + text.length());
+        _colors.emplace_back(rendering::Color{res.str(2)}, res.position(), res.position() + text.length());
         _text = res.prefix().str() + text + res.suffix().str();
     }
 }

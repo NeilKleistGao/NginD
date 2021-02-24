@@ -28,7 +28,7 @@
 
 #include "rendering_queue.h"
 #include "window.h"
-#include "rgba.h"
+#include "color.h"
 #include "camera.h"
 
 namespace ngind::rendering {
@@ -74,7 +74,7 @@ public:
      * Clean the scene
      * @param color: background color of scene
      */
-    inline void clearScene(const RGBA& color) {
+    inline void clearScene(const Color& color) {
         glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
         glClear(GL_COLOR_BUFFER_BIT);
     }

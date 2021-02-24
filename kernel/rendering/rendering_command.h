@@ -28,7 +28,7 @@
 
 #include "quad.h"
 #include "program.h"
-#include "rgba.h"
+#include "color.h"
 #include "memory/auto_collection_object.h"
 
 namespace ngind::rendering {
@@ -64,15 +64,15 @@ public:
      * Set the color for rendering.
      * @param color: the color.
      */
-    inline void setColor(const rendering::RGBA& color) {
+    inline void setColor(const rendering::Color& color) {
         _color = color;
     }
 
     /**
      * Get the color for rendering.
-     * @return rendering::RGBA, the color for rendering
+     * @return rendering::Color, the color for rendering
      */
-    inline rendering::RGBA getColor() const {
+    inline rendering::Color getColor() const {
         return _color;
     }
 
@@ -116,7 +116,7 @@ private:
     /**
      * The color for rendering
      */
-    rendering::RGBA _color;
+    rendering::Color _color;
 
     /**
      * Model projection matrix
