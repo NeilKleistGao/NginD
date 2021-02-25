@@ -28,7 +28,8 @@ namespace ngind::animation {
 AsepriteFrame::AsepriteFrame(const typename resources::ConfigResource::JsonObject& data)
 : _trimmed(false), _rect(), _position(), _original_size(), _duration() {
     auto rect = data["frame"].GetObject();
-    _rect.x = rect["x"].GetInt(); _rect.y = rect["y"].GetInt(); _rect.z = rect["w"].GetInt(); _rect.w = rect["h"].GetInt();
+    _rect.x = rect["x"].GetInt(); _rect.y = rect["y"].GetInt();
+    _rect.z = _rect.x + rect["w"].GetInt(); _rect.w = _rect.y + rect["h"].GetInt();
 
     _trimmed = data["trimmed"].GetBool();
 

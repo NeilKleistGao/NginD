@@ -53,6 +53,7 @@
   "size": { "w": 192, "h": 128 },
   "scale": "1",
   "frameTags": [
+   { "name": "fall", "from": 0, "to": 4, "direction": "forward" }
   ]
  }
 }

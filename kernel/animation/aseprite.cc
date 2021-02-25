@@ -62,6 +62,10 @@ AsepriteFrame Aseprite::play(const std::string& name) {
         }
     }
 
+    if (_current_tag == nullptr) {
+        _current_index = 0;
+    }
+
     return _frames[_current_index];
 }
 
