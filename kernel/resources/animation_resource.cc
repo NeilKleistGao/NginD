@@ -25,4 +25,14 @@
 
 namespace ngind::resources {
 
+void AnimationResource::load(const std::string& name) {
+    if (_ase != nullptr) {
+        delete _ase;
+        _ase = nullptr;
+    }
+
+    this->_path = "animation" + name;
+    _ase = new animation::Aseprite(name);
+}
+
 } // namespace ngind::resources

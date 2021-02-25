@@ -29,9 +29,19 @@
 
 namespace ngind::resources {
 
-class AnimationResource {
+class AnimationResource : public Resource {
 public:
+    AnimationResource() : Resource() {
+    }
+    ~AnimationResource() override = default;
+
+    virtual void load(const std::string&);
+
+    inline animation::Aseprite* getAseprite() {
+        return _ase;
+    }
 private:
+    animation::Aseprite* _ase;
 };
 
 } // namespace ngind::resources

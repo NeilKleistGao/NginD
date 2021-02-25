@@ -107,6 +107,7 @@ public:
      */
     inline void setLeftBottomBound(const glm::vec2& lb) {
         _lb = lb;
+        _dirty = true;
     }
 
     /**
@@ -115,6 +116,7 @@ public:
      */
     inline void setRightTopBound(const glm::vec2& rt) {
         _rt = rt;
+        _dirty = true;
     }
 
     /**

@@ -1,0 +1,70 @@
+{
+  "world-name": "welcome",
+  "background-color": "#000000FF",
+  "camera": {
+    "x": 512,
+    "y": 384
+  },
+  "children": [
+    {
+      "name": "title",
+      "position": {
+        "x": 512,
+        "y": 700
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 36,
+          "text": "Simple Animation",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        }
+      ]
+    },
+    {
+      "name": "animation",
+      "position": {
+        "x": 512,
+        "y": 384
+      },
+      "scale": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": ""
+        },
+        {
+          "type": "Animation",
+          "name": "Animation",
+          "anim-name": "fall",
+          "loop": true,
+          "auto-play": true,
+          "start": "fall"
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "StateMachine",
+      "name": "WorldSwitch",
+      "driver-script": "world_switch.lua",
+      "classname": "WorldSwitch"
+    }
+  ]
+}

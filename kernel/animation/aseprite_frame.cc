@@ -36,7 +36,7 @@ AsepriteFrame::AsepriteFrame(const typename resources::ConfigResource::JsonObjec
     _position.x = pos["x"].GetInt(); _position.y = pos["y"].GetInt();
 
     auto size = data["sourceSize"].GetObject();
-    _original_size.x = size["x"].GetInt(); _original_size.y = size["y"].GetInt();
+    _original_size.x = size["w"].GetInt(); _original_size.y = size["h"].GetInt();
 
     _duration = std::chrono::milliseconds{data["duration"].GetInt64()};
 }

@@ -28,7 +28,7 @@
 namespace ngind::animation {
 
 Aseprite::Aseprite(const std::string& name) : _current_index(), _current_tag(nullptr) {
-    _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>(name + ".json");
+    _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("animations/" + name + ".json");
 
     auto frames = _config->getDocument()["frames"].GetArray();
     for (const auto& frame : frames) {

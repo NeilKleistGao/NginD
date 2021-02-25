@@ -60,7 +60,7 @@ void Sprite::update(const float& delta) {
 }
 
 void Sprite::setImage(const std::string& filename) {
-    if (_texture->getResourcePath() == filename) {
+    if (_texture != nullptr && _texture->getResourcePath() == filename) {
         return;
     }
 
@@ -68,11 +68,12 @@ void Sprite::setImage(const std::string& filename) {
         resources::ResourcesManager::getInstance()->release(_texture->getResourcePath());
     }
     _texture = resources::ResourcesManager::getInstance()->load<resources::TextureResource>(filename);
+    this->setBound({0, 0}, _texture->getTextureSize());
 }
 
 void Sprite::setImage(const std::string& filename, const glm::vec2& lb, const glm::vec2& rt) {
     this->setImage(filename);
-    setBound(lb, rt);
+    this->setBound(lb, rt);
 }
 
 void Sprite::draw() {
@@ -96,17 +97,16 @@ void Sprite::draw() {
         auto texture_size = _texture->getTextureSize();
         _quad = memory::MemoryPool::getInstance()->create<rendering::Quad, std::initializer_list<GLfloat>>(
                 {
-                        texture_size.x, texture_size.y, 1.0f, 0.0f, // Top Right
-                        texture_size.x, 0.0f, 1.0f, 1.0f, // Bottom Right
-                        0.0f, 0.0f, 0.0f, 1.0f, // Bottom Left
-                        0.0f, texture_size.y, 0.0f, 0.0f  // Top Left
+                        _rt.x - _lb.x, _rt.y - _lb.y, static_cast<float>(_rt.x) / texture_size.x, static_cast<float>(_lb.y) / texture_size.y, // Top Right
+                        _rt.x - _lb.x, 0.0f, static_cast<float>(_rt.x) / texture_size.x, static_cast<float>(_rt.y) / texture_size.y, // Bottom Right
+                        0.0f, 0.0f, static_cast<float>(_lb.x) / texture_size.x, static_cast<float>(_rt.y) / texture_size.y, // Bottom Left
+                        0.0f, _rt.y - _lb.y, static_cast<float>(_lb.x) / texture_size.x, static_cast<float>(_lb.y) / texture_size.y  // Top Left
                 }
                 );
         _quad->addReference();
         _command = memory::MemoryPool::getInstance()
                 ->create<rendering::QuadRenderingCommand>(_quad, _texture->getTextureID());
         _command->addReference();
-//        _command = new rendering::QuadRenderingCommand(_quad, _texture->getTextureID());
 
         _command->setModel(getModelMatrix());
         _command->setColor(_color);
@@ -122,7 +122,7 @@ void Sprite::draw() {
 void Sprite::init(const typename resources::ConfigResource::JsonObject& data) {
     std::string name = data["filename"].GetString();
     if (!name.empty()) {
-        _texture = resources::ResourcesManager::getInstance()->load<resources::TextureResource>(name);
+        this->setImage(name);
     }
     if (_program == nullptr) {
         _program = resources::ResourcesManager::getInstance()->load<resources::ProgramResource>("sprite"); // default sprite shader

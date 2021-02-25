@@ -33,6 +33,7 @@ namespace ngind::animation {
 
 class AsepriteFrame {
 public:
+    AsepriteFrame() = default;
     AsepriteFrame(const typename resources::ConfigResource::JsonObject& data);
     ~AsepriteFrame() = default;
 
