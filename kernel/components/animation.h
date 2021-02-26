@@ -55,6 +55,16 @@ public:
 
     void play(const std::string& name);
 
+    void stop();
+
+    inline void pause() {
+        _playing = false;
+    }
+
+    inline void resume() {
+        _playing = true;
+    }
+
 private:
     bool _auto_play;
     bool _loop;
@@ -71,7 +81,17 @@ private:
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(Animation) {
-        ComponentFactory::getInstance()->registerComponent<Animation>("Animation");
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<Animation, Component>("Animation")
+                .addFunction("play", &Animation::play)
+                .addFunction("stop", &Animation::stop)
+                .addFunction("pause", &Animation::pause)
+                .addFunction("resume", &Animation::resume)
+            .endClass()
+        .endNamespace();
+
+    ComponentFactory::getInstance()->registerComponent<Animation>("Animation");
 }
 
 } // namespace ngind::components

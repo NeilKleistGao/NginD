@@ -101,4 +101,11 @@ void Animation::play(const std::string& name) {
     _sprite->setImage(ase->getFilename(), {bound.x, bound.y}, {bound.z, bound.w});
 }
 
+void Animation::stop() {
+    _tag = "";
+    _frame = animation::AsepriteFrame{};
+    _playing = false;
+    _timer = 0.0f;
+}
+
 } // namespace ngind::components
