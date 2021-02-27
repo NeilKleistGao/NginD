@@ -62,7 +62,7 @@ public:
      * @param name: name of message
      * @param data: data attained
      */
-    void notify(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
+    void notify(const luabridge::LuaRef& sender, const std::string& name, luabridge::LuaRef data);
 
     /**
      * Notify all objects that subscribe
@@ -70,7 +70,7 @@ public:
      * @param name: name of message
      * @param data: data attained
      */
-    void notifyAll(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
+    void notifyAll(const luabridge::LuaRef& sender, const std::string& name, luabridge::LuaRef data);
 
     /**
      * Cancel a subscription.

@@ -97,6 +97,10 @@ public:
     inline lua_State* getState() {
         return _state;
     }
+
+    inline luabridge::LuaRef createNil() {
+        return luabridge::LuaRef(_state);
+    }
 private:
     /**
      * The instance of lua state

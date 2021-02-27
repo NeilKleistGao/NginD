@@ -60,8 +60,8 @@ void QuadTree::erase(const ClickableReceiver& value) {
     this->erase(_root, value, top, bottom, left, right);
 }
 
-ClickableReceiver* QuadTree::query(const glm::vec2 & point) {
-    return this->query(_root, point, nullptr);
+ClickableReceiver* QuadTree::query(const glm::vec2 & point, const input::MouseCode& code) {
+    return this->query(_root, point, code, nullptr);
 }
 
 void QuadTree::erase(QuadNode* node) {
@@ -223,12 +223,11 @@ void QuadTree::erase(QuadNode* node, const ClickableReceiver& value,
     }
 }
 
-ClickableReceiver* QuadTree::query(QuadNode* node, const glm::vec2& point, ClickableReceiver* last) {
+ClickableReceiver* QuadTree::query(QuadNode* node, const glm::vec2& point, const input::MouseCode& code, ClickableReceiver* last) {
     for (auto& v : node->value) {
-        if (check(v, point)) {
+        if (v.code == code && check(v, point)) {
             if (last == nullptr || last->z_order < v.z_order) {
                 last = &v;
-                break;
             }
         }
     }
@@ -237,16 +236,16 @@ ClickableReceiver* QuadTree::query(QuadNode* node, const glm::vec2& point, Click
             horizontal = (node->top + node->bottom) >> 1;
 
     if (point.x >= vertical && point.y >= horizontal && node->upper_right != nullptr) {
-        return this->query(node->upper_right, point, last);
+        return this->query(node->upper_right, point, code, last);
     }
     else if (point.x >= vertical && point.y < horizontal && node->lower_right != nullptr) {
-        return this->query(node->lower_right, point, last);
+        return this->query(node->lower_right, point, code, last);
     }
     else if (point.x < vertical && point.y >= horizontal && node->upper_left != nullptr) {
-        return this->query(node->upper_left, point, last);
+        return this->query(node->upper_left, point, code, last);
     }
     else if (point.x < vertical && point.y < horizontal && node->lower_left != nullptr) {
-        return this->query(node->lower_left, point, last);
+        return this->query(node->lower_left, point, code, last);
     }
 
     return last;

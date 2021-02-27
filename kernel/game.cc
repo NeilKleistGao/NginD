@@ -28,7 +28,7 @@
 #include "log/visual_logger.h"
 #include "script/lua_state.h"
 #include "memory/memory_pool.h"
-#include "audio/audio_manager.h"
+#include "ui/event_system.h"
 
 namespace ngind {
 Game* Game::_instance = nullptr;
@@ -94,6 +94,7 @@ void Game::start() {
 
         glfwPollEvents();
         render->clearScene(_current_world->getBackgroundColor());
+        ui::EventSystem::getInstance()->update();
         this->_current_world->update(duration);
         logger->draw();
         _loop_flag &= render->startRenderingLoopOnce();

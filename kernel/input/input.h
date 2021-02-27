@@ -133,6 +133,10 @@ public:
         _text_mod = is_enable;
     }
 
+    inline void setInterruption(const bool& interrupted) {
+        _interrupted = interrupted;
+    }
+
     friend class ngind::rendering::Window;
 private:
     /**
@@ -164,6 +168,8 @@ private:
      * Is manager should get text input
      */
     bool _text_mod;
+
+    bool _interrupted;
 
     /**
      * Set the glfw window's handler.

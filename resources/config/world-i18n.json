@@ -1,6 +1,10 @@
 {
   "world-name": "i18n",
   "background-color": "#000000FF",
+  "size": {
+    "width": 1024,
+    "height": 768
+  },
   "camera": {
     "x": 512,
     "y": 384

@@ -19,46 +19,38 @@
  * SOFTWARE.
  */
 
-/// @file edge.h
+/// @file event_system.h
 
-#ifndef NGIND_CLICKABLE_RECEIVER_H
-#define NGIND_CLICKABLE_RECEIVER_H
+#ifndef NGIND_EVENT_SYSTEM_H
+#define NGIND_EVENT_SYSTEM_H
 
-#include <vector>
-#include <string>
-
-#include "glm/glm.hpp"
-#include "input/mouse_input.h"
+#include "clickable_receiver.h"
+#include "quad_tree.h"
 
 namespace ngind::ui {
 
-struct ClickableReceiver {
-    std::vector<glm::vec2> vertex;
-    std::string event_name;
-    unsigned int z_order;
-    input::MouseCode code;
+class EventSystem {
+public:
+    static EventSystem* getInstance();
+    static void destroyInstance();
 
-    bool operator== (const ClickableReceiver& other) {
-        if (z_order != other.z_order) {
-            return false;
-        }
-        if (vertex.size() != other.vertex.size()) {
-            return false;
-        }
-        if (event_name != other.event_name) {
-            return false;
-        }
+    EventSystem(const EventSystem&) = delete;
+    EventSystem& operator= (const EventSystem&) = delete;
 
-        for (int i = 0; i < vertex.size(); i++) {
-            if (vertex[i] != other.vertex[i]) {
-                return false;
-            }
-        }
+    void registerEvent(const ClickableReceiver& receiver);
+    void unregisterEvent(const ClickableReceiver& receiver);
 
-        return true;
-    }
+    void update();
+
+    void init(const size_t& width, const size_t& height);
+private:
+    EventSystem();
+    ~EventSystem();
+
+    static EventSystem* _instance;
+    QuadTree* _tree;
 };
 
 } // namespace ngind::ui
 
-#endif //NGIND_CLICKABLE_RECEIVER_H
+#endif //NGIND_EVENT_SYSTEM_H
