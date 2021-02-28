@@ -84,9 +84,7 @@ void EventSystem::update() {
     auto instance = input::Input::getInstance();
     instance->setInterruption(false);
 
-    auto left = instance->getMouseReleased(0),
-         right = instance->getMouseReleased(1),
-         middle = instance->getMouseReleased(2);
+    auto left = instance->getMouseReleased(0);
 
     instance->setInterruption(true);
     if (!std::isnan(left.x) && !std::isnan(left.y)) {
@@ -94,20 +92,6 @@ void EventSystem::update() {
         if (p != nullptr) {
             script::Observer::getInstance()
                 ->notifyAll(script::LuaState::getInstance()->createNil(), p->event_name, script::LuaState::getInstance()->createNil());
-        }
-    }
-    else if (!std::isnan(right.x) && !std::isnan(right.y)) {
-        auto p = _tree->query(right, input::BUTTON_RIGHT);
-        if (p != nullptr) {
-            script::Observer::getInstance()
-                    ->notifyAll(script::LuaState::getInstance()->createNil(), p->event_name, script::LuaState::getInstance()->createNil());
-        }
-    }
-    else if (!std::isnan(middle.x) && !std::isnan(middle.y)) {
-        auto p = _tree->query(middle, input::BUTTON_MIDDLE);
-        if (p != nullptr) {
-            script::Observer::getInstance()
-                    ->notifyAll(script::LuaState::getInstance()->createNil(), p->event_name, script::LuaState::getInstance()->createNil());
         }
     }
     else {

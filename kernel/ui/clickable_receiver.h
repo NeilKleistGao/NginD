@@ -30,13 +30,17 @@
 #include "glm/glm.hpp"
 #include "input/mouse_input.h"
 
+namespace ngind::components {
+class Button;
+} // namespace ngind::components
+
 namespace ngind::ui {
 
 struct ClickableReceiver {
     std::vector<glm::vec2> vertex;
     std::string event_name;
     unsigned int z_order;
-    input::MouseCode code;
+    components::Button* button;
 
     bool operator== (const ClickableReceiver& other) {
         if (z_order != other.z_order) {

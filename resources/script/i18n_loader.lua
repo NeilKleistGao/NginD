@@ -28,7 +28,7 @@ function I18NLoader:ctor()
     self.showed = false
 end
 
-function I18NLoader:entry()
+function I18NLoader:enter()
     I18N.loadLanguagePack(LANGUAGE_CODE.ZH_CN, "greeting.tini")
     self.move("Idle")
 end

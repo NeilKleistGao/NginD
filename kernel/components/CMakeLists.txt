@@ -7,7 +7,8 @@ set(COMPONENTS_HEADER
         kernel/components/component_factory.h
         kernel/components/music_player.h
         kernel/components/effect_player.h
-        kernel/components/animation.h)
+        kernel/components/animation.h
+        kernel/components/button.h)
 set(COMPONENTS_SRC
         kernel/components/sprite.cc
         kernel/components/label.cc
@@ -15,4 +16,5 @@ set(COMPONENTS_SRC
         kernel/components/component_factory.cc
         kernel/components/music_player.cc
         kernel/components/effect_player.cc
-        kernel/components/animation.cc)
+        kernel/components/animation.cc
+        kernel/components/button.cc)

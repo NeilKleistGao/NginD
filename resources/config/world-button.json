@@ -1,0 +1,66 @@
+{
+  "world-name": "button",
+  "background-color": "#000000FF",
+  "size": {
+    "width": 1024,
+    "height": 768
+  },
+  "camera": {
+    "x": 512,
+    "y": 384
+  },
+  "children": [
+    {
+      "name": "title",
+      "position": {
+        "x": 512,
+        "y": 700
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 36,
+          "text": "YOU CLICK 0 TIME(S)",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "position": {
+        "x": 512,
+        "y": 700
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "button.png"
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "StateMachine",
+      "name": "WorldSwitch",
+      "driver-script": "world_switch.lua",
+      "classname": "WorldSwitch"
+    }
+  ]
+}

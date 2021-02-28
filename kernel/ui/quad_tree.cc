@@ -225,7 +225,7 @@ void QuadTree::erase(QuadNode* node, const ClickableReceiver& value,
 
 ClickableReceiver* QuadTree::query(QuadNode* node, const glm::vec2& point, const input::MouseCode& code, ClickableReceiver* last) {
     for (auto& v : node->value) {
-        if (v.code == code && check(v, point)) {
+        if (check(v, point)) {
             if (last == nullptr || last->z_order < v.z_order) {
                 last = &v;
             }

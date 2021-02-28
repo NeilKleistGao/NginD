@@ -77,7 +77,7 @@ void StateMachine::halt() {
 void StateMachine::update(const float& dlt) {
     if (_update_function.isNil()) {
         if (_state_name.empty()) {
-            luabridge::LuaRef entry = _instance["entry"];
+            luabridge::LuaRef entry = _instance["enter"];
             entry(_instance);
             return;
         }
@@ -95,7 +95,7 @@ void StateMachine::receive(luabridge::LuaRef sender, const std::string& name, lu
     const auto& whitelist = _subscribe[name];
     if (whitelist.find(_state_name) != whitelist.end() ||
         whitelist.find("__all__") != whitelist.end()) {
-        auto receive_function = _instance["receive" + name];
+        auto receive_function = _instance["on" + name];
         if (receive_function.isNil() || !receive_function.isFunction()) {
             return;
         }

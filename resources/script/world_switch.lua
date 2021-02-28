@@ -27,7 +27,7 @@ WorldSwitch = class("WorldSwitch")
 function WorldSwitch:ctor()
 end
 
-function WorldSwitch:entry()
+function WorldSwitch:enter()
     self.move("Idle")
 end
 
@@ -49,7 +49,7 @@ end
 WORLD_SWITCH_TABLE = {}
 WORLD_SWITCH_TABLE["welcome"] = {}
 WORLD_SWITCH_TABLE["welcome"]["next"] = "colorful-labels"
-WORLD_SWITCH_TABLE["welcome"]["prev"] = "animation"
+WORLD_SWITCH_TABLE["welcome"]["prev"] = "button"
 WORLD_SWITCH_TABLE["colorful-labels"] = {}
 WORLD_SWITCH_TABLE["colorful-labels"]["next"] = "audio"
 WORLD_SWITCH_TABLE["colorful-labels"]["prev"] = "welcome"
@@ -60,5 +60,8 @@ WORLD_SWITCH_TABLE["i18n"] = {}
 WORLD_SWITCH_TABLE["i18n"]["next"] = "animation"
 WORLD_SWITCH_TABLE["i18n"]["prev"] = "audio"
 WORLD_SWITCH_TABLE["animation"] = {}
-WORLD_SWITCH_TABLE["animation"]["next"] = "welcome"
+WORLD_SWITCH_TABLE["animation"]["next"] = "button"
 WORLD_SWITCH_TABLE["animation"]["prev"] = "i18n"
+WORLD_SWITCH_TABLE["button"] = {}
+WORLD_SWITCH_TABLE["button"]["next"] = "welcome"
+WORLD_SWITCH_TABLE["button"]["prev"] = "animation"
