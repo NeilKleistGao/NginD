@@ -45,7 +45,7 @@ public:
 
     void erase(const ClickableReceiver& value);
 
-    ClickableReceiver* query(const glm::vec2 & point, const input::MouseCode& code);
+    ClickableReceiver* query(const glm::vec2 & point);
 
 private:
     constexpr static size_t MAX_NODE_THRESHOLD = 8;
@@ -72,7 +72,7 @@ private:
 
     void insert(QuadNode* node, const ClickableReceiver& value);
 
-    ClickableReceiver* query(QuadNode* node, const glm::vec2& point, const input::MouseCode& code, ClickableReceiver* last);
+    ClickableReceiver* query(QuadNode* node, const glm::vec2& point, ClickableReceiver* last);
 
     bool check(const ClickableReceiver& rec, const glm::vec2& point);
 };

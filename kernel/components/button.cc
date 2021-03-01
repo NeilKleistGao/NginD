@@ -27,7 +27,7 @@
 
 namespace ngind::components {
 
-Button::Button() : _pressed(false), _available(true) {
+Button::Button() : _pressed(false), _highlighted(false), _available(true), _sprite(nullptr) {
 }
 
 Button::~Button() {
@@ -45,6 +45,9 @@ void Button::update(const float& delta) {
     if (_pressed) {
         _sprite->setImage(_pressed_image);
     }
+    else if (_highlighted) {
+        _sprite->setImage(_highlight_image);
+    }
     else if (!_available) {
         _sprite->setImage(_disable_image);
     }
@@ -58,6 +61,7 @@ void Button::init(const typename resources::ConfigResource::JsonObject& data) {
     _default_image = data["default"].GetString();
     _pressed_image = data["pressed"].GetString();
     _disable_image = data["disable"].GetString();
+    _highlight_image = data["highlight"].GetString();
     _receiver.event_name = data["event"].GetString();
     _receiver.z_order = data["z"].GetInt();
 
@@ -66,14 +70,28 @@ void Button::init(const typename resources::ConfigResource::JsonObject& data) {
         auto d = v.GetObject();
         _receiver.vertex.emplace_back(d["x"].GetInt(), d["y"].GetInt());
     }
+    _receiver.button = this;
 
-    ui::EventSystem::getInstance()->registerEvent(_receiver);
+    if (_available) {
+        ui::EventSystem::getInstance()->registerEvent(_receiver);
+    }
 }
 
 Button* Button::create(const typename resources::ConfigResource::JsonObject& data) {
     auto* com = memory::MemoryPool::getInstance()->create<Button>();
     com->init(data);
     return com;
+}
+
+void Button::setAvailable(const bool& av) {
+    _available = av;
+
+    if (!av) {
+        ui::EventSystem::getInstance()->unregisterEvent(_receiver);
+    }
+    else if (!_available && av) {
+        ui::EventSystem::getInstance()->registerEvent(_receiver);
+    }
 }
 
 } // namespace ngind::components

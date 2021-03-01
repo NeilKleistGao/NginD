@@ -31,6 +31,12 @@
           "text": "YOU CLICK 0 TIME(S)",
           "color": "#FFFFFFFF",
           "alignment": 2
+        },
+        {
+          "type": "StateMachine",
+          "name": "ClickReceiver",
+          "driver-script": "click_receiver.lua",
+          "classname": "ClickReceiver"
         }
       ]
     },
@@ -38,7 +44,7 @@
       "name": "button",
       "position": {
         "x": 512,
-        "y": 700
+        "y": 300
       },
       "scale": {
         "x": 1,
@@ -51,6 +57,35 @@
           "type": "Sprite",
           "name": "Sprite",
           "filename": "button.png"
+        },
+        {
+          "type": "Button",
+          "name": "Button",
+          "available": true,
+          "default": "button.png",
+          "pressed": "button_pressed.png",
+          "disable": "button.png",
+          "highlight": "button_highlight.png",
+          "event": "Clicked",
+          "z": 0,
+          "vertex": [
+            {
+              "x": 448,
+              "y": 332
+            },
+            {
+              "x": 576,
+              "y": 332
+            },
+            {
+              "x": 576,
+              "y": 268
+            },
+            {
+              "x": 448,
+              "y": 268
+            }
+          ]
         }
       ]
     }

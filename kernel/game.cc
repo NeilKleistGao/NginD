@@ -65,11 +65,14 @@ void Game::destroyInstance() {
 
 void Game::start() {
     auto render = rendering::Renderer::getInstance();
+    auto height = _global_settings->getDocument()["window-height"].GetInt();
     render->createWindow(_global_settings->getDocument()["window-width"].GetInt(),
-            _global_settings->getDocument()["window-height"].GetInt(),
+            height,
             _global_settings->getDocument()["window-title"].GetString(),
             _global_settings->getDocument()["window-icon"].GetString(),
             _global_settings->getDocument()["window-full-screen"].GetBool());
+
+    ui::EventSystem::getInstance()->init(height);
 
     script::LuaState::getInstance()->preload("kernel");
     script::LuaState::getInstance()->preload("extern"); // TODO:

@@ -55,8 +55,9 @@ void StateMachine::init(const typename resources::ConfigResource::JsonObject& da
             auto item = subscribe[i];
             auto name = item["name"].cast<std::string>();
             _subscribe[name] = std::unordered_set<std::string>{};
+            script::Observer::getInstance()->subscribe(this, name);
             auto whitelist = item["whitelist"];
-            for (int j = 1; j < whitelist.length(); j++) {
+            for (int j = 1; j <= whitelist.length(); j++) {
                 _subscribe[name].insert(whitelist[j].cast<std::string>());
             }
         }

@@ -42,6 +42,9 @@ public:
 
     void update();
 
+    inline void init(const size_t& win_height) {
+        _win_height = win_height;
+    }
     void init(const size_t& width, const size_t& height);
 private:
     EventSystem();
@@ -49,6 +52,9 @@ private:
 
     static EventSystem* _instance;
     QuadTree* _tree;
+    size_t _win_height;
+    ClickableReceiver* _current_receiver;
+    ClickableReceiver* _current_moving;
 };
 
 } // namespace ngind::ui

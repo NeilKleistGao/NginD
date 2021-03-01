@@ -26,7 +26,9 @@
 
 #include "component.h"
 #include "sprite.h"
+#include "component_factory.h"
 #include "ui/clickable_receiver.h"
+#include "script/lua_registration.h"
 
 namespace ngind::components {
 
@@ -52,9 +54,7 @@ public:
 
     static Button* create(const typename resources::ConfigResource::JsonObject& data);
 
-    inline void setAvailable(const bool& av) {
-        _available = av;
-    }
+    void setAvailable(const bool& av);
 
     inline bool isAvailable() const {
         return _available;
@@ -67,17 +67,31 @@ public:
     inline bool isPressed() const {
         return _pressed;
     }
+
+    inline void setHighlighted(const bool& hl) {
+        _highlighted = hl;
+    }
+
+    inline bool isHighlighted() const {
+        return _highlighted;
+    }
 private:
     bool _available;
     bool _pressed;
+    bool _highlighted;
     ui::ClickableReceiver _receiver;
 
     std::string _default_image;
     std::string _pressed_image;
     std::string _disable_image;
+    std::string _highlight_image;
 
-    Sprite* _sprite;
+    Sprite* _sprite{};
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(Button) {
+    ComponentFactory::getInstance()->registerComponent<Button>("Button");
+}
 
 } // namespace ngind::components
 

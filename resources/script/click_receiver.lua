@@ -20,30 +20,30 @@
 - SOFTWARE.
 - ]]
 
---- @file class.lua
+--- @file click_receiver.lua
 
-function class(classname)
-    local cls = {
-        ctor = function() end,
-    }
+ClickReceiver = class("ClickReceiver")
 
-    cls.__cname = classname
-    cls.__ctype = 2
-    cls.__index = cls
-    cls.game_object = nil
-    cls.this = nil
-    cls.subscribe = {}
+function ClickReceiver:ctor()
+    self.subscribe[1] = {}
+    self.subscribe[1]["name"] = "Clicked"
+    self.subscribe[1]["whitelist"] = {"__all__"}
 
-    function cls.new(...)
-        local instance = setmetatable({}, cls)
-        instance.class = cls
-        instance.move = function(state_name) instance.this.move(instance.this, state_name) end
-        instance.halt = function() instance.this.halt(instance.this) end
-        instance.notify = function(msg, data) instance.this.notify(instance.this, instance, msg, data) end
-        instance.notifyAll = function(msg, data) instance.this.notifyAll(instance.this, instance, msg, data) end
-        instance:ctor(...)
-        return instance
-    end
+    self.count = 0
+end
 
-    return cls
+function ClickReceiver:enter()
+    self.move("Idle")
+end
+
+function ClickReceiver:updateIdle()
+end
+
+function ClickReceiver:onClicked()
+    self.count = self.count + 1
+    local label = Label.getComponent(self.game_object)
+    label:setText("YOU CLICK "..tostring(self.count).." TIME(S)")
+end
+
+function ClickReceiver:exit()
 end

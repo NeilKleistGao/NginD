@@ -21,6 +21,7 @@
 
 /// @file event_system.cc
 
+#include "components/button.h"
 #include "event_system.h"
 
 #include <cmath>
@@ -32,7 +33,7 @@
 namespace ngind::ui {
 EventSystem* EventSystem::_instance = nullptr;
 
-EventSystem::EventSystem() : _tree(nullptr) {
+EventSystem::EventSystem() : _tree(nullptr), _current_receiver(nullptr), _current_moving(nullptr) {
 }
 
 EventSystem::~EventSystem() {
@@ -84,18 +85,54 @@ void EventSystem::update() {
     auto instance = input::Input::getInstance();
     instance->setInterruption(false);
 
-    auto left = instance->getMouseReleased(0);
+    auto mouse = instance->getMousePressed(0);
 
     instance->setInterruption(true);
-    if (!std::isnan(left.x) && !std::isnan(left.y)) {
-        auto p = _tree->query(left, input::BUTTON_LEFT);
+    if (!std::isnan(mouse.x) && !std::isnan(mouse.y)) {
+        mouse.y = _win_height - mouse.y;
+        auto p = _tree->query(mouse);
         if (p != nullptr) {
-            script::Observer::getInstance()
-                ->notifyAll(script::LuaState::getInstance()->createNil(), p->event_name, script::LuaState::getInstance()->createNil());
+            _current_receiver = p;
+            p->button->setPressed(true);
+        }
+        else {
+            instance->setInterruption(false);
         }
     }
     else {
-        instance->setInterruption(false);
+        mouse = instance->getMouseReleased(0);
+        if (!std::isnan(mouse.x) && !std::isnan(mouse.y)) {
+            mouse.y = _win_height - mouse.y;
+            auto p = _tree->query(mouse);
+            if (p != nullptr && p == _current_receiver) {
+                script::Observer::getInstance()
+                        ->notifyAll(script::LuaState::getInstance()->createNil(), p->event_name, script::LuaState::getInstance()->createNil());
+                p->button->setPressed(false);
+            }
+            else if (_current_receiver != nullptr) {
+                _current_receiver->button->setPressed(false);
+                _current_receiver = nullptr;
+            }
+            else {
+                instance->setInterruption(false);
+            }
+        }
+        else {
+            instance->setInterruption(false);
+        }
+    }
+
+    if (_current_moving != nullptr) {
+        _current_moving->button->setHighlighted(false);
+        _current_moving = nullptr;
+    }
+
+    mouse = input::Input::getInstance()->getMouseMoving();
+    mouse.y = _win_height - mouse.y;
+    auto p = _tree->query(mouse);
+    if (p != nullptr) {
+        _current_moving = p;
+        _current_moving->button->setHighlighted(true);
     }
 }
 
