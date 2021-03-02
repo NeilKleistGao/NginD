@@ -1,0 +1,6 @@
+{
+  "type": "MusicPlayer",
+  "name": "GTR",
+  "filename": "Bach.mp3",
+  "auto-play": true
+}

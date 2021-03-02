@@ -1,0 +1,17 @@
+{
+  "type": "Sprite",
+  "name": "Sprite",
+  "filename": "",
+  "shader": "sprite",
+  "boundary": {
+    "left-bottom": {
+      "x": 0,
+      "y": 0
+    },
+    "right-up": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "color": "#FFFFFFFF"
+}

@@ -20,7 +20,12 @@
 - SOFTWARE.
 - ]]
 
---- @file label.lua
+--- @file components.lua
+
+Sprite = {}
+Sprite.getComponent = function(object)
+    return engine.Sprite.getComponent(object)
+end
 
 Label = {}
 Label.getComponent = function(object)

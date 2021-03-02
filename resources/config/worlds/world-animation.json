@@ -28,14 +28,14 @@
           "name": "Label",
           "font": "manaspc.ttf",
           "size": 36,
-          "text": "Welcome to Engine-D!",
+          "text": "Simple Animation",
           "color": "#FFFFFFFF",
           "alignment": 2
         }
       ]
     },
     {
-      "name": "icon",
+      "name": "animation",
       "position": {
         "x": 512,
         "y": 384
@@ -50,31 +50,27 @@
         {
           "type": "Sprite",
           "name": "Sprite",
-          "filename": "test.jpg"
-        }
-      ]
-    },
-    {
-      "name": "tip",
-      "position": {
-        "x": 512,
-        "y": 100
-      },
-      "scale": {
-        "x": 1,
-        "y": 1
-      },
-      "rotate": 0,
-      "z-order": 0,
-      "components": [
+          "filename": "",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
         {
-          "type": "Label",
-          "name": "Label",
-          "font": "manaspc.ttf",
-          "size": 24,
-          "text": "PRESS < TO PREV PAGE\nPRESS > TO NEXT PAGE\nPRESS ESC TO EXIT",
-          "color": "#FFFFFFFF",
-          "alignment": 2
+          "type": "Animation",
+          "name": "Animation",
+          "anim-name": "fall",
+          "loop": true,
+          "auto-play": true,
+          "start": "fall"
         }
       ]
     }

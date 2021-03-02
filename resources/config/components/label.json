@@ -1,0 +1,9 @@
+{
+  "type": "Label",
+  "name": "Label",
+  "font": "manaspc.ttf",
+  "size": 36,
+  "text": "",
+  "color": "#FFFFFFFF",
+  "alignment": 2
+}

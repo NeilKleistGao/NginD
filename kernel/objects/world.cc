@@ -35,7 +35,7 @@
 namespace ngind::objects {
 
 World::World(std::string name) : Object(), _name(std::move(name)), _config(nullptr), _background_color() {
-    _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("world-" + _name + ".json");
+    _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("worlds/world-" + _name + ".json");
     _background_color = rendering::Color(_config->getDocument()["background-color"].GetString());
 
     auto size = _config->getDocument()["size"].GetObject();

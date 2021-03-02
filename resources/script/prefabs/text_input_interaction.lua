@@ -20,6 +20,4 @@
 - SOFTWARE.
 - ]]
 
---- @file animation.lua
-
---- TODO:
+--- @file text_input_interaction.lua

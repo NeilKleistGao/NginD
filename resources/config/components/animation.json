@@ -1,0 +1,8 @@
+{
+  "type": "Animation",
+  "name": "Animation",
+  "anim-name": "fall",
+  "loop": true,
+  "auto-play": true,
+  "start": "fall"
+}

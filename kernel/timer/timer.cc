@@ -23,7 +23,7 @@
 
 #include "timer.h"
 
-#include "platforms/platforms.h"
+#include <thread>
 
 namespace ngind::timer {
 
@@ -49,7 +49,7 @@ void Timer::sleep(const float& sec) {
         return;
     }
 
-    PlatformUtils::sleep(sec);
+    std::this_thread::sleep_for(std::chrono::milliseconds (static_cast<long>(sec * 1000.0f)));
     _previous = getNow();
 }
 

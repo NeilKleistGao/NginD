@@ -77,10 +77,8 @@ void Sprite::setImage(const std::string& filename, const glm::vec2& lb, const gl
 }
 
 void Sprite::draw() {
-    if (_parent == nullptr) {
-        throw exceptions::GameException("components::Sprite",
-                                        "draw",
-                                        "can't get parent object");
+    if (_parent == nullptr || _texture == nullptr) {
+        return;
     }
 
     auto temp = dynamic_cast<objects::EntityObject*>(_parent);
@@ -124,9 +122,16 @@ void Sprite::init(const typename resources::ConfigResource::JsonObject& data) {
     if (!name.empty()) {
         this->setImage(name);
     }
-    if (_program == nullptr) {
-        _program = resources::ResourcesManager::getInstance()->load<resources::ProgramResource>("sprite"); // default sprite shader
-    }
+    _program = resources::ResourcesManager::getInstance()->load<resources::ProgramResource>(data["shader"].GetString());
+
+    auto boundary = data["boundary"].GetObject();
+    auto lb = boundary["left-bottom"].GetObject();
+    auto rt = boundary["right-up"].GetObject();
+
+    _lb.x = lb["x"].GetFloat(); _lb.y = lb["y"].GetFloat();
+    _rt.x = rt["x"].GetFloat(); _rt.y = rt["y"].GetFloat();
+
+    _color = rendering::Color{data["color"].GetString()};
 }
 
 Sprite* Sprite::create(const typename resources::ConfigResource::JsonObject& data) {

@@ -56,7 +56,19 @@
         {
           "type": "Sprite",
           "name": "Sprite",
-          "filename": "button.png"
+          "filename": "button.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 128,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
         },
         {
           "type": "Button",
