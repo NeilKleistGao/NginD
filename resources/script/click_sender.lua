@@ -22,22 +22,23 @@
 
 --- @file click_receiver.lua
 
-ClickReceiver = class("ClickReceiver")
+ClickSender = class("ClickSender")
 
-function ClickReceiver:ctor()
+function ClickSender:ctor()
+    self.count = 0
 end
 
-function ClickReceiver:enter()
+function ClickSender:enter()
     self.move("Idle")
 end
 
-function ClickReceiver:updateIdle()
+function ClickSender:updateIdle()
 end
 
-function ClickReceiver:onGettingTimes(sender, data)
-    local label = Label.getComponent(self.game_object)
-    label:setText("YOU CLICK "..tostring(data).." TIME(S)")
+function ClickSender:onClick()
+    self.count = self.count + 1
+    self.notifyAll("GettingTimes", self.count)
 end
 
-function ClickReceiver:exit()
+function ClickSender:exit()
 end

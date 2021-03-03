@@ -30,6 +30,7 @@
 
 #include "lua_registration.h"
 #include "components/state_machine.h"
+#include "objects/object.h"
 
 namespace ngind::script {
 
@@ -62,7 +63,7 @@ public:
      * @param name: name of message
      * @param data: data attained
      */
-    void notify(const luabridge::LuaRef& sender, const std::string& name, luabridge::LuaRef data);
+    void notify(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data);
 
     /**
      * Notify all objects that subscribe
@@ -70,7 +71,15 @@ public:
      * @param name: name of message
      * @param data: data attained
      */
-    void notifyAll(const luabridge::LuaRef& sender, const std::string& name, luabridge::LuaRef data);
+    void notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data);
+
+    /**
+     * Notify sibling components that subscribe
+     * @param name: name of message
+     * @param object: object containing components
+     * @param data: data attained
+     */
+    void notifySiblings(const std::string& name, objects::Object* object, const luabridge::LuaRef& data);
 
     /**
      * Cancel a subscription.

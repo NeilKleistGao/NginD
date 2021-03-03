@@ -21,3 +21,23 @@
 - ]]
 
 --- @file text_input_interaction.lua
+
+TextInputInteraction = class("TextInputInteraction")
+
+function TextInputInteraction:ctor()
+    self.focus = false
+end
+
+function TextInputInteraction:enter()
+    self.move("Idle")
+end
+
+function TextInputInteraction:updateIdle()
+end
+
+
+function TextInputInteraction:onFocus()
+end
+
+function TextInputInteraction:exit()
+end

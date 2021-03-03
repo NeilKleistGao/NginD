@@ -60,7 +60,9 @@
           "type": "StateMachine",
           "name": "I18NLoader",
           "driver-script": "i18n_loader.lua",
-          "classname": "I18NLoader"
+          "classname": "I18NLoader",
+          "subscription": [
+          ]
         }
       ]
     }
@@ -70,7 +72,9 @@
       "type": "StateMachine",
       "name": "WorldSwitch",
       "driver-script": "world_switch.lua",
-      "classname": "WorldSwitch"
+      "classname": "WorldSwitch",
+      "subscription": [
+      ]
     }
   ]
 }

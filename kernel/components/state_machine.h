@@ -87,7 +87,14 @@ public:
      * @param name: the name of this message
      * @param data: the data attended
      */
-    void receive(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
+    void receive(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data);
+
+    /**
+     * Receive a new message from observer. This message is sent by engine.
+     * @param name: the name of this message
+     * @param data: the data attended
+     */
+    void receive(const std::string& name, const luabridge::LuaRef& data);
 
     /**
      * Publish a new message to a random target.
@@ -95,7 +102,7 @@ public:
      * @param name: the name of this message
      * @param data: the data attended
      */
-    void notify(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
+    void notify(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data);
 
     /**
      * Publish a new message to all targets.
@@ -103,7 +110,7 @@ public:
      * @param name: the name of this message
      * @param data: the data attended
      */
-    void notifyAll(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data);
+    void notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data);
 private:
     /**
      * The instance of this component in lua environment.

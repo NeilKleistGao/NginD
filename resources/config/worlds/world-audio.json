@@ -40,13 +40,18 @@
       "type": "StateMachine",
       "name": "WorldSwitch",
       "driver-script": "world_switch.lua",
-      "classname": "WorldSwitch"
+      "classname": "WorldSwitch",
+      "subscription": [
+      ]
     },
     {
       "type": "MusicPlayer",
       "name": "GTR",
       "filename": "Bach.mp3",
-      "auto-play": true
+      "auto-play": true,
+      "volume": 1.0,
+      "looping": false,
+      "looping-point": -1.0
     }
   ]
 }

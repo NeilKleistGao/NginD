@@ -106,7 +106,7 @@ void EventSystem::update() {
             auto p = _tree->query(mouse);
             if (p != nullptr && p == _current_receiver) {
                 script::Observer::getInstance()
-                        ->notifyAll(script::LuaState::getInstance()->createNil(), p->event_name, script::LuaState::getInstance()->createNil());
+                        ->notifySiblings("Click", p->button->getParent(), script::LuaState::getInstance()->createNil());
                 p->button->setPressed(false);
             }
             else if (_current_receiver != nullptr) {

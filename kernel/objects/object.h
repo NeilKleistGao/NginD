@@ -134,6 +134,18 @@ public:
         return static_cast<Type*>(_components[name]);
     }
 
+    template<typename Type>
+    std::vector<Type*> getComponents(const std::string& type) {
+        std::vector<Type*> res;
+        for (auto [name, com] : _components) {
+            if (com->getComponentName() == type) {
+                res.push_back(dynamic_cast<Type*>(com));
+            }
+        }
+
+        return res;
+    }
+
     /**
      * Remove a component by name. If the component doesn't exist, nothing will happen.
      * @tparam Type: the actual type of component

@@ -58,6 +58,7 @@ void Label::update(const float& delta) {
 }
 
 void Label::init(const typename resources::ConfigResource::JsonObject& data) {
+    _component_name = data["type"].GetString();
     _font = resources::ResourcesManager::getInstance()->load<resources::FontResource>(data["font"].GetString());
     _program = resources::ResourcesManager::getInstance()->load<resources::ProgramResource>("text");
     _size = data["size"].GetInt();

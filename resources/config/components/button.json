@@ -2,28 +2,11 @@
   "type": "Button",
   "name": "Button",
   "available": true,
-  "default": "button.png",
-  "pressed": "button_pressed.png",
-  "disable": "button.png",
-  "highlight": "button_highlight.png",
-  "event": "Clicked",
+  "default": "",
+  "pressed": "",
+  "disable": "",
+  "highlight": "",
   "z": 0,
   "vertex": [
-    {
-      "x": 448,
-      "y": 332
-    },
-    {
-      "x": 576,
-      "y": 332
-    },
-    {
-      "x": 576,
-      "y": 268
-    },
-    {
-      "x": 448,
-      "y": 268
-    }
   ]
 }

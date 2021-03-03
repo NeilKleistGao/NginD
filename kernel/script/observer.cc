@@ -57,7 +57,7 @@ void Observer::subscribe(components::StateMachine* machine, const std::string& n
     list.push_back(machine);
 }
 
-void Observer::notify(const luabridge::LuaRef& sender, const std::string& name, luabridge::LuaRef data) {
+void Observer::notify(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
     if (_dependence.find(name) == _dependence.end()) {
         // TODO:
     }
@@ -73,7 +73,7 @@ void Observer::notify(const luabridge::LuaRef& sender, const std::string& name, 
     list[index]->receive(sender, name, data);
 }
 
-void Observer::notifyAll(const luabridge::LuaRef& sender, const std::string& name, luabridge::LuaRef data) {
+void Observer::notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
     if (_dependence.find(name) == _dependence.end()) {
         // TODO:
     }
@@ -85,6 +85,13 @@ void Observer::notifyAll(const luabridge::LuaRef& sender, const std::string& nam
 
     for (const auto& m : list) {
         m->receive(sender, name, data);
+    }
+}
+
+void Observer::notifySiblings(const std::string& name, objects::Object* object, const luabridge::LuaRef& data) {
+    auto coms = object->getComponents<components::StateMachine>("StateMachine");
+    for (auto com : coms) {
+        com->receive(name, data);
     }
 }
 

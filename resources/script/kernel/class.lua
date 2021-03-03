@@ -32,7 +32,6 @@ function class(classname)
     cls.__index = cls
     cls.game_object = nil
     cls.this = nil
-    cls.subscribe = {}
 
     function cls.new(...)
         local instance = setmetatable({}, cls)

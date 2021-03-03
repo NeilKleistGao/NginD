@@ -160,7 +160,9 @@
       "type": "StateMachine",
       "name": "WorldSwitch",
       "driver-script": "world_switch.lua",
-      "classname": "WorldSwitch"
+      "classname": "WorldSwitch",
+      "subscription": [
+      ]
     }
   ]
 }

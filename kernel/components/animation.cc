@@ -76,6 +76,7 @@ void Animation::update(const float& delta) {
 }
 
 void Animation::init(const typename resources::ConfigResource::JsonObject& data) {
+    _component_name = data["type"].GetString();
     std::string name = data["anim-name"].GetString();
     _anim = resources::ResourcesManager::getInstance()->load<resources::AnimationResource>(name);
 

@@ -48,7 +48,7 @@ using Object = objects::Object;
  */
 class Component :  public memory::AutoCollectionObject, public objects::UpdatableObject {
 public:
-    Component() : AutoCollectionObject(), _parent(nullptr), _dirty(false) {};
+    Component() : AutoCollectionObject(), _parent(nullptr), _dirty(false), _component_name("Component") {};
     virtual ~Component() = default;
 
     Component(const Component&) = delete;
@@ -91,6 +91,10 @@ public:
         _dirty = true;
     }
 
+    inline std::string getComponentName() const {
+        return _component_name;
+    }
+
 protected:
     /**
      * Parent object of this component
@@ -101,6 +105,8 @@ protected:
      * Is this component need to be updated
      */
     bool _dirty;
+
+    std::string _component_name;
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(Component) {

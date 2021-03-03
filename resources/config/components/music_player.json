@@ -1,6 +1,9 @@
 {
   "type": "MusicPlayer",
-  "name": "GTR",
-  "filename": "Bach.mp3",
-  "auto-play": true
+  "name": "",
+  "filename": "",
+  "auto-play": false,
+  "volume": 1.0,
+  "looping": false,
+  "looping-point": -1.0
 }

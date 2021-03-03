@@ -40,10 +40,13 @@ void EffectPlayer::update(const float& delta) {
 }
 
 void EffectPlayer::init(const typename resources::ConfigResource::JsonObject& data) {
+    _component_name = data["type"].GetString();
     std::string name = data["filename"].GetString();
     if (!name.empty()) {
         _effect = resources::ResourcesManager::getInstance()->load<resources::EffectResource>(name);
     }
+
+    this->setVolume(data["volume"].GetFloat());
 }
 
 EffectPlayer* EffectPlayer::create(const typename resources::ConfigResource::JsonObject& data) {

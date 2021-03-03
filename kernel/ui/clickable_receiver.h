@@ -38,7 +38,6 @@ namespace ngind::ui {
 
 struct ClickableReceiver {
     std::vector<glm::vec2> vertex;
-    std::string event_name;
     unsigned int z_order;
     components::Button* button;
 
@@ -47,9 +46,6 @@ struct ClickableReceiver {
             return false;
         }
         if (vertex.size() != other.vertex.size()) {
-            return false;
-        }
-        if (event_name != other.event_name) {
             return false;
         }
 

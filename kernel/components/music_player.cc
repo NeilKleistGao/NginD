@@ -47,12 +47,20 @@ void MusicPlayer::update(const float& delta) {
 }
 
 void MusicPlayer::init(const typename resources::ConfigResource::JsonObject& data) {
+    _component_name = data["type"].GetString();
     std::string name = data["filename"].GetString();
     if (!name.empty()) {
         _music = resources::ResourcesManager::getInstance()->load<resources::MusicResource>(name);
     }
 
     _auto = data["auto-play"].GetBool();
+    this->setVolume(data["volume"].GetFloat());
+    this->setLooping(data["looping"].GetBool());
+
+    auto point = data["looping-point"].GetDouble();
+    if (point >= 0.0) {
+        this->setLoopPoint(point);
+    }
 }
 
 MusicPlayer* MusicPlayer::create(const typename resources::ConfigResource::JsonObject& data) {

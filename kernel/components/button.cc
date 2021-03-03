@@ -57,12 +57,12 @@ void Button::update(const float& delta) {
 }
 
 void Button::init(const typename resources::ConfigResource::JsonObject& data) {
+    _component_name = data["type"].GetString();
     _available = data["available"].GetBool();
     _default_image = data["default"].GetString();
     _pressed_image = data["pressed"].GetString();
     _disable_image = data["disable"].GetString();
     _highlight_image = data["highlight"].GetString();
-    _receiver.event_name = data["event"].GetString();
     _receiver.z_order = data["z"].GetInt();
 
     auto vertex = data["vertex"].GetArray();

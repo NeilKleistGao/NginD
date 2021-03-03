@@ -118,6 +118,7 @@ void Sprite::draw() {
 }
 
 void Sprite::init(const typename resources::ConfigResource::JsonObject& data) {
+    _component_name = data["type"].GetString();
     std::string name = data["filename"].GetString();
     if (!name.empty()) {
         this->setImage(name);

@@ -36,7 +36,13 @@
           "type": "StateMachine",
           "name": "ClickReceiver",
           "driver-script": "click_receiver.lua",
-          "classname": "ClickReceiver"
+          "classname": "ClickReceiver",
+          "subscription": [
+            {
+              "event-name": "GettingTimes",
+              "whitelist": ["__all__"]
+            }
+          ]
         }
       ]
     },
@@ -78,7 +84,6 @@
           "pressed": "button_pressed.png",
           "disable": "button.png",
           "highlight": "button_highlight.png",
-          "event": "Clicked",
           "z": 0,
           "vertex": [
             {
@@ -98,6 +103,14 @@
               "y": 268
             }
           ]
+        },
+        {
+          "type": "StateMachine",
+          "name": "ClickSender",
+          "driver-script": "click_sender.lua",
+          "classname": "ClickSender",
+          "subscription": [
+          ]
         }
       ]
     }
@@ -107,7 +120,9 @@
       "type": "StateMachine",
       "name": "WorldSwitch",
       "driver-script": "world_switch.lua",
-      "classname": "WorldSwitch"
+      "classname": "WorldSwitch",
+      "subscription": [
+      ]
     }
   ]
 }

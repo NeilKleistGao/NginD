@@ -28,8 +28,7 @@
 namespace ngind::components {
 StateMachine::StateMachine() :
 _instance(script::LuaState::getInstance()->getState()),
-_update_function(script::LuaState::getInstance()->getState()),
-_state_name(""){
+_update_function(script::LuaState::getInstance()->getState()) {
 }
 
 StateMachine::~StateMachine() {
@@ -38,6 +37,8 @@ StateMachine::~StateMachine() {
 }
 
 void StateMachine::init(const typename resources::ConfigResource::JsonObject& data) {
+    _component_name = data["type"].GetString();
+
     auto state = script::LuaState::getInstance();
     state->loadScript(data["driver-script"].GetString());
     _instance = state->createStateMachine(data["classname"].GetString());
@@ -49,17 +50,16 @@ void StateMachine::init(const typename resources::ConfigResource::JsonObject& da
     _instance["this"] = this;
     _instance["game_object"] = _parent;
 
-    auto subscribe = _instance["subscribe"];
-    if (subscribe.isTable()) {
-        for (int i = 1; i <= subscribe.length(); i++) {
-            auto item = subscribe[i];
-            auto name = item["name"].cast<std::string>();
-            _subscribe[name] = std::unordered_set<std::string>{};
-            script::Observer::getInstance()->subscribe(this, name);
-            auto whitelist = item["whitelist"];
-            for (int j = 1; j <= whitelist.length(); j++) {
-                _subscribe[name].insert(whitelist[j].cast<std::string>());
-            }
+    auto subscription = data["subscription"].GetArray();
+    for (const auto& s : subscription) {
+        auto item = s.GetObject();
+        auto name = item["event-name"].GetString();
+        _subscribe[name] = std::unordered_set<std::string>{};
+        script::Observer::getInstance()->subscribe(this, name);
+
+        auto whitelist = item["whitelist"].GetArray();
+        for (const auto& w : whitelist) {
+            _subscribe[name].insert(w.GetString());
         }
     }
 }
@@ -92,7 +92,7 @@ void StateMachine::update(const float& dlt) {
     _update_function(_instance, dlt);
 }
 
-void StateMachine::receive(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data) {
+void StateMachine::receive(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
     const auto& whitelist = _subscribe[name];
     if (whitelist.find(_state_name) != whitelist.end() ||
         whitelist.find("__all__") != whitelist.end()) {
@@ -105,12 +105,21 @@ void StateMachine::receive(luabridge::LuaRef sender, const std::string& name, lu
     }
 }
 
-void StateMachine::notify(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data) {
+void StateMachine::receive(const std::string& name, const luabridge::LuaRef& data) {
+    auto receive_function = _instance["on" + name];
+    if (receive_function.isNil() || !receive_function.isFunction()) {
+        return;
+    }
+
+    receive_function(_instance, data);
+}
+
+void StateMachine::notify(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
     auto ob = script::Observer::getInstance();
     ob->notify(sender, name, data);
 }
 
-void StateMachine::notifyAll(luabridge::LuaRef sender, const std::string& name, luabridge::LuaRef data) {
+void StateMachine::notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
     auto ob = script::Observer::getInstance();
     ob->notifyAll(sender, name, data);
 }
