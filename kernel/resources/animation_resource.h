@@ -29,18 +29,31 @@
 
 namespace ngind::resources {
 
+/**
+ * Animation resources. Only Aseprite animation available.
+ */
 class AnimationResource : public Resource {
 public:
     AnimationResource() : Resource() {
     }
     ~AnimationResource() override = default;
 
+    /**
+     * @see kernel/resources/resource.h
+     */
     virtual void load(const std::string&);
 
+    /**
+     * Get the Aseprite data instance.
+     * @return animation::Aseprite*, Aseprite animation data
+     */
     inline animation::Aseprite* getAseprite() {
         return _ase;
     }
 private:
+    /**
+     * Aseprite animation data.
+     */
     animation::Aseprite* _ase;
 };
 

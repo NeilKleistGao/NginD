@@ -30,37 +30,77 @@
 
 namespace ngind::animation {
 
+/**
+ * Animation tag object in Aseprite.
+ */
 class AsepriteTag {
 public:
+    /**
+     * @param data: Tag object in json format.
+     */
     AsepriteTag(const typename resources::ConfigResource::JsonObject& data);
     ~AsepriteTag() = default;
 
+    /**
+     * Animation playing direction
+     */
     enum class AnimationDirection {
-        DIRECTION_FORWARD = 0,
-        DIRECTION_REVERSE,
-        DIRECTION_PING_PONG
+        DIRECTION_FORWARD = 0, /// Play animation forward
+        DIRECTION_REVERSE, /// Play animation in reverse
+        DIRECTION_PING_PONG /// Play animation back and forth
     };
 
+    /**
+     * Get tag's name.
+     * @return std::string, name of tag
+     */
     inline std::string getName() const {
         return _name;
     }
 
+    /**
+     * Get the beginning frame's index of tag
+     * @return unsigned int, index of beginning frame
+     */
     inline unsigned int begin() const {
         return _from;
     }
 
+    /**
+     * Get the ending frame's index + 1 of tag
+     * @return unsigned int, index of ending frame + 1
+     */
     inline unsigned int end() const {
         return _to;
     }
 
+    /**
+     * Get the animation's direction of tag
+     * @return AnimationDirection, animation's direction
+     */
     inline AnimationDirection getDirection() const {
         return _direction;
     }
 
 private:
+    /**
+     * Tag's name
+     */
     std::string _name;
+
+    /**
+     * Beginning frame's index
+     */
     unsigned int _from;
+
+    /**
+     * Ending frame's index
+     */
     unsigned int _to;
+
+    /**
+     * Animation playing direction
+     */
     AnimationDirection _direction;
 };
 

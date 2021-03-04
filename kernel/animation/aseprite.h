@@ -32,30 +32,75 @@
 
 namespace ngind::animation {
 
+/**
+ * Aseprite animation data.
+ */
 class Aseprite {
 public:
+    /**
+     * @param name: animation's name
+     */
     explicit Aseprite(const std::string& name);
     ~Aseprite();
     Aseprite(const Aseprite&) = delete;
     Aseprite& operator= (const Aseprite&) = delete;
 
+    /**
+     * Get image's filename used in this animation.
+     * @return std::string, image's filename
+     */
     inline std::string getFilename() const {
         return _image_path;
     }
 
+    /**
+     * Play a clip with specified tag.
+     * @param name: tag's name
+     * @return AsepriteFrame, the first frame's data
+     */
     AsepriteFrame play(const std::string& name);
+
+    /**
+     * Get next frame in this clip.
+     * @return AsepriteFrame, next frame's data. If this is the last frame, return the same data
+     */
     AsepriteFrame next();
 
+    /**
+     * Has this clip finished.
+     * @return boo, true if this clip has finished
+     */
     bool isEnd() const;
 
 private:
+    /**
+     * Image's path.
+     */
     std::string _image_path;
+
+    /**
+     * Animation's frames.
+     */
     std::vector<AsepriteFrame> _frames;
+
+    /**
+     * Animation's tags.
+     */
     std::vector<AsepriteTag> _tags;
 
+    /**
+     * Tag that playing clip using.
+     */
     AsepriteTag* _current_tag;
+
+    /**
+     * Frame index of frame playing.
+     */
     unsigned int _current_index;
 
+    /**
+     * Animation config resources.
+     */
     resources::ConfigResource* _config;
 };
 

@@ -32,6 +32,9 @@
 
 namespace ngind::components {
 
+/**
+ * Animation component. Sprite sibling component is required.
+ */
 class Animation : public Component {
 public:
     Animation();
@@ -51,32 +54,77 @@ public:
      */
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
+    /**
+     * Create a animation component instance.
+     * @param data: the configuration data this component initialization process requires
+     * @return Animation*, the instance of animation component
+     */
     static Animation* create(const typename resources::ConfigResource::JsonObject& data);
 
+    /**
+     * Play a clip of animation by given name.
+     * @param name: name of animation clip
+     */
     void play(const std::string& name);
 
+    /**
+     * Stop playing current clip.
+     */
     void stop();
 
+    /**
+     * Pause current animation playing.
+     */
     inline void pause() {
         _playing = false;
     }
 
+    /**
+     * Resume from pausing state.
+     */
     inline void resume() {
         _playing = true;
     }
 
 private:
+    /**
+     * Should animation be played automatically when ready.
+     */
     bool _auto_play;
+
+    /**
+     * Should play the animation in loop.
+     */
     bool _loop;
+
+    /**
+     * Is animation playing now.
+     */
     bool _playing;
 
+    /**
+     * Local timer for frames exchanging.
+     */
     float _timer;
 
+    /**
+     * Frame that is being played.
+     */
     animation::AsepriteFrame _frame;
 
+    /**
+     * Tag of current animation clip.
+     */
     std::string _tag;
 
+    /**
+     * Animation resources.
+     */
     resources::AnimationResource* _anim;
+
+    /**
+     * Sprite component reference.
+     */
     Sprite* _sprite;
 };
 
