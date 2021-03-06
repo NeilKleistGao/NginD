@@ -32,6 +32,9 @@
 
 namespace ngind::components {
 
+/**
+ * Clickable component. Sprite sibling component is required.
+ */
 class Button : public Component {
 public:
     Button();
@@ -52,44 +55,114 @@ public:
      */
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
+    /**
+     * Create a button component instance.
+     * @param data: the configuration data this component initialization process requires
+     * @return Button*, the instance of animation component
+     */
     static Button* create(const typename resources::ConfigResource::JsonObject& data);
 
+    /**
+     * Set if this button is clickable.
+     * @param av: true if button is clickable
+     */
     void setAvailable(const bool& av);
 
+    /**
+     * Get if this button is clickable.
+     * @return bool, true if button is clickable
+     */
     inline bool isAvailable() const {
         return _available;
     }
 
+    /**
+     * Set if this button is pressed.
+     * @param pr: true if button is pressed
+     */
     inline void setPressed(const bool& pr) {
         _pressed = pr;
     }
 
+    /**
+     * Get if this button is pressed.
+     * @return bool, true if button is pressed
+     */
     inline bool isPressed() const {
         return _pressed;
     }
 
+    /**
+     * Set if this button is highlighted.
+     * @param hl: true if button is highlighted
+     */
     inline void setHighlighted(const bool& hl) {
         _highlighted = hl;
     }
 
+    /**
+     * Get if this button is highlighted.
+     * @return bool, true if button is highlighted
+     */
     inline bool isHighlighted() const {
         return _highlighted;
     }
 private:
+    /**
+     * If this button is clickable.
+     */
     bool _available;
+
+    /**
+     * If this button is pressed.
+     */
     bool _pressed;
+
+    /**
+     * If this button is highlighted.
+     */
     bool _highlighted;
+
+    /**
+     * Clickable area data.
+     */
     ui::ClickableReceiver _receiver;
 
+    /**
+     * Default background image path.
+     */
     std::string _default_image;
+
+    /**
+     * Background image path(pressed state).
+     */
     std::string _pressed_image;
+
+    /**
+     * Background image path(disabled state).
+     */
     std::string _disable_image;
+
+    /**
+     * Background image path(highlight state).
+     */
     std::string _highlight_image;
 
+    /**
+     * Reference to sprite component.
+     */
     Sprite* _sprite{};
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(Button) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<Button, Component>("Animation")
+                .addFunction("setAvailable", &Button::setAvailable)
+                .addFunction("isAvailable", &Button::isAvailable)
+            .endClass()
+        .endNamespace();
+
     ComponentFactory::getInstance()->registerComponent<Button>("Button");
 }
 

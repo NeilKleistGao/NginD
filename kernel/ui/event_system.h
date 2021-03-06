@@ -29,31 +29,84 @@
 
 namespace ngind::ui {
 
+/**
+ * Singleton class dealing with ui events.
+ */
 class EventSystem {
 public:
+    /**
+     * Get instance of EventSystem. Create if instance is null.
+     * @return EventSystem*, the unique instance
+     */
     static EventSystem* getInstance();
+
+    /**
+     * Destroy the unique instance of EventSystem.
+     */
     static void destroyInstance();
 
     EventSystem(const EventSystem&) = delete;
     EventSystem& operator= (const EventSystem&) = delete;
 
+    /**
+     * Register a new click event.
+     * @param receiver: clickable area data
+     */
     void registerEvent(const ClickableReceiver& receiver);
+
+    /**
+     * Unregister some click event.
+     * @param receiver: clickable area data
+     */
     void unregisterEvent(const ClickableReceiver& receiver);
 
+    /**
+     * Update events' states each frame.
+     */
     void update();
 
+    /**
+     * Initialize the window's height.
+     * @param win_height: window's height
+     */
     inline void init(const size_t& win_height) {
         _win_height = win_height;
     }
+
+    /**
+     * Initialize or reinitialize quad tree with world's size.
+     * @param width: world's width
+     * @param height: world's height
+     */
     void init(const size_t& width, const size_t& height);
 private:
     EventSystem();
     ~EventSystem();
 
+
+    /**
+     * The unique instance of EventSystem.
+     */
     static EventSystem* _instance;
+
+    /**
+     * Quad tree maintaining receiver data.
+     */
     QuadTree* _tree;
+
+    /**
+     * Window's height.
+     */
     size_t _win_height;
+
+    /**
+     * Clickable receiver on processing of click.
+     */
     ClickableReceiver* _current_receiver;
+
+    /**
+     * Clickable receiver on processing of moving.
+     */
     ClickableReceiver* _current_moving;
 };
 

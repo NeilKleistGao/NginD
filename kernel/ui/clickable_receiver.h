@@ -36,11 +36,30 @@ class Button;
 
 namespace ngind::ui {
 
+/**
+ * Clickable area data set.
+ */
 struct ClickableReceiver {
+    /**
+     * Set of vertex comprise constituting the polygon.
+     */
     std::vector<glm::vec2> vertex;
+
+    /**
+     * Rendering order.
+     */
     unsigned int z_order;
+
+    /**
+     * Reference to button component.
+     */
     components::Button* button;
 
+    /**
+     * Compare two ClickableReceiver object.
+     * @param other: another object
+     * @return bool, true if they are equal
+     */
     bool operator== (const ClickableReceiver& other) {
         if (z_order != other.z_order) {
             return false;
