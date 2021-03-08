@@ -16,11 +16,8 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + ...
 
 ## TODO List
-### 0.5
-+ [x] UI System(Button and Label Only)
-
 ### 0.6
-+ [ ] Full Render Interfaces
++ [ ] More Rendering Interfaces
 + [ ] Windows Version
 
 ### 0.7

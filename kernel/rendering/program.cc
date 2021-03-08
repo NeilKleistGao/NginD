@@ -49,4 +49,13 @@ Program::~Program() {
     glDeleteProgram(this->_program);
 }
 
+GLint Program::getUniform(const std::string& name) const {
+    auto res = glGetUniformLocation(this->_program, name.c_str());
+    if (res == -1) {
+        // TODO:
+    }
+
+    return res;
+}
+
 } // namespace ngind::rendering

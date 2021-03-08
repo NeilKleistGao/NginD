@@ -57,31 +57,14 @@ public:
         glUseProgram(this->_program);
     }
 
-    /**
-     * Set vector4 uniform property in this program
-     * @param name: name of property
-     * @param v: vector4 data
-     */
-    inline void setVector4(const std::string& name, const glm::vec4& v) {
-        glUniform4f(glGetUniformLocation(this->_program, name.c_str()), v.x, v.y, v.z, v.w);
+    GLint getUniform(const std::string& name) const;
+
+    inline void setFloat(const std::string& name, const float& f) {
+        glUniform1f(getUniform(name), f);
     }
 
-    /**
-     * Set matrix4 uniform property in this program
-     * @param name: name of property
-     * @param m: matrix4 data
-     */
-    inline void setMatrix4(const std::string& name, const glm::mat4& m) {
-        glUniformMatrix4fv(glGetUniformLocation(this->_program, name.c_str()), 1, GL_FALSE, glm::value_ptr(m));
-    }
-
-    /**
-     * Set integer uniform property in this program
-     * @param name: name of property
-     * @param i: integer data
-     */
-    inline void setInteger(const std::string& name, const int& i) {
-        glUniform1i(glGetUniformLocation(this->_program, name.c_str()), i);
+    inline void setFloat2(const std::string& name, const float& x, const float& y) {
+        glUniform2f(getUniform(name), x, y);
     }
 
     /**
@@ -92,7 +75,7 @@ public:
      * @param z: the third property
      */
     inline void setFloat3(const std::string& name, const float& x, const float& y, const float& z) {
-        glUniform3f(glGetUniformLocation(this->_program, name.c_str()), x, y, z);
+        glUniform3f(getUniform(name), x, y, z);
     }
 
     /**
@@ -104,8 +87,87 @@ public:
      * @param a: the fourth property
      */
     inline void setFloat4(const std::string& name, const float& r, const float& g, const float& b, const float& a) {
-        glUniform4f(glGetUniformLocation(this->_program, name.c_str()), r, g, b, a);
+        glUniform4f(getUniform(name), r, g, b, a);
     }
+
+    /**
+     * Set integer uniform property in this program
+     * @param name: name of property
+     * @param i: integer data
+     */
+    inline void setInteger(const std::string& name, const int& i) {
+        glUniform1i(getUniform(name), i);
+    }
+
+    inline void setInteger2(const std::string& name, const int& x, const int& y) {
+        glUniform2i(getUniform(name), x, y);
+    }
+
+    inline void setInteger3(const std::string& name, const int& x, const int& y, const int& z) {
+        glUniform3i(getUniform(name), x, y, z);
+    }
+
+    inline void setInteger4(const std::string& name, const int& x, const int& y, const int& z, const int& w) {
+        glUniform4i(getUniform(name), x, y, z, w);
+    }
+
+    inline void setUnsigned(const std::string& name, const unsigned& i) {
+        glUniform1ui(getUniform(name), i);
+    }
+
+    inline void setUnsigned2(const std::string& name, const unsigned& x, const unsigned& y) {
+        glUniform2ui(getUniform(name), x, y);
+    }
+
+    inline void setUnsigned3(const std::string& name, const unsigned& x, const unsigned& y, const unsigned& z) {
+        glUniform3ui(getUniform(name), x, y, z);
+    }
+
+    inline void setUnsigned4(const std::string& name, const unsigned& x, const unsigned& y, const unsigned& z, const unsigned& w) {
+        glUniform4ui(getUniform(name), x, y, z, w);
+    }
+
+    inline void setMatrix2(const std::string& name, const glm::mat2& m) {
+        glUniformMatrix2fv(getUniform(name), 1, GL_FALSE, glm::value_ptr(m));
+    }
+
+    inline void setMatrix3(const std::string& name, const glm::mat3& m) {
+        glUniformMatrix3fv(getUniform(name), 1, GL_FALSE, glm::value_ptr(m));
+    }
+
+    /**
+     * Set matrix4 uniform property in this program
+     * @param name: name of property
+     * @param m: matrix4 data
+     */
+    inline void setMatrix4(const std::string& name, const glm::mat4& m) {
+        glUniformMatrix4fv(getUniform(name), 1, GL_FALSE, glm::value_ptr(m));
+    }
+
+    inline void setMatrix2x3(const std::string& name, const glm::mat2x3 & m) {
+        glUniformMatrix2x3fv(getUniform(name), 1, GL_FALSE, glm::value_ptr(m));
+    }
+
+    inline void setMatrix3x2(const std::string& name, const glm::mat3x2 & m) {
+        glUniformMatrix3x2fv(getUniform(name), 1, GL_FALSE, glm::value_ptr(m));
+    }
+
+    inline void setMatrix2x4(const std::string& name, const glm::mat2x4 & m) {
+        glUniformMatrix2x4fv(getUniform(name), 1, GL_FALSE, glm::value_ptr(m));
+    }
+
+    inline void setMatrix4x2(const std::string& name, const glm::mat4x2 & m) {
+        glUniformMatrix4x2fv(getUniform(name), 1, GL_FALSE, glm::value_ptr(m));
+    }
+
+    inline void setMatrix3x4(const std::string& name, const glm::mat3x4 & m) {
+        glUniformMatrix3x4fv(getUniform(name), 1, GL_FALSE, glm::value_ptr(m));
+    }
+
+    inline void setMatrix4x3(const std::string& name, const glm::mat4x3 & m) {
+        glUniformMatrix4x3fv(getUniform(name), 1, GL_FALSE, glm::value_ptr(m));
+    }
+
 private:
     /**
      * The index of program
