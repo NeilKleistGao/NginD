@@ -21,13 +21,14 @@
  * SOFTWARE.
  */
 
-/// @file perspective.h
+/// @file camera.h
 
 #ifndef NGIND_CAMERA_H
 #define NGIND_CAMERA_H
 
 #include "include/glm/glm.hpp"
 #include "resources/program_resource.h"
+#include "script/lua_registration.h"
 
 namespace ngind::rendering {
 /**
@@ -91,6 +92,8 @@ public:
                           0.0f, static_cast<GLfloat>(_height),
                           -1.0f, 1.0f);
     }
+
+    void capture(const std::string& filename) const;
 private:
     Camera();
     ~Camera() = default;
@@ -105,11 +108,24 @@ private:
      */
     size_t _width, _height;
 
+    glm::vec2 _center;
+
     /**
      * Projection matrix
      */
     glm::mat4 _projection;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(Camera) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .beginClass<Camera>("Camera")
+                .addStaticFunction("getInstance", &Camera::getInstance)
+                .addFunction("moveTo", &Camera::moveTo)
+                .addFunction("capture", &Camera::capture)
+            .endClass()
+        .endNamespace();
+}
 
 } // namespace ngind::rendering
 

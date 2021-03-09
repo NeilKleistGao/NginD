@@ -31,6 +31,6 @@ int main(int argc, char* argv[]) {
 
     // Good Luck, Have Fun.
     game->start();
-    game->destroyInstance();
+    ngind::Game::destroyInstance();
     return 0;
 }

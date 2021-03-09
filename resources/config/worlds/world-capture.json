@@ -1,0 +1,80 @@
+{
+  "world-name": "capture",
+  "background-color": "#000000FF",
+  "size": {
+    "width": 1024,
+    "height": 768
+  },
+  "camera": {
+    "x": 512,
+    "y": 384
+  },
+  "children": [
+    {
+      "name": "title",
+      "position": {
+        "x": 512,
+        "y": 700
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 36,
+          "text": "Capture World",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        }
+      ]
+    },
+    {
+      "name": "tip",
+      "position": {
+        "x": 512,
+        "y": 100
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 24,
+          "text": "PRESS SPACE TO CAPTURE",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "StateMachine",
+      "name": "WorldSwitch",
+      "driver-script": "world_switch.lua",
+      "classname": "WorldSwitch",
+      "subscription": [
+      ]
+    },
+    {
+      "type": "StateMachine",
+      "name": "Capture",
+      "driver-script": "capture.lua",
+      "classname": "Capture",
+      "subscription": [
+      ]
+    }
+  ]
+}

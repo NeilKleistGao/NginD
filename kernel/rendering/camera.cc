@@ -21,16 +21,18 @@
  * SOFTWARE.
  */
 
-/// @file perspective.cc
+/// @file camera.cc
 
 #include "camera.h"
 
 #include <iostream>
 
+#include "SOIL2/SOIL2.h"
+
 namespace ngind::rendering {
 Camera* Camera::_instance = nullptr;
 
-Camera::Camera() : _width(0), _height(0) {
+Camera::Camera() : _width(0), _height(0), _projection() {
 }
 
 Camera* Camera::getInstance() {
@@ -58,5 +60,29 @@ void Camera::init(const glm::vec2& center, const size_t& width, const size_t& he
     _projection = glm::ortho(0.0f, static_cast<GLfloat>(width), 0.0f, static_cast<GLfloat>(height), -1.0f, 1.0f);
 
     _width = width; _height = height;
+    _center = center;
 }
+
+void Camera::capture(const std::string& filename) const {
+    glReadBuffer(GL_FRONT);
+
+    glPixelStorei(GL_PACK_ALIGNMENT,1);
+    auto buffer = new unsigned char[_width * _height * sizeof(unsigned char) * 4];
+    glReadPixels(0, 0, _width, _height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+
+    for (int i = 0; i < _width; i++) {
+        for (int j = 0; j < _height / 2; j++) {
+            std::swap(buffer[(j * _width + i) * 4], buffer[((_height - j - 1) * _width + i) * 4]);
+            std::swap(buffer[(j * _width + i) * 4 + 1], buffer[((_height - j - 1) * _width + i) * 4 + 1]);
+            std::swap(buffer[(j * _width + i) * 4 + 2], buffer[((_height - j - 1) * _width + i) * 4 + 2]);
+            std::swap(buffer[(j * _width + i) * 4 + 3], buffer[((_height - j - 1) * _width + i) * 4 + 3]);
+        }
+    }
+
+    SOIL_save_image(filename.c_str(), SOIL_SAVE_TYPE_PNG, _width, _height, SOIL_LOAD_RGBA, buffer);
+
+    delete[] buffer;
+    buffer = nullptr;
+}
+
 } // namespace ngind::rendering

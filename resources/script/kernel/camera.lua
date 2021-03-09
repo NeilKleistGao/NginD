@@ -20,20 +20,12 @@
 - SOFTWARE.
 - ]]
 
---- @file input.lua
+--- @file camera.lua
 
-KEY_CODE = {}
-KEY_CODE.SPACE = 32
-KEY_CODE.COMMA = 44
-KEY_CODE.PERIOD = 46
-KEY_CODE.ESCAPE = 256
-KEY_CODE.RIGHT = 262
-KEY_CODE.LEFT = 263
+Camera = {}
 
-Input = {}
+Camera.__camera = engine.Camera.getInstance()
 
-Input.__input = engine.Input.getInstance()
-
-Input.getKeyReleased = function(key)
-    return Input.__input.getKeyReleased(Input.__input, key)
+Camera.capture = function(filename)
+    Camera.__camera.capture(Camera.__camera, filename)
 end

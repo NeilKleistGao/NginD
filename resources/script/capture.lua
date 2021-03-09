@@ -20,20 +20,22 @@
 - SOFTWARE.
 - ]]
 
---- @file input.lua
+--- @file capture.lua
 
-KEY_CODE = {}
-KEY_CODE.SPACE = 32
-KEY_CODE.COMMA = 44
-KEY_CODE.PERIOD = 46
-KEY_CODE.ESCAPE = 256
-KEY_CODE.RIGHT = 262
-KEY_CODE.LEFT = 263
+Capture = class("Capture")
 
-Input = {}
+function Capture:ctor()
+end
 
-Input.__input = engine.Input.getInstance()
+function Capture:enter()
+    self.move("Idle")
+end
 
-Input.getKeyReleased = function(key)
-    return Input.__input.getKeyReleased(Input.__input, key)
+function Capture:updateIdle()
+    if Input.getKeyReleased(KEY_CODE.SPACE) then
+        Camera.capture("capture_test.png")
+    end
+end
+
+function Capture:exit()
 end
