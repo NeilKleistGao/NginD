@@ -31,7 +31,7 @@ namespace ngind::rendering {
 
 Program::Program(const std::string& program_name) {
     _vs = resources::ResourcesManager::getInstance()->load<resources::ShaderResource>(program_name + ".vs");
-    _fs = resources::ResourcesManager::getInstance()->load<resources::ShaderResource>(program_name + ".fs");
+    _fs = resources::ResourcesManager::getInstance()->load<resources::ShaderResource>(program_name + ".frag");
 
     this->_program = glCreateProgram();
     glAttachShader(this->_program, _vs->getShader());

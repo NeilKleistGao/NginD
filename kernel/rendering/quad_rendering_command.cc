@@ -26,7 +26,7 @@
 namespace ngind::rendering {
 
 QuadRenderingCommand::QuadRenderingCommand(Quad* quad, const GLuint& tid) : RenderingCommand(),
-_quad(quad), _texture(tid){
+_quad(quad), _texture(tid) {
 }
 
 void QuadRenderingCommand::call() {

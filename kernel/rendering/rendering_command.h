@@ -29,6 +29,7 @@
 #include "quad.h"
 #include "program.h"
 #include "color.h"
+#include "camera.h"
 #include "memory/auto_collection_object.h"
 
 namespace ngind::rendering {
@@ -106,6 +107,15 @@ public:
      */
     inline Program* getProgram() const {
         return _program;
+    }
+
+    virtual void prepare() {
+        this->getProgram()->use();
+        auto color = this->getColor();
+        this->getProgram()->setFloat4("my_color", color.r / 255.0f, color.g / 255.0f,
+                                     color.b / 255.0f, color.a / 255.0f);
+        this->getProgram()->setMatrix4("projection", Camera::getInstance()->getProjection());
+        this->getProgram()->setMatrix4("model", this->getModel());
     }
 private:
     /**

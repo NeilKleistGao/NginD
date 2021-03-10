@@ -49,7 +49,7 @@ void Renderer::destroyInstance() {
 }
 
 Renderer::Renderer()
-    : _window(nullptr), _queue(nullptr) {
+    : _window(nullptr), _queue(nullptr), _multisampling(true) {
     _queue = new RenderingQueue();
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 }
@@ -89,19 +89,25 @@ void Renderer::createWindow(const int& width,
     }
 
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    setBlendFactor(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_MULTISAMPLE);
     Camera::getInstance()->init({width / 2.0f, height / 2.0f}, width, height);
 }
 
 void Renderer::execute(RenderingCommand* cmd) {
-    cmd->getProgram()->use();
-    auto color = cmd->getColor();
-    cmd->getProgram()->setFloat4("my_color", color.r / 255.0f, color.g / 255.0f,
-                            color.b / 255.0f, color.a / 255.0f);
-    cmd->getProgram()->setMatrix4("projection", Camera::getInstance()->getProjection());
-    cmd->getProgram()->setMatrix4("model", cmd->getModel());
-
+    cmd->prepare();
     cmd->call();
+}
+
+void Renderer::enableMultisampling(const bool& en) {
+    if (en) {
+        glEnable(GL_MULTISAMPLE);
+    }
+    else {
+        glDisable(GL_MULTISAMPLE);
+    }
+
+    _multisampling = en;
 }
 
 } // namespace ngind::rendering

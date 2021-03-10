@@ -31,6 +31,8 @@
 #include "color.h"
 #include "camera.h"
 
+#include "script/lua_registration.h"
+
 namespace ngind::rendering {
 
 /**
@@ -87,6 +89,16 @@ public:
         _queue->push(cmd);
     }
 
+    inline void setBlendFactor(const unsigned int& src, const unsigned int& dst) {
+        glBlendFunc(src, dst);
+    }
+
+    void enableMultisampling(const bool& en);
+
+    bool isMultisampling() const {
+        return _multisampling;
+    }
+
 private:
     /**
      * The unique instance if rendering
@@ -103,6 +115,8 @@ private:
      */
     RenderingQueue* _queue;
 
+    bool _multisampling;
+
     /**
      * Execute a rendering command
      * @param cmd: the command to be executed
@@ -113,6 +127,17 @@ private:
 
     ~Renderer();
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(Renderer) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .beginClass<Renderer>("Renderer")
+                .addStaticFunction("getInstance", &Renderer::getInstance)
+                .addFunction("enableMultisampling", &Renderer::enableMultisampling)
+                .addFunction("isMultisampling", &Renderer::isMultisampling)
+            .endClass()
+        .endNamespace();
+}
 
 } // namespace ngind::rendering
 
