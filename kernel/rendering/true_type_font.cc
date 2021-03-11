@@ -24,6 +24,7 @@
 #include "true_type_font.h"
 
 #include <iostream>
+#include <algorithm>
 
 namespace ngind::rendering {
 

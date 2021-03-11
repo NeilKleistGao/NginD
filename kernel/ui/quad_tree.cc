@@ -24,6 +24,7 @@
 #include "quad_tree.h"
 
 #include <climits>
+#include <algorithm>
 
 namespace ngind::ui {
 

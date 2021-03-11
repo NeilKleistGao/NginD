@@ -1,7 +1,7 @@
 project(NginD)
 
 include(kernel/components/CMakeLists.txt)
-include(kernel/coroutine/CMakeLists.txt)
+#include(kernel/coroutine/CMakeLists.txt)
 include(kernel/filesystem/CMakeLists.txt)
 include(kernel/input/CMakeLists.txt)
 include(kernel/log/CMakeLists.txt)
@@ -22,7 +22,7 @@ include(kernel/ui/CMakeLists.txt)
 set(KERNEL_HEADER
         kernel/game.h
         ${COMPONENTS_HEADER}
-        ${COROUTINE_HEADER}
+        #${COROUTINE_HEADER}
         ${FILESYSTEM_HEADER}
         ${INPUT_HEADER}
         ${LOG_HEADER}
@@ -43,7 +43,7 @@ set(KERNEL_HEADER
 set(KERNEL_SRC
         kernel/game.cc
         ${COMPONENTS_SRC}
-        ${COROUTINE_SRC}
+        #${COROUTINE_SRC}
         ${FILESYSTEM_SRC}
         ${INPUT_SRC}
         ${LOG_SRC}
