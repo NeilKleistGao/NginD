@@ -1,0 +1,593 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{05B7ECB0-D0DC-36B1-AFFB-523365B225EB}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>NginD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NginD.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NginD</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NginD.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NginD</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">NginD.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">NginD</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">NginD.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">NginD</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\.;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\opengl;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\resources;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;ENABLE_I18N;PLATFORM_WINDOWS;MODE_DEBUG;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;ENABLE_I18N;PLATFORM_WINDOWS;MODE_DEBUG;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\.;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\opengl;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\resources;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\.;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\opengl;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\resources;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message>COPY RESOURCES FILES(win32)	COPY RESOURCES FILES(Debug)	COPY RESOURCES FILES(Release)</Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory ../resources ../win32/resources
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory ../resources "C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/Debug/resources"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory ../resources "C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/Release/resources"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;..\\lib\windows\opengl\glew32.lib;..\\lib\windows\opengl\glew32s.lib;..\\lib\windows\opengl\glfw3.lib;..\\lib\windows\soloud\soloud_static_x64.lib;..\\lib\windows\soloud\soloud_x64.lib;..\\lib\windows\freetype\freetype.lib;..\\lib\windows\soil2\soil2.lib;..\\lib\windows\lua\lua52.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/Debug/NginD.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/Debug/NginD.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\.;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\opengl;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\resources;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ENABLE_I18N;PLATFORM_WINDOWS;MODE_DEBUG;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ENABLE_I18N;PLATFORM_WINDOWS;MODE_DEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\.;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\opengl;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\resources;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\.;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\opengl;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\resources;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message>COPY RESOURCES FILES(win32)	COPY RESOURCES FILES(Debug)	COPY RESOURCES FILES(Release)</Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory ../resources ../win32/resources
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory ../resources "C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/Debug/resources"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory ../resources "C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/Release/resources"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;..\\lib\windows\opengl\glew32.lib;..\\lib\windows\opengl\glew32s.lib;..\\lib\windows\opengl\glfw3.lib;..\\lib\windows\soloud\soloud_static_x64.lib;..\\lib\windows\soloud\soloud_x64.lib;..\\lib\windows\freetype\freetype.lib;..\\lib\windows\soil2\soil2.lib;..\\lib\windows\lua\lua52.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/Release/NginD.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/Release/NginD.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\.;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\opengl;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\resources;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ENABLE_I18N;PLATFORM_WINDOWS;MODE_DEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ENABLE_I18N;PLATFORM_WINDOWS;MODE_DEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\.;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\opengl;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\resources;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\.;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\opengl;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\resources;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message>COPY RESOURCES FILES(win32)	COPY RESOURCES FILES(Debug)	COPY RESOURCES FILES(Release)</Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory ../resources ../win32/resources
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory ../resources "C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/Debug/resources"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory ../resources "C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/Release/resources"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;..\\lib\windows\opengl\glew32.lib;..\\lib\windows\opengl\glew32s.lib;..\\lib\windows\opengl\glfw3.lib;..\\lib\windows\soloud\soloud_static_x64.lib;..\\lib\windows\soloud\soloud_x64.lib;..\\lib\windows\freetype\freetype.lib;..\\lib\windows\soil2\soil2.lib;..\\lib\windows\lua\lua52.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/MinSizeRel/NginD.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/MinSizeRel/NginD.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\.;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\opengl;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\resources;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ENABLE_I18N;PLATFORM_WINDOWS;MODE_DEBUG;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ENABLE_I18N;PLATFORM_WINDOWS;MODE_DEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\.;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\opengl;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\resources;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\.;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\opengl;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\resources;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message>COPY RESOURCES FILES(win32)	COPY RESOURCES FILES(Debug)	COPY RESOURCES FILES(Release)</Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory ../resources ../win32/resources
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory ../resources "C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/Debug/resources"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory ../resources "C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/Release/resources"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;..\\lib\windows\opengl\glew32.lib;..\\lib\windows\opengl\glew32s.lib;..\\lib\windows\opengl\glfw3.lib;..\\lib\windows\soloud\soloud_static_x64.lib;..\\lib\windows\soloud\soloud_x64.lib;..\\lib\windows\freetype\freetype.lib;..\\lib\windows\soil2\soil2.lib;..\\lib\windows\lua\lua52.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/RelWithDebInfo/NginD.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/bin/RelWithDebInfo/NginD.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/Neil Kleist Gao/Documents/Code/C++/NginD" "-BC:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/win32" --check-stamp-file "C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/win32/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\audio\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\exceptions\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\math\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\platforms\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\timer\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\utils\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\plugin\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeCCompiler.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeCXXCompiler.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeRCCompiler.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/Neil Kleist Gao/Documents/Code/C++/NginD" "-BC:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/win32" --check-stamp-file "C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/win32/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\audio\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\exceptions\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\math\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\platforms\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\timer\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\utils\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\plugin\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeCCompiler.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeCXXCompiler.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeRCCompiler.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/Neil Kleist Gao/Documents/Code/C++/NginD" "-BC:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/win32" --check-stamp-file "C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/win32/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\audio\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\exceptions\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\math\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\platforms\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\timer\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\utils\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\plugin\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeCCompiler.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeCXXCompiler.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeRCCompiler.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/Neil Kleist Gao/Documents/Code/C++/NginD" "-BC:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/win32" --check-stamp-file "C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/win32/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\audio\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\exceptions\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\math\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\platforms\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\timer\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\utils\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\plugin\CMakeLists.txt;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeCCompiler.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeCXXCompiler.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeRCCompiler.cmake;C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\3.20.0-rc3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\main.cc" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\game.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\component.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\renderer_component.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\sprite.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\label.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\state_machine.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\component_factory.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\music_player.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\effect_player.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\animation.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\button.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\cipher_input_stream.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\cipher_output_stream.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\data_input_stream.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\file_input_stream.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\file_output_stream.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\input_stream.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\object_input_stream.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\object_output_stream.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\output_stream.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\zip_input_stream.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\input.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\keyboard_input.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\mouse_input.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\text_input.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\log_level.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\logger.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\logger_factory.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\visual_logger.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\math\random.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\auto_collection_object.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\memory_pool.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\entity_object.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\object.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\updatable_object.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\world.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\platforms\linux.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\platforms\platforms.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\platforms\windows.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\font_factory.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\camera.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\program.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\quad.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\renderer.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\rendering_queue.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\rendering_command.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\color.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\shader.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\texture.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\true_type_font.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\window.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\character.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\quad_rendering_command.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\batch_quad_rendering_command.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\config_resource.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\font_resource.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\program_resource.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\resource.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\resources_manager.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\shader_resource.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\texture_resource.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\music_resource.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\effect_resource.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\animation_resource.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\timer\timer.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\utils\converter.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\utils\serialization.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\exceptions\game_exception.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\lua_state.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\lua_registration.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\observer.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\audio\audio_manager.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\aseprite.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\aseprite_frame.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\aseprite_tag.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\quad_tree.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\clickable_receiver.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\event_system.h" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\game.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\sprite.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\label.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\state_machine.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\component_factory.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\music_player.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\effect_player.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\animation.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\button.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\cipher_input_stream.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\cipher_output_stream.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\data_input_stream.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\file_input_stream.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\file_output_stream.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\input_stream.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\object_input_stream.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\object_output_stream.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\output_stream.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\zip_input_stream.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\input.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\keyboard_input.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\mouse_input.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\text_input.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\logger_factory.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\visual_logger.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\math\random.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\auto_collection_object.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\memory_pool.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\entity_object.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\object.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\world.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\font_factory.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\camera.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\program.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\quad.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\renderer.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\rendering_queue.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\shader.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\texture.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\true_type_font.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\window.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\quad_rendering_command.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\batch_quad_rendering_command.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\config_resource.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\font_resource.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\program_resource.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\resources_manager.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\shader_resource.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\texture_resource.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\music_resource.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\effect_resource.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\animation_resource.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\timer\timer.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\utils\converter.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\lua_state.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\observer.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\audio\audio_manager.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\aseprite.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\aseprite_frame.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\aseprite_tag.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\quad_tree.cc" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\event_system.cc" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\config.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\i18n.h" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\lang_code.h" />
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\i18n.cc" />
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\plugin\config.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\win32\ZERO_CHECK.vcxproj">
+      <Project>{6BBBC8A9-877A-3D3E-913B-B4CB3B810263}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

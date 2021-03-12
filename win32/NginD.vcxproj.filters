@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\main.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\game.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\sprite.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\label.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\state_machine.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\component_factory.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\music_player.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\effect_player.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\animation.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\button.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\cipher_input_stream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\cipher_output_stream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\data_input_stream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\file_input_stream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\file_output_stream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\input_stream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\object_input_stream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\object_output_stream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\output_stream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\zip_input_stream.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\input.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\keyboard_input.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\mouse_input.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\text_input.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\logger_factory.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\visual_logger.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\math\random.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\auto_collection_object.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\memory_pool.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\entity_object.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\object.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\world.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\font_factory.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\camera.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\program.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\quad.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\renderer.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\rendering_queue.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\shader.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\texture.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\true_type_font.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\window.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\quad_rendering_command.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\batch_quad_rendering_command.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\config_resource.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\font_resource.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\program_resource.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\resources_manager.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\shader_resource.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\texture_resource.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\music_resource.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\effect_resource.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\animation_resource.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\timer\timer.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\utils\converter.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\lua_state.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\observer.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\audio\audio_manager.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\aseprite.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\aseprite_frame.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\aseprite_tag.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\quad_tree.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\event_system.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\i18n.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\renderer_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\label.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\state_machine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\component_factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\music_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\effect_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\components\button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\cipher_input_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\cipher_output_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\data_input_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\file_input_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\file_output_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\input_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\object_input_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\object_output_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\output_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\filesystem\zip_input_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\keyboard_input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\mouse_input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\input\text_input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\log_level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\logger_factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\log\visual_logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\math\random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\auto_collection_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\memory_pool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\entity_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\updatable_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\objects\world.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\platforms\linux.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\platforms\platforms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\platforms\windows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\font_factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\program.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\quad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\rendering_queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\rendering_command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\true_type_font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\quad_rendering_command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\rendering\batch_quad_rendering_command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\config_resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\font_resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\program_resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\resources_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\shader_resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\texture_resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\music_resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\effect_resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\resources\animation_resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\timer\timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\utils\converter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\utils\serialization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\exceptions\game_exception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\lua_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\lua_registration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\audio\audio_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\aseprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\aseprite_frame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\animation\aseprite_tag.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\quad_tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\clickable_receiver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\event_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\i18n.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\lang_code.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\plugin\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{F97F72A3-978F-317A-81DB-228E2298D95F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{5515F659-0E1C-3B35-8C9B-2AA11C9E18B3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
