@@ -3,20 +3,15 @@ project(NginD)
 
 set(CMAKE_CXX_STANDARD 17)
 
-option(target_linux "target platform: linux" OFF)
-option(target_windows "target platform: windows" ON)
+option(PLATFORM_LINUX "target platform: linux" ON)
+option(PLATFORM_WINDOWS "target platform: windows" OFF)
+
+option(MODE_DEBUG "debug mode" ON)
+option(MODE_RELEASE "release mode" OFF)
 
 include(kernel/CMakeLists.txt)
 include(extern/CMakeLists.txt)
 include(plugin/CMakeLists.txt)
-
-if (target_linux)
-    add_definitions(-D PLATFORM_LINUX)
-elseif (target_windows)
-    add_definitions(-D PLATFORM_WINDOWS)
-endif()
-
-add_definitions(-D MODE_DEBUG)
 
 include_directories(.)
 include_directories(kernel)
@@ -24,28 +19,21 @@ include_directories(include)
 include_directories(include/opengl)
 include_directories(resources)
 
-if (target_linux)
+if (PLATFORM_LINUX)
     include_directories(/usr/local/include/freetype2)
-elseif (target_windows)
+elseif (PLATFORM_WINDOWS)
     include_directories(include/freetype2)
 endif()
 
-
-#set(Boost_USE_STATIC_LIBS ON)
-#set(Boost_USE_MULTITHREADED ON)
-#set(Boost_NO_BOOST_CMAKE ON)
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 
-if (target_linux)
+if (PLATFORM_LINUX)
     set(PLATFORM_PREFIX "/lib/linux")
-elseif (target_windows)
+elseif (PLATFORM_WINDOWS)
     set(PLATFORM_PREFIX "/lib/windows")
 endif()
 
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
-
-#find_package(Boost COMPONENTS fiber REQUIRED)
 
 add_executable(NginD main.cc
         ${KERNEL_HEADER}
@@ -55,7 +43,7 @@ add_executable(NginD main.cc
         ${PLUGIN_HEADER}
         ${PLUGIN_SRC})
 
-if (target_linux)
+if (PLATFORM_LINUX)
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libGLEW.so")
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libglfw.so")
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/libglfw3.a")
@@ -72,7 +60,7 @@ if (target_linux)
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/lua/liblua52.so")
     target_link_libraries(NginD "/usr/local/lib/libfreetype.so")
     target_link_libraries(NginD "/usr/local/lib/libfreetype.a")
-elseif (target_windows)
+elseif (PLATFORM_WINDOWS)
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/glew32.lib")
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/glew32s.lib")
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/glfw3.dll")
@@ -87,22 +75,17 @@ elseif (target_windows)
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/lua/lua54.dll")
 endif()
 
-
-# target_link_libraries (NginD ${Boost_LIBRARIES})
-
 add_custom_command(TARGET ${PROJECT_NAME}
         PRE_BUILD
         COMMAND ${CMAKE_COMMAND}
         ARGS -E copy_directory "../resources" "${EXECUTABLE_OUTPUT_PATH}/resources"
         COMMENT "COPY RESOURCES FILES")
 
-if (target_linux)
+if (PLATFORM_LINUX)
     add_compile_options(-ldl)
     add_compile_options(-pthread)
-elseif (target_windows)
-    
 endif()
 
-#add_compile_options(-lboost_fiber)
-#add_compile_options(-lboost_context)
 add_compile_options(-finput-charset=GBK -fexec-charset=UTF-8)
+
+add_executable(crypto kernel/crypto/main.cc kernel/crypto/aes.h kernel/crypto/aes.cc)

@@ -1,7 +1,6 @@
 project(NginD)
 
 include(kernel/components/CMakeLists.txt)
-#include(kernel/coroutine/CMakeLists.txt)
 include(kernel/filesystem/CMakeLists.txt)
 include(kernel/input/CMakeLists.txt)
 include(kernel/log/CMakeLists.txt)
@@ -18,11 +17,11 @@ include(kernel/script/CMakeLists.txt)
 include(kernel/audio/CMakeLists.txt)
 include(kernel/animation/CMakeLists.txt)
 include(kernel/ui/CMakeLists.txt)
+include(kernel/crypto/CMakeLists.txt)
 
 set(KERNEL_HEADER
         kernel/game.h
         ${COMPONENTS_HEADER}
-        #${COROUTINE_HEADER}
         ${FILESYSTEM_HEADER}
         ${INPUT_HEADER}
         ${LOG_HEADER}
@@ -38,12 +37,12 @@ set(KERNEL_HEADER
         ${SCRIPT_HEADER}
         ${AUDIO_HEADER}
         ${ANIMATION_HEADER}
-        ${UI_HEADER})
+        ${UI_HEADER}
+        ${CRYPTO_HEADER})
 
 set(KERNEL_SRC
         kernel/game.cc
         ${COMPONENTS_SRC}
-        #${COROUTINE_SRC}
         ${FILESYSTEM_SRC}
         ${INPUT_SRC}
         ${LOG_SRC}
@@ -59,4 +58,5 @@ set(KERNEL_SRC
         ${SCRIPT_SRC}
         ${AUDIO_SRC}
         ${ANIMATION_SRC}
-        ${UI_SRC})
+        ${UI_SRC}
+        ${CRYPTO_SRC})
