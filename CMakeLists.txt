@@ -25,7 +25,7 @@ elseif (PLATFORM_WINDOWS)
     include_directories(include/freetype2)
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 
 if (PLATFORM_LINUX)
     set(PLATFORM_PREFIX "/lib/linux")
@@ -88,4 +88,6 @@ endif()
 
 add_compile_options(-finput-charset=GBK -fexec-charset=UTF-8)
 
-add_executable(crypto kernel/crypto/main.cc kernel/crypto/aes.h kernel/crypto/aes.cc)
+add_executable(crypto kernel/crypto/main.cc
+        kernel/crypto/aes.h kernel/crypto/aes.cc
+        kernel/math/galois_field.h kernel/math/galois_field.cc)

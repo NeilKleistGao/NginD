@@ -28,7 +28,45 @@ namespace ngind::math {
 
 class GaloisField {
 public:
+    GaloisField() = delete;
+    ~GaloisField() = delete;
+
+    static unsigned int multiply(const unsigned int& n, const unsigned int& s);
 private:
+
+    static unsigned int multiplyBy2(const unsigned int& s);
+
+    static inline unsigned int multiplyBy3(const unsigned int& s) {
+        return multiplyBy2(s) ^ s;
+    }
+
+    static inline unsigned int multiplyBy4(const unsigned int& s) {
+        return multiplyBy2(multiplyBy2(s));
+    }
+
+    static inline unsigned int multiplyBy8(const unsigned int& s) {
+        return multiplyBy2(multiplyBy4(s));
+    }
+
+    static inline unsigned int multiplyBy9(const unsigned int& s) {
+        return multiplyBy8(s) ^ s;
+    }
+
+    static inline unsigned int multiplyBy11(const unsigned int& s) {
+        return multiplyBy9(s) ^ multiplyBy2(s);
+    }
+
+    static inline unsigned int multiplyBy12(const unsigned int& s) {
+        return multiplyBy8(s) ^ multiplyBy4(s);
+    }
+
+    static inline unsigned int multiplyBy13(const unsigned int& s) {
+        return multiplyBy12(s) ^ s;
+    }
+
+    static inline unsigned int multiplyBy14(const unsigned int& s) {
+        return multiplyBy12(s) ^ multiplyBy2(s);
+    }
 };
 
 } // namespace ngind::math

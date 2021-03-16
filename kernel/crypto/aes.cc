@@ -26,11 +26,13 @@
 #include <iostream>
 #include <cassert>
 
+#include "math/galois_field.h"
+
 namespace ngind::crypto {
 AES* AES::_instance = nullptr;
 
 AES::AES() : _password() {
-    _password = "{{PASSWORD}}";
+    _password = "{{{{PASSWORD}}}}";
     assert(_password.length() <= 16);
 
     while (_password.length() < 16) {
@@ -60,7 +62,7 @@ void AES::destroyInstance() {
 }
 
 std::string AES::encrypt(std::string content) {
-    for (unsigned int i = content.length() % 16; i < 16; ++i) {
+    for (unsigned int i = content.length() % 16; i < 16 && i != 0; ++i) {
         content += '\0';
     }
 
@@ -68,15 +70,23 @@ std::string AES::encrypt(std::string content) {
 }
 
 std::string AES::decrypt(const std::string& content) {
-    return aes(content, false);
+    std::string res = aes(content, false);
+    for (int i = res.length() - 1; ; --i) {
+        if (res[i] != 0) {
+            res = res.substr(0, i);
+            break;
+        }
+    }
+
+    return res;
 }
 
 void AES::extendKey() {
     for (int i = 0; i < 4; ++i) {
-        _ex_key[i] = (static_cast<unsigned int>(_password[i * 4]) << 24) |
-                (static_cast<unsigned int>(_password[i * 4 + 1]) << 16) |
-                (static_cast<unsigned int>(_password[i * 4 + 2]) << 8) |
-                (static_cast<unsigned int>(_password[i * 4 + 3]));
+        _ex_key[i] = (static_cast<unsigned int>(_password[(i << 2)]) << 24) |
+                (static_cast<unsigned int>(_password[(i << 2) + 1]) << 16) |
+                (static_cast<unsigned int>(_password[(i << 2) + 2]) << 8) |
+                (static_cast<unsigned int>(_password[(i << 2) + 3]));
     }
 
     for (int i = 4, j = 0; i < 44; ++i) {
@@ -86,10 +96,10 @@ void AES::extendKey() {
         else {
             _ex_key[i] = _ex_key[i - 4];
             unsigned int arr[4] = {
-                    ((_ex_key[i - 1] >> 16) & 0b11111111),
-                    ((_ex_key[i - 1] >> 8) & 0b11111111),
-                    ((_ex_key[i - 1]) & 0b11111111),
-                    ((_ex_key[i - 1] >> 24) & 0b11111111)
+                    ((_ex_key[i - 1] >> 16) & 0xff),
+                    ((_ex_key[i - 1] >> 8) & 0xff),
+                    ((_ex_key[i - 1]) & 0xff),
+                    ((_ex_key[i - 1] >> 24) & 0xff)
             };
 
             for (int k = 0; k < 4; ++k) {
@@ -97,7 +107,7 @@ void AES::extendKey() {
             }
 
             unsigned int temp = (arr[0] << 24) | (arr[1] << 16) |
-                    (arr[2] << 8) | (arr[0]);
+                    (arr[2] << 8) | (arr[3]);
             temp ^= ROUND_CONST[j];
             _ex_key[i] ^= temp;
             ++j;
@@ -106,19 +116,54 @@ void AES::extendKey() {
 }
 
 void AES::replace(unsigned int mat[4][4], const bool& enc) {
-
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            mat[i][j] = replace(mat[i][j], enc);
+        }
+    }
 }
 
 void AES::shift(unsigned int mat[4][4], const bool& enc) {
+    unsigned int temp[4][4];
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            temp[i][j] = mat[i][j];
+        }
+    }
 
+    for (int i = 1; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            mat[i][j] = temp[i][enc ? (i + j) & 3 : (j - i + 4) & 3];
+        }
+    }
 }
 
 void AES::mix(unsigned int mat[4][4], const bool& enc) {
+    const auto& mm = enc ? MIX_MAT : RE_MIX_MAT;
+    int temp[4][4];
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            temp[i][j] = mat[i][j];
+        }
+    }
 
+    using GF = math::GaloisField;
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            mat[i][j] = GF::multiply(mm[i][0], temp[0][j]) ^
+                    GF::multiply(mm[i][1], temp[1][j]) ^
+                    GF::multiply(mm[i][2], temp[2][j])
+                    ^ GF::multiply(mm[i][3], temp[3][j]);
+        }
+    }
 }
 
 void AES::addRoundKey(unsigned int mat[4][4], const int& round) {
-
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            mat[j][i] ^= (_ex_key[(round << 2) + i] >> (8 * (3 - j))) & 0xff;
+        }
+    }
 }
 
 unsigned int AES::replace(const unsigned int& num, const bool& enc) const {
@@ -134,28 +179,41 @@ std::string AES::aes(const std::string& content, const bool& enc) {
     std::string res;
     for (int i = 0; i < content.length(); i += 16) {
         unsigned int mat[4][4] = {
-                {static_cast<unsigned int>(content[i + 0]), static_cast<unsigned int>(content[i + 4]),
-                        static_cast<unsigned int>(content[i + 8]), static_cast<unsigned int>(content[i + 12])},
-                {static_cast<unsigned int>(content[i + 1]), static_cast<unsigned int>(content[i + 5]),
-                        static_cast<unsigned int>(content[i + 9]), static_cast<unsigned int>(content[i + 13])},
-                {static_cast<unsigned int>(content[i + 2]), static_cast<unsigned int>(content[i + 6]),
-                        static_cast<unsigned int>(content[i + 10]), static_cast<unsigned int>(content[i + 14])},
-                {static_cast<unsigned int>(content[i + 3]), static_cast<unsigned int>(content[i + 7]),
-                        static_cast<unsigned int>(content[i + 11]), static_cast<unsigned int>(content[i + 15])}
+                {static_cast<unsigned int>(content[i + 0]) & 0xff, static_cast<unsigned int>(content[i + 4]) & 0xff,
+                        static_cast<unsigned int>(content[i + 8]) & 0xff, static_cast<unsigned int>(content[i + 12]) & 0xff},
+                {static_cast<unsigned int>(content[i + 1]) & 0xff, static_cast<unsigned int>(content[i + 5]) & 0xff,
+                        static_cast<unsigned int>(content[i + 9]) & 0xff, static_cast<unsigned int>(content[i + 13]) & 0xff},
+                {static_cast<unsigned int>(content[i + 2]) & 0xff, static_cast<unsigned int>(content[i + 6]) & 0xff,
+                        static_cast<unsigned int>(content[i + 10]) & 0xff, static_cast<unsigned int>(content[i + 14]) & 0xff},
+                {static_cast<unsigned int>(content[i + 3]) & 0xff, static_cast<unsigned int>(content[i + 7]) & 0xff,
+                        static_cast<unsigned int>(content[i + 11]) & 0xff, static_cast<unsigned int>(content[i + 15]) & 0xff}
         };
 
-        addRoundKey(mat, 0);
+        addRoundKey(mat, enc ? 0 : 10);
 
         for (int j = 1; j < 10; ++j) {
             replace(mat, enc);
             shift(mat, enc);
             mix(mat, enc);
-            addRoundKey(mat, j);
+            if (enc) {
+                addRoundKey(mat, j);
+            }
+            else {
+                unsigned int reverse[4][4];
+                calculateReverse(reverse, 10 - j);
+                mix(reverse, enc);
+
+                for (int k = 0; k < 4; ++k) {
+                    for (int m = 0; m < 4; ++m) {
+                        mat[k][m] ^= reverse[k][m];
+                    }
+                }
+            }
         }
 
         replace(mat, enc);
         shift(mat, enc);
-        addRoundKey(mat, 10);
+        addRoundKey(mat, enc ? 10 : 0);
 
         for (int j = 0; j < 4; ++j) {
             for (int k = 0; k < 4; ++k) {
@@ -165,6 +223,15 @@ std::string AES::aes(const std::string& content, const bool& enc) {
     }
 
     return res;
+}
+
+void AES::calculateReverse(unsigned int mat[4][4], const int& round) {
+    for (int i = 0; i < 4; ++i) {
+        mat[i][0] = (_ex_key[(round << 2) + 0] >> ((3 - i) << 3)) & 0xff;
+        mat[i][1] = (_ex_key[(round << 2) + 1] >> ((3 - i) << 3)) & 0xff;
+        mat[i][2] = (_ex_key[(round << 2) + 2] >> ((3 - i) << 3)) & 0xff;
+        mat[i][3] = (_ex_key[(round << 2) + 3] >> ((3 - i) << 3)) & 0xff;
+    }
 }
 
 } // namespace ngind::crypto

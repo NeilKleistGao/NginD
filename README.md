@@ -16,11 +16,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + ...
 
 ## TODO List
-### 0.6
-+ [ ] More Rendering Interfaces
-+ [ ] Windows Version
-
-### 1.0
+### 1.0(?)
 + [ ] Encrypt System
 + [ ] Package and Compress
 + [ ] Package Tools

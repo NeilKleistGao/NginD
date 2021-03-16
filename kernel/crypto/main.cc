@@ -21,8 +21,16 @@
 
 /// @file main.cc
 
+#include <iostream>
+
 #include "aes.h"
 
 int main() {
+    using namespace ngind::crypto;
+    auto aes = AES::getInstance();
+
+    std::string temp = aes->encrypt("Fungal Wastes");
+    std::cout << aes->decrypt(temp) << std::endl;
+
     return 0;
 }
