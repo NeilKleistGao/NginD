@@ -25,7 +25,8 @@
 
 #ifdef PLATFORM_LINUX
 #include "linux.h"
-#elif PLATFORM_WINDOWS
+#endif
+#ifdef PLATFORM_WINDOWS
 #include "windows.h"
 #endif
 

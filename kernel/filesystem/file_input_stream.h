@@ -37,7 +37,7 @@ public:
     /**
      * @param filename: file's name
      */
-    FileInputStream(const std::string& filename);
+    explicit FileInputStream(const std::string& filename);
     ~FileInputStream();
 
     FileInputStream(const FileInputStream&) = delete;
@@ -65,6 +65,8 @@ public:
      * @see kernel/filesystem/input_stream.h
      */
     void close() override;
+
+    std::string readAllCharacters() override;
 private:
     /**
      * File's name. If no file is opened, it's a blank string.

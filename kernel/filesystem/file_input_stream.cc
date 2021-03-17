@@ -23,12 +23,14 @@
 
 /// @file file_input_stream.cc
 
+#include <filesystem>
+
 #include "file_input_stream.h"
 #include "exceptions/game_exception.h"
 
 namespace ngind::filesystem {
 
-FileInputStream::FileInputStream(const std::string& filename) : _fp(nullptr), _filename("") {
+FileInputStream::FileInputStream(const std::string& filename) : InputStream(), _fp(nullptr), _filename(filename) {
     this->open(filename);
 }
 
@@ -58,22 +60,14 @@ char FileInputStream::read() {
                                         "can't read file " + this->_filename);
     }
 
-    if (feof(_fp)) {
-        return 0;
-    }
-
     auto c = fgetc(_fp);
-    return (c == EOF) ? 0 : c;
+    return c;
 }
 
 std::string FileInputStream::read(const size_t& size) {
     std::string str;
     for (int i = 0; i < size; i++) {
         char c = read();
-        if (c == 0) {
-            break;
-        }
-
         str += c;
     }
 
@@ -85,6 +79,12 @@ void FileInputStream::close() {
         fclose(_fp);
         _fp = nullptr;
     }
+}
+
+std::string FileInputStream::readAllCharacters() {
+    std::filesystem::path path{_filename};
+    int size = std::filesystem::file_size(path);
+    return this->readNCharacters(size);
 }
 
 } // namespace ngind::filesystem

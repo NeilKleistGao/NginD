@@ -44,6 +44,7 @@ void TextureResource::load(const std::string& filename) {
         _texture = new rendering::Texture(IMAGE_RESOURCE_PATH + "/" + filename, rendering::TextureColorMode::MODE_RGB);
     }
     else {
+        _texture = new rendering::Texture(IMAGE_RESOURCE_PATH + "/" + filename, rendering::TextureColorMode::MODE_RGB);
         // TODO: unsupported format
     }
 }

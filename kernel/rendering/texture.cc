@@ -36,7 +36,7 @@ Texture::Texture(const std::string& filename, const TextureColorMode& mode) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    int width, height;
+    int width = 0, height = 0;
     unsigned char* img = nullptr;
     if (mode == TextureColorMode::MODE_RGB) {
         img = SOIL_load_image(filename.c_str(), &width, &height, nullptr, SOIL_LOAD_RGB);

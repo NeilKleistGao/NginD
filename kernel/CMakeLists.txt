@@ -20,6 +20,7 @@ include(kernel/ui/CMakeLists.txt)
 include(kernel/crypto/CMakeLists.txt)
 
 set(KERNEL_HEADER
+        kernel/settings.h
         kernel/game.h
         ${COMPONENTS_HEADER}
         ${FILESYSTEM_HEADER}

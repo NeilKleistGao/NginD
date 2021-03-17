@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +6,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,19 +19,17 @@
  * SOFTWARE.
  */
 
-/// @file linux.h
+/// @file settings.h
 
-#ifndef NGIND_LINUX_H
-#define NGIND_LINUX_H
+#ifndef NGIND_SETTINGS_H
+#define NGIND_SETTINGS_H
 
-#include <unistd.h>
-#include <cstdio>
+namespace ngind {
 
-namespace ngind::platforms {
-class PlatformUtils {
-public:
-};
+static constexpr short MODE_DEBUG = 0;
+static constexpr short MODE_RELEASE = 1;
+static constexpr short CURRENT_MODE = MODE_RELEASE;
 
-} // namespace ngind::platforms
+} // namespace ngind
 
-#endif //NGIND_LINUX_H
+#endif //NGIND_SETTINGS_H

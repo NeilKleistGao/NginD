@@ -25,12 +25,37 @@
 
 #include "aes.h"
 
-int main() {
-    using namespace ngind::crypto;
-    auto aes = AES::getInstance();
+int main(int argc, char* argv[]) {
+    if (argc == 3) {
+        using namespace ngind::crypto;
+        std::string in = argv[1], out = argv[2];
+        std::string str;
+        FILE* fp = fopen(in.c_str(), "rb");
+        fseek(fp, 0, SEEK_END);
+        int size = ftell(fp);
+        fseek(fp, 0, SEEK_SET);
+        for (int i = 0; i < size; i++) {
+            char c = fgetc(fp);
+            str += c;
+        }
+        fclose(fp);
 
-    std::string temp = aes->encrypt("Fungal Wastes");
-    std::cout << aes->decrypt(temp) << std::endl;
+        fp = fopen(out.c_str(), "wb");
+
+        auto aes = AES::getInstance();
+        std::string res = aes->encrypt(str);
+        for (const auto& c : res) {
+            fputc(c, fp);
+        }
+        fclose(fp);
+
+        fp = fopen("test2.jpg", "wb");
+        res = aes->decrypt(res);
+        for (const auto& c : res) {
+            fputc(c, fp);
+        }
+        fclose(fp);
+    }
 
     return 0;
 }

@@ -6,9 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 option(PLATFORM_LINUX "target platform: linux" ON)
 option(PLATFORM_WINDOWS "target platform: windows" OFF)
 
-option(MODE_DEBUG "debug mode" ON)
-option(MODE_RELEASE "release mode" OFF)
-
 include(kernel/CMakeLists.txt)
 include(extern/CMakeLists.txt)
 include(plugin/CMakeLists.txt)
@@ -20,8 +17,10 @@ include_directories(include/opengl)
 include_directories(resources)
 
 if (PLATFORM_LINUX)
+    add_definitions(-D PLATFORM_LINUX)
     include_directories(/usr/local/include/freetype2)
 elseif (PLATFORM_WINDOWS)
+    add_definitions(-D PLATFORM_WINDOWS)
     include_directories(include/freetype2)
 endif()
 

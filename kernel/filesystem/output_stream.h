@@ -29,15 +29,17 @@
 #include <string>
 #include <cstring>
 
+#include "memory/auto_collection_object.h"
+
 namespace ngind::filesystem {
 
 /**
  * General output stream. Make sure that all other output stream classes inherit from
  * this. Though "stream" its name is, no C++ stream will be used in all stream classes.
  */
-class OutputStream {
+class OutputStream : public memory::AutoCollectionObject {
 public:
-    OutputStream() = default;
+    OutputStream() : memory::AutoCollectionObject() {}
     ~OutputStream() = default;
 
     /**
@@ -58,7 +60,7 @@ public:
      * Write a string in a file.
      * @param str: string to be written.
      */
-    virtual inline void write(const std::string& str) {
+    virtual void write(const std::string& str) {
         this->write(str.c_str(), 0, str.length());
     }
 

@@ -27,7 +27,7 @@
 
 namespace ngind::filesystem {
 
-DataInputStream::DataInputStream(InputStream* stream) : _stream{stream} {
+DataInputStream::DataInputStream(InputStream* stream) : InputStream(), _stream{stream} {
 }
 
 DataInputStream::~DataInputStream() {

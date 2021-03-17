@@ -29,7 +29,7 @@ namespace ngind::filesystem {
 FileOutputStream::FileOutputStream(const std::string& filename) : FileOutputStream(filename, false) {
 }
 
-FileOutputStream::FileOutputStream(const std::string& filename, const bool& append) : _fp(nullptr), _filename(filename) {
+FileOutputStream::FileOutputStream(const std::string& filename, const bool& append) : OutputStream(), _fp(nullptr), _filename(filename) {
     this->open(filename, append);
 }
 

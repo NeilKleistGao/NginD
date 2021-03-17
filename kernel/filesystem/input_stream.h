@@ -27,6 +27,7 @@
 #include <string>
 
 #include "output_stream.h"
+#include "memory/auto_collection_object.h"
 
 #ifndef NGIND_INPUT_STREAM_H
 #define NGIND_INPUT_STREAM_H
@@ -36,9 +37,9 @@ namespace ngind::filesystem {
  * General input stream. Make sure that all other input stream classes inherit from
  * this. Though "stream" its name is, no C++ stream will be used in all stream classes.
  */
-class InputStream {
+class InputStream : public memory::AutoCollectionObject {
 public:
-    InputStream() = default;
+    InputStream() : memory::AutoCollectionObject() { }
     ~InputStream() = default;
 
     /**
@@ -47,18 +48,18 @@ public:
      */
     virtual char read() = 0;
 
-    virtual /**
+     /**
      * Read data into string avoiding using char[].
      * @param len: how many characters you hope it reads
      * @return std::string, string buffer
      */
-    std::string read(const size_t& len);
+     virtual std::string read(const size_t& len);
 
     /**
      * Read all characters. The length must be less than max buff size.
      * @return std::string, the buffer string.
      */
-    inline std::string readAllCharacters() {
+    virtual std::string readAllCharacters() {
         return this->readNCharacters(MAX_BUFF_SIZE);
     }
 
@@ -104,13 +105,11 @@ public:
      * @return size_t, length of data
      */
     size_t transferTo(OutputStream* output);
-
-private:
+protected:
     /**
      * Max buffer size.
      */
     static constexpr size_t MAX_BUFF_SIZE = 1073741824;
-protected:
 };
 } // namespace ngind::filesystem
 
