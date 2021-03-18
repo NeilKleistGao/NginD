@@ -71,8 +71,8 @@ std::string AES::encrypt(std::string content) {
 
 std::string AES::decrypt(const std::string& content) {
     std::string res = aes(content, false);
-    for (int i = res.length() - 1; ; --i) {
-        if (res[i] != 0) {
+    for (int i = res.length(); ; --i) {
+        if (res[i - 1] != 0) {
             res = res.substr(0, i);
             break;
         }

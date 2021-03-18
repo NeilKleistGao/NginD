@@ -24,14 +24,26 @@
 #include "config_resource.h"
 
 #include "filesystem/file_input_stream.h"
+#include "filesystem/cipher_input_stream.h"
+#include "settings.h"
 
 namespace ngind::resources {
 const std::string ConfigResource::CONFIG_RESOURCE_PATH = "resources/config";
 
 void ConfigResource::load(const std::string& filename) {
-    auto stream = new filesystem::FileInputStream(CONFIG_RESOURCE_PATH + "/" + filename);
-    std::string content = stream->readAllCharacters();
-    stream->close();
+    std::string content;
+    if constexpr (CURRENT_MODE == MODE_RELEASE) {
+        std::string temp = filename;
+        temp.replace(filename.length() - 4, filename.length(), "cson");
+        auto stream = new filesystem::CipherInputStream(new filesystem::FileInputStream(CONFIG_RESOURCE_PATH + "/" + temp));
+        content = stream->readAllCharacters();
+        stream->close();
+    }
+    else {
+        auto stream = new filesystem::FileInputStream(CONFIG_RESOURCE_PATH + "/" + filename);
+        content = stream->readAllCharacters();
+        stream->close();
+    }
 
     _doc.Parse(content.c_str());
     this->_path = filename;

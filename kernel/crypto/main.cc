@@ -21,8 +21,6 @@
 
 /// @file main.cc
 
-#include <iostream>
-
 #include "aes.h"
 
 int main(int argc, char* argv[]) {
@@ -44,13 +42,6 @@ int main(int argc, char* argv[]) {
 
         auto aes = AES::getInstance();
         std::string res = aes->encrypt(str);
-        for (const auto& c : res) {
-            fputc(c, fp);
-        }
-        fclose(fp);
-
-        fp = fopen("test2.jpg", "wb");
-        res = aes->decrypt(res);
         for (const auto& c : res) {
             fputc(c, fp);
         }

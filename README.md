@@ -18,15 +18,19 @@ A game engine for 2D pixel game powered by C++ (自家用).
 ## TODO List
 ### 0.7
 + [x] Encrypt System
-+ [ ] Package and Compress
-+ [ ] Package Tools
-+ [ ] Saving Game Files
++ [ ] Compress
 
 ### 0.8
 + [ ] Box2D Support
++ [ ] Prefab
+
+### 0.9
++ [ ] Tiled Map
 
 ### 1.0(?)
-+ [ ] Tiled Map
++ [ ] Package Tools
++ [ ] Saving Game Files
++ [ ] Full Documentation
 
 ## Dependent Libraries
 ### Engine Dependent Libraries
@@ -40,6 +44,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [Lua Bridge 2.6](https://github.com/vinniefalco/LuaBridge)
 + [SoLoud 20200207](http://sol.gfxile.net/soloud/index.html)
 + [Aseprite 1.2.25dev](http://www.aseprite.org/)
++ [Snappy C](https://github.com/andikleen/snappy-c)
 
 ### Documentation Libraries
 + [Sphinx 2.2.0](https://www.sphinx.org.cn/)

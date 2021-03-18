@@ -24,13 +24,33 @@
 #include "shader.h"
 
 #include "filesystem/file_input_stream.h"
+#include "filesystem/cipher_input_stream.h"
+#include "settings.h"
 
 namespace ngind::rendering {
 
 Shader::Shader(const std::string& filename, const int& type) {
-    auto stream = new filesystem::FileInputStream(filename);
-    std::string code = stream->readAllCharacters();
-    stream->close();
+    std::string code;
+    if constexpr (CURRENT_MODE == MODE_RELEASE) {
+        auto index = filename.find_last_of('.');
+        std::string ex = filename.substr(index + 1);
+        std::string temp = filename.substr(0, index);
+        if (ex == "vs") {
+            temp += ".cs";
+        }
+        else {
+            temp += ".crag";
+        }
+
+        auto stream = new filesystem::CipherInputStream(new filesystem::FileInputStream(temp));
+        code = stream->readAllCharacters();
+        stream->close();
+    }
+    else {
+        auto stream = new filesystem::FileInputStream(filename);
+        code = stream->readAllCharacters();
+        stream->close();
+    }
 
     this->_shader = glCreateShader(type);
     const GLchar* str = code.c_str();
@@ -43,9 +63,6 @@ Shader::Shader(const std::string& filename, const int& type) {
     if (!success) {
         // TODO:
     }
-
-    delete stream;
-    stream = nullptr;
 }
 
 Shader::~Shader() {

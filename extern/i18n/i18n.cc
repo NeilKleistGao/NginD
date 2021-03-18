@@ -24,6 +24,8 @@
 #include "i18n.h"
 
 #include "filesystem/file_input_stream.h"
+#include "filesystem/cipher_input_stream.h"
+#include "settings.h"
 
 namespace ngind::i18n {
 const std::string I18N::TEXT_PATH = "resources/text";
@@ -60,12 +62,25 @@ void I18N::loadLanguagePack(const int& icode, const std::string& filename) {
     _data[code] = LabeledLanguagePack{};
     _default[code] = DefaultLanguagePack{};
 
-    auto fp = filesystem::FileInputStream{_mapping[code] + "/" + filename};
+    std::string content;
+    if constexpr (CURRENT_MODE == MODE_RELEASE) {
+        std::string temp = filename;
+        temp.replace(filename.length() - 4, filename.length(), "cini");
+        auto fp = new filesystem::CipherInputStream(new filesystem::FileInputStream{_mapping[code] + "/" + temp});
+        content = fp->readAllCharacters();
+        fp->close();
+    }
+    else {
+        auto fp = new filesystem::FileInputStream{_mapping[code] + "/" + filename};
+        content = fp->readAllCharacters();
+        fp->close();
+    }
+
+    content += static_cast<char>(-1);
     std::string key, value;
     bool flag = false;
-    while (true) {
-        char c = fp.read();
-        if (c == 0) {
+    for (const char& c : content) {
+        if (c == -1) {
             if (!flag) {
                 _default[code].push_back(key);
             }
