@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,46 +19,33 @@
  * SOFTWARE.
  */
 
-/// @file cipher_input_stream.h
+/// @file main.cc
 
-#ifndef NGIND_CIPHER_INPUT_STREAM_H
-#define NGIND_CIPHER_INPUT_STREAM_H
+#include "snappy/snappy.h"
 
-#include "input_stream.h"
+int main(int argc, char* argv[]) {
+    if (argc == 3) {
+        std::string in = argv[1], out = argv[2];
+        std::string str;
+        FILE* fp = fopen(in.c_str(), "rb");
+        fseek(fp, 0, SEEK_END);
+        int size = ftell(fp);
+        fseek(fp, 0, SEEK_SET);
+        for (int i = 0; i < size; i++) {
+            char c = fgetc(fp);
+            str += c;
+        }
+        fclose(fp);
 
-namespace ngind::filesystem {
+        fp = fopen(out.c_str(), "wb");
 
-class CipherInputStream : public InputStream {
-public:
-    explicit CipherInputStream(InputStream* stream);
-    ~CipherInputStream() override;
-
-    /**
-     * @see kernel/filesystem/input_stream.h
-     */
-    char read() override {
-        return -1;
+        std::string res;
+        snappy::Compress(str.data(), str.size(), &res);
+        for (const auto& c : res) {
+            fputc(c, fp);
+        }
+        fclose(fp);
     }
 
-    /**
-     * @see kernel/filesystem/input_stream.h
-     */
-    void close() override;
-
-    /**
-     * @see kernel/filesystem/input_stream.h
-     */
-    std::string readAllCharacters() override;
-private:
-    /**
-     * @see kernel/filesystem/input_stream.h
-     */
-    char readByte();
-
-    InputStream* _stream;
-    bool _opened;
-};
-
-} // namespace ngind::filesystem
-
-#endif //NGIND_CIPHER_INPUT_STREAM_H
+    return 0;
+}

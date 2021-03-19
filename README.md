@@ -44,7 +44,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [Lua Bridge 2.6](https://github.com/vinniefalco/LuaBridge)
 + [SoLoud 20200207](http://sol.gfxile.net/soloud/index.html)
 + [Aseprite 1.2.25dev](http://www.aseprite.org/)
-+ [Snappy C](https://github.com/andikleen/snappy-c)
++ [Snappy 1.1.8](https://github.com/google/snappy)
 
 ### Documentation Libraries
 + [Sphinx 2.2.0](https://www.sphinx.org.cn/)

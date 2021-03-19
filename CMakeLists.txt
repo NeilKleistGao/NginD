@@ -59,6 +59,7 @@ if (PLATFORM_LINUX)
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/lua/liblua52.so")
     target_link_libraries(NginD "/usr/local/lib/libfreetype.so")
     target_link_libraries(NginD "/usr/local/lib/libfreetype.a")
+    target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/snappy/libsnappy.a")
 elseif (PLATFORM_WINDOWS)
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/glew32.lib")
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/glew32s.lib")
@@ -90,3 +91,10 @@ add_compile_options(-finput-charset=GBK -fexec-charset=UTF-8)
 add_executable(crypto kernel/crypto/main.cc
         kernel/crypto/aes.h kernel/crypto/aes.cc
         kernel/math/galois_field.h kernel/math/galois_field.cc)
+
+add_executable(compress kernel/compress/main.cc)
+
+if (PLATFORM_LINUX)
+    target_link_libraries(compress "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/snappy/libsnappy.a")
+elseif (PLATFORM_WINDOWS)
+endif()
