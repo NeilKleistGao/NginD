@@ -28,7 +28,6 @@
 #include "rendering/renderer.h"
 #include "rendering/camera.h"
 #include "resources/resources_manager.h"
-#include "exceptions/game_exception.h"
 #include "memory/memory_pool.h"
 
 namespace ngind::components {

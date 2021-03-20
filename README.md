@@ -18,14 +18,15 @@ A game engine for 2D pixel game powered by C++ (自家用).
 ## TODO List
 ### 0.7
 + [x] Encrypt System
-+ [ ] Compress
++ [x] Compress
++ [ ] Precompile
 
 ### 0.8
 + [ ] Box2D Support
-+ [ ] Prefab
 
 ### 0.9
 + [ ] Tiled Map
++ [ ] Screen Adaptor
 
 ### 1.0(?)
 + [ ] Package Tools

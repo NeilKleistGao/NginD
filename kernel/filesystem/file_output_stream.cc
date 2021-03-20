@@ -23,8 +23,6 @@
 
 #include "file_output_stream.h"
 
-#include "exceptions/game_exception.h"
-
 namespace ngind::filesystem {
 FileOutputStream::FileOutputStream(const std::string& filename) : FileOutputStream(filename, false) {
 }
@@ -46,17 +44,17 @@ void FileOutputStream::open(const std::string& filename, const bool& append) {
     _fp = fopen(filename.c_str(), append ? "ab" : "wb");
 
     if (_fp == nullptr) {
-        throw exceptions::GameException("filesystem::FileOutputStream",
-                                        "open",
-                                        "can't open file " + filename);
+//        throw exceptions::GameException("filesystem::FileOutputStream",
+//                                        "open",
+//                                        "can't open file " + filename);
     }
 }
 
 void FileOutputStream::write(const char& c) {
     if (_fp == nullptr) {
-        throw exceptions::GameException("filesystem::FileOutputStream",
-                                        "write",
-                                        "can't write file " + _filename);
+//        throw exceptions::GameException("filesystem::FileOutputStream",
+//                                        "write",
+//                                        "can't write file " + _filename);
     }
 
     fputc(c, _fp);
@@ -64,9 +62,9 @@ void FileOutputStream::write(const char& c) {
 
 void FileOutputStream::flush() {
     if (_fp == nullptr) {
-        throw exceptions::GameException("filesystem::FileOutputStream",
-                                        "flush",
-                                        "can't flush file " + _filename);
+//        throw exceptions::GameException("filesystem::FileOutputStream",
+//                                        "flush",
+//                                        "can't flush file " + _filename);
     }
 
     fflush(_fp);
@@ -74,9 +72,9 @@ void FileOutputStream::flush() {
 
 void FileOutputStream::close() {
     if (_fp == nullptr) {
-        throw exceptions::GameException("filesystem::FileOutputStream",
-                                        "flush",
-                                        "can't close file " + _filename);
+//        throw exceptions::GameException("filesystem::FileOutputStream",
+//                                        "flush",
+//                                        "can't close file " + _filename);
     }
 
     fclose(_fp);

@@ -27,7 +27,6 @@
 #include <codecvt>
 
 #include "resources/resources_manager.h"
-#include "exceptions/game_exception.h"
 #include "objects/entity_object.h"
 #include "rendering/renderer.h"
 #include "memory/memory_pool.h"
@@ -75,9 +74,9 @@ Label* Label::create(const typename resources::ConfigResource::JsonObject& data)
 
 void Label::draw() {
     if (_parent == nullptr) {
-        throw exceptions::GameException("components::SpriteRenderer",
-                                        "draw",
-                                        "can't get parent object");
+//        throw exceptions::GameException("components::SpriteRenderer",
+//                                        "draw",
+//                                        "can't get parent object");
     }
     if (_commands.empty() || _dirty) {
         parseText();

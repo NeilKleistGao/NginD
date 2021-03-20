@@ -23,7 +23,6 @@
 
 #include "aes.h"
 
-#include <iostream>
 #include <cassert>
 
 #include "math/galois_field.h"

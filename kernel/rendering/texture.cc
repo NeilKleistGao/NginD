@@ -24,6 +24,9 @@
 #include "texture.h"
 
 #include "SOIL2/SOIL2.h"
+#include "filesystem/file_input_stream.h"
+#include "filesystem/zip_input_stream.h"
+#include "settings.h"
 
 namespace ngind::rendering {
 
@@ -38,23 +41,39 @@ Texture::Texture(const std::string& filename, const TextureColorMode& mode) {
 
     int width = 0, height = 0;
     unsigned char* img = nullptr;
+    int channel, gl_color_mode;
     if (mode == TextureColorMode::MODE_RGB) {
-        img = SOIL_load_image(filename.c_str(), &width, &height, nullptr, SOIL_LOAD_RGB);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width,
-                     height, 0, GL_RGB, GL_UNSIGNED_BYTE, img);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        channel = SOIL_LOAD_RGB; gl_color_mode = GL_RGB;
     }
     else if (mode == TextureColorMode::MODE_RGBA) {
-        img = SOIL_load_image(filename.c_str(), &width, &height, nullptr, SOIL_LOAD_RGBA);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width,
-                     height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        channel = SOIL_LOAD_RGBA; gl_color_mode = GL_RGBA;
     }
     else {
         // TODO:
     }
+
+    if constexpr (CURRENT_MODE == MODE_RELEASE) {
+        std::string temp = filename;
+        int pos = filename.find_last_of('.');
+        temp.replace(pos + 1, 1, "c");
+
+        auto fp = new filesystem::ZipInputStream(new filesystem::FileInputStream(temp));
+        std::string content = fp->readAllCharacters();
+        fp->close();
+        img = SOIL_load_image_from_memory(reinterpret_cast<const unsigned char *const>(content.c_str()),
+                                          content.length(), &width, &height, nullptr, channel);
+    }
+    else {
+        auto fp = new filesystem::FileInputStream(filename);
+        std::string content = fp->readAllCharacters();
+        fp->close();
+        img = SOIL_load_image_from_memory(reinterpret_cast<const unsigned char *const>(content.c_str()),
+                                          content.length(), &width, &height, nullptr, channel);
+    }
+
+    glTexImage2D(GL_TEXTURE_2D, 0, gl_color_mode, width,
+                 height, 0, gl_color_mode, GL_UNSIGNED_BYTE, img);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     _size = glm::vec2{width, height};
     SOIL_free_image_data(img);
