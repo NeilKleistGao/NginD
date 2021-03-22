@@ -83,7 +83,7 @@ public:
      */
     std::string getByIndex(const size_t & index);
 private:
-    I18N() : _lang(LanguageCode::EN_US) {};
+    I18N();
     ~I18N() = default;
 
     /**
@@ -125,6 +125,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(I18N) {
                 .addFunction("getByIndex", &I18N::getByIndex)
             .endClass()
         .endNamespace();
+    script::LuaState::getInstance()->preload("extern/i18n");
 }
 
 } // namespace ngind::i18n

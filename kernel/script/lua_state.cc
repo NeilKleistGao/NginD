@@ -25,6 +25,10 @@
 
 #include <filesystem>
 
+#include "settings.h"
+#include "filesystem/file_input_stream.h"
+#include "filesystem/cipher_input_stream.h"
+
 namespace ngind::script {
 LuaState* LuaState::_instance = nullptr;
 const std::string LuaState::SCRIPT_PATH = "resources/script";
@@ -68,7 +72,23 @@ void LuaState::loadScript(const std::string& name) {
     }
 
     _visit.insert(name);
-    auto res = luaL_dofile(_state, (SCRIPT_PATH + "/" + name).c_str());
+
+    int res = 0;
+    if constexpr (CURRENT_MODE == MODE_RELEASE) {
+        std::string temp = name;
+        temp.replace(name.find_last_of('.') + 1, 3, "lsm");
+
+        auto fp = new filesystem::CipherInputStream(
+                new filesystem::FileInputStream(SCRIPT_PATH + "/" + temp));
+        std::string content = fp->readAllCharacters();
+        fp->close();
+
+        res = luaL_dostring(_state, content.c_str());
+    }
+    else {
+        res = luaL_dofile(_state, (SCRIPT_PATH + "/" + name).c_str());
+    }
+
     if (res) {
         // TODO:
     }

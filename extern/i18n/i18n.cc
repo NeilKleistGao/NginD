@@ -26,6 +26,7 @@
 #include "filesystem/file_input_stream.h"
 #include "filesystem/cipher_input_stream.h"
 #include "settings.h"
+#include "script/lua_state.h"
 
 namespace ngind::i18n {
 const std::string I18N::TEXT_PATH = "resources/text";
@@ -37,6 +38,9 @@ std::unordered_map<LanguageCode, std::string> I18N::_mapping = {
         {LanguageCode::FR_FR, TEXT_PATH + "/fr-fr"},
         {LanguageCode::DE_DE, TEXT_PATH + "/de-de"}
 };
+
+I18N::I18N() : _lang(LanguageCode::EN_US) {
+}
 
 I18N* I18N::getInstance() {
     if (_instance == nullptr) {

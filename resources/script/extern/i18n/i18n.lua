@@ -33,13 +33,13 @@ I18N = {}
 I18N.__i18n = engine.I18N.getInstance()
 
 I18N.loadLanguagePack = function(code, filename)
-    I18N.__i18n.loadLanguagePack(I18N.__i18n, code, filename)
+    I18N.__i18n:loadLanguagePack(code, filename)
 end
 
 I18N.use = function(code)
-    I18N.__i18n.use(I18N.__i18n, code)
+    I18N.__i18n:use(code)
 end
 
 I18N.getByName = function(name)
-    return I18N.__i18n.getByName(I18N.__i18n, name)
+    return I18N.__i18n:getByName(name)
 end

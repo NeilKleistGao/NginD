@@ -35,5 +35,5 @@ Input = {}
 Input.__input = engine.Input.getInstance()
 
 Input.getKeyReleased = function(key)
-    return Input.__input.getKeyReleased(Input.__input, key)
+    return Input.__input:getKeyReleased(key)
 end

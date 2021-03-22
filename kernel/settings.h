@@ -28,7 +28,7 @@ namespace ngind {
 
 static constexpr short MODE_DEBUG = 0;
 static constexpr short MODE_RELEASE = 1;
-static constexpr short CURRENT_MODE = MODE_RELEASE;
+static constexpr short CURRENT_MODE = MODE_DEBUG;
 
 } // namespace ngind
 

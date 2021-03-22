@@ -27,5 +27,5 @@ Camera = {}
 Camera.__camera = engine.Camera.getInstance()
 
 Camera.capture = function(filename)
-    Camera.__camera.capture(Camera.__camera, filename)
+    Camera.__camera:capture(filename)
 end

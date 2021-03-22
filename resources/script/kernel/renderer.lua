@@ -27,9 +27,9 @@ Renderer = {}
 Renderer.__renderer = engine.Renderer.getInstance()
 
 Renderer.enableMultisampling = function(enable)
-    Renderer.__renderer.enableMultisampling(Renderer.__renderer, enable)
+    Renderer.__renderer:enableMultisampling(enable)
 end
 
 Renderer.isMultisampling = function()
-    return Renderer.__renderer.isMultisampling(Renderer.__renderer)
+    return Renderer.__renderer:isMultisampling()
 end

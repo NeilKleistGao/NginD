@@ -75,7 +75,6 @@ void Game::start() {
     ui::EventSystem::getInstance()->init(height);
 
     script::LuaState::getInstance()->preload("kernel");
-    script::LuaState::getInstance()->preload("extern"); // TODO:
 
     this->loadWorld(_global_settings->getDocument()["welcome-world"].GetString());
 

@@ -19,7 +19,6 @@ A game engine for 2D pixel game powered by C++ (自家用).
 ### 0.7
 + [x] Encrypt System
 + [x] Compress
-+ [ ] Precompile
 
 ### 0.8
 + [ ] Box2D Support

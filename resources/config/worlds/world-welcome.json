@@ -41,8 +41,8 @@
         "y": 384
       },
       "scale": {
-        "x": 0.5,
-        "y": 0.5
+        "x": 2,
+        "y": 2
       },
       "rotate": 0,
       "z-order": 0,
@@ -50,7 +50,7 @@
         {
           "type": "Sprite",
           "name": "Sprite",
-          "filename": "test.jpg",
+          "filename": "dice.png",
           "shader": "sprite",
           "boundary": {
             "left-bottom": {
@@ -58,8 +58,8 @@
               "y": 0
             },
             "right-up": {
-              "x": 512,
-              "y": 512
+              "x": 80,
+              "y": 64
             }
           },
           "color": "#FFFFFFFF"
