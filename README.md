@@ -16,9 +16,6 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + ...
 
 ## TODO List
-### 0.7
-+ [x] Encrypt System
-+ [x] Compress
 
 ### 0.8
 + [ ] Box2D Support
@@ -27,9 +24,12 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [ ] Tiled Map
 + [ ] Screen Adaptor
 
-### 1.0(?)
+### 0.10
 + [ ] Package Tools
 + [ ] Saving Game Files
+
+### 1.0
++ [ ] Simple Editor
 + [ ] Full Documentation
 
 ## Dependent Libraries
