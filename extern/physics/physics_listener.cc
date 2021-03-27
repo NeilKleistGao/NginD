@@ -19,35 +19,26 @@
  * SOFTWARE.
  */
 
-/// @file physics_manager.cc
+/// @file physics_listener.cc
 
-#include "physics_world.h"
+#include "physics_listener.h"
 
 namespace ngind::physics {
 
-PhysicsWorld::PhysicsWorld() : components::Component(), _gravity(0, -9.8), _world(_gravity) {
+void PhysicsListener::BeginContact(b2Contact* contact) {
+
 }
 
-PhysicsWorld::~PhysicsWorld() {
+void PhysicsListener::EndContact(b2Contact* contact) {
+
 }
 
-void PhysicsWorld::update(const float& delta) {
-    components::Component::update(delta);
-    _world.Step(delta, 8, 3);
+void PhysicsListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold) {
+
 }
 
-void PhysicsWorld::init(const typename resources::ConfigResource::JsonObject& data) {
-    auto gravity = data["gravity"].GetObject();
-    setGravity(gravity["x"].GetFloat(), gravity["y"].GetFloat());
-    _world.SetContinuousPhysics(true);
-    _world.SetAllowSleeping(true);
-    _world.SetContactListener(&listener);
-}
+void PhysicsListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {
 
-PhysicsWorld* PhysicsWorld::create(const typename resources::ConfigResource::JsonObject& data) {
-    auto* world = memory::MemoryPool::getInstance()->create<PhysicsWorld>();
-    world->init(data);
-    return world;
 }
 
 } // namespace ngind::physics

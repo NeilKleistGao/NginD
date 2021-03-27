@@ -19,50 +19,28 @@
  * SOFTWARE.
  */
 
-/// @file rigid_body.h
+/// @file physics_listener.h
 
-#ifndef NGIND_RIGID_BODY_H
-#define NGIND_RIGID_BODY_H
+#ifndef NGIND_PHYSICS_LISTENER_H
+#define NGIND_PHYSICS_LISTENER_H
 
-#include "kernel/components/component.h"
 #include "box2d/box2d.h"
-#include "kernel/components/component_factory.h"
-#include "kernel/script/lua_registration.h"
-#include "kernel/objects/entity_object.h"
-#include "physics_shape.h"
 
 namespace ngind::physics {
-class RigidBody : public components::Component {
+
+class PhysicsListener : public b2ContactListener {
 public:
-    RigidBody();
-    ~RigidBody() override;
+    void BeginContact(b2Contact* contact) override;
 
-    /**
-     * @see objects/updatable_object.h
-     */
-    void update(const float& delta) override;
+    void EndContact(b2Contact* contact) override;
 
-    /**
-     * Initialization function of this class used by configuration creating method. This function
-     * is inherited from Component
-     * @param data: the configuration data this component initialization process requires.
-     */
-    void init(const typename resources::ConfigResource::JsonObject& data) override;
+    void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) override;
 
-    static RigidBody* create(const typename resources::ConfigResource::JsonObject& data);
+    void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
 private:
-    b2BodyDef _def;
-    b2FixtureDef _fixture;
-    PhysicsShape* _shape;
-    b2Body* _body;
 
-    objects::EntityObject* _ep;
 };
-
-NGIND_LUA_BRIDGE_REGISTRATION(RigidBody) {
-    components::ComponentFactory::getInstance()->registerComponent<RigidBody>("RigidBody");
-}
 
 } // namespace ngind::physics
 
-#endif //NGIND_RIGID_BODY_H
+#endif //NGIND_PHYSICS_LISTENER_H

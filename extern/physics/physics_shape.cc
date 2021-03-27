@@ -19,35 +19,50 @@
  * SOFTWARE.
  */
 
-/// @file physics_manager.cc
+/// @file physics_shape.cc
 
-#include "physics_world.h"
+#include "physics_shape.h"
 
 namespace ngind::physics {
 
-PhysicsWorld::PhysicsWorld() : components::Component(), _gravity(0, -9.8), _world(_gravity) {
+CircleShape::CircleShape(const typename resources::ConfigResource::JsonObject& data) : PhysicsShape() {
+    shape = new b2CircleShape();
+    shape->m_radius = data["radius"].GetFloat();
 }
 
-PhysicsWorld::~PhysicsWorld() {
+CircleShape::~CircleShape() {
+    delete shape;
+    shape = nullptr;
 }
 
-void PhysicsWorld::update(const float& delta) {
-    components::Component::update(delta);
-    _world.Step(delta, 8, 3);
+PolygonShape::PolygonShape(const typename resources::ConfigResource::JsonObject& data) : PhysicsShape(), vertex(nullptr) {
+    shape = new b2PolygonShape();
+    length = data["length"].GetInt();
+    if (length == 1) {
+        auto size = data["vertex"].GetArray();
+        for (const auto& s : size) {
+            static_cast<b2PolygonShape*>(shape)->SetAsBox(s["x"].GetFloat() / 2, s["y"].GetFloat() / 2);
+        }
+    }
+    else {
+        vertex = new b2Vec2[length];
+        auto list = data["vertex"].GetArray();
+        int i = 0;
+        for (const auto& v : list) {
+            vertex[i] = b2Vec2{v["x"].GetFloat(), v["y"].GetFloat()};
+            static_cast<b2PolygonShape*>(shape)->Set(vertex, length);
+        }
+    }
 }
 
-void PhysicsWorld::init(const typename resources::ConfigResource::JsonObject& data) {
-    auto gravity = data["gravity"].GetObject();
-    setGravity(gravity["x"].GetFloat(), gravity["y"].GetFloat());
-    _world.SetContinuousPhysics(true);
-    _world.SetAllowSleeping(true);
-    _world.SetContactListener(&listener);
-}
+PolygonShape::~PolygonShape() {
+    delete shape;
+    shape = nullptr;
 
-PhysicsWorld* PhysicsWorld::create(const typename resources::ConfigResource::JsonObject& data) {
-    auto* world = memory::MemoryPool::getInstance()->create<PhysicsWorld>();
-    world->init(data);
-    return world;
+    if (vertex != nullptr) {
+        delete [] vertex;
+        vertex = nullptr;
+    }
 }
 
 } // namespace ngind::physics

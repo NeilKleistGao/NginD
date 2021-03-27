@@ -29,10 +29,12 @@
 
 namespace ngind::physics {
 
-RigidBody::RigidBody() : components::Component(), _body(nullptr), _def(), _fixture() {
+RigidBody::RigidBody() : components::Component(), _body(nullptr), _def(), _fixture(), _shape(nullptr) {
 }
 
 RigidBody::~RigidBody() {
+    delete _shape;
+    _shape = nullptr;
 }
 
 void RigidBody::update(const float& delta) {
@@ -80,21 +82,19 @@ void RigidBody::init(const typename resources::ConfigResource::JsonObject& data)
     auto shape_data = data["shape"].GetObject();
     std::string shape_name = shape_data["name"].GetString();
     if (shape_name == "circle") {
-        createCircleShape(shape_data["data"]);
+        _shape = new CircleShape(shape_data["data"]);
+    }
+    else if (shape_name == "polygon") {
+        _shape = new PolygonShape(shape_data["data"]);
     }
 
-    _fixture.shape = _shape;
+    _fixture.shape = _shape->shape;
 }
 
 RigidBody* RigidBody::create(const typename resources::ConfigResource::JsonObject& data) {
     auto* body = memory::MemoryPool::getInstance()->create<RigidBody>();
     body->init(data);
     return body;
-}
-
-void RigidBody::createCircleShape(const typename resources::ConfigResource::JsonObject& data) {
-    _shape = new b2CircleShape();
-    _shape->m_radius = data["radius"].GetFloat();
 }
 
 } // namespace ngind::physics

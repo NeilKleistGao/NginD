@@ -28,6 +28,7 @@
 #include "box2d/box2d.h"
 #include "kernel/script/lua_registration.h"
 #include "kernel/components/component_factory.h"
+#include "physics_listener.h"
 
 namespace ngind::physics {
 
@@ -71,6 +72,7 @@ public:
 private:
     b2Vec2 _gravity;
     b2World _world;
+    PhysicsListener listener;
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(PhysicsWorld) {

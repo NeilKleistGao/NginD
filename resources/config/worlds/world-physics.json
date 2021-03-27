@@ -87,6 +87,63 @@
           }
         }
       ]
+    },
+    {
+      "name": "wall",
+      "position": {
+        "x": 512,
+        "y": 100
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "wall.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 256,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "RigidBody",
+          "name": "RigidBody",
+          "init-position": {
+            "x": 512,
+            "y": 100
+          },
+          "init-angle": 0,
+          "angular-damping": 0,
+          "linear-damping": 0,
+          "rigid-type": 1,
+          "fixed-rotation": true,
+          "gravity-scale": 1,
+          "friction": 1,
+          "density": 2,
+          "shape": {
+            "name": "polygon",
+            "data": {
+              "length": 1,
+              "vertex": [
+                {"x":  256, "y": 64}
+              ]
+            }
+          }
+        }
+      ]
     }
   ],
   "components": [
@@ -103,7 +160,7 @@
       "name": "PhysicsWorld",
       "gravity": {
         "x": 0,
-        "y": -9.8
+        "y": -98
       }
     }
   ]
