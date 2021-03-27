@@ -1,0 +1,110 @@
+{
+  "world-name": "physics",
+  "background-color": "#000000FF",
+  "size": {
+    "width": 1024,
+    "height": 768
+  },
+  "camera": {
+    "x": 512,
+    "y": 384
+  },
+  "children": [
+    {
+      "name": "title",
+      "position": {
+        "x": 512,
+        "y": 700
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 36,
+          "text": "Physics Test",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        }
+      ]
+    },
+    {
+      "name": "ball",
+      "position": {
+        "x": 512,
+        "y": 384
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "ball.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 64,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "RigidBody",
+          "name": "RigidBody",
+          "init-position": {
+            "x": 512,
+            "y": 384
+          },
+          "init-angle": 0,
+          "angular-damping": 0,
+          "linear-damping": 0,
+          "rigid-type": 2,
+          "fixed-rotation": false,
+          "gravity-scale": 1,
+          "friction": 0,
+          "density": 1,
+          "shape": {
+            "name": "circle",
+            "data": {
+              "radius": 32
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "StateMachine",
+      "name": "WorldSwitch",
+      "driver-script": "world_switch.lua",
+      "classname": "WorldSwitch",
+      "subscription": [
+      ]
+    },
+    {
+      "type": "PhysicsWorld",
+      "name": "PhysicsWorld",
+      "gravity": {
+        "x": 0,
+        "y": -9.8
+      }
+    }
+  ]
+}
