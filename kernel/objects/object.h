@@ -85,6 +85,8 @@ public:
 
     void getChildrenByName(luabridge::LuaRef ref, const std::string& name);
 
+    std::vector<EntityObject*> getChildren();
+
     /**
      * Set parent object of this one
      * @param object: the parent object

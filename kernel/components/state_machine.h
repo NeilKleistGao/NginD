@@ -111,6 +111,10 @@ public:
      * @param data: the data attended
      */
     void notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data);
+
+    inline luabridge::LuaRef getInstance() {
+        return _instance;
+    }
 private:
     /**
      * The instance of this component in lua environment.

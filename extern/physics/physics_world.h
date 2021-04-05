@@ -73,6 +73,8 @@ private:
     b2Vec2 _gravity;
     b2World _world;
     PhysicsListener listener;
+
+    void clearRigidBody(objects::Object* node);
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(PhysicsWorld) {

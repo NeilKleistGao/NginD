@@ -48,6 +48,20 @@ struct PolygonShape : public PhysicsShape {
     ~PolygonShape() override;
 };
 
+struct EdgeShape : public PhysicsShape {
+    int length;
+    b2Vec2* vertex;
+    explicit EdgeShape(const typename resources::ConfigResource::JsonObject& data);
+    ~EdgeShape() override;
+};
+
+struct ChainShape : public PhysicsShape {
+    int length;
+    b2Vec2* vertex;
+    explicit ChainShape(const typename resources::ConfigResource::JsonObject& data);
+    ~ChainShape() override;
+};
+
 } // namespace ngind::physics
 
 #endif //NGIND_PHYSICS_SHAPE_H

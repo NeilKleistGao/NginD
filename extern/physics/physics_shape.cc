@@ -41,7 +41,7 @@ PolygonShape::PolygonShape(const typename resources::ConfigResource::JsonObject&
     if (length == 1) {
         auto size = data["vertex"].GetArray();
         for (const auto& s : size) {
-            static_cast<b2PolygonShape*>(shape)->SetAsBox(s["x"].GetFloat() / 2, s["y"].GetFloat() / 2);
+            dynamic_cast<b2PolygonShape*>(shape)->SetAsBox(s["x"].GetFloat() / 2, s["y"].GetFloat() / 2);
         }
     }
     else {
@@ -50,8 +50,9 @@ PolygonShape::PolygonShape(const typename resources::ConfigResource::JsonObject&
         int i = 0;
         for (const auto& v : list) {
             vertex[i] = b2Vec2{v["x"].GetFloat(), v["y"].GetFloat()};
-            static_cast<b2PolygonShape*>(shape)->Set(vertex, length);
         }
+
+        dynamic_cast<b2PolygonShape*>(shape)->Set(vertex, length);
     }
 }
 
@@ -63,6 +64,58 @@ PolygonShape::~PolygonShape() {
         delete [] vertex;
         vertex = nullptr;
     }
+}
+
+EdgeShape::EdgeShape(const typename resources::ConfigResource::JsonObject& data) : PhysicsShape() {
+    shape = new b2EdgeShape();
+    length = data["length"].GetInt();
+    vertex = new b2Vec2[length];
+
+    int i = 0;
+    auto array = data["vertex"].GetArray();
+    for (const auto& v : array) {
+        vertex[i++] = b2Vec2{v["x"].GetFloat(), v["y"].GetFloat()};
+    }
+
+    if (length == 2) {
+        dynamic_cast<b2EdgeShape*>(shape)->SetTwoSided(vertex[0], vertex[1]);
+    }
+    else if (length == 4) {
+        dynamic_cast<b2EdgeShape*>(shape)->SetOneSided(vertex[0], vertex[1], vertex[2], vertex[3]);
+    }
+    else {
+        // TODO:
+    }
+}
+
+EdgeShape::~EdgeShape() {
+    delete shape;
+    shape = nullptr;
+
+    delete [] vertex;
+    vertex = nullptr;
+}
+
+ChainShape::ChainShape(const typename resources::ConfigResource::JsonObject& data) {
+    shape = new b2ChainShape();
+    length = data["length"].GetInt();
+    vertex = new b2Vec2[length];
+
+    int i = 0;
+    auto array = data["vertex"].GetArray();
+    for (const auto& v : array) {
+        vertex[i++] = b2Vec2{v["x"].GetFloat(), v["y"].GetFloat()};
+    }
+
+    dynamic_cast<b2ChainShape*>(shape)->CreateLoop(vertex, length);
+}
+
+ChainShape::~ChainShape() {
+    delete shape;
+    shape = nullptr;
+
+    delete [] vertex;
+    vertex = nullptr;
 }
 
 } // namespace ngind::physics

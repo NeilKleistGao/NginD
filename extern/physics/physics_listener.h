@@ -25,6 +25,7 @@
 #define NGIND_PHYSICS_LISTENER_H
 
 #include "box2d/box2d.h"
+#include "rigid_body.h"
 
 namespace ngind::physics {
 
@@ -38,7 +39,9 @@ public:
 
     void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
 private:
+    std::pair<RigidBody*, RigidBody*> getContactingBodies(b2Contact* contact) const;
 
+    void sendMessage(const std::string& name, objects::Object* sender, objects::Object* other) const;
 };
 
 } // namespace ngind::physics

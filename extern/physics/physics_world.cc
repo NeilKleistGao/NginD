@@ -29,6 +29,7 @@ PhysicsWorld::PhysicsWorld() : components::Component(), _gravity(0, -9.8), _worl
 }
 
 PhysicsWorld::~PhysicsWorld() {
+    clearRigidBody(_parent);
 }
 
 void PhysicsWorld::update(const float& delta) {
@@ -48,6 +49,18 @@ PhysicsWorld* PhysicsWorld::create(const typename resources::ConfigResource::Jso
     auto* world = memory::MemoryPool::getInstance()->create<PhysicsWorld>();
     world->init(data);
     return world;
+}
+
+void PhysicsWorld::clearRigidBody(objects::Object* node) {
+    auto body = node->getComponent<RigidBody>("RigidBody");
+    if (body != nullptr) {
+        _world.DestroyBody(body->getBody());
+    }
+
+    auto children = node->getChildren();
+    for (auto* child : children) {
+        clearRigidBody(child);
+    }
 }
 
 } // namespace ngind::physics

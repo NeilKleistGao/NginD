@@ -50,6 +50,10 @@ public:
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
     static RigidBody* create(const typename resources::ConfigResource::JsonObject& data);
+
+    inline b2Body* getBody() const {
+        return _body;
+    }
 private:
     b2BodyDef _def;
     b2FixtureDef _fixture;

@@ -118,4 +118,13 @@ void Object::getChildrenByName(luabridge::LuaRef ref, const std::string& name) {
     }
 }
 
+std::vector<EntityObject*> Object::getChildren() {
+    std::vector<EntityObject*> children;
+    for (auto [name, child] : _children) {
+        children.push_back(child);
+    }
+
+    return children;
+}
+
 } // namespace ngind::objects

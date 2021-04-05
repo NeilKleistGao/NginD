@@ -23,22 +23,52 @@
 
 #include "physics_listener.h"
 
+#include "script/observer.h"
+
 namespace ngind::physics {
 
 void PhysicsListener::BeginContact(b2Contact* contact) {
+    auto bodies = getContactingBodies(contact);
 
+    if (bodies.first != nullptr && bodies.second != nullptr) {
+        sendMessage("BeginContact", bodies.first->getParent(), bodies.second->getParent());
+        sendMessage("BeginContact", bodies.second->getParent(), bodies.first->getParent());
+    }
 }
 
 void PhysicsListener::EndContact(b2Contact* contact) {
+    auto bodies = getContactingBodies(contact);
 
+    if (bodies.first != nullptr && bodies.second != nullptr) {
+        sendMessage("EndContact", bodies.first->getParent(), bodies.second->getParent());
+        sendMessage("EndContact", bodies.second->getParent(), bodies.first->getParent());
+    }
 }
 
 void PhysicsListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold) {
-
 }
 
 void PhysicsListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {
+}
 
+std::pair<RigidBody*, RigidBody*> PhysicsListener::getContactingBodies(b2Contact* contact) const {
+    auto fix_a = contact->GetFixtureA(),
+         fix_b = contact->GetFixtureB();
+
+    auto body_a = fix_a->GetBody(),
+         body_b = fix_b->GetBody();
+
+    auto rba = reinterpret_cast<RigidBody*>(body_a->GetUserData().pointer),
+         rbb = reinterpret_cast<RigidBody*>(body_b->GetUserData().pointer);
+
+    return std::make_pair(rba, rbb);
+}
+
+void PhysicsListener::sendMessage(const std::string& name, objects::Object* sender, objects::Object* other) const {
+    auto ob = script::Observer::getInstance();
+    luabridge::setGlobal(script::LuaState::getInstance()->getState(), other, "__PHYSICS_CONTACT_DATA__");
+    ob->notifySiblings("BeginContact", sender, luabridge::getGlobal(script::LuaState::getInstance()->getState(), "__PHYSICS_CONTACT_DATA__"));
+    luabridge::setGlobal(script::LuaState::getInstance()->getState(), 0, "__PHYSICS_CONTACT_DATA__");
 }
 
 } // namespace ngind::physics

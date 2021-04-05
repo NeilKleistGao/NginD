@@ -29,12 +29,14 @@
 
 namespace ngind::physics {
 
-RigidBody::RigidBody() : components::Component(), _body(nullptr), _def(), _fixture(), _shape(nullptr) {
+RigidBody::RigidBody() : components::Component(),
+    _body(nullptr), _def(), _fixture(), _shape(nullptr), _ep(nullptr) {
 }
 
 RigidBody::~RigidBody() {
     delete _shape;
     _shape = nullptr;
+    _body = nullptr;
 }
 
 void RigidBody::update(const float& delta) {
@@ -75,6 +77,8 @@ void RigidBody::init(const typename resources::ConfigResource::JsonObject& data)
     _def.type = static_cast<b2BodyType>(data["rigid-type"].GetInt());
     _def.fixedRotation = data["fixed-rotation"].GetBool();
     _def.gravityScale = data["gravity-scale"].GetFloat();
+
+    _def.userData.pointer = reinterpret_cast<uintptr_t>(this);
 
     _fixture.density = data["density"].GetFloat();
     _fixture.friction = data["friction"].GetFloat();
