@@ -85,6 +85,14 @@
               "radius": 32
             }
           }
+        },
+        {
+          "type": "StateMachine",
+          "name": "Physics",
+          "driver-script": "physics.lua",
+          "classname": "Physics",
+          "subscription": [
+          ]
         }
       ]
     },

@@ -52,7 +52,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 Thanks for these open source developers!
 
 ## Code Style Guide
-We'll use Google's C++ style guild:
+We'll use Google's C++ style guide:
 + [Google Style Guides](https://github.com/google/styleguide)
 
 However, here are some exceptions:
