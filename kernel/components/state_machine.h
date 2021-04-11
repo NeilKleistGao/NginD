@@ -135,6 +135,8 @@ private:
      * Subscribe information, determining which message can be received in some state.
      */
     std::map<std::string, std::unordered_set<std::string>> _subscribe;
+
+    void initProperty(const typename resources::ConfigResource::JsonObject& data);
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(StateMachine) {

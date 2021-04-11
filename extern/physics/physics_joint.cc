@@ -26,11 +26,30 @@
 namespace ngind::physics {
 
 PhysicsJoint::~PhysicsJoint() {
-    // TODO: delete joint
     if (_def != nullptr) {
         delete _def;
         _def = nullptr;
     }
+}
+
+glm::vec2 PhysicsJoint::getAnchorA() const {
+    if (_joint == nullptr) {
+        // TODO: warning
+        return glm::vec2 {};
+    }
+
+    auto b2vec = _joint->GetAnchorA();
+    return glm::vec2 {b2vec.x, b2vec.y};
+}
+
+glm::vec2 PhysicsJoint::getAnchorB() const {
+    if (_joint == nullptr) {
+        // TODO: warning
+        return glm::vec2 {};
+    }
+
+    auto b2vec = _joint->GetAnchorB();
+    return glm::vec2 {b2vec.x, b2vec.y};
 }
 
 } // namespace ngind::physics

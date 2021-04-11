@@ -11,6 +11,7 @@
   },
   "children": [
     {
+      "id": 1,
       "name": "title",
       "position": {
         "x": 512,
@@ -47,6 +48,7 @@
       ]
     },
     {
+      "id": 2,
       "name": "button",
       "position": {
         "x": 512,

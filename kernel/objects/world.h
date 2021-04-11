@@ -27,6 +27,7 @@
 #define NGIND_WORLD_H
 
 #include <string>
+#include <unordered_map>
 
 #include "object.h"
 #include "components/component.h"
@@ -82,6 +83,8 @@ public:
      * @see kernel/objects/updatable_object.h
      */
     void update(const float&) override;
+
+    EntityObject* getChildByID(const int& id);
 private:
     /**
      * The name of this world
@@ -97,6 +100,8 @@ private:
      * Background color of this world
      */
     rendering::Color _background_color;
+
+    std::unordered_map<int, EntityObject*> _all_children;
 
     /**
      * Load children objects using config file

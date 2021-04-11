@@ -11,6 +11,7 @@
   },
   "children": [
     {
+      "id": 1,
       "name": "title",
       "position": {
         "x": 512,
@@ -35,6 +36,7 @@
       ]
     },
     {
+      "id": 2,
       "name": "ball",
       "position": {
         "x": 512,
@@ -97,6 +99,7 @@
       ]
     },
     {
+      "id": 3,
       "name": "wall",
       "position": {
         "x": 512,

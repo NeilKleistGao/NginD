@@ -97,6 +97,7 @@ EntityObject* World::generateObject(Object* self, const typename resources::Conf
         }
     }
 
+    _all_children[data["id"].GetInt()] = entity;
     return entity;
 }
 
@@ -104,6 +105,14 @@ components::Component* World::generateComponent(const typename resources::Config
     auto factory = components::ComponentFactory::getInstance();
     components::Component* com = factory->create(data["type"].GetString(), data);
     return com;
+}
+
+EntityObject* World::getChildByID(const int& id) {
+    if (_all_children.find(id) == _all_children.end()) {
+        return nullptr;
+    }
+
+    return _all_children[id];
 }
 
 } // namespace ngind::objects

@@ -25,17 +25,197 @@
 #define NGIND_PHYSICS_JOINT_H
 
 #include "box2d/box2d.h"
+#include "kernel/components/component.h"
+#include "rigid_body.h"
+#include "script/lua_registration.h"
 
 namespace ngind::physics {
 
-class PhysicsJoint {
+class PhysicsJoint : public components::Component {
 public:
-    PhysicsJoint() : _def(nullptr), _joint(nullptr) {}
+    PhysicsJoint() : components::Component(), _def(nullptr), _joint(nullptr), _body_a(nullptr), _body_b(nullptr) {}
     virtual ~PhysicsJoint();
+
+    void update(const float& delta) override {}
+
+    void init(const typename resources::ConfigResource::JsonObject& data) override {}
+
+    inline RigidBody* getBodyA() {
+        return _body_a;
+    }
+
+    inline RigidBody* getBodyB() {
+        return _body_b;
+    }
+
+    glm::vec2 getAnchorA() const;
+    glm::vec2 getAnchorB() const;
 private:
 protected:
     b2JointDef* _def;
     b2Joint* _joint;
+
+    RigidBody* _body_a;
+    RigidBody* _body_b;
+};
+
+NGIND_LUA_BRIDGE_REGISTRATION(PhysicsJoint) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<PhysicsJoint, components::Component>("PhysicsJoint")
+                .addFunction("getBodyA", &PhysicsJoint::getBodyA)
+                .addFunction("getBodyB", &PhysicsJoint::getBodyB)
+                .addFunction("getAnchorA", &PhysicsJoint::getAnchorA)
+                .addFunction("getAnchorB", &PhysicsJoint::getAnchorB)
+            .endClass()
+        .endNamespace();
+}
+
+class DistanceJoint : public PhysicsJoint {
+public:
+    DistanceJoint();
+    ~DistanceJoint() override;
+    /**
+     * @see objects/updatable_object.h
+     */
+    void update(const float& delta) override;
+
+    /**
+     * Initialization function of this class used by configuration creating method. This function
+     * is inherited from Component
+     * @param data: the configuration data this component initialization process requires.
+     */
+    void init(const typename resources::ConfigResource::JsonObject& data) override;
+
+    static DistanceJoint* create(const typename resources::ConfigResource::JsonObject& data);
+private:
+protected:
+};
+
+class RevoluteJoint : public PhysicsJoint {
+public:
+    RevoluteJoint();
+    ~RevoluteJoint() override;
+    /**
+     * @see objects/updatable_object.h
+     */
+    void update(const float& delta) override;
+
+    /**
+     * Initialization function of this class used by configuration creating method. This function
+     * is inherited from Component
+     * @param data: the configuration data this component initialization process requires.
+     */
+    void init(const typename resources::ConfigResource::JsonObject& data) override;
+
+    static RevoluteJoint* create(const typename resources::ConfigResource::JsonObject& data);
+private:
+protected:
+};
+
+class PrismaticJoint : public PhysicsJoint {
+public:
+    PrismaticJoint();
+    ~PrismaticJoint() override;
+    /**
+     * @see objects/updatable_object.h
+     */
+    void update(const float& delta) override;
+
+    /**
+     * Initialization function of this class used by configuration creating method. This function
+     * is inherited from Component
+     * @param data: the configuration data this component initialization process requires.
+     */
+    void init(const typename resources::ConfigResource::JsonObject& data) override;
+
+    static PrismaticJoint* create(const typename resources::ConfigResource::JsonObject& data);
+private:
+protected:
+};
+
+class PulleyJoint : public PhysicsJoint {
+public:
+    PulleyJoint();
+    ~PulleyJoint() override;
+    /**
+     * @see objects/updatable_object.h
+     */
+    void update(const float& delta) override;
+
+    /**
+     * Initialization function of this class used by configuration creating method. This function
+     * is inherited from Component
+     * @param data: the configuration data this component initialization process requires.
+     */
+    void init(const typename resources::ConfigResource::JsonObject& data) override;
+
+    static PulleyJoint* create(const typename resources::ConfigResource::JsonObject& data);
+private:
+protected:
+};
+
+class GearJoint : public PhysicsJoint {
+public:
+    GearJoint();
+    ~GearJoint() override;
+    /**
+     * @see objects/updatable_object.h
+     */
+    void update(const float& delta) override;
+
+    /**
+     * Initialization function of this class used by configuration creating method. This function
+     * is inherited from Component
+     * @param data: the configuration data this component initialization process requires.
+     */
+    void init(const typename resources::ConfigResource::JsonObject& data) override;
+
+    static GearJoint* create(const typename resources::ConfigResource::JsonObject& data);
+private:
+protected:
+};
+
+class WheelJoint : public PhysicsJoint {
+public:
+    WheelJoint();
+    ~WheelJoint() override;
+    /**
+     * @see objects/updatable_object.h
+     */
+    void update(const float& delta) override;
+
+    /**
+     * Initialization function of this class used by configuration creating method. This function
+     * is inherited from Component
+     * @param data: the configuration data this component initialization process requires.
+     */
+    void init(const typename resources::ConfigResource::JsonObject& data) override;
+
+    static WheelJoint* create(const typename resources::ConfigResource::JsonObject& data);
+private:
+protected:
+};
+
+class RopeJoint : public PhysicsJoint {
+public:
+    RopeJoint();
+    ~RopeJoint() override;
+    /**
+     * @see objects/updatable_object.h
+     */
+    void update(const float& delta) override;
+
+    /**
+     * Initialization function of this class used by configuration creating method. This function
+     * is inherited from Component
+     * @param data: the configuration data this component initialization process requires.
+     */
+    void init(const typename resources::ConfigResource::JsonObject& data) override;
+
+    static RopeJoint* create(const typename resources::ConfigResource::JsonObject& data);
+private:
+protected:
 };
 
 } // namespace ngind::physics

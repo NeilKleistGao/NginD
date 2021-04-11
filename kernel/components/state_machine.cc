@@ -62,6 +62,13 @@ void StateMachine::init(const typename resources::ConfigResource::JsonObject& da
             _subscribe[name].insert(w.GetString());
         }
     }
+
+    if (data.HasMember("properties")) {
+        auto properties = data["properties"].GetArray();
+        for (const auto& p : properties) {
+            initProperty(p);
+        }
+    }
 }
 
 StateMachine* StateMachine::create(const typename resources::ConfigResource::JsonObject& data) {
@@ -122,6 +129,10 @@ void StateMachine::notify(const luabridge::LuaRef& sender, const std::string& na
 void StateMachine::notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
     auto ob = script::Observer::getInstance();
     ob->notifyAll(sender, name, data);
+}
+
+void StateMachine::initProperty(const typename resources::ConfigResource::JsonObject& data) {
+    // TODO:
 }
 
 } // namespace ngind::components

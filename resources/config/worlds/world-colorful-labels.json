@@ -11,6 +11,7 @@
   },
   "children": [
     {
+      "id": 1,
       "name": "title",
       "position": {
         "x": 512,
@@ -35,6 +36,7 @@
       ]
     },
     {
+      "id": 2,
       "name": "label",
       "position": {
         "x": 512,
@@ -59,6 +61,7 @@
       ]
     },
     {
+      "id": 3,
       "name": "label",
       "position": {
         "x": 512,
@@ -83,6 +86,7 @@
       ]
     },
     {
+      "id": 4,
       "name": "label",
       "position": {
         "x": 512,
@@ -107,6 +111,7 @@
       ]
     },
     {
+      "id": 5,
       "name": "label",
       "position": {
         "x": 512,
@@ -131,6 +136,7 @@
       ]
     },
     {
+      "id": 6,
       "name": "label",
       "position": {
         "x": 512,
