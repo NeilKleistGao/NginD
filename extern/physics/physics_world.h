@@ -33,6 +33,7 @@
 namespace ngind::physics {
 
 class RigidBody;
+class DistanceJoint;
 
 class PhysicsWorld : public components::Component {
 public:
@@ -69,6 +70,7 @@ public:
     }
 
     friend class RigidBody;
+    friend class DistanceJoint;
 private:
     b2Vec2 _gravity;
     b2World _world;

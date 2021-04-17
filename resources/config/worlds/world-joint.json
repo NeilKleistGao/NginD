@@ -1,0 +1,261 @@
+{
+  "world-name": "joint",
+  "background-color": "#000000FF",
+  "size": {
+    "width": 1024,
+    "height": 768
+  },
+  "camera": {
+    "x": 512,
+    "y": 384
+  },
+  "children": [
+    {
+      "id": 1,
+      "name": "title",
+      "position": {
+        "x": 512,
+        "y": 700
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 36,
+          "text": "Joint Test",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "ball1",
+      "position": {
+        "x": 512,
+        "y": 384
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "ball.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 64,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "RigidBody",
+          "name": "RigidBody",
+          "init-position": {
+            "x": 512,
+            "y": 384
+          },
+          "init-angle": 0,
+          "angular-damping": 0,
+          "linear-damping": 0,
+          "rigid-type": 2,
+          "fixed-rotation": false,
+          "gravity-scale": 1,
+          "friction": 0,
+          "density": 1,
+          "shape": {
+            "name": "circle",
+            "data": {
+              "radius": 32
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "ball2",
+      "position": {
+        "x": 512,
+        "y": 284
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "ball.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 64,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "RigidBody",
+          "name": "RigidBody",
+          "init-position": {
+            "x": 512,
+            "y": 284
+          },
+          "init-angle": 0,
+          "angular-damping": 0,
+          "linear-damping": 0,
+          "rigid-type": 2,
+          "fixed-rotation": false,
+          "gravity-scale": 1,
+          "friction": 0,
+          "density": 1,
+          "shape": {
+            "name": "circle",
+            "data": {
+              "radius": 32
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "wall",
+      "position": {
+        "x": 512,
+        "y": 100
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "wall.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 256,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "RigidBody",
+          "name": "RigidBody",
+          "init-position": {
+            "x": 512,
+            "y": 100
+          },
+          "init-angle": 0,
+          "angular-damping": 0,
+          "linear-damping": 0,
+          "rigid-type": 1,
+          "fixed-rotation": true,
+          "gravity-scale": 1,
+          "friction": 1,
+          "density": 2,
+          "shape": {
+            "name": "polygon",
+            "data": {
+              "length": 1,
+              "vertex": [
+                {"x":  256, "y": 64}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "joint",
+      "position": {
+        "x": 512,
+        "y": 334
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "DistanceJoint",
+          "name": "DistanceJoint",
+          "index-a": 2,
+          "index-b": 3,
+          "length": 100,
+          "max-length": 100,
+          "min-length": 100,
+          "damping": 0,
+          "collide": true,
+          "stiffness": 0,
+          "anchor-a": {
+            "x": 512,
+            "y": 384
+          },
+          "anchor-b": {
+            "x": 512,
+            "y": 284
+          }
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "StateMachine",
+      "name": "WorldSwitch",
+      "driver-script": "world_switch.lua",
+      "classname": "WorldSwitch",
+      "subscription": [
+      ]
+    },
+    {
+      "type": "PhysicsWorld",
+      "name": "PhysicsWorld",
+      "gravity": {
+        "x": 0,
+        "y": -98
+      }
+    }
+  ]
+}

@@ -16,20 +16,15 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + ...
 
 ## TODO List
-
 ### 0.8
 + [ ] Box2D Support
 
 ### 0.9
-+ [ ] Tiled Map
++ [ ] Saving Game Files
 + [ ] Screen Adaptor
 
-### 0.10
-+ [ ] Package Tools
-+ [ ] Saving Game Files
-
 ### 1.0
-+ [ ] Simple Editor
++ [ ] Package Tools
 + [ ] Full Documentation
 
 ## Dependent Libraries
@@ -40,7 +35,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [FreeType 2.10.3](https://www.freetype.org/index.html)
 + [SOIL2 1.20](https://github.com/SpartanJ/SOIL2)
 + [glm 0.9.9.8](https://glm.g-truc.net/0.9.9/index.html)
-+ [Lua 5.4.2](https://www.lua.org/)
++ [Lua 5.2.4](https://www.lua.org/)
 + [Lua Bridge 2.6](https://github.com/vinniefalco/LuaBridge)
 + [SoLoud 20200207](http://sol.gfxile.net/soloud/index.html)
 + [Aseprite 1.2.25dev](http://www.aseprite.org/)

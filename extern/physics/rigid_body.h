@@ -65,6 +65,12 @@ private:
 
 NGIND_LUA_BRIDGE_REGISTRATION(RigidBody) {
     components::ComponentFactory::getInstance()->registerComponent<RigidBody>("RigidBody");
+
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<RigidBody, components::Component>("RigidBody")
+            .endClass()
+        .endNamespace();
 }
 
 } // namespace ngind::physics

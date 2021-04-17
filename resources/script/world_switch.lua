@@ -49,7 +49,7 @@ end
 WORLD_SWITCH_TABLE = {}
 WORLD_SWITCH_TABLE["welcome"] = {}
 WORLD_SWITCH_TABLE["welcome"]["next"] = "colorful-labels"
-WORLD_SWITCH_TABLE["welcome"]["prev"] = "physics"
+WORLD_SWITCH_TABLE["welcome"]["prev"] = "joint"
 WORLD_SWITCH_TABLE["colorful-labels"] = {}
 WORLD_SWITCH_TABLE["colorful-labels"]["next"] = "audio"
 WORLD_SWITCH_TABLE["colorful-labels"]["prev"] = "welcome"
@@ -70,4 +70,7 @@ WORLD_SWITCH_TABLE["capture"]["next"] = "physics"
 WORLD_SWITCH_TABLE["capture"]["prev"] = "button"
 WORLD_SWITCH_TABLE["physics"] = {}
 WORLD_SWITCH_TABLE["physics"]["next"] = "welcome"
-WORLD_SWITCH_TABLE["physics"]["prev"] = "capture"
+WORLD_SWITCH_TABLE["physics"]["prev"] = "joint"
+WORLD_SWITCH_TABLE["joint"] = {}
+WORLD_SWITCH_TABLE["joint"]["next"] = "welcome"
+WORLD_SWITCH_TABLE["joint"]["prev"] = "physics"

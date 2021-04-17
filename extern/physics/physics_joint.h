@@ -33,8 +33,12 @@ namespace ngind::physics {
 
 class PhysicsJoint : public components::Component {
 public:
-    PhysicsJoint() : components::Component(), _def(nullptr), _joint(nullptr), _body_a(nullptr), _body_b(nullptr) {}
-    virtual ~PhysicsJoint();
+    PhysicsJoint()
+        : components::Component(),
+        _joint(nullptr), _body_a(nullptr), _body_b(nullptr),
+        _index_a(0), _index_b(0)
+        {}
+    ~PhysicsJoint() override;
 
     void update(const float& delta) override {}
 
@@ -52,11 +56,15 @@ public:
     glm::vec2 getAnchorB() const;
 private:
 protected:
-    b2JointDef* _def;
     b2Joint* _joint;
+
+    int _index_a;
+    int _index_b;
 
     RigidBody* _body_a;
     RigidBody* _body_b;
+
+    void setBodies();
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(PhysicsJoint) {
@@ -73,8 +81,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(PhysicsJoint) {
 
 class DistanceJoint : public PhysicsJoint {
 public:
-    DistanceJoint();
-    ~DistanceJoint() override;
+    DistanceJoint() : PhysicsJoint() {}
+    ~DistanceJoint() override = default;
     /**
      * @see objects/updatable_object.h
      */
@@ -89,8 +97,28 @@ public:
 
     static DistanceJoint* create(const typename resources::ConfigResource::JsonObject& data);
 private:
-protected:
+    b2DistanceJointDef _def;
+
+    glm::vec2 _anchor_a;
+    glm::vec2 _anchor_b;
+
+    float _length;
+    float _min_length;
+    float _max_length;
+    float _damping;
+    float _stiffness;
+    bool _collide;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(DistanceJoint) {
+    components::ComponentFactory::getInstance()->registerComponent<DistanceJoint>("DistanceJoint");
+
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<DistanceJoint, PhysicsJoint>("DistanceJoint")
+            .endClass()
+        .endNamespace();
+}
 
 class RevoluteJoint : public PhysicsJoint {
 public:
