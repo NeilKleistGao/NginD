@@ -54,6 +54,10 @@ public:
 
     glm::vec2 getAnchorA() const;
     glm::vec2 getAnchorB() const;
+
+    inline b2Joint* getJoint() {
+        return _joint;
+    }
 private:
 protected:
     b2Joint* _joint;
@@ -63,6 +67,8 @@ protected:
 
     RigidBody* _body_a;
     RigidBody* _body_b;
+
+    bool _collide;
 
     void setBodies();
 };
@@ -107,7 +113,6 @@ private:
     float _max_length;
     float _damping;
     float _stiffness;
-    bool _collide;
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(DistanceJoint) {
@@ -122,8 +127,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(DistanceJoint) {
 
 class RevoluteJoint : public PhysicsJoint {
 public:
-    RevoluteJoint();
-    ~RevoluteJoint() override;
+    RevoluteJoint() : PhysicsJoint() {}
+    ~RevoluteJoint() override = default;
     /**
      * @see objects/updatable_object.h
      */
@@ -138,13 +143,22 @@ public:
 
     static RevoluteJoint* create(const typename resources::ConfigResource::JsonObject& data);
 private:
-protected:
+    b2RevoluteJointDef _def;
+
+    float _lower_angle;
+    float _upper_angle;
+    bool _enable_limit;
+    float _max_motor;
+    float _motor_speed;
+    bool _enable_motor;
+
+    glm::vec2 _center;
 };
 
 class PrismaticJoint : public PhysicsJoint {
 public:
-    PrismaticJoint();
-    ~PrismaticJoint() override;
+    PrismaticJoint() : PhysicsJoint() {}
+    ~PrismaticJoint() override = default;
     /**
      * @see objects/updatable_object.h
      */
@@ -159,13 +173,23 @@ public:
 
     static PrismaticJoint* create(const typename resources::ConfigResource::JsonObject& data);
 private:
-protected:
+    b2PrismaticJointDef _def;
+
+    glm::vec2 _center;
+    glm::vec2 _axis;
+
+    float _lower_trans;
+    float _upper_trans;
+    bool _enable_limit;
+    float _max_force;
+    float _motor_speed;
+    bool _enable_motor;
 };
 
 class PulleyJoint : public PhysicsJoint {
 public:
-    PulleyJoint();
-    ~PulleyJoint() override;
+    PulleyJoint() : PhysicsJoint() {}
+    ~PulleyJoint() override = default;
     /**
      * @see objects/updatable_object.h
      */
@@ -180,13 +204,19 @@ public:
 
     static PulleyJoint* create(const typename resources::ConfigResource::JsonObject& data);
 private:
-protected:
+    b2PulleyJointDef _def;
+
+    float _ratio;
+    glm::vec2 _anchor_a;
+    glm::vec2 _anchor_b;
+    glm::vec2 _ground_a;
+    glm::vec2 _ground_b;
 };
 
 class GearJoint : public PhysicsJoint {
 public:
-    GearJoint();
-    ~GearJoint() override;
+    GearJoint() : PhysicsJoint() {}
+    ~GearJoint() override = default;
     /**
      * @see objects/updatable_object.h
      */
@@ -201,49 +231,14 @@ public:
 
     static GearJoint* create(const typename resources::ConfigResource::JsonObject& data);
 private:
-protected:
-};
+    b2GearJointDef _def;
 
-class WheelJoint : public PhysicsJoint {
-public:
-    WheelJoint();
-    ~WheelJoint() override;
-    /**
-     * @see objects/updatable_object.h
-     */
-    void update(const float& delta) override;
+    int _joint_a;
+    int _joint_b;
+    float _ratio;
 
-    /**
-     * Initialization function of this class used by configuration creating method. This function
-     * is inherited from Component
-     * @param data: the configuration data this component initialization process requires.
-     */
-    void init(const typename resources::ConfigResource::JsonObject& data) override;
-
-    static WheelJoint* create(const typename resources::ConfigResource::JsonObject& data);
-private:
-protected:
-};
-
-class RopeJoint : public PhysicsJoint {
-public:
-    RopeJoint();
-    ~RopeJoint() override;
-    /**
-     * @see objects/updatable_object.h
-     */
-    void update(const float& delta) override;
-
-    /**
-     * Initialization function of this class used by configuration creating method. This function
-     * is inherited from Component
-     * @param data: the configuration data this component initialization process requires.
-     */
-    void init(const typename resources::ConfigResource::JsonObject& data) override;
-
-    static RopeJoint* create(const typename resources::ConfigResource::JsonObject& data);
-private:
-protected:
+    std::string _name_a;
+    std::string _name_b;
 };
 
 } // namespace ngind::physics

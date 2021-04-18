@@ -21,11 +21,11 @@ A game engine for 2D pixel game powered by C++ (自家用).
 
 ### 0.9
 + [ ] Saving Game Files
-+ [ ] Screen Adaptor
++ [ ] Prefab
 
 ### 1.0
 + [ ] Package Tools
-+ [ ] Full Documentation
++ [ ] Screen Adaptor
 
 ## Dependent Libraries
 ### Engine Dependent Libraries
@@ -40,6 +40,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [SoLoud 20200207](http://sol.gfxile.net/soloud/index.html)
 + [Aseprite 1.2.25dev](http://www.aseprite.org/)
 + [Snappy 1.1.8](https://github.com/google/snappy)
++ [Box2d 2.4.1](https://box2d.org/documentation/index.html)
 
 ### Documentation Libraries
 + [Sphinx 2.2.0](https://www.sphinx.org.cn/)
