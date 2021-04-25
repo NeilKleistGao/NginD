@@ -29,9 +29,7 @@
 namespace ngind::physics {
 
 PhysicsJoint::~PhysicsJoint() {
-    if (_joint != nullptr) {
-        // TODO:
-    }
+    _joint = nullptr;
 }
 
 glm::vec2 PhysicsJoint::getAnchorA() const {
@@ -63,7 +61,7 @@ void PhysicsJoint::setBodies() {
 }
 
 void DistanceJoint::update(const float& delta) {
-    if (_body_a == nullptr || _body_b == nullptr) {
+    if (_joint == nullptr) {
         setBodies();
 
         if (_body_a == nullptr || _body_b == nullptr) {
@@ -86,6 +84,14 @@ void DistanceJoint::update(const float& delta) {
         auto pw = world->getComponent<PhysicsWorld>("PhysicsWorld");
         _joint = pw->_world.CreateJoint(&_def);
     }
+}
+
+float DistanceJoint::getCurrentLength() const {
+    if (_joint == nullptr) {
+        return 0.0f;
+    }
+
+    return dynamic_cast<b2DistanceJoint*>(_joint)->GetCurrentLength();
 }
 
 void DistanceJoint::init(const typename resources::ConfigResource::JsonObject& data) {
@@ -113,7 +119,7 @@ DistanceJoint* DistanceJoint::create(const typename resources::ConfigResource::J
 }
 
 void RevoluteJoint::update(const float& delta) {
-    if (_body_a == nullptr || _body_b == nullptr) {
+    if (_joint == nullptr) {
         setBodies();
 
         if (_body_a == nullptr || _body_b == nullptr) {
@@ -161,7 +167,7 @@ RevoluteJoint* RevoluteJoint::create(const typename resources::ConfigResource::J
 }
 
 void PrismaticJoint::update(const float& delta) {
-    if (_body_a == nullptr || _body_b == nullptr) {
+    if (_joint == nullptr) {
         setBodies();
 
         if (_body_a == nullptr || _body_b == nullptr) {
@@ -211,7 +217,7 @@ PrismaticJoint* PrismaticJoint::create(const typename resources::ConfigResource:
 }
 
 void PulleyJoint::update(const float& delta) {
-    if (_body_a == nullptr || _body_b == nullptr) {
+    if (_joint == nullptr) {
         setBodies();
 
         if (_body_a == nullptr || _body_b == nullptr) {
@@ -255,8 +261,24 @@ PulleyJoint* PulleyJoint::create(const typename resources::ConfigResource::JsonO
     return joint;
 }
 
+float PulleyJoint::getCurrentLengthA() const {
+    if (_joint == nullptr) {
+        return 0.0f;
+    }
+
+    return dynamic_cast<b2PulleyJoint*>(_joint)->GetCurrentLengthA();
+}
+
+float PulleyJoint::getCurrentLengthB() const {
+    if (_joint == nullptr) {
+        return 0.0f;
+    }
+
+    return dynamic_cast<b2PulleyJoint*>(_joint)->GetCurrentLengthB();
+}
+
 void GearJoint::update(const float& delta) {
-    if (_body_a == nullptr || _body_b == nullptr) {
+    if (_joint == nullptr) {
         setBodies();
 
         if (_body_a == nullptr || _body_b == nullptr) {
@@ -268,8 +290,8 @@ void GearJoint::update(const float& delta) {
 
         _def.bodyA = _body_a->getBody();
         _def.bodyB = _body_b->getBody();
-        _def.joint1 = world->getChildByID(_joint_a)->getComponent<PhysicsJoint>(_name_a)->getJoint();
-        _def.joint2 = world->getChildByID(_joint_b)->getComponent<PhysicsJoint>(_name_b)->getJoint();
+        _def.joint1 = getJointA()->getJoint();
+        _def.joint2 = getJointB()->getJoint();
         _def.ratio = _ratio;
         _def.collideConnected = _collide;
 
@@ -295,6 +317,18 @@ GearJoint* GearJoint::create(const typename resources::ConfigResource::JsonObjec
     auto* joint = memory::MemoryPool::getInstance()->create<GearJoint>();
     joint->init(data);
     return joint;
+}
+
+PhysicsJoint* GearJoint::getJointA() const {
+    auto game = Game::getInstance();
+    auto world = game->getCurrentWorld();
+    return world->getChildByID(_joint_a)->getComponent<PhysicsJoint>(_name_a);
+}
+
+PhysicsJoint* GearJoint::getJointB() const {
+    auto game = Game::getInstance();
+    auto world = game->getCurrentWorld();
+    return world->getChildByID(_joint_b)->getComponent<PhysicsJoint>(_name_b);
 }
 
 } // namespace ngind::physics

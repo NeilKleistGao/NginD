@@ -54,9 +54,21 @@ public:
     inline b2Body* getBody() const {
         return _body;
     }
+
+    void applyForce(const glm::vec2& force);
+    void applyTorque(float torque);
+    void setVelocity(const glm::vec2& velocity);
+    void setAngularVelocity(float velocity);
+
+    void setSleepingAllowed(bool allowed);
+    bool isSleepingAllowed() const;
+
+    void setRotationFixed(bool fixed);
+    bool isRotationFixed() const;
 private:
     b2BodyDef _def;
-    b2FixtureDef _fixture;
+    b2FixtureDef _fixture_def;
+    b2Fixture* _fixture;
     PhysicsShape* _shape;
     b2Body* _body;
 
@@ -69,6 +81,14 @@ NGIND_LUA_BRIDGE_REGISTRATION(RigidBody) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
         .beginNamespace("engine")
             .deriveClass<RigidBody, components::Component>("RigidBody")
+                .addFunction("applyForce", &RigidBody::applyForce)
+                .addFunction("applyTorque", &RigidBody::applyTorque)
+                .addFunction("setVelocity", &RigidBody::setVelocity)
+                .addFunction("setAngularVelocity", &RigidBody::setAngularVelocity)
+                .addFunction("setSleepingAllowed", &RigidBody::setSleepingAllowed)
+                .addFunction("isSleepingAllowed", &RigidBody::isSleepingAllowed)
+                .addFunction("setRotationFixed", &RigidBody::setRotationFixed)
+                .addFunction("isRotationFixed", &RigidBody::isRotationFixed)
             .endClass()
         .endNamespace();
 }

@@ -36,7 +36,7 @@ public:
     PhysicsJoint()
         : components::Component(),
         _joint(nullptr), _body_a(nullptr), _body_b(nullptr),
-        _index_a(0), _index_b(0)
+        _index_a(0), _index_b(0), _collide(false)
         {}
     ~PhysicsJoint() override;
 
@@ -102,17 +102,19 @@ public:
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
     static DistanceJoint* create(const typename resources::ConfigResource::JsonObject& data);
+
+    float getCurrentLength() const;
 private:
     b2DistanceJointDef _def;
 
-    glm::vec2 _anchor_a;
-    glm::vec2 _anchor_b;
+    glm::vec2 _anchor_a{};
+    glm::vec2 _anchor_b{};
 
-    float _length;
-    float _min_length;
-    float _max_length;
-    float _damping;
-    float _stiffness;
+    float _length{};
+    float _min_length{};
+    float _max_length{};
+    float _damping{};
+    float _stiffness{};
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(DistanceJoint) {
@@ -121,6 +123,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(DistanceJoint) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
         .beginNamespace("engine")
             .deriveClass<DistanceJoint, PhysicsJoint>("DistanceJoint")
+            .addFunction("getCurrentLength", &DistanceJoint::getCurrentLength)
             .endClass()
         .endNamespace();
 }
@@ -145,15 +148,24 @@ public:
 private:
     b2RevoluteJointDef _def;
 
-    float _lower_angle;
-    float _upper_angle;
-    bool _enable_limit;
-    float _max_motor;
-    float _motor_speed;
-    bool _enable_motor;
+    float _lower_angle{};
+    float _upper_angle{};
+    bool _enable_limit{};
+    float _max_motor{};
+    float _motor_speed{};
+    bool _enable_motor{};
 
-    glm::vec2 _center;
+    glm::vec2 _center{};
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(RevoluteJoint) {
+    components::ComponentFactory::getInstance()->registerComponent<RevoluteJoint>("RevoluteJoint");
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<RevoluteJoint, PhysicsJoint>("RevoluteJoint")
+            .endClass()
+        .endNamespace();
+}
 
 class PrismaticJoint : public PhysicsJoint {
 public:
@@ -175,16 +187,25 @@ public:
 private:
     b2PrismaticJointDef _def;
 
-    glm::vec2 _center;
-    glm::vec2 _axis;
+    glm::vec2 _center{};
+    glm::vec2 _axis{};
 
-    float _lower_trans;
-    float _upper_trans;
-    bool _enable_limit;
-    float _max_force;
-    float _motor_speed;
-    bool _enable_motor;
+    float _lower_trans{};
+    float _upper_trans{};
+    bool _enable_limit{};
+    float _max_force{};
+    float _motor_speed{};
+    bool _enable_motor{};
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(PrismaticJoint) {
+    components::ComponentFactory::getInstance()->registerComponent<PrismaticJoint>("PrismaticJoint");
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<PrismaticJoint, PhysicsJoint>("PrismaticJoint")
+            .endClass()
+        .endNamespace();
+}
 
 class PulleyJoint : public PhysicsJoint {
 public:
@@ -203,15 +224,29 @@ public:
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
     static PulleyJoint* create(const typename resources::ConfigResource::JsonObject& data);
+
+    float getCurrentLengthA() const;
+    float getCurrentLengthB() const;
 private:
     b2PulleyJointDef _def;
 
-    float _ratio;
-    glm::vec2 _anchor_a;
-    glm::vec2 _anchor_b;
-    glm::vec2 _ground_a;
-    glm::vec2 _ground_b;
+    float _ratio{};
+    glm::vec2 _anchor_a{};
+    glm::vec2 _anchor_b{};
+    glm::vec2 _ground_a{};
+    glm::vec2 _ground_b{};
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(PulleyJoint) {
+    components::ComponentFactory::getInstance()->registerComponent<PulleyJoint>("PulleyJoint");
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<PulleyJoint, PhysicsJoint>("PulleyJoint")
+                .addFunction("getCurrentLengthA", &PulleyJoint::getCurrentLengthA)
+                .addFunction("getCurrentLengthB", &PulleyJoint::getCurrentLengthB)
+            .endClass()
+        .endNamespace();
+}
 
 class GearJoint : public PhysicsJoint {
 public:
@@ -230,16 +265,30 @@ public:
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
     static GearJoint* create(const typename resources::ConfigResource::JsonObject& data);
+
+    PhysicsJoint* getJointA() const;
+    PhysicsJoint* getJointB() const;
 private:
     b2GearJointDef _def;
 
-    int _joint_a;
-    int _joint_b;
-    float _ratio;
+    int _joint_a{};
+    int _joint_b{};
+    float _ratio{};
 
     std::string _name_a;
     std::string _name_b;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(GearJoint) {
+    components::ComponentFactory::getInstance()->registerComponent<GearJoint>("GearJoint");
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<GearJoint, PhysicsJoint>("GearJoint")
+                .addFunction("getJointA", &GearJoint::getJointA)
+                .addFunction("getJointB", &GearJoint::getJointB)
+            .endClass()
+        .endNamespace();
+}
 
 } // namespace ngind::physics
 

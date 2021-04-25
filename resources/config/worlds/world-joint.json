@@ -81,6 +81,8 @@
           "gravity-scale": 1,
           "friction": 0,
           "density": 1,
+          "category": 1,
+          "mask": 1,
           "shape": {
             "name": "circle",
             "data": {
@@ -136,6 +138,8 @@
           "gravity-scale": 1,
           "friction": 0,
           "density": 1,
+          "category": 1,
+          "mask": 1,
           "shape": {
             "name": "circle",
             "data": {
@@ -191,6 +195,8 @@
           "gravity-scale": 1,
           "friction": 1,
           "density": 2,
+          "category": 1,
+          "mask": 1,
           "shape": {
             "name": "polygon",
             "data": {

@@ -30,7 +30,7 @@
 namespace ngind::physics {
 
 RigidBody::RigidBody() : components::Component(),
-    _body(nullptr), _def(), _fixture(), _shape(nullptr), _ep(nullptr) {
+    _body(nullptr), _def(), _fixture_def(), _fixture(nullptr), _shape(nullptr), _ep(nullptr) {
 }
 
 RigidBody::~RigidBody() {
@@ -51,7 +51,7 @@ void RigidBody::update(const float& delta) {
             return;
         }
 
-        _body->CreateFixture(&_fixture);
+        _fixture = _body->CreateFixture(&_fixture_def);
     }
 
     if (_ep == nullptr) {
@@ -80,8 +80,10 @@ void RigidBody::init(const typename resources::ConfigResource::JsonObject& data)
 
     _def.userData.pointer = reinterpret_cast<uintptr_t>(this);
 
-    _fixture.density = data["density"].GetFloat();
-    _fixture.friction = data["friction"].GetFloat();
+    _fixture_def.density = data["density"].GetFloat();
+    _fixture_def.friction = data["friction"].GetFloat();
+    _fixture_def.filter.categoryBits = data["category"].GetInt();
+    _fixture_def.filter.maskBits = data["mask"].GetInt();
 
     auto shape_data = data["shape"].GetObject();
     std::string shape_name = shape_data["name"].GetString();
@@ -92,13 +94,76 @@ void RigidBody::init(const typename resources::ConfigResource::JsonObject& data)
         _shape = new PolygonShape(shape_data["data"]);
     }
 
-    _fixture.shape = _shape->shape;
+    _fixture_def.shape = _shape->shape;
 }
 
 RigidBody* RigidBody::create(const typename resources::ConfigResource::JsonObject& data) {
     auto* body = memory::MemoryPool::getInstance()->create<RigidBody>();
     body->init(data);
     return body;
+}
+
+void RigidBody::applyForce(const glm::vec2& force) {
+    if (_body == nullptr) {
+        return;
+    }
+    _body->ApplyForceToCenter({force.x, force.y}, true);
+}
+
+void RigidBody::applyTorque(float torque) {
+    if (_body == nullptr) {
+        return;
+    }
+
+    _body->ApplyTorque(torque, true);
+}
+
+void RigidBody::setVelocity(const glm::vec2& velocity) {
+    if (_body == nullptr) {
+        return;
+    }
+
+    _body->SetLinearVelocity({velocity.x, velocity.y});
+}
+
+void RigidBody::setAngularVelocity(float velocity) {
+    if (_body == nullptr) {
+        return;
+    }
+
+    _body->SetAngularVelocity(velocity);
+}
+
+void RigidBody::setSleepingAllowed(bool allowed) {
+    if (_body == nullptr) {
+        return;
+    }
+
+    _body->SetSleepingAllowed(allowed);
+}
+
+bool RigidBody::isSleepingAllowed() const {
+    if (_body == nullptr) {
+        return true;
+    }
+
+    return _body->IsSleepingAllowed();
+}
+
+void RigidBody::setRotationFixed(bool fixed) {
+    if (_body == nullptr) {
+        return;
+    }
+
+    _body->SetFixedRotation(fixed);
+}
+
+bool RigidBody::isRotationFixed() const {
+    if (_body == nullptr) {
+        return false;
+    }
+
+    return _body->IsFixedRotation();
 }
 
 } // namespace ngind::physics

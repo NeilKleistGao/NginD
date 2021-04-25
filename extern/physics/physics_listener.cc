@@ -31,8 +31,15 @@ void PhysicsListener::BeginContact(b2Contact* contact) {
     auto bodies = getContactingBodies(contact);
 
     if (bodies.first != nullptr && bodies.second != nullptr) {
-        sendMessage("BeginContact", bodies.first->getParent(), bodies.second->getParent());
-        sendMessage("BeginContact", bodies.second->getParent(), bodies.first->getParent());
+        auto filter_a = contact->GetFixtureA()->GetFilterData(),
+             filter_b = contact->GetFixtureB()->GetFilterData();
+
+        if (filter_a.categoryBits & filter_b.maskBits) {
+            sendMessage("BeginContact", bodies.first->getParent(), bodies.second->getParent());
+        }
+        if (filter_a.maskBits & filter_b.categoryBits) {
+            sendMessage("BeginContact", bodies.second->getParent(), bodies.first->getParent());
+        }
     }
 }
 
@@ -40,8 +47,15 @@ void PhysicsListener::EndContact(b2Contact* contact) {
     auto bodies = getContactingBodies(contact);
 
     if (bodies.first != nullptr && bodies.second != nullptr) {
-        sendMessage("EndContact", bodies.first->getParent(), bodies.second->getParent());
-        sendMessage("EndContact", bodies.second->getParent(), bodies.first->getParent());
+        auto filter_a = contact->GetFixtureA()->GetFilterData(),
+             filter_b = contact->GetFixtureB()->GetFilterData();
+
+        if (filter_a.categoryBits & filter_b.maskBits) {
+            sendMessage("EndContact", bodies.first->getParent(), bodies.second->getParent());
+        }
+        if (filter_a.maskBits & filter_b.categoryBits) {
+            sendMessage("EndContact", bodies.second->getParent(), bodies.first->getParent());
+        }
     }
 }
 
@@ -64,7 +78,7 @@ std::pair<RigidBody*, RigidBody*> PhysicsListener::getContactingBodies(b2Contact
     return std::make_pair(rba, rbb);
 }
 
-void PhysicsListener::sendMessage(const std::string& name, objects::Object* sender, objects::Object* other) const {
+void PhysicsListener::sendMessage(const std::string& name, objects::Object* sender, objects::Object* other) {
     auto ob = script::Observer::getInstance();
     luabridge::setGlobal(script::LuaState::getInstance()->getState(), other, "__PHYSICS_CONTACT_DATA__");
     ob->notifySiblings("BeginContact", sender, luabridge::getGlobal(script::LuaState::getInstance()->getState(), "__PHYSICS_CONTACT_DATA__"));

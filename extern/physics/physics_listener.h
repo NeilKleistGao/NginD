@@ -41,7 +41,7 @@ public:
 private:
     std::pair<RigidBody*, RigidBody*> getContactingBodies(b2Contact* contact) const;
 
-    void sendMessage(const std::string& name, objects::Object* sender, objects::Object* other) const;
+    static void sendMessage(const std::string& name, objects::Object* sender, objects::Object* other) ;
 };
 
 } // namespace ngind::physics

@@ -16,9 +16,6 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + ...
 
 ## TODO List
-### 0.8
-+ [ ] Box2D Support
-
 ### 0.9
 + [ ] Saving Game Files
 + [ ] Prefab

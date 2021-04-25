@@ -65,6 +65,19 @@ public:
         _world.SetGravity(_gravity);
     }
 
+    inline void setGravityX(float x) {
+        _world.SetGravity({x, _world.GetGravity().y});
+    }
+
+    inline void setGravityY(float y) {
+        _world.SetGravity({_world.GetGravity().x, y});
+    }
+
+    inline glm::vec2 getGravity() const {
+        auto temp = _world.GetGravity();
+        return {temp.x, temp.y};
+    }
+
     inline float getGravityX() const {
         return _gravity.x;
     }
@@ -89,6 +102,17 @@ private:
 
 NGIND_LUA_BRIDGE_REGISTRATION(PhysicsWorld) {
     components::ComponentFactory::getInstance()->registerComponent<PhysicsWorld>("PhysicsWorld");
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<PhysicsWorld, components::Component>("PhysicsWorld")
+                .addFunction("setGravity", &PhysicsWorld::setGravity)
+                .addFunction("setGravityX", &PhysicsWorld::setGravityX)
+                .addFunction("setGravityY", &PhysicsWorld::setGravityY)
+                .addFunction("getGravity", &PhysicsWorld::getGravity)
+                .addFunction("getGravityX", &PhysicsWorld::getGravityX)
+                .addFunction("getGravityY", &PhysicsWorld::getGravityY)
+            .endClass()
+        .endNamespace();
 }
 
 } // namespace ngind::physics
