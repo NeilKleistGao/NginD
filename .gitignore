@@ -29,3 +29,12 @@ cmake-build-debug/
 .idea/
 .vs/
 out/
+CMakeFiles/
+compress.dir/
+crypto.dir/
+NginD.dir/
+x64/
+
+CMakeCache.txt
+
+build/

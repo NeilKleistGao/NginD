@@ -39,7 +39,7 @@
 #include <cstdint>
 #include <string>
 
-#if 1  // HAVE_SYS_UIO_H
+#if PLATFORM_LINUX  // HAVE_SYS_UIO_H
 #include <sys/uio.h>
 #endif  // HAVE_SYS_UIO_H
 
@@ -60,7 +60,7 @@ using uint32 = std::uint32_t;
 using int64 = std::int64_t;
 using uint64 = std::uint64_t;
 
-#if !1  // !HAVE_SYS_UIO_H
+#if !PLATFORM_LINUX  // !HAVE_SYS_UIO_H
 // Windows does not have an iovec type, yet the concept is universally useful.
 // It is simple to define it ourselves, so we put it inside our own namespace.
 struct iovec {

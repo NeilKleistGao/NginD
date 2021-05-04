@@ -182,11 +182,21 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=OFF
 
+ENABLE_I18N:BOOL=ON
+
 //Value Computed by CMake
 NginD_BINARY_DIR:STATIC=C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/win32
 
 //Value Computed by CMake
 NginD_SOURCE_DIR:STATIC=C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD
+
+PHYSICS_ENABLE:BOOL=ON
+
+//target platform: linux
+PLATFORM_LINUX:BOOL=OFF
+
+//target platform: windows
+PLATFORM_WINDOWS:BOOL=ON
 
 enable_i18n:BOOL=ON
 
