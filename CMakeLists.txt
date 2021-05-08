@@ -69,24 +69,37 @@ elseif (PLATFORM_WINDOWS)
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/glfw3_mt.lib")
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/glfw3dll.lib")
     # target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soloud/SDL2.dll")
-    # target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soloud/soloud_x64.dll")
+    target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soloud/soloud_static_x64.lib")
     # target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/freetype/freetype.dll")
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/freetype/freetype.lib")
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/soil2/soil2.lib")
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/box2d/box2d.lib")
+    # target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/snappy/snappy64.lib")
     target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/snappy/snappy.lib")
-    # target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/lua/lua54.dll")
+    target_link_libraries(NginD "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/lua/lua52.lib")
+    target_link_libraries(NginD "opengl32.lib")
 endif()
 
-add_custom_command(TARGET ${PROJECT_NAME}
+if (PLATFORM_LINUX)
+    add_custom_command(TARGET ${PROJECT_NAME}
         PRE_BUILD
         COMMAND ${CMAKE_COMMAND}
         ARGS -E copy_directory "../resources" "${EXECUTABLE_OUTPUT_PATH}/resources"
         COMMENT "COPY RESOURCES FILES")
 
-if (PLATFORM_LINUX)
     add_compile_options(-ldl)
     add_compile_options(-pthread)
+elseif (PLATFORM_WINDOWS)
+    add_custom_command(TARGET ${PROJECT_NAME}
+        PRE_BUILD
+        COMMAND ${CMAKE_COMMAND}
+        ARGS -E copy_directory "../resources" "${EXECUTABLE_OUTPUT_PATH}/Debug/resources"
+        COMMENT "COPY RESOURCES FILES")
+    file(COPY "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/freetype/freetype.dll" DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Debug")
+    file(COPY "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/lua/lua52.dll" DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Debug")
+    file(COPY "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/glfw3.dll" DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Debug")
+    file(COPY "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/opengl/glew32.dll" DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Debug")
+    # file(COPY "${CMAKE_SOURCE_DIR}/${PLATFORM_PREFIX}/snappy/snappy64.dll" DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Debug")
 endif()
 
 add_compile_options(-finput-charset=GBK -fexec-charset=UTF-8)
