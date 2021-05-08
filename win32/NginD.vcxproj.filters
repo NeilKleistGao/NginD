@@ -82,6 +82,9 @@
     <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\math\random.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\math\galois_field.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\auto_collection_object.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -190,11 +193,32 @@
     <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\event_system.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\crypto\aes.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\i18n.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\physics\physics_world.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\physics\rigid_body.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\physics\physics_shape.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\physics\physics_listener.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\physics\physics_joint.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -283,6 +307,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\math\random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\math\galois_field.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\memory\auto_collection_object.h">
@@ -396,9 +423,6 @@
     <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\utils\serialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\exceptions\game_exception.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\script\lua_state.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -429,6 +453,9 @@
     <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\ui\event_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\crypto\aes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -436,6 +463,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\lang_code.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\physics\physics_world.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\physics\rigid_body.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\physics\physics_shape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\physics\physics_listener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\physics\physics_joint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\plugin\config.h">
