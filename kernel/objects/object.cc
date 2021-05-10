@@ -26,6 +26,10 @@
 #include "object.h"
 #include "entity_object.h"
 
+#ifdef ENABLE_PHYSICS
+#include "extern/physics/physics_world.h"
+#endif
+
 namespace ngind::objects {
 
 Object::Object() : AutoCollectionObject(), _parent(nullptr) {
@@ -34,12 +38,20 @@ Object::Object() : AutoCollectionObject(), _parent(nullptr) {
 }
 
 Object::~Object() {
-    for (auto it : this->_children) {
-        it.second->removeReference();
+    for (auto [name, child] : this->_children) {
+        child->removeReference();
     }
 
-    for (auto it : this->_components) {
-        it.second->removeReference();
+    for (auto [name, com] : this->_components) {
+        com->removeReference();
+#ifdef ENABLE_PHYSICS
+        if (name == "PhysicsWorld") {
+            auto world = dynamic_cast<physics::PhysicsWorld*>(com);
+            if (world != nullptr) {
+                world->clearRigidBody(this);
+            }
+        }
+#endif
     }
 
     this->_children.clear();

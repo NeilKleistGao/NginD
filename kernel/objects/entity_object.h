@@ -38,7 +38,7 @@ class EntityObject : public Object {
 public:
     EntityObject();
 
-    ~EntityObject() = default;
+    ~EntityObject() override = default;
 
     EntityObject(const EntityObject&) = delete;
     EntityObject& operator= (const EntityObject&) = delete;

@@ -29,7 +29,6 @@ PhysicsWorld::PhysicsWorld() : components::Component(), _gravity(0, -9.8), _worl
 }
 
 PhysicsWorld::~PhysicsWorld() {
-    clearRigidBody(_parent);
 }
 
 void PhysicsWorld::update(const float& delta) {
@@ -54,7 +53,8 @@ PhysicsWorld* PhysicsWorld::create(const typename resources::ConfigResource::Jso
 void PhysicsWorld::clearRigidBody(objects::Object* node) {
     auto body = node->getComponent<RigidBody>("RigidBody");
     if (body != nullptr) {
-        _world.DestroyBody(body->getBody());
+        _world.DestroyBody(body->_body);
+        body->_body = nullptr;
     }
 
     auto children = node->getChildren();

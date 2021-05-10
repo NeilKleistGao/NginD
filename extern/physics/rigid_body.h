@@ -32,6 +32,8 @@
 #include "physics_shape.h"
 
 namespace ngind::physics {
+class PhysicsWorld;
+
 class RigidBody : public components::Component {
 public:
     RigidBody();
@@ -65,6 +67,8 @@ public:
 
     void setRotationFixed(bool fixed);
     bool isRotationFixed() const;
+
+    friend class PhysicsWorld;
 private:
     b2BodyDef _def;
     b2FixtureDef _fixture_def;

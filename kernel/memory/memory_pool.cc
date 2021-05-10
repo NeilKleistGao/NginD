@@ -54,28 +54,23 @@ void MemoryPool::clear() {
     }
 
     for (auto& [size, list] : _closed_pool) {
-        auto prev = list.end();
-        for (auto it = list.begin(); it != list.end(); it++) {
+        for (auto it = list.begin(); it != list.end();) {
             auto temp = *it;
             if (temp->getSustain() == 0) {
                 temp->~AutoCollectionObject();
                 _open_pool[size].push_back(temp);
-                list.erase(it);
-
-                if (prev == list.end()) {
-                    it = list.begin();
-                }
-                else {
-                    it = prev;
-                }
+                auto prev = it;
+                ++it;
+                list.erase(prev);
             }
-
-            prev = it;
+            else {
+                ++it;
+            }
         }
     }
 }
 
-MemoryPool::MemoryPool() {
+MemoryPool::MemoryPool() : _dirty(false) {
 }
 
 MemoryPool::~MemoryPool() {

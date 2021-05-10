@@ -1,8 +1,8 @@
-option(PHYSICS_ENABLE "" ON)
+option(ENABLE_PHYSICS "" ON)
 
 set(PHYSICS_PATH_PREFIX extern/physics)
 
-if (PHYSICS_ENABLE)
+if (ENABLE_PHYSICS)
     set(PHYSICS_HEADER
             ${PHYSICS_PATH_PREFIX}/physics_world.h
             ${PHYSICS_PATH_PREFIX}/rigid_body.h

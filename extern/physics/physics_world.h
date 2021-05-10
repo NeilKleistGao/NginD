@@ -30,6 +30,10 @@
 #include "kernel/components/component_factory.h"
 #include "physics_listener.h"
 
+namespace ngind::objects {
+class Object;
+} // namespace ngind::objects
+
 namespace ngind::physics {
 
 class RigidBody;
@@ -92,6 +96,7 @@ public:
     friend class PrismaticJoint;
     friend class PulleyJoint;
     friend class GearJoint;
+    friend class objects::Object;
 private:
     b2Vec2 _gravity;
     b2World _world;

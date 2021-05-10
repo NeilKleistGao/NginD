@@ -36,7 +36,15 @@ RigidBody::RigidBody() : components::Component(),
 RigidBody::~RigidBody() {
     delete _shape;
     _shape = nullptr;
-    _body = nullptr;
+
+    if (_body != nullptr) {
+        auto game = Game::getInstance();
+        auto world = game->getCurrentWorld();
+
+        auto pw = world->getComponent<PhysicsWorld>("PhysicsWorld");
+        pw->_world.DestroyBody(_body);
+        _body = nullptr;
+    }
 }
 
 void RigidBody::update(const float& delta) {

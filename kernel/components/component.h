@@ -49,7 +49,7 @@ using Object = objects::Object;
 class Component :  public memory::AutoCollectionObject, public objects::UpdatableObject {
 public:
     Component() : AutoCollectionObject(), _parent(nullptr), _dirty(false), _component_name("Component") {};
-    virtual ~Component() = default;
+    ~Component() override = default;
 
     Component(const Component&) = delete;
     Component& operator= (const Component&) = delete;

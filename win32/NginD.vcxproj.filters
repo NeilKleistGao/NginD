@@ -456,9 +456,6 @@
     <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\kernel\crypto\aes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="C:\Users\Neil Kleist Gao\Documents\Code\C++\NginD\extern\i18n\i18n.h">
       <Filter>Header Files</Filter>
     </ClInclude>

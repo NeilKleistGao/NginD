@@ -184,6 +184,8 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=OFF
 
 ENABLE_I18N:BOOL=ON
 
+ENABLE_PHYSICS:BOOL=ON
+
 //Value Computed by CMake
 NginD_BINARY_DIR:STATIC=C:/Users/Neil Kleist Gao/Documents/Code/C++/NginD/win32
 
