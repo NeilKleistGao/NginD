@@ -25,7 +25,7 @@
 #define NGIND_EVENT_SYSTEM_H
 
 #include "clickable_receiver.h"
-#include "quad_tree.h"
+#include "kd_tree.h"
 
 namespace ngind::ui {
 
@@ -92,7 +92,7 @@ private:
     /**
      * Quad tree maintaining receiver data.
      */
-    QuadTree* _tree;
+    KDTree* _tree;
 
     /**
      * Window's height.

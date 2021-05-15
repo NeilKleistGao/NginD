@@ -42,8 +42,10 @@ RigidBody::~RigidBody() {
         auto world = game->getCurrentWorld();
 
         auto pw = world->getComponent<PhysicsWorld>("PhysicsWorld");
-        pw->_world.DestroyBody(_body);
-        _body = nullptr;
+        if (pw != nullptr) {
+            pw->_world.DestroyBody(_body);
+            _body = nullptr;
+        }
     }
 }
 
@@ -100,6 +102,12 @@ void RigidBody::init(const typename resources::ConfigResource::JsonObject& data)
     }
     else if (shape_name == "polygon") {
         _shape = new PolygonShape(shape_data["data"]);
+    }
+    else if (shape_name == "edge") {
+        _shape = new EdgeShape(shape_data["data"]);
+    }
+    else if (shape_name == "chain") {
+        _shape = new ChainShape(shape_data["data"]);
     }
 
     _fixture_def.shape = _shape->shape;

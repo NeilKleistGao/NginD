@@ -76,6 +76,37 @@ struct ClickableReceiver {
 
         return true;
     }
+
+    bool operator* (const glm::vec2& point) {
+        int count = 0;
+        auto size = vertex.size();
+        for (int i = 0, j = 1; i < size; i++, j = (j + 1) % size) {
+            const auto& v1 = vertex[i];
+            const auto& v2 = vertex[j];
+
+            auto t2 = (point.y - v1.y) / (v2.y - v1.y);
+            if (t2 < 0 || t2 >= 1) {
+                continue;
+            }
+
+            auto t = v1.x + t2 * (v2.x - v1.x) - point.x;
+            if (t < 0) {
+                continue;
+            }
+
+            if (t2 < 1e-6) {
+                const auto& v3 = vertex[(i - 1 + size) % size];
+                if ((v3.y - v1.y) * (v2.y - v1.y) < 0) {
+                    count++;
+                }
+            }
+            else {
+                count++;
+            }
+        }
+
+        return count & 1;
+    }
 };
 
 } // namespace ngind::ui

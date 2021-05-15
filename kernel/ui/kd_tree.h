@@ -19,43 +19,28 @@
  * SOFTWARE.
  */
 
-/// @file quad_tree.h
+/// @file kd_tree.h
 
-#ifndef NGIND_QUAD_TREE_H
-#define NGIND_QUAD_TREE_H
+#ifndef NGIND_KD_TREE_H
+#define NGIND_KD_TREE_H
 
 #include <vector>
-#include <functional>
 
+#include "glm/glm.hpp"
 #include "clickable_receiver.h"
 
 namespace ngind::ui {
 
-/**
- * Quad tree data structure in order to divide the 2D world into 4 areas thus getting a better performance.
- */
-class QuadTree {
+class KDTree {
 public:
-    /**
-     * @param top: top of the world.
-     * @param bottom: bottom of the world.
-     * @param left: left of the world.
-     * @param right: right of the world.
-     */
-    QuadTree(const int& top, const int& bottom, const int& left, const int& right);
-
-    ~QuadTree();
-
-    QuadTree(const QuadTree&) = delete;
-    QuadTree& operator= (const QuadTree&) = delete;
+    KDTree();
+    ~KDTree();
 
     /**
      * Insert a new clickable receiver.
      * @param value: new clickable receiver
      */
-    inline void insert(const ClickableReceiver& value) {
-        this->insert(_root, value);
-    }
+    void insert(const ClickableReceiver& value);
 
     /**
      * Erase some receiver from the tree.
@@ -68,63 +53,33 @@ public:
      * @param point: given 2D point
      * @return ClickableReceiver*, the receiver containing this point, null if receiver doesn't exit
      */
-    ClickableReceiver* query(const glm::vec2 & point);
-
+    inline ClickableReceiver* query(const glm::vec2 & point) {
+        return this->query(_root, point);
+    }
 private:
     /**
      * Max receiver a node can contain. If too many receivers in the same node, split it.
      */
     constexpr static size_t MAX_NODE_THRESHOLD = 8;
 
-    /**
-     * Node with 4 children.
-     */
-    struct QuadNode {
-        /**
-         * The second quadrant.
-         */
-        QuadNode* upper_left;
+    struct KDNode {
+        bool vertical;
+        float center;
+        KDNode* first;
+        KDNode* second;
 
-        /**
-         * The first quadrant.
-         */
-        QuadNode* upper_right;
+        std::vector<ClickableReceiver> receivers;
 
-        /**
-         * The third quadrant.
-         */
-        QuadNode* lower_left;
-
-        /**
-         * The fourth quadrant.
-         */
-        QuadNode* lower_right;
-
-        /**
-         * Receiver data.
-         */
-        std::vector<ClickableReceiver> value;
-
-        /**
-         * Boundary of this sub area.
-         */
-        int top{}, bottom{}, left{}, right{};
-
-        QuadNode() : upper_left(nullptr), upper_right(nullptr), lower_left(nullptr), lower_right(nullptr) {
-            value.clear();
-        }
+        KDNode() : vertical(true), center(0.0f), first(nullptr), second(nullptr), receivers() {}
     };
 
-    /**
-     * Root of quad tree.
-     */
-    QuadNode* _root;
+    KDNode* _root;
 
     /**
      * Erase all data in a node recursively.
      * @param node: given node
      */
-    void erase(QuadNode* node);
+    void erase(KDNode* node);
 
     /**
      * Erase a receiver with calculated boundary recursively.
@@ -135,14 +90,18 @@ private:
      * @param left: left of receiver's area
      * @param right: right of receiver's area
      */
-    void erase(QuadNode* node, const ClickableReceiver& value, const int& top, const int& bottom, const int& left, const int& right);
+    void erase(KDNode* node, const ClickableReceiver& value, float top, float bottom, float left, float right);
 
     /**
      * Insert a new receiver recursively.
      * @param node: current node
      * @param value: receiver to be inserted
+     * @param top: top of receiver's area
+     * @param bottom: bottom of receiver's area
+     * @param left: left of receiver's area
+     * @param right: right of receiver's area
      */
-    void insert(QuadNode* node, const ClickableReceiver& value);
+    void insert(KDNode* node, const ClickableReceiver& value, float top, float bottom, float left, float right);
 
     /**
      * Check given point's state recursively.
@@ -151,17 +110,9 @@ private:
      * @param last: last receiver satisfying the condition
      * @return ClickableReceiver*, the receiver containing this point, null if receiver doesn't exit
      */
-    ClickableReceiver* query(QuadNode* node, const glm::vec2& point, ClickableReceiver* last);
-
-    /**
-     * Check whether a point is in the area or not.
-     * @param rec: given area data
-     * @param point: given point
-     * @return bool, true if point is in the area
-     */
-    bool check(const ClickableReceiver& rec, const glm::vec2& point);
+    ClickableReceiver* query(KDNode* node, const glm::vec2& point);
 };
 
-} // namespace ngind::ui
+} // namespace ui
 
-#endif //NGIND_QUAD_TREE_H
+#endif //NGIND_KD_TREE_H

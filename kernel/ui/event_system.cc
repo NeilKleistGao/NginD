@@ -142,7 +142,7 @@ void EventSystem::init(const size_t& width, const size_t& height) {
         _tree = nullptr;
     }
 
-    _tree = new(std::nothrow) QuadTree(height, 0, 0, width);
+    _tree = new(std::nothrow) KDTree();
     if (_tree == nullptr) {
         // TODO:
     }

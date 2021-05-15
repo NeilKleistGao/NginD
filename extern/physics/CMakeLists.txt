@@ -15,6 +15,8 @@ if (ENABLE_PHYSICS)
             ${PHYSICS_PATH_PREFIX}/physics_shape.cc
             ${PHYSICS_PATH_PREFIX}/physics_listener.cc
             ${PHYSICS_PATH_PREFIX}/physics_joint.cc)
+
+    add_definitions(-D ENABLE_PHYSICS)
 else()
     set(PHYSICS_HEADER )
     set(PHYSICS_SRC )
