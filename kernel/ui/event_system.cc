@@ -105,8 +105,9 @@ void EventSystem::update() {
             mouse.y = _win_height - mouse.y;
             auto p = _tree->query(mouse);
             if (p != nullptr && p == _current_receiver) {
+                auto temp = p->button->getParent();
                 script::Observer::getInstance()
-                        ->notifySiblings("Click", p->button->getParent(), script::LuaState::getInstance()->createNil());
+                        ->notifySiblings("Click", temp, script::LuaState::getInstance()->createNil());
                 p->button->setPressed(false);
             }
             else if (_current_receiver != nullptr) {

@@ -20,20 +20,41 @@
 - SOFTWARE.
 - ]]
 
---- @file camera.lua
+--- @file camera_mover.lua
 
-Camera = {}
+CameraMover = class("CameraMover")
 
-Camera.__camera = engine.Camera.getInstance()
-
-Camera.capture = function(filename)
-    Camera.__camera:capture(filename)
+function CameraMover:ctor()
+    self._dis = 100
 end
 
-Camera.moveTo = function(position)
-    Camera.__camera:moveTo(position)
+function CameraMover:enter()
+    self.move("Left")
 end
 
-Camera.getCameraPosition = function()
-    return Camera.__camera:getCameraPosition()
+function CameraMover:updateLeft(delta)
+    pos = Camera.getCameraPosition()
+    if self._dis > 0 then
+        pos.x = pos.x - delta * 100
+        Camera.moveTo(pos)
+        self._dis = self._dis - 1
+    else
+        self._dis = 100
+        self.move("Right")
+    end
+end
+
+function CameraMover:updateRight(delta)
+    pos = Camera.getCameraPosition()
+    if self._dis > 0 then
+        pos.x = pos.x + delta * 100
+        Camera.moveTo(pos)
+        self._dis = self._dis - 1
+    else
+        self._dis = 100
+        self.move("Left")
+    end
+end
+
+function CameraMover:exit()
 end

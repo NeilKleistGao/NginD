@@ -99,6 +99,11 @@ void StateMachine::update(const float& dlt) {
     _update_function(_instance, dlt);
 }
 
+void StateMachine::move(const std::string& state_name) {
+    _state_name = state_name;
+    _update_function = _instance["update" + _state_name];
+}
+
 void StateMachine::receive(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
     const auto& whitelist = _subscribe[name];
     if (whitelist.find(_state_name) != whitelist.end() ||

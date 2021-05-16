@@ -53,13 +53,13 @@ public:
     /**
      * @see kernel/objects/updatable_object.h
      */
-    virtual void update(const float&) {};
+    void update(const float&) override {};
 
     /**
      * Initialization function of this class used by configuration creating method.
      * @param data: the configuration data this component initialization process requires.
      */
-    virtual void init(const typename resources::ConfigResource::JsonObject& data) {};
+    void init(const typename resources::ConfigResource::JsonObject& data) override {};
 
     /**
      * Set the color mask of this sprite. The default color is pure white(#FFFFFFFF).

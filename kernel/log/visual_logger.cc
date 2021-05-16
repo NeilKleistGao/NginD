@@ -27,7 +27,7 @@
 namespace ngind::log {
 VisualLogger* VisualLogger::_instance = nullptr;
 
-VisualLogger::VisualLogger() : _enable(false), _entity{nullptr}, _label{nullptr}, _text("") {
+VisualLogger::VisualLogger() : _enable(false), _entity{nullptr}, _label{nullptr} {
 }
 
 VisualLogger::~VisualLogger() {
@@ -60,11 +60,14 @@ void VisualLogger::enable() {
     _enable = true;
 
     if (_entity == nullptr) {
+        auto camera_pos = rendering::Camera::getInstance()->getCameraPosition();
+        auto camera_size = rendering::Camera::getInstance()->getCameraSize();
+
         _entity = memory::MemoryPool::getInstance()->create<objects::EntityObject>();
         _entity->addReference();
         _entity->setZOrder(999);
         _entity->setAnchor({0, 0});
-        _entity->setPosition({0, 768});
+        _entity->setPosition({0 - camera_pos.x + camera_size.x / 2, 768 - camera_pos.y + camera_size.y / 2});
         _entity->setScale({1, 1});
         _entity->setRotation(0);
 
@@ -85,6 +88,10 @@ void VisualLogger::draw() {
         for (const auto& [key, value] : _var) {
             _text += key + ": " + value + "\n";
         }
+
+        auto camera_pos = rendering::Camera::getInstance()->getCameraPosition();
+        auto camera_size = rendering::Camera::getInstance()->getCameraSize();
+        _entity->setPosition({0 + camera_pos.x - camera_size.x / 2, 768 + camera_pos.y - camera_size.y / 2});
 
         _label->setText(_text);
         _entity->update(0);

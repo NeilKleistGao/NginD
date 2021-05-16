@@ -32,8 +32,10 @@ KDTree::KDTree() {
 }
 
 KDTree::~KDTree() {
-    erase(_root);
-    _root = nullptr;
+    if (_root != nullptr) {
+        erase(_root);
+        _root = nullptr;
+    }
 }
 
 void KDTree::insert(const ClickableReceiver& value) {
@@ -73,6 +75,10 @@ void KDTree::erase(const ClickableReceiver& value) {
 }
 
 void KDTree::erase(KDNode* node) {
+    if (node == nullptr) {
+        return;
+    }
+
     if (node->receivers.empty()) {
         erase(node->first);
         erase(node->second);
@@ -142,6 +148,7 @@ void KDTree::insert(KDNode* node, const ClickableReceiver& value, float top, flo
         if (node->receivers.size() == MAX_NODE_THRESHOLD) {
             node->first = new KDNode();
             node->second = new KDNode();
+            node->first->vertical = node->second->vertical = !node->vertical;
 
             node->center = 0.0;
             for (auto r : node->receivers) {
@@ -224,10 +231,10 @@ void KDTree::insert(KDNode* node, const ClickableReceiver& value, float top, flo
 ClickableReceiver* KDTree::query(KDNode* node, const glm::vec2& point) {
     ClickableReceiver* res = nullptr;
     if (!node->receivers.empty()) {
-        for (auto rec : node->receivers) {
-            if (rec*point) {
-                if (res == nullptr || res->z_order < rec.z_order) {
-                    res = &rec;
+        for (int i = 0; i < node->receivers.size(); ++i) {
+            if (node->receivers[i]*point) {
+                if (res == nullptr || res->z_order < node->receivers[i].z_order) {
+                    res = &node->receivers[i];
                 }
             }
         }

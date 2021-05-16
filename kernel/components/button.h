@@ -128,6 +128,8 @@ private:
      */
     ui::ClickableReceiver _receiver;
 
+    std::vector<glm::vec2> _vertex;
+
     /**
      * Default background image path.
      */
@@ -152,6 +154,23 @@ private:
      * Reference to sprite component.
      */
     Sprite* _sprite{};
+
+    objects::EntityObject* _entity_parent;
+
+    /**
+     * Model projection matrix
+     */
+    glm::mat4 _model;
+
+    bool _register;
+
+    /**
+    * Calculate the model matrix
+    * @return glm::mat4, the model matrix
+    */
+    glm::mat4 getModelMatrix();
+
+    void setReceiver();
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(Button) {

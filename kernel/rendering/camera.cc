@@ -28,6 +28,7 @@
 #include <iostream>
 
 #include "SOIL2/SOIL2.h"
+#include "game.h"
 
 namespace ngind::rendering {
 Camera* Camera::_instance = nullptr;
@@ -55,12 +56,12 @@ void Camera::destroyInstance() {
 }
 
 void Camera::init(const glm::vec2& center, const size_t& width, const size_t& height) {
-    glViewport(center.x - width / 2, center.y - height / 2,
-               width, height);
-    _projection = glm::ortho(0.0f, static_cast<GLfloat>(width), 0.0f, static_cast<GLfloat>(height), -1.0f, 1.0f);
-
     _width = width; _height = height;
     _center = center;
+
+    glViewport(0, 0, _width, _height);
+    _projection = glm::ortho(_center.x - _width / 2, _center.x + _width / 2,
+                             _center.y - _height / 2, _center.y + _height / 2, -1.0f, 1.0f);
 }
 
 void Camera::capture(const std::string& filename) const {

@@ -59,9 +59,7 @@ public:
      * Move to another state.
      * @param state_name: the name of next state
      */
-    inline void move(const std::string& state_name) {
-        _state_name = state_name;
-    }
+    void move(const std::string& state_name);
 
     /**
      * Stop running this state machine.

@@ -27,7 +27,8 @@
 
 namespace ngind::components {
 
-Button::Button() : _pressed(false), _highlighted(false), _available(true), _sprite(nullptr) {
+Button::Button() : _pressed(false), _highlighted(false), _available(true),
+    _sprite(nullptr), _model(1.0f), _entity_parent(nullptr), _register(false) {
 }
 
 Button::~Button() {
@@ -37,8 +38,24 @@ Button::~Button() {
 void Button::update(const float& delta) {
     if (_sprite == nullptr) {
         _sprite = _parent->getComponent<Sprite>("Sprite");
+        _entity_parent = dynamic_cast<objects::EntityObject*>(_parent);
         if (_sprite == nullptr) {
             return;
+        }
+    }
+
+    auto temp = getModelMatrix();
+    if (temp != _model) {
+        _model = temp;
+
+        if (!_register && _available) {
+            setReceiver();
+            ui::EventSystem::getInstance()->registerEvent(_receiver);
+        }
+        else if (_register) {
+            ui::EventSystem::getInstance()->unregisterEvent(_receiver);
+            setReceiver();
+            ui::EventSystem::getInstance()->registerEvent(_receiver);
         }
     }
 
@@ -68,13 +85,9 @@ void Button::init(const typename resources::ConfigResource::JsonObject& data) {
     auto vertex = data["vertex"].GetArray();
     for (const auto& v : vertex) {
         auto d = v.GetObject();
-        _receiver.vertex.emplace_back(d["x"].GetInt(), d["y"].GetInt());
+        _vertex.emplace_back(d["x"].GetInt(), d["y"].GetInt());
     }
     _receiver.button = this;
-
-    if (_available) {
-        ui::EventSystem::getInstance()->registerEvent(_receiver);
-    }
 }
 
 Button* Button::create(const typename resources::ConfigResource::JsonObject& data) {
@@ -91,6 +104,26 @@ void Button::setAvailable(const bool& av) {
     }
     else if (!_available && av) {
         ui::EventSystem::getInstance()->registerEvent(_receiver);
+    }
+}
+
+glm::mat4 Button::getModelMatrix() {
+    auto pos = _entity_parent->getPosition();
+    auto rotate = _entity_parent->getRotation();
+
+    glm::mat4 model{1.0f};
+    model = glm::translate(model, glm::vec3{pos.x, pos.y, 0.0f});
+    model = glm::rotate(model, rotate, glm::vec3{0.0f, 0.0f, 1.0f});
+
+    return model;
+}
+
+void Button::setReceiver() {
+    _receiver.vertex.clear();
+    for (auto& v : _vertex) {
+        auto v4 = glm::vec4 {v.x, v.y, 0, 1};
+        v4 = _model * v4;
+        _receiver.vertex.emplace_back(v4.x, v4.y);
     }
 }
 

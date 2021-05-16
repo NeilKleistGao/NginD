@@ -82,18 +82,12 @@ public:
     inline glm::vec2 getCameraSize() const {
         return glm::vec2{_width, _height};
     }
-    /**
-     * Get the default view projection matrix
-     * @return glm::mat4, the projection matrix
-     */
-
-    inline glm::mat4 getDefaultProjection() {
-        return glm::ortho(0.0f, static_cast<GLfloat>(_width),
-                          0.0f, static_cast<GLfloat>(_height),
-                          -1.0f, 1.0f);
-    }
 
     void capture(const std::string& filename) const;
+
+    inline glm::vec2 getCameraPosition() const {
+        return _center;
+    }
 private:
     Camera();
     ~Camera() = default;
@@ -123,6 +117,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(Camera) {
                 .addStaticFunction("getInstance", &Camera::getInstance)
                 .addFunction("moveTo", &Camera::moveTo)
                 .addFunction("capture", &Camera::capture)
+                .addFunction("getCameraPosition", &Camera::getCameraPosition)
             .endClass()
         .endNamespace();
 }
