@@ -1,6 +1,4 @@
-/**
- * @copybrief
- * MIT License
+/** MIT License
  * Copyright (c) 2020 NeilKleistGao
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +6,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,23 +19,43 @@
  * SOFTWARE.
  */
 
-/// @file serialization.h
+/// @file archive.h
 
-#ifndef NGIND_SERIALIZATION_H
-#define NGIND_SERIALIZATION_H
+#ifndef NGIND_ARCHIVE_H
+#define NGIND_ARCHIVE_H
 
-#include <iostream>
-#include <sstream>
-#include <type_traits>
+#include <string>
 
-namespace ngind {
+#include "rapidjson/document.h"
 
-class Serializable {
+namespace ngind::utils {
+
+class Archive {
 public:
-    virtual void serialize(std::ostream&) const = 0;
-    virtual void deserialize(std::istream&) = 0;
+    static Archive* getInstance();
+    static void destroyInstance();
+
+    void setString(const std::string& key, const std::string& value);
+    void setInteger(const std::string& key, int value);
+    void setFloat(const std::string& key, float value);
+    void setBoolean(const std::string& key, bool value);
+    void dumpWorld(const std::string& name);
+
+    std::string getString(const std::string& key);
+    int getInteger(const std::string& key);
+    float getFloat(const std::string& key);
+    bool getBoolean(const std::string& key);
+    void loadWorld(const std::string& name);
+private:
+    static Archive* _instance;
+
+    rapidjson::Document _doc;
+    static const std::string ARCHIVE_FILENAME;
+
+    Archive();
+    ~Archive();
 };
 
-} // namespace ngind
+} // namespace ngind::utils
 
-#endif //NGIND_SERIALIZATION_H
+#endif //NGIND_ARCHIVE_H

@@ -137,7 +137,7 @@ void EventSystem::update() {
     }
 }
 
-void EventSystem::init(const size_t& width, const size_t& height) {
+void EventSystem::init() {
     if (_tree != nullptr) {
         delete _tree;
         _tree = nullptr;

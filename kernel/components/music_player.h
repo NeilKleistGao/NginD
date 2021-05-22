@@ -121,6 +121,8 @@ public:
      * @return where music starts again
      */
     double getLoopPoint();
+
+    void dump(typename resources::ConfigResource::JsonObject& data) const override;
 private:
     /**
      * Whether music starts automatically.

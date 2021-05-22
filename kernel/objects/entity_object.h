@@ -286,6 +286,16 @@ public:
     inline float getAnchorY() const {
         return _anchor.y;
     }
+
+    inline void setID(int id) {
+        _id = id;
+    }
+
+    inline int getID() const {
+        return _id;
+    }
+
+    void dump(typename resources::ConfigResource::JsonObject& data) const override;
 private:
     /**
      * The position of this object
@@ -326,6 +336,8 @@ private:
      * The z order of this object
      */
     int _z_order;
+
+    int _id;
 
     /**
      * Adjust global position and push down the change when local position changed.

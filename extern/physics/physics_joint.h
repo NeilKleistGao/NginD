@@ -58,6 +58,8 @@ public:
     inline b2Joint* getJoint() {
         return _joint;
     }
+
+    void dump(typename resources::ConfigResource::JsonObject& data) const override;
 private:
 protected:
     b2Joint* _joint;
@@ -104,6 +106,8 @@ public:
     static DistanceJoint* create(const typename resources::ConfigResource::JsonObject& data);
 
     float getCurrentLength() const;
+
+    void dump(typename resources::ConfigResource::JsonObject& data) const override;
 private:
     b2DistanceJointDef _def;
 
@@ -145,6 +149,8 @@ public:
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
     static RevoluteJoint* create(const typename resources::ConfigResource::JsonObject& data);
+
+    void dump(typename resources::ConfigResource::JsonObject& data) const override;
 private:
     b2RevoluteJointDef _def;
 
@@ -184,6 +190,8 @@ public:
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
     static PrismaticJoint* create(const typename resources::ConfigResource::JsonObject& data);
+
+    void dump(typename resources::ConfigResource::JsonObject& data) const override;
 private:
     b2PrismaticJointDef _def;
 
@@ -227,6 +235,8 @@ public:
 
     float getCurrentLengthA() const;
     float getCurrentLengthB() const;
+
+    void dump(typename resources::ConfigResource::JsonObject& data) const override;
 private:
     b2PulleyJointDef _def;
 
@@ -268,6 +278,8 @@ public:
 
     PhysicsJoint* getJointA() const;
     PhysicsJoint* getJointB() const;
+
+    void dump(typename resources::ConfigResource::JsonObject& data) const override;
 private:
     b2GearJointDef _def;
 

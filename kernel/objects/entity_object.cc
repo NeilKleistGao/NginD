@@ -93,4 +93,9 @@ void EntityObject::setDirtyComponents() {
     }
 }
 
+void EntityObject::dump(typename resources::ConfigResource::JsonObject& data) const {
+    data["id"].SetInt(_id);
+    // TODO:
+}
+
 } // namespace ngind::objects

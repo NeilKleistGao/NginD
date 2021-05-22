@@ -107,6 +107,8 @@ public:
     inline bool isHighlighted() const {
         return _highlighted;
     }
+
+    void dump(typename resources::ConfigResource::JsonObject& data) const override;
 private:
     /**
      * If this button is clickable.

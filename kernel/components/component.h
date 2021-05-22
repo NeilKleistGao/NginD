@@ -95,6 +95,8 @@ public:
         return _component_name;
     }
 
+    virtual void dump(typename resources::ConfigResource::JsonObject& data) const = 0;
+
 protected:
     /**
      * Parent object of this component

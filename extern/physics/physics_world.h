@@ -90,6 +90,8 @@ public:
         return _gravity.y;
     }
 
+    void dump(typename resources::ConfigResource::JsonObject& data) const override;
+
     friend class RigidBody;
     friend class DistanceJoint;
     friend class RevoluteJoint;

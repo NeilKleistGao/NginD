@@ -129,6 +129,16 @@ void Game::loadWorld(const std::string& name) {
     this->_current_world = this->_worlds[name];
 }
 
+void Game::loadWorld(resources::ConfigResource* config) {
+    std::string name = config->getDocument()["world-name"].GetString();
+    if (this->_worlds.find(name) == this->_worlds.end()) {
+        this->_worlds[name] = memory::MemoryPool::getInstance()->create<objects::World>(config);
+        this->_worlds[name]->addReference();
+    }
+
+    this->_current_world = this->_worlds[name];
+}
+
 void Game::destroyWorld(const std::string& name) {
     if (this->_worlds.find(name) != this->_worlds.end()) {
         auto current_name = this->_current_world->getName();

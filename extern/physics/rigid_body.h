@@ -68,6 +68,8 @@ public:
     void setRotationFixed(bool fixed);
     bool isRotationFixed() const;
 
+    void dump(typename resources::ConfigResource::JsonObject& data) const override;
+
     friend class PhysicsWorld;
 private:
     b2BodyDef _def;

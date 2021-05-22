@@ -78,7 +78,7 @@ public:
      * @param width: world's width
      * @param height: world's height
      */
-    void init(const size_t& width, const size_t& height);
+    void init();
 private:
     EventSystem();
     ~EventSystem();

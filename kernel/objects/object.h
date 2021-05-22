@@ -29,7 +29,6 @@
 #include <map>
 #include <iostream>
 
-#include "kernel/utils/serialization.h"
 #include "memory/auto_collection_object.h"
 #include "updatable_object.h"
 #include "components/component.h"
@@ -43,21 +42,11 @@ class EntityObject;
  * This class is base of all objects in the game world. It can be serialized, auto collected
  * and update itself in each frame.
  */
-class Object : public memory::AutoCollectionObject, public UpdatableObject, public Serializable {
+class Object : public memory::AutoCollectionObject, public UpdatableObject {
 public:
     Object();
 
     ~Object() override;
-
-    /**
-     * @see kernel/utils/serialization.h
-     */
-    void serialize(std::ostream&) const override{};
-
-    /**
-     * @see kernel/utils/serialization.h
-     */
-    void deserialize(std::istream&) override{};
 
     /**
      * Add a child object
@@ -162,6 +151,9 @@ public:
         _components[name]->removeReference();
         _components.erase(name);
     }
+
+    virtual void dump(rapidjson::Document& document) const;
+    virtual void dump(typename resources::ConfigResource::JsonObject& data) const;
 
 protected:
     /**

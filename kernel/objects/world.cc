@@ -38,8 +38,21 @@ World::World(std::string name) : Object(), _name(std::move(name)), _config(nullp
     _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("worlds/world-" + _name + ".json");
     _background_color = rendering::Color(_config->getDocument()["background-color"].GetString());
 
-    auto size = _config->getDocument()["size"].GetObject();
-    ui::EventSystem::getInstance()->init(size["width"].GetInt(), size["height"].GetInt());
+    ui::EventSystem::getInstance()->init();
+
+    loadObjects();
+
+    glm::vec2 center;
+    auto camera = _config->getDocument()["camera"].GetObject();
+    center.x = camera["x"].GetInt(); center.y = camera["y"].GetInt();
+    rendering::Camera::getInstance()->moveTo(center);
+}
+
+World::World(resources::ConfigResource* config) : Object(), _name(), _config(config), _background_color() {
+    _name = _config->getDocument()["world-name"].GetString();
+    _background_color = rendering::Color(_config->getDocument()["background-color"].GetString());
+
+    ui::EventSystem::getInstance()->init();
 
     loadObjects();
 
@@ -70,7 +83,8 @@ void World::loadObjects() {
 }
 
 EntityObject* World::generateObject(Object* self, const typename resources::ConfigResource::JsonObject& data) {
-    EntityObject* entity = memory::MemoryPool::getInstance()->create<EntityObject>();
+    auto* entity = memory::MemoryPool::getInstance()->create<EntityObject>();
+    entity->setID(data["id"].GetInt());
     auto position = data["position"].GetObject();
     entity->setPositionX(position["x"].GetFloat());
     entity->setPositionY(position["y"].GetFloat());
@@ -113,6 +127,18 @@ EntityObject* World::getChildByID(const int& id) {
     }
 
     return _all_children[id];
+}
+
+void World::dump(rapidjson::Document& document) const {
+    document["world-name"].SetString(_name.c_str(), _name.length());
+    auto camera = rendering::Camera::getInstance();
+    auto camera_pos = camera->getCameraPosition();
+
+    auto& camera_data = document["camera"].SetObject();
+    camera_data["x"].SetInt(camera_pos.x);
+    camera_data["y"].SetInt(camera_pos.y);
+
+    Object::dump(document);
 }
 
 } // namespace ngind::objects

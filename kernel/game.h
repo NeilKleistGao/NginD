@@ -57,6 +57,8 @@ public:
      */
     void loadWorld(const std::string& name);
 
+    void loadWorld(resources::ConfigResource* config);
+
     /**
      * Destroy a game world
      * @param name: world's name

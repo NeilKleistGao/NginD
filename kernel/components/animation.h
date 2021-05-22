@@ -86,6 +86,8 @@ public:
         _playing = true;
     }
 
+    void dump(typename resources::ConfigResource::JsonObject& data) const override;
+
 private:
     /**
      * Should animation be played automatically when ready.

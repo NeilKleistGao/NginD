@@ -139,4 +139,32 @@ std::vector<EntityObject*> Object::getChildren() {
     return children;
 }
 
+void Object::dump(rapidjson::Document& document) const {
+    auto& children = document["children"].SetArray();
+    for (auto [_, child] : _children) {
+        auto& obj = children.SetObject();
+        child->dump(obj);
+    }
+
+    auto& components = document["components"].SetArray();
+    for (auto [_, com] : _components) {
+        auto& obj = components.SetObject();
+        com->dump(obj);
+    }
+}
+
+void Object::dump(typename resources::ConfigResource::JsonObject& data) const {
+    auto& children = data["children"].SetArray();
+    for (auto [_, child] : _children) {
+        auto& obj = children.SetObject();
+        child->dump(obj);
+    }
+
+    auto& components = data["components"].SetArray();
+    for (auto [_, com] : _components) {
+        auto& obj = components.SetObject();
+        com->dump(obj);
+    }
+}
+
 } // namespace ngind::objects

@@ -47,6 +47,8 @@ public:
      */
     explicit World(std::string name);
 
+    explicit World(resources::ConfigResource* config);
+
     /**
      * Get name of this world
      * @return std::string, name of this world
@@ -85,6 +87,8 @@ public:
     void update(const float&) override;
 
     EntityObject* getChildByID(const int& id);
+
+    void dump(rapidjson::Document& document) const override;
 private:
     /**
      * The name of this world

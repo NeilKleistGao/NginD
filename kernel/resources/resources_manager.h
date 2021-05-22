@@ -30,7 +30,6 @@
 #include <functional>
 
 #include "resource.h"
-//#include "coroutine/coroutine.h"
 #include "memory/memory_pool.h"
 
 namespace ngind::resources {
