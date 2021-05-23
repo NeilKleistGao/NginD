@@ -287,15 +287,7 @@ public:
         return _anchor.y;
     }
 
-    inline void setID(int id) {
-        _id = id;
-    }
-
-    inline int getID() const {
-        return _id;
-    }
-
-    void dump(typename resources::ConfigResource::JsonObject& data) const override;
+    static EntityObject* create(const typename resources::ConfigResource::JsonObject& data);
 private:
     /**
      * The position of this object
@@ -337,8 +329,6 @@ private:
      */
     int _z_order;
 
-    int _id;
-
     /**
      * Adjust global position and push down the change when local position changed.
      */
@@ -358,6 +348,8 @@ private:
      * Set all components dirty so that components will redraw with new data.
      */
     void setDirtyComponents();
+
+    void init(const typename resources::ConfigResource::JsonObject& data);
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(vec2) {

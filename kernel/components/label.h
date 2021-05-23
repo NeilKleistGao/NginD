@@ -105,8 +105,6 @@ public:
         return _text;
     }
 
-    void dump(typename resources::ConfigResource::JsonObject& data) const override;
-
     friend class ngind::log::VisualLogger;
 private:
     /**

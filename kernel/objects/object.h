@@ -152,9 +152,6 @@ public:
         _components.erase(name);
     }
 
-    virtual void dump(rapidjson::Document& document) const;
-    virtual void dump(typename resources::ConfigResource::JsonObject& data) const;
-
 protected:
     /**
      * A RB-tree maintaining all children

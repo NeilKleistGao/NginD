@@ -82,6 +82,10 @@ void FileInputStream::close() {
 
 std::string FileInputStream::readAllCharacters() {
     std::filesystem::path path{_filename};
+    if (!std::filesystem::exists(path)) {
+        return "";
+    }
+
     int size = std::filesystem::file_size(path);
     return this->readNCharacters(size);
 }

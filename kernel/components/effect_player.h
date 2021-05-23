@@ -78,8 +78,6 @@ public:
      * @return float, the volume
      */
     float getVolume() const;
-
-    void dump(typename resources::ConfigResource::JsonObject& data) const override;
 private:
     /**
      * Sound effect resource.

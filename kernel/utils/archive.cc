@@ -72,6 +72,10 @@ Archive::Archive() {
         stream->close();
     }
 
+    if (content.empty()) {
+        content = "{}";
+    }
+
     _doc.Parse(content.c_str());
 }
 
@@ -96,53 +100,99 @@ Archive::~Archive() {
 }
 
 void Archive::setString(const std::string& key, const std::string& value) {
-    auto& v = _doc[key.c_str()];
-    v.SetString(value.c_str(), value.length());
+    if (!_doc.HasMember(key.c_str())) {
+        auto& allocator = _doc.GetAllocator();
+        auto rk = rapidjson::Value();
+        rk.SetString(key.c_str(), key.length());
+        auto rv = rapidjson::Value();
+        rv.SetString(value.c_str(), value.length());
+        _doc.AddMember(rk.Move(), rv.Move(), allocator);
+    }
+    else {
+        auto& v = _doc[key.c_str()];
+        v.SetString(value.c_str(), value.length());
+    }
 }
 
 void Archive::setInteger(const std::string& key, int value) {
-    auto& v = _doc[key.c_str()];
-    v.SetInt(value);
+    if (!_doc.HasMember(key.c_str())) {
+        auto& allocator = _doc.GetAllocator();
+        auto rk = rapidjson::Value();
+        rk.SetString(key.c_str(), key.length());
+        auto rv = rapidjson::Value();
+        rv.SetInt(value);
+        _doc.AddMember(rk.Move(), rv.Move(), allocator);
+    }
+    else {
+        auto& v = _doc[key.c_str()];
+        v.SetInt(value);
+    }
 }
 
 void Archive::setFloat(const std::string& key, float value) {
-    auto& v = _doc[key.c_str()];
-    v.SetFloat(value);
+    if (!_doc.HasMember(key.c_str())) {
+        auto& allocator = _doc.GetAllocator();
+        auto rk = rapidjson::Value();
+        rk.SetString(key.c_str(), key.length());
+        auto rv = rapidjson::Value();
+        rv.SetFloat(value);
+        _doc.AddMember(rk.Move(), rv.Move(), allocator);
+    }
+    else {
+        auto& v = _doc[key.c_str()];
+        v.SetFloat(value);
+    }
 }
 
 void Archive::setBoolean(const std::string& key, bool value) {
-    auto& v = _doc[key.c_str()];
-    v.SetBool(value);
+    if (!_doc.HasMember(key.c_str())) {
+        auto& allocator = _doc.GetAllocator();
+        auto rk = rapidjson::Value();
+        rk.SetString(key.c_str(), key.length());
+        auto rv = rapidjson::Value();
+        rv.SetBool(value);
+        _doc.AddMember(rk.Move(), rv.Move(), allocator);
+    }
+    else {
+        auto& v = _doc[key.c_str()];
+        v.SetBool(value);
+    }
 }
 
-void Archive::dumpWorld(const std::string& name) {
-    rapidjson::Document document;
+std::string Archive::getString(const std::string& key, const std::string& default_value) {
+    if (_doc.HasMember(key.c_str())) {
+        auto& v = _doc[key.c_str()];
+        return v.GetString();
+    }
 
+    return default_value;
 }
 
-std::string Archive::getString(const std::string& key) {
-    auto& v = _doc[key.c_str()];
-    return v.GetString();
+int Archive::getInteger(const std::string& key, int default_value) {
+    if (_doc.HasMember(key.c_str())) {
+        auto& v = _doc[key.c_str()];
+        return v.GetInt();
+    }
+
+    return default_value;
 }
 
-int Archive::getInteger(const std::string& key) {
-    auto& v = _doc[key.c_str()];
-    return v.GetInt();
+float Archive::getFloat(const std::string& key, float default_value) {
+    if (_doc.HasMember(key.c_str())) {
+        auto& v = _doc[key.c_str()];
+        return v.GetFloat();
+    }
+
+    return default_value;
 }
 
-float Archive::getFloat(const std::string& key) {
-    auto& v = _doc[key.c_str()];
-    return v.GetFloat();
-}
+bool Archive::getBoolean(const std::string& key, bool default_value) {
+    if (_doc.HasMember(key.c_str())) {
+        auto& v = _doc[key.c_str()];
+        return v.GetBool();
+    }
 
-bool Archive::getBoolean(const std::string& key) {
-    auto& v = _doc[key.c_str()];
-    return v.GetBool();
-}
-
-void Archive::loadWorld(const std::string& name) {
-    auto config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>(name);
-    Game::getInstance()->loadWorld(config);
+    return default_value;
 }
 
 } // namespace ngind::utils

@@ -83,18 +83,7 @@ void World::loadObjects() {
 }
 
 EntityObject* World::generateObject(Object* self, const typename resources::ConfigResource::JsonObject& data) {
-    auto* entity = memory::MemoryPool::getInstance()->create<EntityObject>();
-    entity->setID(data["id"].GetInt());
-    auto position = data["position"].GetObject();
-    entity->setPositionX(position["x"].GetFloat());
-    entity->setPositionY(position["y"].GetFloat());
-
-    auto scale = data["scale"].GetObject();
-    entity->setScaleX(scale["x"].GetFloat());
-    entity->setScaleY(scale["y"].GetFloat());
-
-    entity->setRotation(data["rotate"].GetFloat());
-    entity->setZOrder(data["z-order"].GetInt());
+    auto* entity = EntityObject::create(data);
 
     if (data.HasMember("components")) {
         auto components = data["components"].GetArray();
@@ -127,18 +116,6 @@ EntityObject* World::getChildByID(const int& id) {
     }
 
     return _all_children[id];
-}
-
-void World::dump(rapidjson::Document& document) const {
-    document["world-name"].SetString(_name.c_str(), _name.length());
-    auto camera = rendering::Camera::getInstance();
-    auto camera_pos = camera->getCameraPosition();
-
-    auto& camera_data = document["camera"].SetObject();
-    camera_data["x"].SetInt(camera_pos.x);
-    camera_data["y"].SetInt(camera_pos.y);
-
-    Object::dump(document);
 }
 
 } // namespace ngind::objects

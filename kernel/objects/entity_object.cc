@@ -93,9 +93,27 @@ void EntityObject::setDirtyComponents() {
     }
 }
 
-void EntityObject::dump(typename resources::ConfigResource::JsonObject& data) const {
-    data["id"].SetInt(_id);
-    // TODO:
+void EntityObject::init(const typename resources::ConfigResource::JsonObject& data) {
+    auto position = data["position"].GetObject();
+    setPositionX(position["x"].GetFloat());
+    setPositionY(position["y"].GetFloat());
+
+    auto scale = data["scale"].GetObject();
+    setScaleX(scale["x"].GetFloat());
+    setScaleY(scale["y"].GetFloat());
+
+    setRotation(data["rotate"].GetFloat());
+    setZOrder(data["z-order"].GetInt());
+}
+
+EntityObject* EntityObject::create(const typename resources::ConfigResource::JsonObject& data) {
+    auto* entity = memory::MemoryPool::getInstance()->create<EntityObject>();
+    if (entity == nullptr) {
+        // TODO:
+    }
+
+    entity->init(data);
+    return entity;
 }
 
 } // namespace ngind::objects

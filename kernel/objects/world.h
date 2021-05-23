@@ -87,8 +87,6 @@ public:
     void update(const float&) override;
 
     EntityObject* getChildByID(const int& id);
-
-    void dump(rapidjson::Document& document) const override;
 private:
     /**
      * The name of this world

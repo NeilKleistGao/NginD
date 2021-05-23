@@ -28,6 +28,8 @@
 
 #include "rapidjson/document.h"
 
+#include "script/lua_registration.h"
+
 namespace ngind::utils {
 
 class Archive {
@@ -39,13 +41,11 @@ public:
     void setInteger(const std::string& key, int value);
     void setFloat(const std::string& key, float value);
     void setBoolean(const std::string& key, bool value);
-    void dumpWorld(const std::string& name);
 
-    std::string getString(const std::string& key);
-    int getInteger(const std::string& key);
-    float getFloat(const std::string& key);
-    bool getBoolean(const std::string& key);
-    void loadWorld(const std::string& name);
+    std::string getString(const std::string& key, const std::string& default_value);
+    int getInteger(const std::string& key, int default_value);
+    float getFloat(const std::string& key, float default_value);
+    bool getBoolean(const std::string& key, bool default_value);
 private:
     static Archive* _instance;
 
@@ -55,6 +55,23 @@ private:
     Archive();
     ~Archive();
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(Archive) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .beginClass<Archive>("Archive")
+                .addStaticFunction("getInstance", &Archive::getInstance)
+                .addFunction("setString", &Archive::setString)
+                .addFunction("setInteger", &Archive::setInteger)
+                .addFunction("setFloat", &Archive::setFloat)
+                .addFunction("setBoolean", &Archive::setBoolean)
+                .addFunction("getString", &Archive::getString)
+                .addFunction("getInteger", &Archive::getInteger)
+                .addFunction("getFloat", &Archive::getFloat)
+                .addFunction("getBoolean", &Archive::getBoolean)
+            .endClass()
+        .endNamespace();
+}
 
 } // namespace ngind::utils
 

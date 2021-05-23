@@ -1,0 +1,57 @@
+{
+  "world-name": "archive",
+  "background-color": "#000000FF",
+  "size": {
+    "width": 1024,
+    "height": 768
+  },
+  "camera": {
+    "x": 512,
+    "y": 384
+  },
+  "children": [
+    {
+      "id": 1,
+      "name": "title",
+      "position": {
+        "x": 512,
+        "y": 700
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Label",
+          "name": "Label",
+          "font": "manaspc.ttf",
+          "size": 36,
+          "text": "Last Visit: ",
+          "color": "#FFFFFFFF",
+          "alignment": 2
+        },
+        {
+          "type": "StateMachine",
+          "name": "RecordTime",
+          "driver-script": "record_time.lua",
+          "classname": "RecordTime",
+          "subscription": [
+          ]
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "StateMachine",
+      "name": "WorldSwitch",
+      "driver-script": "world_switch.lua",
+      "classname": "WorldSwitch",
+      "subscription": [
+      ]
+    }
+  ]
+}

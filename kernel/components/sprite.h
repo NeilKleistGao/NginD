@@ -162,8 +162,6 @@ private:
     */
     glm::mat4 getModelMatrix();
 
-    void dump(typename resources::ConfigResource::JsonObject& data) const override;
-
 protected:
     /**
      * @see components/render_component.h

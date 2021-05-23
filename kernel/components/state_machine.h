@@ -113,8 +113,6 @@ public:
     inline luabridge::LuaRef getInstance() {
         return _instance;
     }
-
-    void dump(typename resources::ConfigResource::JsonObject& data) const override;
 private:
     /**
      * The instance of this component in lua environment.
