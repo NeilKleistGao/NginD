@@ -161,4 +161,8 @@ glm::mat4 Sprite::getModelMatrix() {
     return model;
 }
 
+Sprite* Sprite::getComponent(Object* parent) {
+    return parent->getComponent<Sprite>("Sprite");
+}
+
 } // namespace ngind::components

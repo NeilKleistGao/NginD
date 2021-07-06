@@ -20,29 +20,12 @@
 - SOFTWARE.
 - ]]
 
---- @file spin.lua
+--- @file prefab_factory.lua
 
-Spin = class("Spin")
+PrefabFactory = {}
 
-function Spin:ctor()
-end
+PrefabFactory.__factory = engine.PrefabFactory.getInstance()
 
-function Spin:enter()
-    self.r = 0
-    self.direction = 1
-    self.move("Idle")
-end
-
-function Spin:updateIdle(delta)
-    self.game_object:setRotation(self.r)
-    self.r = self.r + delta * 3.1415926535 / 12 * self.direction
-
-    if self.r < 0 then
-        self.r = self.r + 3.1415926535 * 2
-    elseif self.r > 3.1415926535 * 2 then
-        self.r = self.r - 3.1415926535 * 2
-    end
-end
-
-function Spin:exit()
+PrefabFactory.loadPrefab = function(name)
+    return PrefabFactory.__factory:loadPrefab(name)
 end

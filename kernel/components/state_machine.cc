@@ -48,7 +48,12 @@ void StateMachine::init(const typename resources::ConfigResource::JsonObject& da
     }
 
     _instance["this"] = this;
-    _instance["game_object"] = _parent;
+    if (typeid(_parent) == typeid(objects::EntityObject)) {
+        _instance["game_object"] = dynamic_cast<objects::EntityObject*>(_parent);
+    }
+    else {
+        _instance["game_object"] = _parent;
+    }
 
     auto subscription = data["subscription"].GetArray();
     for (const auto& s : subscription) {

@@ -358,6 +358,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(vec2) {
 luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
     .beginNamespace("engine")
         .beginClass<glm::vec2>("vec2")
+            .addConstructor<void(*)(float, float)>()
             .addProperty("x", &glm::vec2::x)
             .addProperty("y", &glm::vec2::y)
         .endClass()

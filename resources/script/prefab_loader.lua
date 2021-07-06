@@ -20,29 +20,29 @@
 - SOFTWARE.
 - ]]
 
---- @file spin.lua
+--- @file prefab_loader.lua
 
-Spin = class("Spin")
+PrefabLoader = class("PrefabLoader")
 
-function Spin:ctor()
+function PrefabLoader:ctor()
 end
 
-function Spin:enter()
-    self.r = 0
-    self.direction = 1
+function PrefabLoader:enter()
+    self.move("Create")
+end
+
+function PrefabLoader:updateCreate(delta)
+    local spin1 = PrefabFactory.loadPrefab("spin")
+    local spin2 = PrefabFactory.loadPrefab("spin")
+    spin1:setPosition(engine.vec2(200, 384))
+    spin2:setPosition(engine.vec2(824, 384))
+    self.game_object:addChild("spin1", spin1)
+    self.game_object:addChild("spin2", spin2)
     self.move("Idle")
 end
 
-function Spin:updateIdle(delta)
-    self.game_object:setRotation(self.r)
-    self.r = self.r + delta * 3.1415926535 / 12 * self.direction
-
-    if self.r < 0 then
-        self.r = self.r + 3.1415926535 * 2
-    elseif self.r > 3.1415926535 * 2 then
-        self.r = self.r - 3.1415926535 * 2
-    end
+function PrefabLoader:updateIdle(delta)
 end
 
-function Spin:exit()
+function PrefabLoader:exit()
 end

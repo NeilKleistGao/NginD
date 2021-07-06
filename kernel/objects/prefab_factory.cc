@@ -25,6 +25,9 @@
 
 #include "prefab_factory.h"
 
+#include "resources/resources_manager.h"
+#include "object_factory.h"
+
 namespace ngind::objects {
 PrefabFactory* PrefabFactory::_instance = nullptr;
 
@@ -48,11 +51,21 @@ void PrefabFactory::destroyInstance() {
 }
 
 EntityObject* PrefabFactory::loadPrefab(const std::string& name) {
+    if (_cache.find(name) == _cache.end()) {
+        _cache[name] = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("prefabs/" + name + ".json");
+    }
 
+    auto* entity = ObjectFactory::createEntityObject(_cache[name]->getDocument());
+    return entity;
 }
 
 void PrefabFactory::clearCache() {
+    for (auto& [_, res] : _cache) {
+        resources::ResourcesManager::getInstance()->release(res);
+        res = nullptr;
+    }
 
+    _cache.clear();
 }
 
 } //namespace ngind::objects

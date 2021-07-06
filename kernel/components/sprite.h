@@ -135,6 +135,8 @@ public:
         return _rt;
     }
 
+    static Sprite* getComponent(Object* parent);
+
 private:
     /**
      * The texture resource reference this sprite use.
@@ -180,6 +182,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(Sprite) {
                 .addFunction("setRightTopBound", &Sprite::setRightTopBound)
                 .addFunction("getLeftBottomBound", &Sprite::getLeftBottomBound)
                 .addFunction("getRightTopBound", &Sprite::getRightTopBound)
+                .addStaticFunction("getComponent", &Sprite::getComponent)
             .endClass()
         .endNamespace();
 

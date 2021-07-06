@@ -79,7 +79,7 @@ public:
      * @param parent : the parent object's pointer
      * @return void
      */
-    inline virtual void setParent(Object* parent) {
+    virtual void setParent(Object* parent) {
         _parent = parent;
     }
 

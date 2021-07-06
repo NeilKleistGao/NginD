@@ -122,7 +122,7 @@ public:
             return nullptr;
         }
 
-        return static_cast<Type*>(_components[name]);
+        return dynamic_cast<Type*>(_components[name]);
     }
 
     template<typename Type>

@@ -29,6 +29,7 @@
 #include <map>
 
 #include "entity_object.h"
+#include "script/lua_registration.h"
 
 namespace ngind::objects {
 
@@ -49,8 +50,20 @@ private:
     std::map<std::string, resources::ConfigResource*> _cache;
 
     PrefabFactory() = default;
-    ~PrefabFactory() = default;
+    ~PrefabFactory() {
+        clearCache();
+    }
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(PrefabFactory) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .beginClass<PrefabFactory>("PrefabFactory")
+                .addStaticFunction("getInstance", &PrefabFactory::getInstance)
+                .addFunction("loadPrefab", &PrefabFactory::loadPrefab)
+            .endClass()
+        .endNamespace();
+}
 
 } //namespace ngind::objects
 

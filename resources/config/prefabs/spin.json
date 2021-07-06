@@ -27,6 +27,14 @@
         }
       },
       "color": "#FFFFFFFF"
+    },
+    {
+      "type": "StateMachine",
+      "name": "Spin",
+      "driver-script": "spin.lua",
+      "classname": "Spin",
+      "subscription": [
+      ]
     }
   ]
 }

@@ -31,6 +31,7 @@
 #include "script/lua_state.h"
 #include "script/lua_registration.h"
 #include "component_factory.h"
+#include "objects/entity_object.h"
 
 namespace ngind::components {
 
@@ -74,9 +75,15 @@ public:
     /**
      * @see kernel/components/component.h
      */
-    inline void setParent(Object* parent) override {
+    void setParent(Object* parent) override {
         Component::setParent(parent);
-        _instance["game_object"] = _parent;
+        auto temp = dynamic_cast<objects::EntityObject*>(_parent);
+        if (temp != nullptr) {
+            _instance["game_object"] = temp;
+        }
+        else {
+            _instance["game_object"] = _parent;
+        }
     }
 
     /**

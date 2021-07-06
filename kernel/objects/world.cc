@@ -32,6 +32,7 @@
 #include "rendering/camera.h"
 #include "ui/event_system.h"
 #include "object_factory.h"
+#include "prefab_factory.h"
 
 namespace ngind::objects {
 
@@ -61,6 +62,7 @@ World::World(resources::ConfigResource* config) : Object(), _name(), _config(con
 
 World::~World() {
     resources::ResourcesManager::getInstance()->release(_config);
+    PrefabFactory::getInstance()->clearCache();
 }
 
 void World::update(const float& delta) {
