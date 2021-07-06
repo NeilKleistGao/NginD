@@ -49,6 +49,8 @@ public:
 
     explicit World(resources::ConfigResource* config);
 
+    ~World() override;
+
     /**
      * Get name of this world
      * @return std::string, name of this world
@@ -87,6 +89,21 @@ public:
     void update(const float&) override;
 
     EntityObject* getChildByID(const int& id);
+
+    inline void registerEntity(int id, EntityObject* entity) {
+        _all_children[id] = entity;
+    }
+
+    void unregisterEntity(int id);
+
+    inline int getChildrenNumber() const {
+        return _all_children.size();
+    }
+
+    /**
+    * Load children objects using config file
+    */
+    void loadObjects();
 private:
     /**
      * The name of this world
@@ -104,26 +121,6 @@ private:
     rendering::Color _background_color;
 
     std::unordered_map<int, EntityObject*> _all_children;
-
-    /**
-     * Load children objects using config file
-     */
-    void loadObjects();
-
-    /**
-     * Generate a new object.
-     * @param self: parent object
-     * @param data: part of config file
-     * @return Object*, the new object
-     */
-    EntityObject* generateObject(Object* self, const typename resources::ConfigResource::JsonObject& data);
-
-    /**
-     * Generate a new component.
-     * @param data: part of config file
-     * @return Object*, the new component
-     */
-    components::Component* generateComponent(const typename resources::ConfigResource::JsonObject& data);
 };
 
 } // namespace ngind::objects

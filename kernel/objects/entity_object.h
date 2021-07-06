@@ -38,7 +38,7 @@ class EntityObject : public Object {
 public:
     EntityObject();
 
-    ~EntityObject() override = default;
+    ~EntityObject() override;
 
     EntityObject(const EntityObject&) = delete;
     EntityObject& operator= (const EntityObject&) = delete;
@@ -328,6 +328,8 @@ private:
      * The z order of this object
      */
     int _z_order;
+
+    int _id;
 
     /**
      * Adjust global position and push down the change when local position changed.

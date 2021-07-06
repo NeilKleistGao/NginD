@@ -127,6 +127,7 @@ void Game::loadWorld(const std::string& name) {
     }
 
     this->_current_world = this->_worlds[name];
+    this->_worlds[name]->loadObjects();
 }
 
 void Game::loadWorld(resources::ConfigResource* config) {
@@ -137,6 +138,7 @@ void Game::loadWorld(resources::ConfigResource* config) {
     }
 
     this->_current_world = this->_worlds[name];
+    this->_worlds[name]->loadObjects();
 }
 
 void Game::destroyWorld(const std::string& name) {

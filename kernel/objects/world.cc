@@ -31,6 +31,7 @@
 #include "memory/memory_pool.h"
 #include "rendering/camera.h"
 #include "ui/event_system.h"
+#include "object_factory.h"
 
 namespace ngind::objects {
 
@@ -39,8 +40,6 @@ World::World(std::string name) : Object(), _name(std::move(name)), _config(nullp
     _background_color = rendering::Color(_config->getDocument()["background-color"].GetString());
 
     ui::EventSystem::getInstance()->init();
-
-    loadObjects();
 
     glm::vec2 center;
     auto camera = _config->getDocument()["camera"].GetObject();
@@ -54,12 +53,14 @@ World::World(resources::ConfigResource* config) : Object(), _name(), _config(con
 
     ui::EventSystem::getInstance()->init();
 
-    loadObjects();
-
     glm::vec2 center;
     auto camera = _config->getDocument()["camera"].GetObject();
     center.x = camera["x"].GetInt(); center.y = camera["y"].GetInt();
     rendering::Camera::getInstance()->moveTo(center);
+}
+
+World::~World() {
+    resources::ResourcesManager::getInstance()->release(_config);
 }
 
 void World::update(const float& delta) {
@@ -70,44 +71,16 @@ void World::loadObjects() {
     auto children = _config->getDocument()["children"].GetArray();
 
     for (const auto& child : children) {
-        EntityObject* obj = generateObject(this, child);
+        EntityObject* obj = ObjectFactory::createEntityObject(child);
         this->addChild(child["name"].GetString(), obj);
     }
 
     auto components = _config->getDocument()["components"].GetArray();
 
     for (const auto& component : components) {
-        auto com = generateComponent(component);
+        auto com = ObjectFactory::createComponent(component);
         this->addComponent(component["name"].GetString(), com);
     }
-}
-
-EntityObject* World::generateObject(Object* self, const typename resources::ConfigResource::JsonObject& data) {
-    auto* entity = EntityObject::create(data);
-
-    if (data.HasMember("components")) {
-        auto components = data["components"].GetArray();
-        for (const auto& com : components) {
-            components::Component* next = generateComponent(com);
-            entity->addComponent(com["name"].GetString(), next);
-        }
-    }
-    if (data.HasMember("children")) {
-        auto children = data["children"].GetArray();
-        for (const auto& child : children) {
-            EntityObject* next = generateObject(entity, child);
-            self->addChild(child["name"].GetString(), next);
-        }
-    }
-
-    _all_children[data["id"].GetInt()] = entity;
-    return entity;
-}
-
-components::Component* World::generateComponent(const typename resources::ConfigResource::JsonObject& data) {
-    auto factory = components::ComponentFactory::getInstance();
-    components::Component* com = factory->create(data["type"].GetString(), data);
-    return com;
 }
 
 EntityObject* World::getChildByID(const int& id) {
@@ -116,6 +89,12 @@ EntityObject* World::getChildByID(const int& id) {
     }
 
     return _all_children[id];
+}
+
+void World::unregisterEntity(int id) {
+    if (_all_children.find(id) != _all_children.end()) {
+        _all_children.erase(id);
+    }
 }
 
 } // namespace ngind::objects

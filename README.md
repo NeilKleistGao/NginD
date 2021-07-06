@@ -55,9 +55,9 @@ However, here are some exceptions:
 + Stream will be used to serialize/deserialize/type conversion
 
 ## Code Environment
-+ OS: Ubuntu 18.04.4 LTS
++ OS: Ubuntu 20.04.4 LTS
 + Compiler: CMake 3.15.3(C++17)
-+ IDE: CLion 2020.2, WebStorm 2020.2
++ IDE: CLion 2020.2
 
 The engine will support for Windows and MacOS later.
 

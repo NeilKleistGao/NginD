@@ -25,11 +25,17 @@
 
 #include "entity_object.h"
 
+#include "game.h"
+
 namespace ngind::objects {
 
 EntityObject::EntityObject() : Object(), _position(), _scale(1, 1),
-_rotation(0.0f), _z_order(0), _anchor(0.5f, 0.5f), _global_rotation(0.0f), _global_scale(), _global_position() {
+_rotation(0.0f), _z_order(0), _anchor(0.5f, 0.5f), _global_rotation(0.0f), _global_scale(), _global_position(), _id(-1) {
 
+}
+
+EntityObject::~EntityObject() {
+    Game::getInstance()->getCurrentWorld()->unregisterEntity(_id);
 }
 
 void EntityObject::update(const float& delta) {
@@ -104,6 +110,13 @@ void EntityObject::init(const typename resources::ConfigResource::JsonObject& da
 
     setRotation(data["rotate"].GetFloat());
     setZOrder(data["z-order"].GetInt());
+
+    if (data.HasMember("id")) {
+        _id = data["id"].GetInt();
+    }
+    else {
+        _id = Game::getInstance()->getCurrentWorld()->getChildrenNumber() + 1;
+    }
 }
 
 EntityObject* EntityObject::create(const typename resources::ConfigResource::JsonObject& data) {
@@ -113,6 +126,7 @@ EntityObject* EntityObject::create(const typename resources::ConfigResource::Jso
     }
 
     entity->init(data);
+    Game::getInstance()->getCurrentWorld()->registerEntity(entity->_id, entity);
     return entity;
 }
 
