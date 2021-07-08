@@ -68,10 +68,10 @@ void StateMachine::init(const typename resources::ConfigResource::JsonObject& da
         }
     }
 
-    if (data.HasMember("properties")) {
-        auto properties = data["properties"].GetArray();
-        for (const auto& p : properties) {
-            initProperty(p);
+    if (data.HasMember("args")) {
+        auto args = data["args"].GetArray();
+        for (const auto& arg : args) {
+            initArgument(arg);
         }
     }
 }
@@ -141,8 +141,43 @@ void StateMachine::notifyAll(const luabridge::LuaRef& sender, const std::string&
     ob->notifyAll(sender, name, data);
 }
 
-void StateMachine::initProperty(const typename resources::ConfigResource::JsonObject& data) {
-    // TODO:
+void StateMachine::initArgument(const typename resources::ConfigResource::JsonObject &data) {
+    std::string name = data["name"].GetString();
+    auto ref = _instance.rawget(name);
+
+    initArgument(ref, data);
+    _instance[name] = ref;
+}
+
+void StateMachine::initArgument(luabridge::LuaRef& ref, const typename resources::ConfigResource::JsonObject& data) {
+    if (ref.isNil()) {
+        return;
+    }
+
+    if (data["value"].IsInt()) {
+        ref = data["value"].GetInt();
+    }
+    else if (data["value"].IsFloat()) {
+        ref = data["value"].GetFloat();
+    }
+    else if (data["value"].IsBool()) {
+        ref = data["value"].GetBool();
+    }
+    else if (data["value"].IsString()) {
+        ref = data["value"].GetString();
+    }
+    else if (data["value"].IsArray()) {
+        auto table = data["value"].GetArray();
+        for (const auto& item : table) {
+            std::string name = item["name"].GetString();
+            auto next = ref.rawget(name);
+            initArgument(next, item);
+            ref[name] = next;
+        }
+    }
+    else {
+        ref = luabridge::LuaRef(script::LuaState::getInstance()->getState());
+    }
 }
 
 } // namespace ngind::components

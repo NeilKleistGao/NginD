@@ -34,6 +34,21 @@
           "alignment": 2
         }
       ]
+    },
+    {
+      "id": 2,
+      "name": "spin",
+      "prefab": "spin",
+      "position": {
+        "x": 824,
+        "y": 384
+      },
+      "scale": {
+        "x": 2,
+        "y": 2
+      },
+      "rotate": 0,
+      "z-order": 0
     }
   ],
   "components": [

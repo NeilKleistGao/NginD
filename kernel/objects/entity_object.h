@@ -31,6 +31,8 @@
 #include "script/lua_registration.h"
 
 namespace ngind::objects {
+class ObjectFactory;
+
 /**
  * This class is a special kind of object that you can specify its position, rotation and scale.
  */
@@ -288,6 +290,8 @@ public:
     }
 
     static EntityObject* create(const typename resources::ConfigResource::JsonObject& data);
+
+    friend class ObjectFactory;
 private:
     /**
      * The position of this object

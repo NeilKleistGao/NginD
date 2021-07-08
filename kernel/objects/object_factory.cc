@@ -26,28 +26,36 @@
 #include "object_factory.h"
 
 #include "components/component_factory.h"
+#include "prefab_factory.h"
 
 namespace ngind::objects {
 
 EntityObject* ObjectFactory::createEntityObject(const typename resources::ConfigResource::JsonObject& data) {
-    auto* entity = EntityObject::create(data);
-
-    if (data.HasMember("components")) {
-        auto components = data["components"].GetArray();
-        for (const auto& com : components) {
-            components::Component* next = createComponent(com);
-            entity->addComponent(com["name"].GetString(), next);
-        }
+    if (data.HasMember("prefab")) {
+        auto* entity = PrefabFactory::getInstance()->loadPrefab(data["prefab"].GetString());
+        entity->init(data);
+        return entity;
     }
-    if (data.HasMember("children")) {
-        auto children = data["children"].GetArray();
-        for (const auto& child : children) {
-            EntityObject* next = createEntityObject(child);
-            entity->addChild(child["name"].GetString(), next);
-        }
-    }
+    else {
+        auto* entity = EntityObject::create(data);
 
-    return entity;
+        if (data.HasMember("components")) {
+            auto components = data["components"].GetArray();
+            for (const auto& com : components) {
+                components::Component* next = createComponent(com);
+                entity->addComponent(com["name"].GetString(), next);
+            }
+        }
+        if (data.HasMember("children")) {
+            auto children = data["children"].GetArray();
+            for (const auto& child : children) {
+                EntityObject* next = createEntityObject(child);
+                entity->addChild(child["name"].GetString(), next);
+            }
+        }
+
+        return entity;
+    }
 }
 
 components::Component* ObjectFactory::createComponent(const typename resources::ConfigResource::JsonObject& data) {

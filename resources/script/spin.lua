@@ -25,11 +25,11 @@
 Spin = class("Spin")
 
 function Spin:ctor()
+    self.direction = 1
 end
 
 function Spin:enter()
     self.r = 0
-    self.direction = 1
     self.move("Idle")
 end
 

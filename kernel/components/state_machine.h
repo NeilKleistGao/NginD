@@ -141,7 +141,9 @@ private:
      */
     std::map<std::string, std::unordered_set<std::string>> _subscribe;
 
-    void initProperty(const typename resources::ConfigResource::JsonObject& data);
+    void initArgument(const typename resources::ConfigResource::JsonObject& data);
+
+    void initArgument(luabridge::LuaRef& ref, const typename resources::ConfigResource::JsonObject& data);
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(StateMachine) {

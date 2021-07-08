@@ -33,11 +33,11 @@ end
 
 function PrefabLoader:updateCreate(delta)
     local spin1 = PrefabFactory.loadPrefab("spin")
-    local spin2 = PrefabFactory.loadPrefab("spin")
+    --local spin2 = PrefabFactory.loadPrefab("spin")
     spin1:setPosition(engine.vec2(200, 384))
-    spin2:setPosition(engine.vec2(824, 384))
+    --spin2:setPosition(engine.vec2(824, 384))
     self.game_object:addChild("spin1", spin1)
-    self.game_object:addChild("spin2", spin2)
+    --self.game_object:addChild("spin2", spin2)
     self.move("Idle")
 end
 
