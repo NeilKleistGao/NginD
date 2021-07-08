@@ -31,3 +31,8 @@ Label = {}
 Label.getComponent = function(object)
     return engine.Label.getComponent(object)
 end
+
+StateMachine = {}
+StateMachine.getComponent = function(object, name)
+    return engine.StateMachine.getComponent(object, name)
+end

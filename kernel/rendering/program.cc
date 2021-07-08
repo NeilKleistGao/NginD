@@ -30,8 +30,11 @@
 namespace ngind::rendering {
 
 Program::Program(const std::string& program_name) {
-    _vs = resources::ResourcesManager::getInstance()->load<resources::ShaderResource>(program_name + ".vs");
-    _fs = resources::ResourcesManager::getInstance()->load<resources::ShaderResource>(program_name + ".frag");
+    auto manager = resources::ResourcesManager::getInstance();
+    _program_config = manager->load<resources::ConfigResource>("programs/" + program_name + ".json");
+
+    _vs = manager->load<resources::ShaderResource>(std::string{_program_config->getDocument()["vertex"].GetString()} + ".vs");
+    _fs = manager->load<resources::ShaderResource>(std::string{_program_config->getDocument()["fragment"].GetString()} + ".frag");
 
     this->_program = glCreateProgram();
     glAttachShader(this->_program, _vs->getShader());
@@ -47,6 +50,11 @@ Program::Program(const std::string& program_name) {
 
 Program::~Program() {
     glDeleteProgram(this->_program);
+
+    auto manager = resources::ResourcesManager::getInstance();
+    manager->release(_vs);
+    manager->release(_fs);
+    manager->release(_program_config);
 }
 
 GLint Program::getUniform(const std::string& name) const {
@@ -56,6 +64,90 @@ GLint Program::getUniform(const std::string& name) const {
     }
 
     return res;
+}
+
+void Program::prepare() {
+    auto args = _program_config->getDocument()["args"].GetArray();
+    for (const auto& arg : args) {
+        std::string name = arg["name"].GetString();
+        std::string type = arg["type"].GetString();
+
+        if (type == "float") {
+            this->setFloat(name, arg["value"].GetFloat());
+        }
+        else if (type == "float2") {
+            // TODO:
+        }
+        else if (type == "float3") {
+
+        }
+        else if (type == "float4") {
+
+        }
+        else if (type == "int") {
+
+        }
+        else if (type == "int2") {
+
+        }
+        else if (type == "int3") {
+
+        }
+        else if (type == "int4") {
+
+        }
+        else if (type == "int") {
+
+        }
+        else if (type == "int2") {
+
+        }
+        else if (type == "int3") {
+
+        }
+        else if (type == "int4") {
+
+        }
+        else if (type == "unsigned") {
+
+        }
+        else if (type == "unsigned2") {
+
+        }
+        else if (type == "unsigned3") {
+
+        }
+        else if (type == "unsigned4") {
+
+        }
+        else if (type == "matrix2") {
+
+        }
+        else if (type == "matrix3") {
+
+        }
+        else if (type == "matrix4") {
+
+        }
+        else if (type == "matrix23") {
+
+        }
+        else if (type == "matrix24") {
+
+        }
+        else if (type == "matrix32") {
+
+        }
+        else if (type == "matrix34") {
+
+        }
+        else if (type == "matrix42") {
+
+        }
+        else if (type == "matrix43") {
+
+        }
+    }
 }
 
 } // namespace ngind::rendering

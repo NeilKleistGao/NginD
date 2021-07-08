@@ -116,6 +116,8 @@ public:
                                      color.b / 255.0f, color.a / 255.0f);
         this->getProgram()->setMatrix4("projection", Camera::getInstance()->getProjection());
         this->getProgram()->setMatrix4("model", this->getModel());
+
+        this->getProgram()->prepare();
     }
 private:
     /**

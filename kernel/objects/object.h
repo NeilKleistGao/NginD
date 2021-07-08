@@ -107,6 +107,8 @@ public:
             _components[name] = component;
             component->addReference();
             component->setParent(this);
+        } else {
+            // TODO:
         }
     }
 

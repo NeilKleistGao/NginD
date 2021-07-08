@@ -1,0 +1,11 @@
+{
+  "vertex": "sprite",
+  "fragment": "opaque",
+  "args": [
+    {
+      "name": "opaque",
+      "type": "float",
+      "value": 0.6
+    }
+  ]
+}

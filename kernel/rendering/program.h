@@ -29,6 +29,7 @@
 #include <string>
 
 #include "resources/shader_resource.h"
+#include "resources/config_resource.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
@@ -43,7 +44,7 @@ public:
     /**
      * @param name: program's name
      */
-    explicit Program(const std::string& name);
+    explicit Program(const std::string& program_name);
 
     ~Program();
 
@@ -168,6 +169,8 @@ public:
         glUniformMatrix4x3fv(getUniform(name), 1, GL_FALSE, glm::value_ptr(m));
     }
 
+    void prepare();
+
 private:
     /**
      * The index of program
@@ -183,6 +186,8 @@ private:
      * Reference of segment shader
      */
     resources::ShaderResource* _fs;
+
+    resources::ConfigResource* _program_config;
 };
 
 } // namespace ngind::rendering

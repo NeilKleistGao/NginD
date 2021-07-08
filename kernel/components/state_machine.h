@@ -120,6 +120,8 @@ public:
     inline luabridge::LuaRef getInstance() {
         return _instance;
     }
+
+    static luabridge::LuaRef getComponent(Object* object, const std::string& name);
 private:
     /**
      * The instance of this component in lua environment.
@@ -154,6 +156,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(StateMachine) {
             .addFunction("halt", &StateMachine::halt)
             .addFunction("notify", &StateMachine::notify)
             .addFunction("notifyAll", &StateMachine::notifyAll)
+            .addStaticFunction("getComponent", &StateMachine::getComponent)
         .endClass()
     .endNamespace();
 

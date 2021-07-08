@@ -180,4 +180,14 @@ void StateMachine::initArgument(luabridge::LuaRef& ref, const typename resources
     }
 }
 
+luabridge::LuaRef StateMachine::getComponent(Object* object, const std::string& name) {
+    auto machine = object->getComponent<StateMachine>(name);
+    if (machine == nullptr) {
+        return luabridge::LuaRef(script::LuaState::getInstance()->getState());
+    }
+    else {
+        return machine->_instance;
+    }
+}
+
 } // namespace ngind::components
