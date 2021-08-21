@@ -30,12 +30,12 @@ namespace ngind::animation {
 Aseprite::Aseprite(const std::string& name) : _current_index(), _current_tag(nullptr) {
     _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("animations/" + name + ".json");
 
-    auto frames = _config->getDocument()["frames"].GetArray();
+    auto frames = (*_config)["frames"].GetArray();
     for (const auto& frame : frames) {
         _frames.emplace_back(frame);
     }
 
-    auto meta = _config->getDocument()["meta"].GetObject();
+    auto meta = (*_config)["meta"].GetObject();
     _image_path = meta["image"].GetString();
 
     auto tags = meta["frameTags"].GetArray();

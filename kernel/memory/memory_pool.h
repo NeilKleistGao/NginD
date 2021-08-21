@@ -29,7 +29,6 @@
 #include <set>
 #include <memory>
 #include <list>
-#include <map>
 
 #include "auto_collection_object.h"
 
@@ -103,7 +102,7 @@ private:
     /**
      * A RB-Tree to manage objects
      */
-    std::map<size_t, std::list<AutoCollectionObject*>> _open_pool, _closed_pool;
+    std::list<AutoCollectionObject*> _pool;
 
     MemoryPool();
 

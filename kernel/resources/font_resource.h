@@ -47,16 +47,8 @@ public:
      */
     void load(const std::string&) override;
 
-    inline rendering::Character getCharacter(const char& c) {
-        return _font->generateCharacterData(c);
-    }
-
-    inline rendering::Character getCharacter(const wchar_t& c) {
-        return _font->generateCharacterData(c);
-    }
-
-    inline size_t getMaxHeight() {
-        return _font->getMaxHeight();
+    inline rendering::TrueTypeFont* operator-> () {
+        return _font;
     }
 private:
     /**

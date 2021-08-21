@@ -39,7 +39,7 @@ public:
      */
     const static std::string SHADER_RESOURCE_PATH;
 
-    ShaderResource() : Resource() {};
+    ShaderResource() : Resource(), _shader(nullptr) {};
     ~ShaderResource() override;
 
     /**
@@ -47,12 +47,8 @@ public:
      */
     virtual void load(const std::string&);
 
-    /**
-     * Get shader id
-     * @return GLuint, the shader id
-     */
-    inline GLuint getShader() {
-        return _shader->getShader();
+    inline rendering::Shader* operator-> () {
+        return _shader;
     }
 private:
     /**

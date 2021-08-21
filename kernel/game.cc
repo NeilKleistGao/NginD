@@ -23,6 +23,8 @@
 
 #include "game.h"
 
+#include <utility>
+
 #include "rendering/renderer.h"
 #include "resources/resources_manager.h"
 #include "log/visual_logger.h"
@@ -65,25 +67,25 @@ void Game::destroyInstance() {
 
 void Game::start() {
     auto render = rendering::Renderer::getInstance();
-    auto height = _global_settings->getDocument()["window-height"].GetInt();
-    render->createWindow(_global_settings->getDocument()["window-width"].GetInt(),
+    auto height = (*_global_settings)["window-height"].GetInt();
+    render->createWindow((*_global_settings)["window-width"].GetInt(),
             height,
-            _global_settings->getDocument()["window-title"].GetString(),
-            _global_settings->getDocument()["window-icon"].GetString(),
-            _global_settings->getDocument()["window-full-screen"].GetBool());
+                         (*_global_settings)["window-title"].GetString(),
+                         (*_global_settings)["window-icon"].GetString(),
+                         (*_global_settings)["window-full-screen"].GetBool());
 
     ui::EventSystem::getInstance()->init(height);
 
     script::LuaState::getInstance()->preload("kernel");
 
-    this->loadWorld(_global_settings->getDocument()["welcome-world"].GetString());
+    this->loadWorld((*(*_global_settings))["welcome-world"].GetString());
 
     auto logger = log::VisualLogger::getInstance();
-    if (_global_settings->getDocument()["enable-visual-debug"].GetBool()) {
+    if ((*_global_settings)["enable-visual-debug"].GetBool()) {
         logger->enable();
     }
 
-    const float MAX_FRAME_RATE = _global_settings->getDocument()["max-frame-rate"].GetFloat();
+    const float MAX_FRAME_RATE = (*(*_global_settings))["max-frame-rate"].GetFloat();
     const float MIN_DURATION = 1.0f / MAX_FRAME_RATE;
     float duration = 1.0f / 60.0f;
     logger->registerVariable("frame rate", "0");
@@ -131,7 +133,7 @@ void Game::loadWorld(const std::string& name) {
 }
 
 void Game::loadWorld(resources::ConfigResource* config) {
-    std::string name = config->getDocument()["world-name"].GetString();
+    std::string name = (*config)["world-name"].GetString();
     if (this->_worlds.find(name) == this->_worlds.end()) {
         this->_worlds[name] = memory::MemoryPool::getInstance()->create<objects::World>(config);
         this->_worlds[name]->addReference();
@@ -173,7 +175,7 @@ void Game::popAndLoadWorld(const bool& has_destroy_current = true) {
 }
 
 void Game::destroyAndLoadWorld(std::string name) {
-    _next_world = name;
+    _next_world = std::move(name);
     _transition = [&]() {
         auto destroy_name = this->_current_world->getName();
         loadWorld(_next_world);

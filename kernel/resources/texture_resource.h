@@ -39,7 +39,7 @@ class TextureResource : public Resource {
 public:
     const static std::string IMAGE_RESOURCE_PATH;
 
-    TextureResource() : Resource() {};
+    TextureResource() : Resource(), _texture(nullptr) {};
     ~TextureResource() override = default;
 
     /**
@@ -47,44 +47,8 @@ public:
      */
     virtual void load(const std::string&);
 
-    /**
-     * Get the id of texture in OpenGL.
-     * @return GLuint, id of texture
-     */
-    inline GLuint getTextureID() const {
-        return _texture->getTextureID();
-    }
-
-    /**
-     * Get the size of texture.
-     * @return Vector2D, size of texture
-     */
-    inline glm::vec2 getTextureSize() const {
-        return _texture->getSize();
-    }
-
-    /**
-     * Get width of texture.
-     * @return float, width of texture
-     */
-    inline float getTextureWidth() const {
-        return _texture->getWidth();
-    }
-
-    /**
-     * Get height of texture.
-     * @return float, height of texture
-     */
-    inline float getTextureHeight() const {
-        return _texture->getHeight();
-    }
-
-    /**
-     * Get color mode of texture.
-     * @return TextureColorMode, color mode of texture
-     */
-    inline rendering::TextureColorMode getTextureColorMode() const {
-        return _texture->getColorMode();
+    inline rendering::Texture* operator-> () {
+        return _texture;
     }
 
 private:

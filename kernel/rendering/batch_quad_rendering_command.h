@@ -42,7 +42,7 @@ public:
      * @param size: size of vertex
      */
     BatchQuadRenderingCommand(Quad* quad, const size_t& size);
-    ~BatchQuadRenderingCommand();
+    ~BatchQuadRenderingCommand() override;
     BatchQuadRenderingCommand(const BatchQuadRenderingCommand&) = delete;
     BatchQuadRenderingCommand& operator= (const BatchQuadRenderingCommand&) = delete;
 

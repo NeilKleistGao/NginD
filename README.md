@@ -16,10 +16,6 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + ...
 
 ## TODO List
-### 0.9
-+ [x] Saving Game Files
-+ [ ] Prefab
-
 ### 1.0
 + [ ] Package Tools
 + [ ] Screen Adaptor

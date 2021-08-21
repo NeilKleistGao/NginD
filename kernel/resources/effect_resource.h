@@ -40,7 +40,7 @@ public:
     const static std::string EFFECT_RESOURCE_PATH;
 
     EffectResource();
-    ~EffectResource();
+    ~EffectResource() override;
 
     /**
      * @see kernel/resources/resource.h
@@ -63,12 +63,12 @@ public:
         return _effect->mVolume;
     }
 
-    /**
-     * Get SoLoud effect resource.
-     * @return SoLoud::Sfxr* sfxr effect pointer
-     */
-    inline SoLoud::Sfxr* getEffect() {
+    inline SoLoud::Sfxr* operator-> () {
         return _effect;
+    }
+
+    inline SoLoud::Sfxr& operator* () {
+        return *_effect;
     }
 private:
     /**

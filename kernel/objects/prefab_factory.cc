@@ -55,7 +55,7 @@ EntityObject* PrefabFactory::loadPrefab(const std::string& name) {
         _cache[name] = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("prefabs/" + name + ".json");
     }
 
-    auto* entity = ObjectFactory::createEntityObject(_cache[name]->getDocument());
+    auto* entity = ObjectFactory::createEntityObject(**_cache[name]);
     return entity;
 }
 

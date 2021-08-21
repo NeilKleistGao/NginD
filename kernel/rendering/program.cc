@@ -33,12 +33,12 @@ Program::Program(const std::string& program_name) {
     auto manager = resources::ResourcesManager::getInstance();
     _program_config = manager->load<resources::ConfigResource>("programs/" + program_name + ".json");
 
-    _vs = manager->load<resources::ShaderResource>(std::string{_program_config->getDocument()["vertex"].GetString()} + ".vs");
-    _fs = manager->load<resources::ShaderResource>(std::string{_program_config->getDocument()["fragment"].GetString()} + ".frag");
+    _vs = manager->load<resources::ShaderResource>(std::string{(*_program_config)["vertex"].GetString()} + ".vs");
+    _fs = manager->load<resources::ShaderResource>(std::string{(*_program_config)["fragment"].GetString()} + ".frag");
 
     this->_program = glCreateProgram();
-    glAttachShader(this->_program, _vs->getShader());
-    glAttachShader(this->_program, _fs->getShader());
+    glAttachShader(this->_program, (*_vs)->getShader());
+    glAttachShader(this->_program, (*_fs)->getShader());
     glLinkProgram(this->_program);
 
     GLint success;
@@ -67,7 +67,7 @@ GLint Program::getUniform(const std::string& name) const {
 }
 
 void Program::prepare() {
-    auto args = _program_config->getDocument()["args"].GetArray();
+    auto args = (*_program_config)["args"].GetArray();
     for (const auto& arg : args) {
         std::string name = arg["name"].GetString();
         std::string type = arg["type"].GetString();

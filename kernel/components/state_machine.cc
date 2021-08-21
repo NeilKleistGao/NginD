@@ -85,6 +85,11 @@ StateMachine* StateMachine::create(const typename resources::ConfigResource::Jso
 void StateMachine::halt() {
     luabridge::LuaRef state_exit = _instance["exit"];
     state_exit();
+
+    auto instance = script::Observer::getInstance();
+    for (const auto& [name, _] : _subscribe) {
+        instance->cancel(this, name);
+    }
 }
 
 void StateMachine::update(const float& dlt) {

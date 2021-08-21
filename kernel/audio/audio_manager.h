@@ -97,7 +97,7 @@ public:
      * @param effect: given effect audio.
      */
     inline void playEffect(resources::EffectResource* effect) {
-        _engine.play(*effect->getEffect());
+        _engine.play(**effect);
     }
 
 private:

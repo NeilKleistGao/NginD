@@ -50,12 +50,12 @@ public:
 
     using JsonObject = rapidjson::GenericValue<rapidjson::UTF8<>>;
 
-    /**
-     * Get JSON document object.
-     * @return
-     */
-    inline rapidjson::Document& getDocument() {
+    inline rapidjson::Document& operator* () {
         return _doc;
+    }
+
+    inline rapidjson::Document::ValueType& operator[] (const std::string& key) {
+        return _doc[key.c_str()];
     }
 private:
     /**

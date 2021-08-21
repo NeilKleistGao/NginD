@@ -43,11 +43,7 @@ public:
      */
     virtual void load(const std::string&);
 
-    /**
-     * Get the Aseprite data instance.
-     * @return animation::Aseprite*, Aseprite animation data
-     */
-    inline animation::Aseprite* getAseprite() {
+    inline animation::Aseprite* operator-> () const noexcept {
         return _ase;
     }
 private:

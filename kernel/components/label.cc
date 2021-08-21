@@ -144,7 +144,7 @@ void Label::parseText() {
             continue;
         }
 
-        auto ch = _font->getCharacter(c);
+        auto ch = (*_font)->generateCharacterData(c);
         current_width += (ch.advance.x >> 6) * scale;
     }
 
@@ -157,7 +157,7 @@ void Label::parseText() {
         if (_text[i] == '\n') {
             j++;
             current_width = 0;
-            max_height += static_cast<float>(_font->getMaxHeight()) * scale * 2 + _line_space;
+            max_height += static_cast<float>((*_font)->getMaxHeight()) * scale * 2 + _line_space;
             model = getModelMatrix(max_width, widths[j], max_height);
         }
 
@@ -170,7 +170,7 @@ void Label::parseText() {
                     ->create<rendering::BatchQuadRenderingCommand>(_quads.back(), 24);
             command->addReference();
             _commands.push_back(command);
-            _commands.back()->setProgram(_program->getProgram());
+            _commands.back()->setProgram(_program->get());
             _commands.back()->setZ(temp->getZOrder());
             _commands.back()->setModel(model);
 
@@ -193,7 +193,7 @@ void Label::parseText() {
         }
 
         auto& cmd = _commands.back();
-        rendering::Character ch = _font->getCharacter(_text[i]);
+        rendering::Character ch = (*_font)->generateCharacterData(_text[i]);
 
         auto x = current_width + ch.bearing.x * scale;
         auto y = -max_height - (ch.size.y - ch.bearing.y) * scale;
@@ -231,7 +231,7 @@ glm::mat4 Label::getModelMatrix(const float& max_width, const float& width, cons
     auto anchor = temp->getAnchor();
 
     float scale = static_cast<float>(_size) / rendering::TrueTypeFont::DEFAULT_FONT_SIZE;
-    pos.y -= static_cast<float>(_font->getMaxHeight()) * scale;
+    pos.y -= static_cast<float>((*_font)->getMaxHeight()) * scale;
 
     glm::mat4 model{1.0f};
     if (_alignment == ALIGNMENT_LEFT) {
@@ -282,7 +282,7 @@ void Label::parseUTF8Text(const std::wstring& text) {
             continue;
         }
 
-        auto ch = _font->getCharacter(c);
+        auto ch = (*_font)->generateCharacterData(c);
         current_width += (ch.advance.x >> 6) * scale;
     }
 
@@ -295,7 +295,7 @@ void Label::parseUTF8Text(const std::wstring& text) {
         if (text[i] == L'\n') {
             j++;
             current_width = 0;
-            max_height += static_cast<float>(_font->getMaxHeight()) * scale * 2 + _line_space;
+            max_height += static_cast<float>((*_font)->getMaxHeight()) * scale * 2 + _line_space;
             model = getModelMatrix(max_width, widths[j], max_height);
         }
 
@@ -308,7 +308,7 @@ void Label::parseUTF8Text(const std::wstring& text) {
                     ->create<rendering::BatchQuadRenderingCommand>(_quads.back(), 24);
             command->addReference();
             _commands.push_back(command);
-            _commands.back()->setProgram(_program->getProgram());
+            _commands.back()->setProgram(_program->get());
             _commands.back()->setZ(temp->getZOrder());
             _commands.back()->setModel(model);
 
@@ -331,7 +331,7 @@ void Label::parseUTF8Text(const std::wstring& text) {
         }
 
         auto& cmd = _commands.back();
-        rendering::Character ch = _font->getCharacter(text[i]);
+        rendering::Character ch = (*_font)->generateCharacterData(text[i]);
 
         auto x = current_width + ch.bearing.x * scale;
         auto y = -max_height - (ch.size.y - ch.bearing.y) * scale;

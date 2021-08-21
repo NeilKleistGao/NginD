@@ -104,12 +104,12 @@ public:
         return _stream->getLoopPoint();
     }
 
-    /**
-     * Get SoLoud wave stream object.
-     * @return SoLoud::WavStream*, SoLoud wave stream object
-     */
-    inline SoLoud::WavStream* getStream() {
+    inline SoLoud::WavStream* operator-> () {
         return _stream;
+    }
+
+    inline SoLoud::WavStream& operator* () {
+        return *_stream;
     }
 private:
     /**

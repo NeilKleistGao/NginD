@@ -59,7 +59,7 @@ void AudioManager::playMusic(resources::MusicResource* music) {
         return;
     }
 
-    _handles[name] = _engine.play(*music->getStream());
+    _handles[name] = _engine.play(**music);
 }
 
 void AudioManager::stopMusic(resources::MusicResource* music) {

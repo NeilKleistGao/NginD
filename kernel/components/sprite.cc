@@ -67,7 +67,7 @@ void Sprite::setImage(const std::string& filename) {
         resources::ResourcesManager::getInstance()->release(_texture->getResourcePath());
     }
     _texture = resources::ResourcesManager::getInstance()->load<resources::TextureResource>(filename);
-    this->setBound({0, 0}, _texture->getTextureSize());
+    this->setBound({0, 0}, (*_texture)->getSize());
 }
 
 void Sprite::setImage(const std::string& filename, const glm::vec2& lb, const glm::vec2& rt) {
@@ -91,7 +91,7 @@ void Sprite::draw() {
             _command = nullptr;
         }
 
-        auto texture_size = _texture->getTextureSize();
+        auto texture_size = (*_texture)->getSize();
         _quad = memory::MemoryPool::getInstance()->create<rendering::Quad, std::initializer_list<GLfloat>>(
                 {
                         _rt.x - _lb.x, _rt.y - _lb.y, static_cast<float>(_rt.x) / texture_size.x, static_cast<float>(_lb.y) / texture_size.y, // Top Right
@@ -102,13 +102,13 @@ void Sprite::draw() {
                 );
         _quad->addReference();
         _command = memory::MemoryPool::getInstance()
-                ->create<rendering::QuadRenderingCommand>(_quad, _texture->getTextureID());
+                ->create<rendering::QuadRenderingCommand>(_quad, (*_texture)->getTextureID());
         _command->addReference();
 
         _command->setModel(getModelMatrix());
         _command->setColor(_color);
         _command->setZ(temp->getZOrder());
-        _command->setProgram(_program->getProgram());
+        _command->setProgram(_program->get());
 
         _dirty = false;
     }
@@ -146,7 +146,7 @@ glm::mat4 Sprite::getModelMatrix() {
     auto rotate = temp->getRotation();
     auto scale = temp->getScale();
     auto anchor = temp->getAnchor();
-    auto texture_size = _texture->getTextureSize();
+    auto texture_size = (*_texture)->getSize();
 
     glm::mat4 model{1.0f};
     model = glm::translate(model, glm::vec3{pos.x - texture_size.x * scale.x * anchor.x,

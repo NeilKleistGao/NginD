@@ -38,24 +38,24 @@ namespace ngind::objects {
 
 World::World(std::string name) : Object(), _name(std::move(name)), _config(nullptr), _background_color() {
     _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("worlds/" + _name + ".json");
-    _background_color = rendering::Color(_config->getDocument()["background-color"].GetString());
+    _background_color = rendering::Color((*_config)["background-color"].GetString());
 
     ui::EventSystem::getInstance()->init();
 
     glm::vec2 center;
-    auto camera = _config->getDocument()["camera"].GetObject();
+    auto camera = (*_config)["camera"].GetObject();
     center.x = camera["x"].GetInt(); center.y = camera["y"].GetInt();
     rendering::Camera::getInstance()->moveTo(center);
 }
 
 World::World(resources::ConfigResource* config) : Object(), _name(), _config(config), _background_color() {
-    _name = _config->getDocument()["world-name"].GetString();
-    _background_color = rendering::Color(_config->getDocument()["background-color"].GetString());
+    _name = (*_config)["world-name"].GetString();
+    _background_color = rendering::Color((*_config)["background-color"].GetString());
 
     ui::EventSystem::getInstance()->init();
 
     glm::vec2 center;
-    auto camera = _config->getDocument()["camera"].GetObject();
+    auto camera = (*_config)["camera"].GetObject();
     center.x = camera["x"].GetInt(); center.y = camera["y"].GetInt();
     rendering::Camera::getInstance()->moveTo(center);
 }
@@ -70,14 +70,14 @@ void World::update(const float& delta) {
 }
 
 void World::loadObjects() {
-    auto children = _config->getDocument()["children"].GetArray();
+    auto children = (*_config)["children"].GetArray();
 
     for (const auto& child : children) {
         EntityObject* obj = ObjectFactory::createEntityObject(child);
         this->addChild(child["name"].GetString(), obj);
     }
 
-    auto components = _config->getDocument()["components"].GetArray();
+    auto components = (*_config)["components"].GetArray();
 
     for (const auto& component : components) {
         auto com = ObjectFactory::createComponent(component);

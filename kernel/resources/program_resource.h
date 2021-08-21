@@ -35,7 +35,7 @@ namespace ngind::resources {
 class ProgramResource : public Resource {
 public:
     ProgramResource();
-    ~ProgramResource();
+    ~ProgramResource() override;
 
     /**
      * @see kernel/resources/resource.h
@@ -46,8 +46,12 @@ public:
      * Get program object
      * @return Program*, the program object
      */
-    inline rendering::Program* getProgram() const {
+    inline rendering::Program* get() const {
         return _program;
+    }
+
+    inline rendering::Program* operator-> () {
+        return get();
     }
 private:
     /**

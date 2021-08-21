@@ -57,8 +57,7 @@ void Animation::update(const float& delta) {
     auto duration = _frame.getDuration().count();
     if (_timer >= duration) {
         _timer -= duration;
-        auto ase = _anim->getAseprite();
-        if (ase->isEnd()) {
+        if ((*_anim)->isEnd()) {
             if (_loop) {
                 this->play(_tag);
             }
@@ -68,7 +67,7 @@ void Animation::update(const float& delta) {
             }
         }
         else {
-            _frame = ase->next();
+            _frame = (*_anim)->next();
         }
         auto bound = _frame.getRect();
         _sprite->setBound({bound.x, bound.y}, {bound.z, bound.w});
@@ -92,14 +91,13 @@ Animation* Animation::create(const typename resources::ConfigResource::JsonObjec
 }
 
 void Animation::play(const std::string& name) {
-    auto ase = _anim->getAseprite();
     _tag = name;
-    _frame = ase->play(name);
+    _frame = (*_anim)->play(name);
     _playing = true;
     _timer = 0.0f;
 
     auto bound = _frame.getRect();
-    _sprite->setImage(ase->getFilename(), {bound.x, bound.y}, {bound.z, bound.w});
+    _sprite->setImage((*_anim)->getFilename(), {bound.x, bound.y}, {bound.z, bound.w});
 }
 
 void Animation::stop() {
