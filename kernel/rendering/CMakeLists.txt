@@ -15,7 +15,8 @@ set(RENDER_HEADER
         ${RENDER_PATH_PREFIX}/window.h
         ${RENDER_PATH_PREFIX}/character.h
         ${RENDER_PATH_PREFIX}/quad_rendering_command.h
-        ${RENDER_PATH_PREFIX}/batch_quad_rendering_command.h)
+        ${RENDER_PATH_PREFIX}/batch_quad_rendering_command.h
+        ${RENDER_PATH_PREFIX}/adaptor.h)
 
 set(RENDER_SRC
         ${RENDER_PATH_PREFIX}/font_factory.cc
@@ -29,4 +30,5 @@ set(RENDER_SRC
         ${RENDER_PATH_PREFIX}/true_type_font.cc
         ${RENDER_PATH_PREFIX}/window.cc
         ${RENDER_PATH_PREFIX}/quad_rendering_command.cc
-        ${RENDER_PATH_PREFIX}/batch_quad_rendering_command.cc)
+        ${RENDER_PATH_PREFIX}/batch_quad_rendering_command.cc
+        ${RENDER_PATH_PREFIX}/adaptor.cc)

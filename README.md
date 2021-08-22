@@ -17,8 +17,15 @@ A game engine for 2D pixel game powered by C++ (自家用).
 
 ## TODO List
 ### 1.0
-+ [ ] Package Tools
 + [ ] Screen Adaptor
++ [ ] Package Tools
+
+### 1.1
++ [ ] Game AI Interface
++ [ ] Web Components
+
+### 1.2
++ [ ] Graphic Editor
 
 ## Dependent Libraries
 ### Engine Dependent Libraries
@@ -51,9 +58,9 @@ However, here are some exceptions:
 + Stream will be used to serialize/deserialize/type conversion
 
 ## Code Environment
-+ OS: Ubuntu 20.04.4 LTS
-+ Compiler: CMake 3.15.3(C++17)
-+ IDE: CLion 2020.2
++ OS: Ubuntu 20.04.1 LTS
++ Compiler: G++9.3.0(C++17) with CMake 3.15.3
++ IDE: CLion 2021.1.2
 
 The engine will support for Windows and MacOS later.
 
@@ -64,7 +71,6 @@ The engine will support for Windows and MacOS later.
 + PtCu
 + youyadefeng
 + yxlei
-+ magwer
 + Chin
 + sonikk
 + AlohaWorld

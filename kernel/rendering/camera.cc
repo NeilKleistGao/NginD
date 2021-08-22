@@ -28,7 +28,6 @@
 #include <iostream>
 
 #include "SOIL2/SOIL2.h"
-#include "game.h"
 
 namespace ngind::rendering {
 Camera* Camera::_instance = nullptr;
