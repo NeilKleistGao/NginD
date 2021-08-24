@@ -31,6 +31,7 @@
 #include "script/lua_state.h"
 #include "memory/memory_pool.h"
 #include "ui/event_system.h"
+#include "rendering/adaptor.h"
 
 namespace ngind {
 Game* Game::_instance = nullptr;
@@ -68,13 +69,36 @@ void Game::destroyInstance() {
 void Game::start() {
     auto render = rendering::Renderer::getInstance();
     auto height = (*_global_settings)["window-height"].GetInt();
-    render->createWindow((*_global_settings)["window-width"].GetInt(),
-            height,
+    render->createWindow((*_global_settings)["window-width"].GetInt(), height,
+                         (*_global_settings)["resolution-width"].GetInt(),
+                         (*_global_settings)["resolution-height"].GetInt(),
                          (*_global_settings)["window-title"].GetString(),
                          (*_global_settings)["window-icon"].GetString(),
                          (*_global_settings)["window-full-screen"].GetBool());
 
     ui::EventSystem::getInstance()->init(height);
+
+    std::string tactic = (*_global_settings)["adaptation-tactic"].GetString();
+    if (tactic == "SHOW_ALL") {
+        rendering::Adaptor::getInstance()->
+            setResolutionAdaptionTactic(rendering::Adaptor::ResolutionAdaptionTactic::SHOW_ALL);
+    }
+    else if (tactic == "NO_BORDER") {
+        rendering::Adaptor::getInstance()->
+                setResolutionAdaptionTactic(rendering::Adaptor::ResolutionAdaptionTactic::NO_BORDER);
+    }
+    else if (tactic == "FIXED_WIDTH") {
+        rendering::Adaptor::getInstance()->
+                setResolutionAdaptionTactic(rendering::Adaptor::ResolutionAdaptionTactic::FIXED_WIDTH);
+    }
+    else if (tactic == "FIXED_HEIGHT") {
+        rendering::Adaptor::getInstance()->
+                setResolutionAdaptionTactic(rendering::Adaptor::ResolutionAdaptionTactic::FIXED_HEIGHT);
+    }
+    else {
+        rendering::Adaptor::getInstance()->
+                setResolutionAdaptionTactic(rendering::Adaptor::ResolutionAdaptionTactic::EXACT_FIT);
+    }
 
     script::LuaState::getInstance()->preload("kernel");
 
@@ -183,6 +207,10 @@ void Game::destroyAndLoadWorld(std::string name) {
     };
 
     _trans_next = true;
+}
+
+void Game::setFullScreen(bool enable) {
+    rendering::Renderer::getInstance()->setFullScreen(enable);
 }
 
 } // namespace ngind

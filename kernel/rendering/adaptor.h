@@ -57,7 +57,8 @@ public:
 
     }
 
-    inline void init(const glm::vec2& size, const glm::vec2& resolution, ResolutionAdaptionTactic tactic) {
+    inline void init(const glm::vec2& size, const glm::vec2& resolution,
+                     ResolutionAdaptionTactic tactic = ResolutionAdaptionTactic::EXACT_FIT) {
         _tactic = tactic; _resolution = resolution; _screen = size;
         update();
     }
@@ -68,7 +69,7 @@ private:
     glm::vec2 _resolution;
     glm::vec2 _screen;
 
-    Adaptor() : _tactic(ResolutionAdaptionTactic::EXACT_FIT) {}
+    Adaptor() : _tactic(ResolutionAdaptionTactic::EXACT_FIT), _screen(), _resolution() {}
     ~Adaptor() = default;
 
     void update();

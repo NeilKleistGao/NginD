@@ -20,24 +20,30 @@
 - SOFTWARE.
 - ]]
 
---- @file game.lua
+--- @file screen_size.lua
 
-Game = {}
+ScreenSize = class("ScreenSize")
 
-Game.__game = engine.Game.getInstance()
-
-Game.getCurrentWorldName = function()
-    return Game.__game:getCurrentWorldName()
+function ScreenSize:ctor()
 end
 
-Game.destroyAndLoadWorld = function(world_name)
-    return Game.__game:destroyAndLoadWorld(world_name)
+function ScreenSize:enter()
+    self.move("Win")
 end
 
-Game.setFullScreen = function(enable)
-    Game.__game:setFullScreen(enable)
+function ScreenSize:updateWin()
+    if Input.getKeyReleased(KEY_CODE.SPACE) then
+        Game.setFullScreen(true)
+        self.move("Full")
+    end
 end
 
-Game.quit = function()
-    Game.__game:quit()
+function ScreenSize:updateFull()
+    if Input.getKeyReleased(KEY_CODE.SPACE) then
+        Game.setFullScreen(false)
+        self.move("Win")
+    end
+end
+
+function ScreenSize:exit()
 end

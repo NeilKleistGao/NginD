@@ -49,8 +49,7 @@ void Renderer::destroyInstance() {
 }
 
 Renderer::Renderer()
-    : _window(nullptr), _queue(nullptr), _multisampling(true) {
-    _queue = new RenderingQueue();
+    : _window(nullptr), _queue(new RenderingQueue()), _multisampling(true) {
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 }
 
@@ -74,12 +73,14 @@ bool Renderer::startRenderingLoopOnce() {
     return true;
 }
 
-void Renderer::createWindow(const int& width,
-                  const int& height,
-                  const std::string& title,
-                  const std::string& icon,
-                  const bool& is_full) {
-    this->_window = new Window(width, height, title, is_full);
+void Renderer::createWindow(int screen_width,
+                            int screen_height,
+                            int resolution_width,
+                            int resolution_height,
+                            const std::string& title,
+                            const std::string& icon,
+                            bool is_full) {
+    this->_window = new Window(screen_width, screen_height, title, is_full);
     this->_window->setIcon(icon);
 
     glewExperimental = GL_TRUE;
@@ -91,7 +92,8 @@ void Renderer::createWindow(const int& width,
     glEnable(GL_BLEND);
     setBlendFactor(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_MULTISAMPLE);
-    Camera::getInstance()->init({width / 2.0f, height / 2.0f}, width, height);
+    Camera::getInstance()->init({resolution_width / 2.0f, resolution_height / 2.0f},
+                                resolution_width, resolution_height);
 }
 
 void Renderer::execute(RenderingCommand* cmd) {

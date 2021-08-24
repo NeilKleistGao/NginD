@@ -71,7 +71,7 @@ public:
      * Get the scale of window.
      * @return std::pair<float, float>, scale vector
      */
-    inline std::pair<float, float> getContentScale() {
+    inline std::pair<float, float> getContentScale() const {
         float x_scale, y_scale;
         glfwGetWindowContentScale(this->_window, &x_scale, &y_scale);
         return {x_scale, y_scale};
@@ -89,26 +89,16 @@ public:
      * Set fullscreen state of window.
      * @param is_full: true if window should be fullscreen
      */
-    inline void setFullScreen(const bool& is_full) {
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-
-        if (is_full) {
-            glfwSetWindowMonitor(this->_window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-        }
-        else {
-            glfwSetWindowMonitor(this->_window, nullptr, 0, 0, mode->width, mode->height, 0);
-        }
-    }
+    void setFullScreen(const bool& is_full);
 
     /**
      * Resize window,
      * @param width: width of window
      * @param height: height of window
      */
-    inline void resize(const size_t& width, const size_t& height) {
-        glfwSetWindowSize(this->_window, width, height);
-    }
+    void resize(const size_t& width, const size_t& height);
+
+    glm::vec2 getWindowSize() const;
 
 private:
     /**
@@ -120,7 +110,11 @@ private:
      * Icon data.
      */
     GLFWimage* _icon;
+
+    int _width, _height;
+
+    bool _is_full;
 };
-} // namespace ngind
+} // namespace ngind::rendering
 
 #endif //NGIND_WINDOW_H

@@ -17,7 +17,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 
 ## TODO List
 ### 1.0
-+ [ ] Screen Adaptor
++ [x] Screen Adaptor
 + [ ] Package Tools
 
 ### 1.1
@@ -55,7 +55,7 @@ However, here are some exceptions:
 + The first alphabet of function name should be lower case
 + Tabs should be used, and should be equivalent to 4 spaces. There is no space before the keywords `public`, `private` and `protected`
 + The underline after the name of class members should be moved to the front of the name
-+ Stream will be used to serialize/deserialize/type conversion
++ Stream will be used for conversion
 
 ## Code Environment
 + OS: Ubuntu 20.04.1 LTS
@@ -74,4 +74,3 @@ The engine will support for Windows and MacOS later.
 + Chin
 + sonikk
 + AlohaWorld
-+ mxx

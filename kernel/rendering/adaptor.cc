@@ -53,7 +53,7 @@ void Adaptor::destroyInstance() {
 
 void Adaptor::update() {
     if (_screen.x < 1 || _screen.y < 1 || _resolution.x <= 0 || _resolution.y <= 0) {
-        // TODO:
+        return;
     }
 
     float scale_x = _screen.x / _resolution.x,

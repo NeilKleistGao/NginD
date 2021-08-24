@@ -66,11 +66,13 @@ public:
      * @param icon: icon path of window
      * @param is_full: true if this window is fullscreen
      */
-    void createWindow(const int& width,
-                      const int& height,
+    void createWindow(int screen_width,
+                      int screen_height,
+                      int resolution_width,
+                      int resolution_height,
                       const std::string& title,
                       const std::string& icon,
-                      const bool& is_full);
+                      bool is_full);
 
     /**
      * Clean the scene
@@ -97,6 +99,14 @@ public:
 
     bool isMultisampling() const {
         return _multisampling;
+    }
+
+    inline void setFullScreen(bool enable) {
+        _window->setFullScreen(enable);
+    }
+
+    inline glm::vec2 getWindowSize() const {
+        return _window->getWindowSize();
     }
 
 private:

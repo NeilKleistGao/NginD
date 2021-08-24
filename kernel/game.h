@@ -107,6 +107,7 @@ public:
         return this->_current_world->getName();
     }
 
+    void setFullScreen(bool enable);
 private:
     Game();
     ~Game();
@@ -159,6 +160,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(Input) {
                 .addFunction("quit", &Game::quit)
                 .addFunction("destroyAndLoadWorld", &Game::destroyAndLoadWorld)
                 .addFunction("getCurrentWorldName", &Game::getCurrentWorldName)
+                .addFunction("setFullScreen", &Game::setFullScreen)
             .endClass()
         .endNamespace();
 }

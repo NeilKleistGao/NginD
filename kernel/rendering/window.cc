@@ -23,7 +23,7 @@
 
 #include "resources/texture_resource.h"
 #include "window.h"
-
+#include "adaptor.h"
 #include "input/input.h"
 #include "SOIL2/SOIL2.h"
 
@@ -32,11 +32,13 @@ namespace ngind::rendering {
 Window::Window(const size_t& width,
         const size_t& height,
         const std::string& title,
-        const bool& is_full) : _window(nullptr), _icon(nullptr) {
+        const bool& is_full) : _window(nullptr), _icon(nullptr), _is_full(is_full) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     glfwWindowHint(GLFW_SAMPLES, 4);
+
+    _width = width; _height = height;
 
     if (is_full) {
         this->_window = glfwCreateWindow(width, height, title.c_str(), glfwGetPrimaryMonitor(), nullptr);
@@ -52,6 +54,9 @@ Window::Window(const size_t& width,
 
     glfwMakeContextCurrent(this->_window);
     input::Input::getInstance()->setWindowHandler(this->_window);
+
+    auto scale = getContentScale();
+    Adaptor::getInstance()->setWindowSize({width * scale.first, height * scale.second});
 }
 
 Window::~Window() {
@@ -78,6 +83,40 @@ void Window::setIcon(const std::string& path) {
                                           nullptr, SOIL_LOAD_RGBA);
 
     glfwSetWindowIcon(this->_window, 1, this->_icon);
+}
+
+void Window::resize(const size_t& width, const size_t& height) {
+    _width = width; _height = height;
+    glfwSetWindowSize(this->_window, width, height);
+    Adaptor::getInstance()->setWindowSize({width, height});
+}
+
+void Window::setFullScreen(const bool& is_full) {
+    _is_full = is_full;
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+    if (is_full) {
+        glfwSetWindowMonitor(this->_window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+
+        auto scale = getContentScale();
+        Adaptor::getInstance()->setWindowSize({mode->width * scale.first, mode->height * scale.second});
+    }
+    else {
+        glfwSetWindowMonitor(this->_window, nullptr, 0, 0, _width, _height, 0);
+        Adaptor::getInstance()->setWindowSize({_width, _height});
+    }
+}
+
+glm::vec2 Window::getWindowSize() const {
+    if (!_is_full) {
+        return {_width, _height};
+    }
+    else {
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        return {mode->width, mode->height};
+    }
 }
 
 } // namespace ngind
