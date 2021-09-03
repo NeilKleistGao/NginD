@@ -65,21 +65,19 @@ public:
             return;
         }
         std::string string_msg = msg;
-//        _string_stream << msg;
-//        _string_stream >> string_msg;
 
         std::string format_msg;
         switch (level) {
-            case LOG_LEVEL_INFO:
+            case LogLevel::LOG_LEVEL_INFO:
                 format_msg = std::string{INFO_FORMAT}.append(string_msg);
                 break;
-            case LOG_LEVEL_DEBUG:
+            case LogLevel::LOG_LEVEL_DEBUG:
                 format_msg = std::string{DEBUG_FORMAT}.append(string_msg);
                 break;
-            case LOG_LEVEL_WARNING:
+            case LogLevel::LOG_LEVEL_WARNING:
                 format_msg = std::string{WARNING_FORMAT}.append(string_msg);
                 break;
-            case LOG_LEVEL_ERROR:
+            case LogLevel::LOG_LEVEL_ERROR:
                 format_msg = std::string{ERROR_FORMAT}.append(string_msg);
                 break;
             default:

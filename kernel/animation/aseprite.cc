@@ -24,23 +24,31 @@
 #include "aseprite.h"
 
 #include "resources/resources_manager.h"
+#include "log/logger_factory.h"
 
 namespace ngind::animation {
 
 Aseprite::Aseprite(const std::string& name) : _current_index(), _current_tag(nullptr) {
     _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("animations/" + name + ".json");
 
-    auto frames = (*_config)["frames"].GetArray();
-    for (const auto& frame : frames) {
-        _frames.emplace_back(frame);
+    try {
+        auto frames = (*_config)["frames"].GetArray();
+        for (const auto& frame : frames) {
+            _frames.emplace_back(frame);
+        }
+
+        auto meta = (*_config)["meta"].GetObject();
+        _image_path = meta["image"].GetString();
+
+        auto tags = meta["frameTags"].GetArray();
+        for (const auto& tag : tags) {
+            _tags.emplace_back(tag);
+        }
     }
-
-    auto meta = (*_config)["meta"].GetObject();
-    _image_path = meta["image"].GetString();
-
-    auto tags = meta["frameTags"].GetArray();
-    for (const auto& tag : tags) {
-        _tags.emplace_back(tag);
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("An error occurred when parsing aseprite configuration: " + name);
+        logger->close();
     }
 }
 

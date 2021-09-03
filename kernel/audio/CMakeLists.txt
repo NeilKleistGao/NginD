@@ -1,4 +1,4 @@
-set(AUDIO_HEADER
-        kernel/audio/audio_manager.h)
-set(AUDIO_SRC
-        kernel/audio/audio_manager.cc)
+include(cmake/CMakeLists.txt)
+
+LIST_HEADER(${CMAKE_CURRENT_LIST_DIR} AUDIO_HEADER)
+LIST_SRC(${CMAKE_CURRENT_LIST_DIR} AUDIO_SRC)

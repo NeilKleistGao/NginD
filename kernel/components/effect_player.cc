@@ -23,9 +23,10 @@
 
 #include "effect_player.h"
 
+#include "log/logger_factory.h"
+
 namespace ngind::components {
 EffectPlayer::EffectPlayer() : _effect(nullptr) {
-
 }
 
 EffectPlayer::~EffectPlayer() {
@@ -40,13 +41,20 @@ void EffectPlayer::update(const float& delta) {
 }
 
 void EffectPlayer::init(const typename resources::ConfigResource::JsonObject& data) {
-    _component_name = data["type"].GetString();
-    std::string name = data["filename"].GetString();
-    if (!name.empty()) {
-        _effect = resources::ResourcesManager::getInstance()->load<resources::EffectResource>(name);
-    }
+    try {
+        _component_name = data["type"].GetString();
+        std::string name = data["filename"].GetString();
+        if (!name.empty()) {
+            _effect = resources::ResourcesManager::getInstance()->load<resources::EffectResource>(name);
+        }
 
-    this->setVolume(data["volume"].GetFloat());
+        this->setVolume(data["volume"].GetFloat());
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create effect player component.");
+        logger->close();
+    }
 }
 
 EffectPlayer* EffectPlayer::create(const typename resources::ConfigResource::JsonObject& data) {

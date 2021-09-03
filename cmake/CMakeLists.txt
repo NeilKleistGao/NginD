@@ -1,0 +1,13 @@
+macro(LIST_HEADER path list)
+    file(GLOB files RELATIVE ${path} ${path}/*.h)
+    foreach(file ${files})
+        list(APPEND ${list} ${path}/${file})
+    endforeach()
+endmacro()
+
+macro(LIST_SRC path list)
+    file(GLOB files RELATIVE ${path} ${path}/*.cc)
+    foreach(file ${files})
+        list(APPEND ${list} ${path}/${file})
+    endforeach()
+endmacro()

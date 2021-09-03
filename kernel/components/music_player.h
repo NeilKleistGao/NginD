@@ -38,6 +38,7 @@ public:
     ~MusicPlayer() override;
     MusicPlayer(const MusicPlayer&) = delete;
     MusicPlayer& operator= (const MusicPlayer&) = delete;
+    MusicPlayer(MusicPlayer&&) = delete;
 
     /**
      * @see objects/updatable_object.h

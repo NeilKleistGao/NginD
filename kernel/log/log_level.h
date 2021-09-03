@@ -32,7 +32,7 @@ namespace ngind::log {
  * The level of logger. The higher level is, the less general
  * information will be showed.
  */
-enum LogLevel {
+enum class LogLevel {
     LOG_LEVEL_INFO = 0,
     LOG_LEVEL_DEBUG = 1,
     LOG_LEVEL_WARNING = 2,

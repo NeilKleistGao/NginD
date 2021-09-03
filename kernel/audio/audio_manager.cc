@@ -23,6 +23,8 @@
 
 #include "audio_manager.h"
 
+#include "log/logger_factory.h"
+
 namespace ngind::audio {
 AudioManager* AudioManager::_instance = nullptr;
 
@@ -39,7 +41,9 @@ AudioManager* AudioManager::getInstance() {
         _instance = new(std::nothrow) AudioManager();
 
         if (_instance == nullptr) {
-            // TODO:
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create audio manager instance.");
+            logger->close();
         }
     }
 

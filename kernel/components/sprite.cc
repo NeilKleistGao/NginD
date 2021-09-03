@@ -29,6 +29,7 @@
 #include "rendering/camera.h"
 #include "resources/resources_manager.h"
 #include "memory/memory_pool.h"
+#include "log/logger_factory.h"
 
 namespace ngind::components {
 
@@ -117,21 +118,28 @@ void Sprite::draw() {
 }
 
 void Sprite::init(const typename resources::ConfigResource::JsonObject& data) {
-    _component_name = data["type"].GetString();
-    std::string name = data["filename"].GetString();
-    if (!name.empty()) {
-        this->setImage(name);
+    try {
+        _component_name = data["type"].GetString();
+        std::string name = data["filename"].GetString();
+        if (!name.empty()) {
+            this->setImage(name);
+        }
+        _program = resources::ResourcesManager::getInstance()->load<resources::ProgramResource>(data["shader"].GetString());
+
+        auto boundary = data["boundary"].GetObject();
+        auto lb = boundary["left-bottom"].GetObject();
+        auto rt = boundary["right-up"].GetObject();
+
+        _lb.x = lb["x"].GetFloat(); _lb.y = lb["y"].GetFloat();
+        _rt.x = rt["x"].GetFloat(); _rt.y = rt["y"].GetFloat();
+
+        _color = rendering::Color{data["color"].GetString()};
     }
-    _program = resources::ResourcesManager::getInstance()->load<resources::ProgramResource>(data["shader"].GetString());
-
-    auto boundary = data["boundary"].GetObject();
-    auto lb = boundary["left-bottom"].GetObject();
-    auto rt = boundary["right-up"].GetObject();
-
-    _lb.x = lb["x"].GetFloat(); _lb.y = lb["y"].GetFloat();
-    _rt.x = rt["x"].GetFloat(); _rt.y = rt["y"].GetFloat();
-
-    _color = rendering::Color{data["color"].GetString()};
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create sprite component.");
+        logger->close();
+    }
 }
 
 Sprite* Sprite::create(const typename resources::ConfigResource::JsonObject& data) {

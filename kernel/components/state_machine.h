@@ -117,10 +117,20 @@ public:
      */
     void notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data);
 
+    /**
+     * Get lua ref object of script instance
+     * @return luabridge::LuaRef, ref object of script instance
+     */
     inline luabridge::LuaRef getInstance() {
         return _instance;
     }
 
+    /**
+     * Search state machine component in given object
+     * @param object: given object
+     * @param name: name of script
+     * @return luabridge::LuaRef, ref of state machine
+     */
     static luabridge::LuaRef getComponent(Object* object, const std::string& name);
 private:
     /**
@@ -143,8 +153,17 @@ private:
      */
     std::map<std::string, std::unordered_set<std::string>> _subscribe;
 
+    /**
+     * Initialize arguments in script
+     * @param data: json data
+     */
     void initArgument(const typename resources::ConfigResource::JsonObject& data);
 
+    /**
+     * Initialize arguments in script
+     * @param ref: argument receiver
+     * @param data: json data
+     */
     void initArgument(luabridge::LuaRef& ref, const typename resources::ConfigResource::JsonObject& data);
 };
 

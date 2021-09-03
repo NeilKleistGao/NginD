@@ -49,6 +49,7 @@ public:
     ~Sprite() override;
     Sprite(const Sprite&) = delete;
     Sprite& operator= (const Sprite&) = delete;
+    Sprite(Sprite&&) = delete;
 
     /**
      * @see objects/updatable_object.h
@@ -135,6 +136,11 @@ public:
         return _rt;
     }
 
+    /**
+     * Search sprite component in given object.
+     * @param parent: given object (or parent of sprite)
+     * @return Sprite*, sprite component.
+     */
     static Sprite* getComponent(Object* parent);
 
 private:

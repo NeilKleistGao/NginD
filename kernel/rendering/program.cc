@@ -76,76 +76,104 @@ void Program::prepare() {
             this->setFloat(name, arg["value"].GetFloat());
         }
         else if (type == "float2") {
-            // TODO:
+            auto value = arg["value"].GetArray();
+            this->setFloat2(name, value[0].GetFloat(), value[1].GetFloat());
         }
         else if (type == "float3") {
-
+            auto value = arg["value"].GetArray();
+            this->setFloat3(name, value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat());
         }
         else if (type == "float4") {
-
+            auto value = arg["value"].GetArray();
+            this->setFloat4(name, value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat());
         }
         else if (type == "int") {
-
+            this->setInteger(name, arg["value"].GetInt());
         }
         else if (type == "int2") {
-
+            auto value = arg["value"].GetArray();
+            this->setFloat2(name, value[0].GetInt(), value[1].GetInt());
         }
         else if (type == "int3") {
-
+            auto value = arg["value"].GetArray();
+            this->setFloat3(name, value[0].GetInt(), value[1].GetInt(), value[2].GetInt());
         }
         else if (type == "int4") {
-
-        }
-        else if (type == "int") {
-
-        }
-        else if (type == "int2") {
-
-        }
-        else if (type == "int3") {
-
-        }
-        else if (type == "int4") {
-
+            auto value = arg["value"].GetArray();
+            this->setFloat4(name, value[0].GetInt(), value[1].GetInt(), value[2].GetInt(), value[3].GetInt());
         }
         else if (type == "unsigned") {
-
+            this->setUnsigned(name, arg["value"].GetUint());
         }
         else if (type == "unsigned2") {
-
+            auto value = arg["value"].GetArray();
+            this->setUnsigned2(name, value[0].GetUint(), value[1].GetUint());
         }
         else if (type == "unsigned3") {
-
+            auto value = arg["value"].GetArray();
+            this->setUnsigned3(name, value[0].GetUint(), value[1].GetUint(), value[2].GetUint());
         }
         else if (type == "unsigned4") {
-
+            auto value = arg["value"].GetArray();
+            this->setUnsigned4(name, value[0].GetUint(), value[1].GetUint(), value[2].GetUint(), value[3].GetUint());
         }
         else if (type == "matrix2") {
-
+            auto value = arg["value"].GetArray();
+            auto mat = glm::mat2{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat()};
+            this->setMatrix2(name, mat);
         }
         else if (type == "matrix3") {
-
+            auto value = arg["value"].GetArray();
+            auto mat = glm::mat3{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(),
+                                 value[3].GetFloat(), value[4].GetFloat(), value[5].GetFloat(),
+                                 value[6].GetFloat(), value[7].GetFloat(), value[8].GetFloat()};
+            this->setMatrix3(name, mat);
         }
         else if (type == "matrix4") {
-
+            auto value = arg["value"].GetArray();
+            auto mat = glm::mat4{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
+                                 value[4].GetFloat(), value[5].GetFloat(),value[6].GetFloat(), value[7].GetFloat(),
+                                 value[8].GetFloat(), value[9].GetFloat(), value[10].GetFloat(), value[11].GetFloat(),
+                                 value[12].GetFloat(), value[13].GetFloat(), value[14].GetFloat(), value[15].GetFloat()};
+            this->setMatrix4(name, mat);
         }
         else if (type == "matrix23") {
-
+            auto value = arg["value"].GetArray();
+            auto mat = glm::mat2x3{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(),
+                                   value[3].GetFloat(), value[4].GetFloat(), value[5].GetFloat()};
+            this->setMatrix2x3(name, mat);
         }
         else if (type == "matrix24") {
-
+            auto value = arg["value"].GetArray();
+            auto mat = glm::mat2x4{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
+                                   value[4].GetFloat(), value[5].GetFloat(), value[6].GetFloat(), value[7].GetFloat()};
+            this->setMatrix2x4(name, mat);
         }
         else if (type == "matrix32") {
-
+            auto value = arg["value"].GetArray();
+            auto mat = glm::mat3x2{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(),
+                                   value[3].GetFloat(), value[4].GetFloat(), value[5].GetFloat()};
+            this->setMatrix3x2(name, mat);
         }
         else if (type == "matrix34") {
-
+            auto value = arg["value"].GetArray();
+            auto mat = glm::mat3x4{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
+                                   value[4].GetFloat(), value[5].GetFloat(), value[6].GetFloat(), value[7].GetFloat(),
+                                   value[8].GetFloat(), value[9].GetFloat(), value[10].GetFloat(), value[11].GetFloat()};
+            this->setMatrix3x4(name, mat);
         }
         else if (type == "matrix42") {
-
+            auto value = arg["value"].GetArray();
+            auto mat = glm::mat4x2{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
+                                   value[4].GetFloat(), value[5].GetFloat(), value[6].GetFloat(), value[7].GetFloat()};
+            this->setMatrix4x2(name, mat);
         }
         else if (type == "matrix43") {
-
+            auto value = arg["value"].GetArray();
+            auto mat = glm::mat4x3{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
+                                   value[4].GetFloat(), value[5].GetFloat(), value[6].GetFloat(), value[7].GetFloat(),
+                                   value[8].GetFloat(), value[9].GetFloat(), value[10].GetFloat(), value[11].GetFloat()};
+            this->setMatrix4x3(name, mat);
         }
     }
 }

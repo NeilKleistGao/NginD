@@ -23,23 +23,34 @@
 
 #include "aseprite_frame.h"
 
+#include "log/logger_factory.h"
+
 namespace ngind::animation {
 
 AsepriteFrame::AsepriteFrame(const typename resources::ConfigResource::JsonObject& data)
 : _trimmed(false), _rect(), _position(), _original_size(), _duration() {
-    auto rect = data["frame"].GetObject();
-    _rect.x = rect["x"].GetInt(); _rect.y = rect["y"].GetInt();
-    _rect.z = _rect.x + rect["w"].GetInt(); _rect.w = _rect.y + rect["h"].GetInt();
+    try {
+        auto rect = data["frame"].GetObject();
+        _rect.x = rect["x"].GetInt(); _rect.y = rect["y"].GetInt();
+        _rect.z = _rect.x + rect["w"].GetInt(); _rect.w = _rect.y + rect["h"].GetInt();
 
-    _trimmed = data["trimmed"].GetBool();
+        _trimmed = data["trimmed"].GetBool();
 
-    auto pos = data["spriteSourceSize"].GetObject();
-    _position.x = pos["x"].GetInt(); _position.y = pos["y"].GetInt();
+        auto pos = data["spriteSourceSize"].GetObject();
+        _position.x = pos["x"].GetInt(); _position.y = pos["y"].GetInt();
 
-    auto size = data["sourceSize"].GetObject();
-    _original_size.x = size["w"].GetInt(); _original_size.y = size["h"].GetInt();
+        auto size = data["sourceSize"].GetObject();
+        _original_size.x = size["w"].GetInt(); _original_size.y = size["h"].GetInt();
 
-    _duration = std::chrono::milliseconds{data["duration"].GetInt64()};
+        _duration = std::chrono::milliseconds{data["duration"].GetInt64()};
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("An error occurred when parsing aseprite frame");
+        logger->close();
+
+        throw std::exception{};
+    }
 }
 
 } // namespace ngind::animation

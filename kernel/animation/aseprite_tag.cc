@@ -23,25 +23,38 @@
 
 #include "aseprite_tag.h"
 
+#include "log/logger_factory.h"
+
 namespace ngind::animation {
 
 AsepriteTag::AsepriteTag(const typename resources::ConfigResource::JsonObject& data) : _direction(), _from(), _to(), _name() {
-    _name = data["name"].GetString();
-    _from = data["from"].GetInt();
-    _to = data["to"].GetInt() + 1;
+    try {
+        _name = data["name"].GetString();
+        _from = data["from"].GetInt();
+        _to = data["to"].GetInt() + 1;
 
-    std::string direction = data["direction"].GetString();
-    if (direction == "forward") {
-        _direction = AnimationDirection::DIRECTION_FORWARD;
+        std::string direction = data["direction"].GetString();
+        if (direction == "forward") {
+            _direction = AnimationDirection::DIRECTION_FORWARD;
+        }
+        else if (direction == "reverse") {
+            _direction = AnimationDirection::DIRECTION_REVERSE;
+        }
+        else if (direction == "ping-pong") {
+            _direction = AnimationDirection::DIRECTION_PING_PONG;
+        }
+        else {
+            auto logger = log::LoggerFactory::getInstance()->getLogger("warning.log", log::LogLevel::LOG_LEVEL_WARNING);
+            logger->log(direction + " is not a supported animation direction.");
+            logger->close();
+        }
     }
-    else if (direction == "reverse") {
-        _direction = AnimationDirection::DIRECTION_REVERSE;
-    }
-    else if (direction == "ping-pong") {
-        _direction = AnimationDirection::DIRECTION_PING_PONG;
-    }
-    else {
-        //TODO:
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("An error occurred when parsing aseprite tag");
+        logger->close();
+
+        throw std::exception{};
     }
 }
 

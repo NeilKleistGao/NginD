@@ -24,6 +24,7 @@
 #include "animation.h"
 
 #include "resources/resources_manager.h"
+#include "log/logger_factory.h"
 
 namespace ngind::components {
 
@@ -75,13 +76,27 @@ void Animation::update(const float& delta) {
 }
 
 void Animation::init(const typename resources::ConfigResource::JsonObject& data) {
-    _component_name = data["type"].GetString();
-    std::string name = data["anim-name"].GetString();
-    _anim = resources::ResourcesManager::getInstance()->load<resources::AnimationResource>(name);
+    std::string name;
+    try {
+        _component_name = data["type"].GetString();
+        name = data["anim-name"].GetString();
+        _anim = resources::ResourcesManager::getInstance()->load<resources::AnimationResource>(name);
 
-    _loop = data["loop"].GetBool();
-    _auto_play = data["auto-play"].GetBool();
-    _tag = data["start"].GetString();
+        _loop = data["loop"].GetBool();
+        _auto_play = data["auto-play"].GetBool();
+        _tag = data["start"].GetString();
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        if (name.empty()) {
+            logger->log("Unnamed animation loaded.");
+        }
+        else {
+            logger->log("An error occurred when loading animation component.");
+        }
+
+        logger->close();
+    }
 }
 
 Animation* Animation::create(const typename resources::ConfigResource::JsonObject& data) {

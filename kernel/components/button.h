@@ -42,6 +42,7 @@ public:
 
     Button(const Button&) = delete;
     Button& operator= (const Button&) = delete;
+    Button(Button&&) = delete;
 
     /**
      * @see objects/updatable_object.h
@@ -128,6 +129,9 @@ private:
      */
     ui::ClickableReceiver _receiver;
 
+    /**
+     * Surrounding box's vertex.
+     */
     std::vector<glm::vec2> _vertex;
 
     /**
@@ -155,6 +159,9 @@ private:
      */
     Sprite* _sprite{};
 
+    /**
+     * Parent object;
+     */
     objects::EntityObject* _entity_parent;
 
     /**
@@ -162,6 +169,9 @@ private:
      */
     glm::mat4 _model;
 
+    /**
+     * Has this button been registered in event system.
+     */
     bool _register;
 
     /**
@@ -170,6 +180,9 @@ private:
     */
     glm::mat4 getModelMatrix();
 
+    /**
+     * Reset receiver area data.
+     */
     void setReceiver();
 };
 

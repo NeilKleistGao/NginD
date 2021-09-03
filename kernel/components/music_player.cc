@@ -25,10 +25,10 @@
 
 #include "resources/resources_manager.h"
 #include "memory/memory_pool.h"
+#include "log/logger_factory.h"
 
 namespace ngind::components {
 MusicPlayer::MusicPlayer() : Component(), _music(nullptr), _auto(false) {
-
 }
 
 MusicPlayer::~MusicPlayer() {
@@ -47,19 +47,26 @@ void MusicPlayer::update(const float& delta) {
 }
 
 void MusicPlayer::init(const typename resources::ConfigResource::JsonObject& data) {
-    _component_name = data["type"].GetString();
-    std::string name = data["filename"].GetString();
-    if (!name.empty()) {
-        _music = resources::ResourcesManager::getInstance()->load<resources::MusicResource>(name);
+    try {
+        _component_name = data["type"].GetString();
+        std::string name = data["filename"].GetString();
+        if (!name.empty()) {
+            _music = resources::ResourcesManager::getInstance()->load<resources::MusicResource>(name);
+        }
+
+        _auto = data["auto-play"].GetBool();
+        this->setVolume(data["volume"].GetFloat());
+        this->setLooping(data["looping"].GetBool());
+
+        auto point = data["looping-point"].GetDouble();
+        if (point >= 0.0) {
+            this->setLoopPoint(point);
+        }
     }
-
-    _auto = data["auto-play"].GetBool();
-    this->setVolume(data["volume"].GetFloat());
-    this->setLooping(data["looping"].GetBool());
-
-    auto point = data["looping-point"].GetDouble();
-    if (point >= 0.0) {
-        this->setLoopPoint(point);
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create music player.");
+        logger->close();
     }
 }
 
@@ -87,7 +94,6 @@ void MusicPlayer::setLooping(const bool& loop) {
     if (_music != nullptr) {
         _music->setLooping(loop);
     }
-
 }
 
 bool MusicPlayer::isLooping() {

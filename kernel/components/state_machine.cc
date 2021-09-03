@@ -24,6 +24,7 @@
 #include "state_machine.h"
 #include "script/observer.h"
 #include "memory/memory_pool.h"
+#include "log/logger_factory.h"
 
 namespace ngind::components {
 StateMachine::StateMachine() :
@@ -37,42 +38,49 @@ StateMachine::~StateMachine() {
 }
 
 void StateMachine::init(const typename resources::ConfigResource::JsonObject& data) {
-    _component_name = data["type"].GetString();
+    try {
+        _component_name = data["type"].GetString();
 
-    auto state = script::LuaState::getInstance();
-    state->loadScript(data["driver-script"].GetString());
-    _instance = state->createStateMachine(data["classname"].GetString());
+        auto state = script::LuaState::getInstance();
+        state->loadScript(data["driver-script"].GetString());
+        _instance = state->createStateMachine(data["classname"].GetString());
 
-    if (_instance.isNil()) {
-        // TODO:
-    }
+        if (_instance.isNil()) {
+            throw std::exception{};
+        }
 
-    _instance["this"] = this;
-    if (typeid(_parent) == typeid(objects::EntityObject)) {
-        _instance["game_object"] = dynamic_cast<objects::EntityObject*>(_parent);
-    }
-    else {
-        _instance["game_object"] = _parent;
-    }
+        _instance["this"] = this;
+        if (typeid(_parent) == typeid(objects::EntityObject)) {
+            _instance["game_object"] = dynamic_cast<objects::EntityObject*>(_parent);
+        }
+        else {
+            _instance["game_object"] = _parent;
+        }
 
-    auto subscription = data["subscription"].GetArray();
-    for (const auto& s : subscription) {
-        auto item = s.GetObject();
-        auto name = item["event-name"].GetString();
-        _subscribe[name] = std::unordered_set<std::string>{};
-        script::Observer::getInstance()->subscribe(this, name);
+        auto subscription = data["subscription"].GetArray();
+        for (const auto& s : subscription) {
+            auto item = s.GetObject();
+            auto name = item["event-name"].GetString();
+            _subscribe[name] = std::unordered_set<std::string>{};
+            script::Observer::getInstance()->subscribe(this, name);
 
-        auto whitelist = item["whitelist"].GetArray();
-        for (const auto& w : whitelist) {
-            _subscribe[name].insert(w.GetString());
+            auto whitelist = item["whitelist"].GetArray();
+            for (const auto& w : whitelist) {
+                _subscribe[name].insert(w.GetString());
+            }
+        }
+
+        if (data.HasMember("args")) {
+            auto args = data["args"].GetArray();
+            for (const auto& arg : args) {
+                initArgument(arg);
+            }
         }
     }
-
-    if (data.HasMember("args")) {
-        auto args = data["args"].GetArray();
-        for (const auto& arg : args) {
-            initArgument(arg);
-        }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create state machine component.");
+        logger->close();
     }
 }
 
@@ -84,7 +92,9 @@ StateMachine* StateMachine::create(const typename resources::ConfigResource::Jso
 
 void StateMachine::halt() {
     luabridge::LuaRef state_exit = _instance["exit"];
-    state_exit();
+    if (!state_exit.isNil()) {
+        state_exit();
+    }
 
     auto instance = script::Observer::getInstance();
     for (const auto& [name, _] : _subscribe) {
@@ -102,7 +112,10 @@ void StateMachine::update(const float& dlt) {
 
         _update_function = _instance["update" + _state_name];
         if (_update_function.isNil()) {
-            // TODO:
+            auto logger = log::LoggerFactory::getInstance()->getLogger("warning.log", log::LogLevel::LOG_LEVEL_WARNING);
+            logger->log("Empty state update.");
+            logger->close();
+            return;
         }
     }
 

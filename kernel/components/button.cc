@@ -24,6 +24,7 @@
 #include "button.h"
 
 #include "ui/event_system.h"
+#include "log/logger_factory.h"
 
 namespace ngind::components {
 
@@ -74,20 +75,27 @@ void Button::update(const float& delta) {
 }
 
 void Button::init(const typename resources::ConfigResource::JsonObject& data) {
-    _component_name = data["type"].GetString();
-    _available = data["available"].GetBool();
-    _default_image = data["default"].GetString();
-    _pressed_image = data["pressed"].GetString();
-    _disable_image = data["disable"].GetString();
-    _highlight_image = data["highlight"].GetString();
-    _receiver.z_order = data["z"].GetInt();
+    try {
+        _component_name = data["type"].GetString();
+        _available = data["available"].GetBool();
+        _default_image = data["default"].GetString();
+        _pressed_image = data["pressed"].GetString();
+        _disable_image = data["disable"].GetString();
+        _highlight_image = data["highlight"].GetString();
+        _receiver.z_order = data["z"].GetInt();
 
-    auto vertex = data["vertex"].GetArray();
-    for (const auto& v : vertex) {
-        auto d = v.GetObject();
-        _vertex.emplace_back(d["x"].GetInt(), d["y"].GetInt());
+        auto vertex = data["vertex"].GetArray();
+        for (const auto& v : vertex) {
+            auto d = v.GetObject();
+            _vertex.emplace_back(d["x"].GetInt(), d["y"].GetInt());
+        }
+        _receiver.button = this;
     }
-    _receiver.button = this;
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create button component.");
+        logger->close();
+    }
 }
 
 Button* Button::create(const typename resources::ConfigResource::JsonObject& data) {

@@ -41,14 +41,16 @@ namespace ngind::components {
 class RendererComponent : public Component {
 public:
     RendererComponent() : _color("#FFFFFFFF"), _program(nullptr) {
-    };
-    virtual ~RendererComponent() {
+    }
+
+    ~RendererComponent() override {
         if (_program != nullptr) {
             resources::ResourcesManager::getInstance()->release(_program);
         }
     }
     RendererComponent(const RendererComponent&) = delete;
     RendererComponent& operator= (const RendererComponent&) = delete;
+    RendererComponent(RendererComponent&&) = delete;
 
     /**
      * @see kernel/objects/updatable_object.h
@@ -93,7 +95,14 @@ protected:
      */
     virtual void draw() = 0;
 
+    /**
+     * Color used for rendering.
+     */
     rendering::Color _color;
+
+    /**
+     * Rendering program.
+     */
     resources::ProgramResource* _program;
 };
 

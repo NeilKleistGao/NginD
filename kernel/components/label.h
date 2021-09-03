@@ -49,7 +49,7 @@ namespace ngind::components {
 class Label : public RendererComponent {
 public:
     Label();
-    ~Label();
+    ~Label() override;
 
     /**
      * Alignment method the label uses.
@@ -105,6 +105,57 @@ public:
         return _text;
     }
 
+    /**
+     * Set Text alignment.
+     * @param alignment: alignment index: 0 -> left, 1 -> right, 2 -> center.
+     */
+    inline void setAlignment(int alignment) {
+        _alignment = static_cast<Alignment>(alignment);
+        _dirty = true;
+    }
+
+    /**
+     * Set new line space for text
+     * @param line_space: line space value
+     */
+    inline void setLineSpace(size_t line_space) {
+        _line_space = line_space;
+        _dirty = true;
+    }
+
+    /**
+     * Set size of text
+     * @param size: size of text
+     */
+    inline void setTextSize(size_t size) {
+        _size = size;
+        _dirty = true;
+    }
+
+    /**
+     * Get the alignment of text
+     * @return int, index of alignment
+     */
+    inline int getAlignment() const {
+        return static_cast<int>(_alignment);
+    }
+
+    /**
+     * Get the line space of this text
+     * @return size_t, line space
+     */
+    inline size_t getLineSpace() const {
+        return _line_space;
+    }
+
+    /**
+     * Get the size of text
+     * @return size_t, size of text
+     */
+    inline size_t getTextSize() const {
+        return _size;
+    }
+
     friend class ngind::log::VisualLogger;
 private:
     /**
@@ -151,6 +202,10 @@ private:
      * Parse the text to determine rendering commands
      */
     void parseText();
+
+    /**
+     * Parse the UTF8 text to determine rendering commands
+     */
     void parseUTF8Text(const std::wstring& text);
 
     /**
@@ -180,6 +235,12 @@ NGIND_LUA_BRIDGE_REGISTRATION(Label) {
             .addStaticFunction("getComponent", &Label::getComponent)
             .addFunction("setText", &Label::setText)
             .addFunction("getText", &Label::getText)
+            .addFunction("setAlignment", &Label::setAlignment)
+            .addFunction("getAlignment", &Label::getAlignment)
+            .addFunction("setLineSpace", &Label::setLineSpace)
+            .addFunction("getLineSpace", &Label::getLineSpace)
+            .addFunction("setTextSize", &Label::setTextSize)
+            .addFunction("getTextSize", &Label::getTextSize)
         .endClass()
     .endNamespace();
 

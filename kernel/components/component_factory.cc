@@ -23,12 +23,19 @@
 
 #include "component_factory.h"
 
+#include "log/logger_factory.h"
+
 namespace ngind::components {
 ComponentFactory* ComponentFactory::_instance = nullptr;
 
 ComponentFactory* ComponentFactory::getInstance() {
     if (_instance == nullptr) {
         _instance = new(std::nothrow)ComponentFactory();
+        if (_instance == nullptr) {
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create component factory instance.");
+            logger->close();
+        }
     }
 
     return _instance;
@@ -43,7 +50,9 @@ void ComponentFactory::destroyInstance() {
 
 Component* ComponentFactory::create(const std::string& name, const typename resources::ConfigResource::JsonObject& data) {
     if (_map.find(name) == _map.end()) {
-        // TODO:
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Unknown component.");
+        logger->close();
     }
 
     return _map[name](data);

@@ -44,6 +44,7 @@ public:
     ~Aseprite();
     Aseprite(const Aseprite&) = delete;
     Aseprite& operator= (const Aseprite&) = delete;
+    Aseprite(Aseprite&&) = delete;
 
     /**
      * Get image's filename used in this animation.

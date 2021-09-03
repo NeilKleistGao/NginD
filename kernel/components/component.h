@@ -53,6 +53,7 @@ public:
 
     Component(const Component&) = delete;
     Component& operator= (const Component&) = delete;
+    Component(Component&&) = delete;
 
     /**
      * @see kernel/objects/updatable_object.h
@@ -106,6 +107,9 @@ protected:
      */
     bool _dirty;
 
+    /**
+     * Name of component.
+     */
     std::string _component_name;
 };
 

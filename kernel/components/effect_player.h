@@ -40,6 +40,7 @@ public:
     ~EffectPlayer();
     EffectPlayer(const EffectPlayer&) = delete;
     EffectPlayer& operator= (const EffectPlayer&) = delete;
+    EffectPlayer(EffectPlayer&&) = delete;
 
     /**
      * @see objects/updatable_object.h

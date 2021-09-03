@@ -30,12 +30,12 @@
 #include "objects/entity_object.h"
 #include "rendering/renderer.h"
 #include "memory/memory_pool.h"
+#include "log/logger_factory.h"
 
 namespace ngind::components {
 
 Label::Label() : RendererComponent(),
 _font(nullptr), _size(12), _line_space{3}, _alignment{ALIGNMENT_LEFT} {
-
 }
 
 Label::~Label() {
@@ -57,13 +57,20 @@ void Label::update(const float& delta) {
 }
 
 void Label::init(const typename resources::ConfigResource::JsonObject& data) {
-    _component_name = data["type"].GetString();
-    _font = resources::ResourcesManager::getInstance()->load<resources::FontResource>(data["font"].GetString());
-    _program = resources::ResourcesManager::getInstance()->load<resources::ProgramResource>("text");
-    _size = data["size"].GetInt();
-    _color = rendering::Color{data["color"].GetString()};
-    _text = data["text"].GetString();
-    _alignment = static_cast<Alignment>(data["alignment"].GetInt());
+    try {
+        _component_name = data["type"].GetString();
+        _font = resources::ResourcesManager::getInstance()->load<resources::FontResource>(data["font"].GetString());
+        _program = resources::ResourcesManager::getInstance()->load<resources::ProgramResource>("text");
+        _size = data["size"].GetInt();
+        _color = rendering::Color{data["color"].GetString()};
+        _text = data["text"].GetString();
+        _alignment = static_cast<Alignment>(data["alignment"].GetInt());
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create label component.");
+        logger->close();
+    }
 }
 
 Label* Label::create(const typename resources::ConfigResource::JsonObject& data) {
@@ -74,9 +81,9 @@ Label* Label::create(const typename resources::ConfigResource::JsonObject& data)
 
 void Label::draw() {
     if (_parent == nullptr) {
-//        throw exceptions::GameException("components::SpriteRenderer",
-//                                        "draw",
-//                                        "can't get parent object");
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Parent object of label component should not be null.");
+        logger->close();
     }
     if (_commands.empty() || _dirty) {
         parseText();

@@ -1,20 +1,4 @@
-set(COMPONENTS_HEADER
-        kernel/components/component.h
-        kernel/components/renderer_component.h
-        kernel/components/sprite.h
-        kernel/components/label.h
-        kernel/components/state_machine.h
-        kernel/components/component_factory.h
-        kernel/components/music_player.h
-        kernel/components/effect_player.h
-        kernel/components/animation.h
-        kernel/components/button.h)
-set(COMPONENTS_SRC
-        kernel/components/sprite.cc
-        kernel/components/label.cc
-        kernel/components/state_machine.cc
-        kernel/components/component_factory.cc
-        kernel/components/music_player.cc
-        kernel/components/effect_player.cc
-        kernel/components/animation.cc
-        kernel/components/button.cc)
+include(cmake/CMakeLists.txt)
+
+LIST_HEADER(${CMAKE_CURRENT_LIST_DIR} COMPONENTS_HEADER)
+LIST_SRC(${CMAKE_CURRENT_LIST_DIR} COMPONENTS_SRC)
