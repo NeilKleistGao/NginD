@@ -28,34 +28,115 @@
 
 namespace ngind::crypto {
 
+/**
+ * We use Advanced Encryption Standard(AES) algorithm to encrypt some resources.
+ * This singleton class provides us with essential interface.
+ * Please modify the password in aes.cc before you publish your game.
+ */
 class AES {
 public:
+    /**
+     * Get singleton instance. If instance doesn't exist, this function will create one.
+     * @return AES*, the singleton instance
+     */
     static AES* getInstance();
+
+    /**
+     * Destroy the instance if it has been created.
+     */
     static void destroyInstance();
 
+    /**
+     * Encrypt given string.
+     * @param content: the given string.
+     * @return std::string, string that has been encrypted
+     */
     std::string encrypt(std::string content);
+
+    /**
+     * Decrypt content by specified password
+     * @param content: the content needing to be decrypted
+     * @return std::string, the original string
+     */
     std::string decrypt(const std::string& content);
 private:
     AES();
     ~AES() = default;
 
+    /**
+     * The real aes function.
+     * @param content: string to be processed
+     * @param enc: true if the process is to encrypt
+     * @return std::string, the result of process
+     */
     std::string aes(const std::string& content, const bool& enc = true);
 
+    /**
+     * Replace number with another one.
+     * @param num: the given number
+     * @param enc: true if the process is to encrypt
+     * @return unsigned int, number used to replace
+     */
     unsigned int replace(const unsigned int& num, const bool& enc = true) const;
 
+    /**
+     * Extend password.
+     */
     void extendKey();
+
+    /**
+     *
+     * @param mat
+     * @param enc
+     */
     void replace(unsigned int mat[4][4], const bool& enc = true);
+
+    /**
+     * Shift lines in the matrix.
+     * @param mat: the given matrix
+     * @param enc: true if the process is to encrypt
+     */
     void shift(unsigned int mat[4][4], const bool& enc = true);
+
+    /**
+     * Mix columns in the matrix.
+     * @param mat: the given matrix
+     * @param enc: true if the process is to encrypt
+     */
     void mix(unsigned int mat[4][4], const bool& enc = true);
+
+    /**
+     * Data xor with password.
+     * @param mat: data matrix
+     * @param round: round index
+     */
     void addRoundKey(unsigned int mat[4][4], const int& round);
+
+    /**
+     * Calculate reverse matrix for reverse mixture
+     * @param mat: the given matrix
+     * @param round: round index
+     */
     void calculateReverse(unsigned int mat[4][4], const int& round);
 
+    /**
+     * The singleton instance.
+     */
     static AES* _instance;
 
+    /**
+     * The password this algorithm using. Please modify it in cc file.
+     */
     std::string _password;
 
+    /**
+     * Extended key;
+     */
     unsigned int _ex_key[44]{};
 
+    /**
+     * Constant number specified by round index.
+     */
     static constexpr unsigned int ROUND_CONST[10] = {
             0x01000000, 0x02000000,
             0x04000000, 0x08000000,
@@ -64,6 +145,9 @@ private:
             0x1b000000, 0x36000000
     };
 
+    /**
+     * S Box.
+     */
     static constexpr unsigned int S_BOX[16][16] = {
         {0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76},
         {0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0},
@@ -82,6 +166,9 @@ private:
         {0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf},
         {0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16} };
 
+    /**
+     * Reverse S Box.
+     */
     static constexpr unsigned int RS_BOX[16][16] = {
         {0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb},
         {0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87, 0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb},
@@ -100,6 +187,9 @@ private:
         {0xa0, 0xe0, 0x3b, 0x4d, 0xae, 0x2a, 0xf5, 0xb0, 0xc8, 0xeb, 0xbb, 0x3c, 0x83, 0x53, 0x99, 0x61},
         {0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d} };
 
+    /**
+     * Mix matrix.
+     */
     static constexpr unsigned int MIX_MAT[4][4] = {
             {2, 3, 1, 1},
             {1, 2, 3, 1},
@@ -107,6 +197,9 @@ private:
             {3, 1, 1, 2}
     };
 
+    /**
+     * Reverse mix matrix.
+     */
     static constexpr unsigned int RE_MIX_MAT[4][4] = {
             {0xe, 0xb, 0xd, 0x9},
             {0x9, 0xe, 0xb, 0xd},
