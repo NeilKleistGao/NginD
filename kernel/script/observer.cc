@@ -23,6 +23,8 @@
 
 #include "observer.h"
 
+#include <utility>
+
 #include "components/state_machine.h"
 #include "math/random.h"
 
@@ -57,14 +59,14 @@ void Observer::subscribe(components::StateMachine* machine, const std::string& n
     list.push_back(machine);
 }
 
-void Observer::notify(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
+void Observer::notify(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data, int) {
     if (_dependence.find(name) == _dependence.end()) {
-        // TODO:
+        return;
     }
 
     auto& list = _dependence[name];
     if (list.empty()) {
-        // TODO:
+        return;
     }
 
     using math::Random;
@@ -73,14 +75,14 @@ void Observer::notify(const luabridge::LuaRef& sender, const std::string& name, 
     list[index]->receive(sender, name, data);
 }
 
-void Observer::notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
+void Observer::notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data, int) {
     if (_dependence.find(name) == _dependence.end()) {
-        // TODO:
+        return;
     }
 
     auto& list = _dependence[name];
     if (list.empty()) {
-        // TODO:
+        return;
     }
 
     for (const auto& m : list) {
@@ -88,7 +90,7 @@ void Observer::notifyAll(const luabridge::LuaRef& sender, const std::string& nam
     }
 }
 
-void Observer::notifySiblings(const std::string& name, objects::Object* object, const luabridge::LuaRef& data) {
+void Observer::notifySiblings(const std::string& name, objects::Object* object, const luabridge::LuaRef& data, int) {
     auto coms = object->getComponents<components::StateMachine>("StateMachine");
     for (auto com : coms) {
         com->receive(name, data);
@@ -97,7 +99,7 @@ void Observer::notifySiblings(const std::string& name, objects::Object* object, 
 
 void Observer::cancel(components::StateMachine* machine, const std::string& name) {
     if (_dependence.find(name) == _dependence.end()) {
-        // TODO:
+        return;
     }
 
     auto& list = _dependence[name];
@@ -113,6 +115,35 @@ void Observer::cancel(components::StateMachine* machine, const std::string& name
 
     if (flag) {
         list.erase(it);
+    }
+}
+
+Observer::MessageDataPack::MessageDataPack() : name(), object(nullptr), sender(script::LuaState::getInstance()->getState()),
+                                               data(script::LuaState::getInstance()->getState()), all(false) {
+}
+
+Observer::MessageDataPack::MessageDataPack(std::string n, const luabridge::LuaRef& s, const luabridge::LuaRef& d, bool a) : name(std::move(n)),
+sender(s), data(d), object(nullptr), all(a) {
+}
+
+Observer::MessageDataPack::MessageDataPack(std::string n, objects::Object* obj, luabridge::LuaRef d) : name(std::move(n)),
+sender(script::LuaState::getInstance()->getState()), data(d), object(obj), all(false) {
+}
+
+void Observer::update() {
+    while (!_queue.empty()) {
+        auto pack = _queue.front();
+        _queue.pop();
+
+        if (pack.object) {
+            this->notifySiblings(pack.name, pack.object, pack.data, 0);
+        }
+        else if (pack.all) {
+            this->notifyAll(pack.sender, pack.name, pack.data, 0);
+        }
+        else {
+            this->notify(pack.sender, pack.name, pack.data, 0);
+        }
     }
 }
 

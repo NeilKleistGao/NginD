@@ -32,6 +32,7 @@
 #include "memory/memory_pool.h"
 #include "ui/event_system.h"
 #include "rendering/adaptor.h"
+#include "script/observer.h"
 
 namespace ngind {
 Game* Game::_instance = nullptr;
@@ -122,8 +123,9 @@ void Game::start() {
 
         glfwPollEvents();
         render->clearScene(_current_world->getBackgroundColor());
-        ui::EventSystem::getInstance()->update();
-        this->_current_world->update(duration);
+
+        update(duration);
+
         logger->draw();
         _loop_flag &= render->startRenderingLoopOnce();
 
@@ -211,6 +213,12 @@ void Game::destroyAndLoadWorld(std::string name) {
 
 void Game::setFullScreen(bool enable) {
     rendering::Renderer::getInstance()->setFullScreen(enable);
+}
+
+void Game::update(float delta) {
+    ui::EventSystem::getInstance()->update();
+    this->_current_world->update(delta);
+    script::Observer::getInstance()->update();
 }
 
 } // namespace ngind

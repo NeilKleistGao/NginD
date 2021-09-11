@@ -112,6 +112,8 @@ private:
     Game();
     ~Game();
 
+    void update(float delta);
+
     /**
      * Instance of game manager
      */

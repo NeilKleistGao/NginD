@@ -26,6 +26,7 @@
 #include <cassert>
 
 #include "math/galois_field.h"
+#include "log/logger_factory.h"
 
 namespace ngind::crypto {
 AES* AES::_instance = nullptr;
@@ -46,7 +47,9 @@ AES* AES::getInstance() {
         _instance = new(std::nothrow) AES();
 
         if (_instance == nullptr) {
-            // TODO:
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create aes instance!");
+            logger->close();
         }
     }
 

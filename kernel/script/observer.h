@@ -27,6 +27,7 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
+#include <queue>
 
 #include "lua_registration.h"
 #include "components/state_machine.h"
@@ -63,7 +64,9 @@ public:
      * @param name: name of message
      * @param data: data attained
      */
-    void notify(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data);
+    inline void notify(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
+        _queue.push(MessageDataPack(name, sender, data, false));
+    }
 
     /**
      * Notify all objects that subscribe
@@ -71,7 +74,9 @@ public:
      * @param name: name of message
      * @param data: data attained
      */
-    void notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data);
+    inline void notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
+        _queue.push(MessageDataPack(name, sender, data, true));
+    }
 
     /**
      * Notify sibling components that subscribe
@@ -79,7 +84,9 @@ public:
      * @param object: object containing components
      * @param data: data attained
      */
-    void notifySiblings(const std::string& name, objects::Object* object, const luabridge::LuaRef& data);
+    inline void notifySiblings(const std::string& name, objects::Object* object, const luabridge::LuaRef& data) {
+        _queue.push(MessageDataPack(name, object, data));
+    }
 
     /**
      * Cancel a subscription.
@@ -87,19 +94,59 @@ public:
      * @param name: name of message
      */
     void cancel(components::StateMachine* machine, const std::string& name);
+
+    void update();
 private:
     Observer() = default;
     ~Observer();
+
+    struct MessageDataPack {
+        std::string name;
+        luabridge::LuaRef data;
+        luabridge::LuaRef sender;
+        objects::Object* object;
+        bool all;
+
+        MessageDataPack();
+        MessageDataPack(std::string n, const luabridge::LuaRef& s, const luabridge::LuaRef& d, bool all);
+        MessageDataPack(std::string n, objects::Object* obj, luabridge::LuaRef d);
+    };
 
     /**
      * Instance of observer
      */
     static Observer* _instance;
 
+    std::queue<MessageDataPack> _queue;
+
     /**
      * Subscription list
      */
     std::unordered_map<std::string, std::vector<components::StateMachine*>> _dependence;
+
+    /**
+     * Notify a object randomly
+     * @param sender: sender of message
+     * @param name: name of message
+     * @param data: data attained
+     */
+    void notify(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data, int);
+
+    /**
+     * Notify all objects that subscribe
+     * @param sender: sender of message
+     * @param name: name of message
+     * @param data: data attained
+     */
+    void notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data, int);
+
+    /**
+     * Notify sibling components that subscribe
+     * @param name: name of message
+     * @param object: object containing components
+     * @param data: data attained
+     */
+    void notifySiblings(const std::string& name, objects::Object* object, const luabridge::LuaRef& data, int);
 };
 
 } // namespace ngind::script

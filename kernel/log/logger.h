@@ -32,6 +32,7 @@
 
 #include "log_level.h"
 #include "filesystem/file_output_stream.h"
+#include "timer/timer.h"
 
 namespace ngind::log {
 
@@ -85,7 +86,23 @@ public:
                 break;
         }
 
+        auto now = timer::Timer::getNow();
+        std::time_t tt = std::chrono::system_clock::to_time_t(now);
+        char buffer[128];
+
+        auto size = std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", std::localtime(&tt));
+        if (size) {
+            std::string hs = "{time}";
+            int index = format_msg.find(hs);
+            format_msg.replace(index, hs.length(), buffer);
+        }
+
         _output->write(format_msg);
+
+        if (level == LogLevel::LOG_LEVEL_ERROR) {
+            close();
+            exit(-1);
+        }
     }
 
     /**
@@ -98,22 +115,22 @@ private:
     /**
      * The output format for information printed in files.
      */
-    constexpr static char INFO_FORMAT[] = "[info]";
+    constexpr static char INFO_FORMAT[] = "[info {time}]";
 
     /**
      * The output format for debug text printed in files.
      */
-    constexpr static char DEBUG_FORMAT[] = "[debug]";
+    constexpr static char DEBUG_FORMAT[] = "[debug {time}]";
     
     /**
      * The output format for warning text printed in files.
      */
-    constexpr static char WARNING_FORMAT[] = "[warning]";
+    constexpr static char WARNING_FORMAT[] = "[warning {time}]";
 
     /**
      * The output format for error text printed in files.
      */
-    constexpr static char ERROR_FORMAT[] = "[error]";
+    constexpr static char ERROR_FORMAT[] = "[error {time}]";
     
     /**
      * The minimum level that could be outputted.
