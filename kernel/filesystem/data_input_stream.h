@@ -33,13 +33,13 @@ namespace ngind::filesystem {
 /**
  * Data input class, used to read plain data from file.
  */
-class DataInputStream : public InputStream {
+class [[maybe_unused]] DataInputStream : public InputStream {
 public:
     /**
      * @param stream: another input stream that data come from.
      */
     explicit DataInputStream(InputStream* stream);
-    ~DataInputStream();
+    ~DataInputStream() override;
 
     /**
      * @see kernel/filesystem/input_stream.h

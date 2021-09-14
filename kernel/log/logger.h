@@ -101,7 +101,7 @@ public:
 
         if (level == LogLevel::LOG_LEVEL_ERROR) {
             close();
-            exit(-1);
+            std::terminate();
         }
     }
 

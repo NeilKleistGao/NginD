@@ -22,6 +22,7 @@
 /// @file file_output_stream.h
 
 #include "file_output_stream.h"
+#include "log/logger_factory.h"
 
 namespace ngind::filesystem {
 FileOutputStream::FileOutputStream(const std::string& filename) : FileOutputStream(filename, false) {
@@ -44,17 +45,17 @@ void FileOutputStream::open(const std::string& filename, const bool& append) {
     _fp = fopen(filename.c_str(), append ? "ab" : "wb");
 
     if (_fp == nullptr) {
-//        throw exceptions::GameException("filesystem::FileOutputStream",
-//                                        "open",
-//                                        "can't open file " + filename);
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("can't open file " + filename);
+        logger->close();
     }
 }
 
 void FileOutputStream::write(const char& c) {
     if (_fp == nullptr) {
-//        throw exceptions::GameException("filesystem::FileOutputStream",
-//                                        "write",
-//                                        "can't write file " + _filename);
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("can't write file " + this->_filename);
+        logger->close();
     }
 
     fputc(c, _fp);
@@ -62,22 +63,19 @@ void FileOutputStream::write(const char& c) {
 
 void FileOutputStream::flush() {
     if (_fp == nullptr) {
-//        throw exceptions::GameException("filesystem::FileOutputStream",
-//                                        "flush",
-//                                        "can't flush file " + _filename);
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("can't write file " + this->_filename);
+        logger->close();
     }
 
     fflush(_fp);
 }
 
 void FileOutputStream::close() {
-    if (_fp == nullptr) {
-//        throw exceptions::GameException("filesystem::FileOutputStream",
-//                                        "flush",
-//                                        "can't close file " + _filename);
+    if (_fp != nullptr) {
+        fclose(_fp);
+        _fp = nullptr;
     }
-
-    fclose(_fp);
 }
 
 void FileOutputStream::write(const std::string& str) {

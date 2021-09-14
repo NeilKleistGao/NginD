@@ -40,7 +40,7 @@ namespace ngind::filesystem {
 class InputStream : public memory::AutoCollectionObject {
 public:
     InputStream() : memory::AutoCollectionObject() { }
-    ~InputStream() = default;
+    ~InputStream() override = default;
 
     /**
      * Read a character.

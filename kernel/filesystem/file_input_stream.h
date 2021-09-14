@@ -38,7 +38,7 @@ public:
      * @param filename: file's name
      */
     explicit FileInputStream(const std::string& filename);
-    ~FileInputStream();
+    ~FileInputStream() override;
 
     FileInputStream(const FileInputStream&) = delete;
     FileInputStream& operator=(const FileInputStream&) = delete;
@@ -66,6 +66,9 @@ public:
      */
     void close() override;
 
+    /**
+     * @see kernel/filesystem/input_stream.h
+     */
     std::string readAllCharacters() override;
 private:
     /**

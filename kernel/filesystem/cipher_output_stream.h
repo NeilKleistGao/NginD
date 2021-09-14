@@ -30,27 +30,52 @@
 
 namespace ngind::filesystem {
 
+/**
+ * Output stream used for encrypted file.
+ */
 class CipherOutputStream : public OutputStream {
 public:
+    /**
+     * @param stream: the general output stream
+     */
     explicit CipherOutputStream(OutputStream* stream);
-    ~CipherOutputStream();
+    ~CipherOutputStream() override;
 
+    /**
+     * @see kernel/filesystem/output_stream.h
+     */
     void write(const char& c) override;
 
+    /**
+     * @see kernel/filesystem/output_stream.h
+     */
     void write(const std::string& str) override;
 
     /**
-     * Save all modification immediately.
+     * @see kernel/filesystem/output_stream.h
      */
-    void flush() {};
+    void flush() override {
+        _stream->flush();
+    };
 
     /**
-     * Save and close the file.
+     * @see kernel/filesystem/output_stream.h
      */
     void close() override;
 private:
+    /**
+     * The general output stream. We will encrypt the content before we put them into this stream object.
+     */
     OutputStream* _stream;
+
+    /**
+     * Store output string temporally. When the buffer is full, the encrypting function will be executed.
+     */
     std::string _buffer;
+
+    /**
+     * Has the stream been opened.
+     */
     bool _opened;
 };
 

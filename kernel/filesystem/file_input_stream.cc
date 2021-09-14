@@ -26,6 +26,7 @@
 #include <filesystem>
 
 #include "file_input_stream.h"
+#include "log/logger_factory.h"
 
 namespace ngind::filesystem {
 
@@ -33,9 +34,7 @@ FileInputStream::FileInputStream(const std::string& filename) : InputStream(), _
     this->open(filename);
 }
 
-FileInputStream::~FileInputStream() {
-
-}
+FileInputStream::~FileInputStream() = default;
 
 void FileInputStream::open(const std::string& filename) {
     this->_filename = filename;
@@ -46,17 +45,17 @@ void FileInputStream::open(const std::string& filename) {
 
     _fp = fopen(filename.c_str(), "rb");
     if (_fp == nullptr) {
-//        throw exceptions::GameException("filesystem::FileInputStream",
-//                                        "open",
-//                                        "can't open file " + filename);
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("can't open file " + filename);
+        logger->close();
     }
 }
 
 char FileInputStream::read() {
     if (_fp == nullptr) {
-//        throw exceptions::GameException("filesystem::FileInputStream",
-//                                        "read",
-//                                        "can't read file " + this->_filename);
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("can't read file " + this->_filename);
+        logger->close();
     }
 
     auto c = fgetc(_fp);
@@ -86,7 +85,7 @@ std::string FileInputStream::readAllCharacters() {
         return "";
     }
 
-    int size = std::filesystem::file_size(path);
+    auto size = std::filesystem::file_size(path);
     return this->readNCharacters(size);
 }
 

@@ -32,8 +32,11 @@ namespace ngind::filesystem {
 
 class ZipInputStream : public InputStream {
 public:
+    /**
+     * @param stream: the general input stream.
+     */
     explicit ZipInputStream(InputStream* stream);
-    ~ZipInputStream();
+    ~ZipInputStream() override;
 
     /**
      * @see kernel/filesystem/input_stream.h
@@ -52,7 +55,14 @@ public:
      */
     std::string readAllCharacters() override;
 private:
+    /**
+     * The general input stream. We will unzip data after reading from this stream object.
+     */
     InputStream* _stream;
+
+    /**
+     * Has the stream been opened.
+     */
     bool _opened;
 };
 

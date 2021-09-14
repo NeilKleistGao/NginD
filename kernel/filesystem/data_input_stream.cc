@@ -53,7 +53,7 @@ void DataInputStream::readFully(char buffer[], const size_t& offset, const size_
 }
 
 bool DataInputStream::readBool() {
-    return (read() == 0) ? false : true;
+    return read() != 0;
 }
 
 char DataInputStream::readByte() {

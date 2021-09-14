@@ -30,17 +30,21 @@
 
 namespace ngind::filesystem {
 
+/**
+ * Input stream used for encrypted file.
+ */
 class CipherInputStream : public InputStream {
 public:
+    /**
+     * @param stream: general input stream
+     */
     explicit CipherInputStream(InputStream* stream);
     ~CipherInputStream() override;
 
     /**
      * @see kernel/filesystem/input_stream.h
      */
-    char read() override {
-        return -1;
-    }
+    char read() override;
 
     /**
      * @see kernel/filesystem/input_stream.h
@@ -53,11 +57,13 @@ public:
     std::string readAllCharacters() override;
 private:
     /**
-     * @see kernel/filesystem/input_stream.h
+     * General input stream. We will decrypt strings from this stream.
      */
-    char readByte();
-
     InputStream* _stream;
+
+    /**
+     * Has the stream been opened.
+     */
     bool _opened;
 };
 

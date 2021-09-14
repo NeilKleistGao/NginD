@@ -69,7 +69,7 @@ public:
      * Write a string into the file.
      * @param str: string to be written.
      */
-    void write(const std::string& str);
+    void write(const std::string& str) override;
 
     /**
      * @see kernel/filesystem/output_stream.h

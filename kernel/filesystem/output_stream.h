@@ -40,7 +40,7 @@ namespace ngind::filesystem {
 class OutputStream : public memory::AutoCollectionObject {
 public:
     OutputStream() : memory::AutoCollectionObject() {}
-    ~OutputStream() = default;
+    ~OutputStream() override = default;
 
     /**
      * Write a character.

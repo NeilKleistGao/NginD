@@ -45,7 +45,7 @@ CipherInputStream::~CipherInputStream() {
     }
 }
 
-char CipherInputStream::readByte() {
+char CipherInputStream::read() {
     if (_opened) {
         return _stream->read();
     }
