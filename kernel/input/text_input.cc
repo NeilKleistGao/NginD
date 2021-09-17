@@ -34,7 +34,7 @@ TextInput::TextInput(GLFWwindow*& win) : _enabled(false) {
 }
 
 std::string TextInput::getString(const EncodingType& encoding) {
-    std::string res = "";
+    std::string res;
     for (const auto& ch : _buff) {
         if (encoding == EncodingType::ENCODING_ASCII) {
             res += static_cast<char>(ch);

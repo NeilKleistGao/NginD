@@ -36,7 +36,7 @@ namespace ngind::input {
 * The keyboard code for keyboard input. It's a simple map for GLFW_KEY prefixing
 * macros.
  */
-enum KeyboardCode {
+enum class KeyboardCode {
     UNKNOWN = GLFW_KEY_UNKNOWN,
     SPACE = GLFW_KEY_SPACE,
     APOSTROPHE = GLFW_KEY_APOSTROPHE,

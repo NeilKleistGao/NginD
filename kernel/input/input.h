@@ -126,16 +126,25 @@ public:
     }
 
     /**
-     * set whether current manager should get text input or keyboard input
+     * Set whether current manager should get text input or keyboard input
      * @param is_enable: true if manager should get text input
      */
     inline void switchTextMod(const bool& is_enable) {
         _text_mod = is_enable;
     }
 
+    /**
+     * Set whether mouse input has been interrupted by event system
+     * @param interrupted: true if input has been interrupted
+     */
     inline void setInterruption(const bool& interrupted) {
         _interrupted = interrupted;
     }
+
+    /**
+     * Initialize input enum.
+     */
+    static void init();
 
     friend class ngind::rendering::Window;
 private:
@@ -169,6 +178,9 @@ private:
      */
     bool _text_mod;
 
+    /**
+     * Has mouse input been interrupted
+     */
     bool _interrupted;
 
     /**
@@ -183,7 +195,6 @@ private:
     }
 
     Input();
-
     ~Input();
 };
 
@@ -201,6 +212,9 @@ NGIND_LUA_BRIDGE_REGISTRATION(Input) {
             .addFunction("getMouseReleased", &Input::getMouseReleased)
         .endClass()
     .endNamespace();
+
+    Input::init();
+    luabridge::setGlobal(script::LuaState::getInstance()->getState(), Input::getInstance(), "Input");
 }
 
 } // namespace ngind::input

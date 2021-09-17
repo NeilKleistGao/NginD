@@ -33,7 +33,7 @@ KeyboardInput::KeyboardInput(GLFWwindow* window) {
 }
 
 bool KeyboardInput::getKey(GLFWwindow *window, const KeyboardCode& code) {
-    int state = glfwGetKey(window, code);
+    int state = glfwGetKey(window, static_cast<int>(code));
     if (state == GLFW_PRESS) {
         if (this->_pressed.find(code) == this->_pressed.end()) {
             this->_pressed.insert(code);
@@ -50,7 +50,7 @@ bool KeyboardInput::getKey(GLFWwindow *window, const KeyboardCode& code) {
 }
 
 bool KeyboardInput::getKeyPressed(GLFWwindow* window, const KeyboardCode& code) {
-    int state = glfwGetKey(window, code);
+    int state = glfwGetKey(window, static_cast<int>(code));
     if (state == GLFW_PRESS) {
         if (this->_pressed.find(code) == this->_pressed.end()) {
             this->_pressed.insert(code);
@@ -65,7 +65,7 @@ bool KeyboardInput::getKeyPressed(GLFWwindow* window, const KeyboardCode& code) 
 }
 
 bool KeyboardInput::getKeyReleased(GLFWwindow* window, const KeyboardCode& code) {
-    int state = glfwGetKey(window, code);
+    int state = glfwGetKey(window, static_cast<int>(code));
     if (state == GLFW_RELEASE) {
         if (this->_pressed.find(code) != this->_pressed.end()) {
             this->_pressed.erase(code);
@@ -79,4 +79,4 @@ bool KeyboardInput::getKeyReleased(GLFWwindow* window, const KeyboardCode& code)
     return false;
 }
 
-} // namespace ngind
+} // namespace ngind::input

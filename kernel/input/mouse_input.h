@@ -39,7 +39,7 @@ namespace ngind::input {
  * The keyboard code for keyboard input. It's a simple map for GLFW_MOUSE prefixing
  * macros.
  */
-enum MouseCode {
+enum class MouseCode {
     BUTTON_LEFT = GLFW_MOUSE_BUTTON_LEFT,
     BUTTON_RIGHT = GLFW_MOUSE_BUTTON_RIGHT,
     BUTTON_MIDDLE = GLFW_MOUSE_BUTTON_MIDDLE

@@ -1,11 +1,4 @@
-set(INPUT_HEADER
-        kernel/input/input.h
-        kernel/input/keyboard_input.h
-        kernel/input/mouse_input.h
-        kernel/input/text_input.h)
+include(cmake/CMakeLists.txt)
 
-set(INPUT_SRC
-        kernel/input/input.cc
-        kernel/input/keyboard_input.cc
-        kernel/input/mouse_input.cc
-        kernel/input/text_input.cc)
+LIST_HEADER(${CMAKE_CURRENT_LIST_DIR} INPUT_HEADER)
+LIST_SRC(${CMAKE_CURRENT_LIST_DIR} INPUT_SRC)
