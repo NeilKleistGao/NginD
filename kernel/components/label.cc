@@ -69,7 +69,7 @@ void Label::init(const typename resources::ConfigResource::JsonObject& data) {
     catch (...) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("Can't create label component.");
-        logger->close();
+        logger->flush();
     }
 }
 
@@ -83,7 +83,7 @@ void Label::draw() {
     if (_parent == nullptr) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("Parent object of label component should not be null.");
-        logger->close();
+        logger->flush();
     }
     if (_commands.empty() || _dirty) {
         parseText();

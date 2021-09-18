@@ -34,7 +34,7 @@ ComponentFactory* ComponentFactory::getInstance() {
         if (_instance == nullptr) {
             auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
             logger->log("Can't create component factory instance.");
-            logger->close();
+            logger->flush();
         }
     }
 
@@ -52,7 +52,7 @@ Component* ComponentFactory::create(const std::string& name, const typename reso
     if (_map.find(name) == _map.end()) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("Unknown component.");
-        logger->close();
+        logger->flush();
     }
 
     return _map[name](data);

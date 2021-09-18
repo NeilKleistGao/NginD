@@ -70,6 +70,19 @@ private:
      */
     std::map<std::string, Logger*> _loggers;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(LoggerFactory) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+    .beginNamespace("engine")
+        .beginClass<LoggerFactory>("LoggerFactory")
+            .addStaticFunction("getInstance", &LoggerFactory::getInstance)
+            .addFunction("getLogger", &LoggerFactory::getLogger)
+        .endClass()
+    .endNamespace();
+
+    luabridge::setGlobal(script::LuaState::getInstance()->getState(), LoggerFactory::getInstance(), "LoggerFactory");
+}
+
 } // namespace ngind::log
 
 #endif //NGIND_LOGGER_FACTORY_H

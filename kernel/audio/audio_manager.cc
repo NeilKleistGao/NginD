@@ -43,7 +43,7 @@ AudioManager* AudioManager::getInstance() {
         if (_instance == nullptr) {
             auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
             logger->log("Can't create audio manager instance.");
-            logger->close();
+            logger->flush();
         }
     }
 

@@ -80,7 +80,7 @@ void StateMachine::init(const typename resources::ConfigResource::JsonObject& da
     catch (...) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("Can't create state machine component.");
-        logger->close();
+        logger->flush();
     }
 }
 
@@ -114,7 +114,7 @@ void StateMachine::update(const float& dlt) {
         if (_update_function.isNil()) {
             auto logger = log::LoggerFactory::getInstance()->getLogger("warning.log", log::LogLevel::LOG_LEVEL_WARNING);
             logger->log("Empty state update.");
-            logger->close();
+            logger->flush();
             return;
         }
     }

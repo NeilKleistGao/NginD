@@ -53,7 +53,7 @@ void EffectPlayer::init(const typename resources::ConfigResource::JsonObject& da
     catch (...) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("Can't create effect player component.");
-        logger->close();
+        logger->flush();
     }
 }
 

@@ -47,7 +47,7 @@ void FileOutputStream::open(const std::string& filename, const bool& append) {
     if (_fp == nullptr) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("can't open file " + filename);
-        logger->close();
+        logger->flush();
     }
 }
 
@@ -55,7 +55,7 @@ void FileOutputStream::write(const char& c) {
     if (_fp == nullptr) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("can't write file " + this->_filename);
-        logger->close();
+        logger->flush();
     }
 
     fputc(c, _fp);
@@ -65,7 +65,7 @@ void FileOutputStream::flush() {
     if (_fp == nullptr) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("can't write file " + this->_filename);
-        logger->close();
+        logger->flush();
     }
 
     fflush(_fp);

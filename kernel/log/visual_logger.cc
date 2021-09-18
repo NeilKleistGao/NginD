@@ -86,7 +86,10 @@ void VisualLogger::draw() {
     if (_enable) {
         _text = "Visual Logger\n";
         for (const auto& [key, value] : _var) {
-            _text += key + ": " + value + "\n";
+            _text.append(key);
+            _text.append(": ");
+            _text.append(value);
+            _text.append("\n");
         }
 
         auto camera_pos = rendering::Camera::getInstance()->getCameraPosition();
@@ -98,12 +101,9 @@ void VisualLogger::draw() {
     }
 }
 
-void VisualLogger::registerVariable(const std::string& key, const std::string default_value) {
+void VisualLogger::registerVariable(const std::string& key, const std::string& default_value) {
     if (_var.find(key) == _var.end()) {
         _var[key] = default_value;
-    }
-    else {
-        // TODO:
     }
 }
 

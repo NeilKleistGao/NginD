@@ -95,7 +95,7 @@ void Animation::init(const typename resources::ConfigResource::JsonObject& data)
             logger->log("An error occurred when loading animation component.");
         }
 
-        logger->close();
+        logger->flush();
     }
 }
 

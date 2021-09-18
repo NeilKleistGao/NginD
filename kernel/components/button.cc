@@ -94,7 +94,7 @@ void Button::init(const typename resources::ConfigResource::JsonObject& data) {
     catch (...) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("Can't create button component.");
-        logger->close();
+        logger->flush();
     }
 }
 

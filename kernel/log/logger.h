@@ -33,8 +33,11 @@
 #include "log_level.h"
 #include "filesystem/file_output_stream.h"
 #include "timer/timer.h"
+#include "script/lua_registration.h"
 
 namespace ngind::log {
+
+class LoggerFactory;
 
 /** This class is used to log text information for debug and recording data. You should
  * not create the instance directly. Try to use factory instead.
@@ -47,70 +50,41 @@ public:
      */
     Logger(const std::string& filename, const LogLevel& level) : _level(level), _output{new filesystem::FileOutputStream{filename}} {
     }
-    
-    ~Logger() {
-        _output->close();
-        delete _output;
-        _output = nullptr;
+
+    /**
+     * Output some message to logger file
+     * @tparam T: the type of message, which is not convertible for std::string
+     * @param msg: the message to be outputted
+     * @param level: the type of log information
+     */
+    template<typename T, std::enable_if_t<std::negation_v<std::is_convertible<T, std::string>>, bool> = true>
+    void log(T msg, const LogLevel& level = LogLevel::LOG_LEVEL_DEBUG) {
+        std::string string_msg;
+        std::stringstream stream;
+        stream << msg;
+        stream >> string_msg;
+        log(string_msg, level);
     }
 
     /**
      * Output some message to logger file
-     * @tparam T: the type of message
-     * @param msg: the message to be outputted
+     * @param msg: string message
      * @param level: the type of log information
      */
-    template<typename T>
-    void log(const T& msg, const LogLevel& level = LogLevel::LOG_LEVEL_DEBUG) {
-        if (level < this->_level) {
-            return;
-        }
-        std::string string_msg = msg;
+    void log(const std::string& msg, const LogLevel& level = LogLevel::LOG_LEVEL_DEBUG);
 
-        std::string format_msg;
-        switch (level) {
-            case LogLevel::LOG_LEVEL_INFO:
-                format_msg = std::string{INFO_FORMAT}.append(string_msg);
-                break;
-            case LogLevel::LOG_LEVEL_DEBUG:
-                format_msg = std::string{DEBUG_FORMAT}.append(string_msg);
-                break;
-            case LogLevel::LOG_LEVEL_WARNING:
-                format_msg = std::string{WARNING_FORMAT}.append(string_msg);
-                break;
-            case LogLevel::LOG_LEVEL_ERROR:
-                format_msg = std::string{ERROR_FORMAT}.append(string_msg);
-                break;
-            default:
-                format_msg = std::move(string_msg);
-                break;
-        }
-
-        auto now = timer::Timer::getNow();
-        std::time_t tt = std::chrono::system_clock::to_time_t(now);
-        char buffer[128];
-
-        auto size = std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", std::localtime(&tt));
-        if (size) {
-            std::string hs = "{time}";
-            int index = format_msg.find(hs);
-            format_msg.replace(index, hs.length(), buffer);
-        }
-
-        _output->write(format_msg);
-
-        if (level == LogLevel::LOG_LEVEL_ERROR) {
-            close();
-            std::terminate();
-        }
+    inline void logForLua(const std::string& msg, int level = 1) {
+        log(msg, static_cast<LogLevel>(level));
     }
 
     /**
-     * Close the log stream
+     * Flush the current log file.
      */
-    inline void close() {
-        _output->close();
+    inline void flush() {
+        _output->flush();
     }
+
+    friend class LoggerFactory;
 private:
     /**
      * The output format for information printed in files.
@@ -142,8 +116,27 @@ private:
      */
     std::stringstream _string_stream;
 
+    /**
+     * Log file stream.
+     */
     filesystem::FileOutputStream* _output;
+
+    ~Logger() {
+        _output->close();
+        delete _output;
+        _output = nullptr;
+    }
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(Logger) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+    .beginNamespace("engine")
+        .beginClass<Logger>("Logger")
+            .addFunction("log", &Logger::logForLua)
+            .addFunction("flush", &Logger::flush)
+        .endClass()
+    .endNamespace();
+}
 
 } // namespace ngind::log
 

@@ -32,20 +32,53 @@
 
 namespace ngind::log {
 
+/**
+ * Display information on the screen during debug.
+ * It's still not available for lua.
+ */
 class VisualLogger {
 public:
+    /**
+     * Get the unique instance of class. If it does not exist, this function will create one.
+     * @return VisualLogger*, the unique instance
+     */
     static VisualLogger* getInstance();
+
+    /**
+     * Destroy the instance if it exists.
+     */
     static void destroyInstance();
 
+    /**
+     * Enable the logger.
+     */
     void enable();
+
+    /**
+     * Disable the logger.
+     */
     inline void disable() {
         _enable = false;
     }
 
+    /**
+     * Update data on the screen per frame.
+     */
     void draw();
 
-    void registerVariable(const std::string& key, const std::string default_value = "");
+    /**
+     * Register a new variable to the logger.
+     * @param key: name of the variable
+     * @param default_value: default value.
+     */
+    void registerVariable(const std::string& key, const std::string& default_value = "");
 
+    /**
+     * Update variable's value in the logger.
+     * @tparam T: type of the variable
+     * @param key: name of the variable
+     * @param value: variable's value
+     */
     template<typename T>
     void updateVariable(const std::string& key, const T& value) {
         if (_var.find(key) != _var.end()) {
@@ -53,19 +86,43 @@ public:
         }
     }
 
+    /**
+     * Remove a variable from the logger.
+     * @param key: name of the variable
+     */
     void resignVariable(const std::string& key);
 private:
     VisualLogger();
     ~VisualLogger();
 
+    /**
+     * The unique instance.
+     */
     static VisualLogger* _instance;
 
+    /**
+     * Is logger enabled.
+     */
     bool _enable;
+
+    /**
+     * Variables table.
+     */
     std::map<std::string, std::string> _var;
 
+    /**
+     * Entity of label component.
+     */
     objects::EntityObject* _entity;
+
+    /**
+     * Label component for displaying information.
+     */
     components::Label* _label;
 
+    /**
+     * Text to be display.
+     */
     std::string _text;
 };
 

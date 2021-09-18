@@ -47,7 +47,7 @@ void FileInputStream::open(const std::string& filename) {
     if (_fp == nullptr) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("can't open file " + filename);
-        logger->close();
+        logger->flush();
     }
 }
 
@@ -55,7 +55,7 @@ char FileInputStream::read() {
     if (_fp == nullptr) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("can't read file " + this->_filename);
-        logger->close();
+        logger->flush();
     }
 
     auto c = fgetc(_fp);

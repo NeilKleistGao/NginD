@@ -46,13 +46,13 @@ AsepriteTag::AsepriteTag(const typename resources::ConfigResource::JsonObject& d
         else {
             auto logger = log::LoggerFactory::getInstance()->getLogger("warning.log", log::LogLevel::LOG_LEVEL_WARNING);
             logger->log(direction + " is not a supported animation direction.");
-            logger->close();
+            logger->flush();
         }
     }
     catch (...) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("An error occurred when parsing aseprite tag");
-        logger->close();
+        logger->flush();
 
         throw std::exception{};
     }

@@ -47,7 +47,7 @@ AsepriteFrame::AsepriteFrame(const typename resources::ConfigResource::JsonObjec
     catch (...) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("An error occurred when parsing aseprite frame");
-        logger->close();
+        logger->flush();
 
         throw std::exception{};
     }

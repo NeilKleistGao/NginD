@@ -30,7 +30,11 @@ LoggerFactory* LoggerFactory::_instance = nullptr;
 
 LoggerFactory* LoggerFactory::getInstance() {
     if (_instance == nullptr) {
-        _instance = new LoggerFactory();
+        _instance = new(std::nothrow) LoggerFactory();
+
+        if (_instance == nullptr) {
+            std::terminate(); // no enough memory at all.
+        }
     }
 
     return _instance;
@@ -53,9 +57,9 @@ Logger* LoggerFactory::getLogger(const std::string& filename, const LogLevel& le
 }
 
 LoggerFactory::~LoggerFactory() {
-    for (auto pairs : _loggers) {
-        delete pairs.second;
-        pairs.second = nullptr;
+    for (auto& [name, logger] : _loggers) {
+        delete logger;
+        logger = nullptr;
     }
 
     _loggers.clear();

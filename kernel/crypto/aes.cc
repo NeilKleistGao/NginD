@@ -49,7 +49,7 @@ AES* AES::getInstance() {
         if (_instance == nullptr) {
             auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
             logger->log("Can't create aes instance!");
-            logger->close();
+            logger->flush();
         }
     }
 

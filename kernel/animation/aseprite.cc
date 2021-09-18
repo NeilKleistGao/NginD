@@ -48,7 +48,7 @@ Aseprite::Aseprite(const std::string& name) : _current_index(), _current_tag(nul
     catch (...) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
         logger->log("An error occurred when parsing aseprite configuration: " + name);
-        logger->close();
+        logger->flush();
     }
 }
 
