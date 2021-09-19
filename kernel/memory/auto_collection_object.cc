@@ -24,6 +24,7 @@
 /// @file auto_collection_object.h
 
 #include "auto_collection_object.h"
+#include "memory_pool.h"
 
 namespace ngind::memory {
 
@@ -36,6 +37,9 @@ void AutoCollectionObject::removeReference() {
     }
 
     this->_sustain--;
+    if (this->_sustain == 0) {
+        MemoryPool::getInstance()->setFlag();
+    }
 }
 
 } // namespace ngind::memory

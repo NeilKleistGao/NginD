@@ -1,7 +1,4 @@
-set(MEMORY_HEADER
-        kernel/memory/auto_collection_object.h
-        kernel/memory/memory_pool.h)
+include(cmake/CMakeLists.txt)
 
-set(MEMORY_SRC
-        kernel/memory/auto_collection_object.cc
-        kernel/memory/memory_pool.cc)
+LIST_HEADER(${CMAKE_CURRENT_LIST_DIR} MEMORY_HEADER)
+LIST_SRC(${CMAKE_CURRENT_LIST_DIR} MEMORY_SRC)

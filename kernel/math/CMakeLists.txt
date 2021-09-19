@@ -1,7 +1,4 @@
-set(MATH_HEADER
-        kernel/math/random.h
-        kernel/math/galois_field.h)
+include(cmake/CMakeLists.txt)
 
-set(MATH_SRC
-        kernel/math/random.cc
-        kernel/math/galois_field.cc)
+LIST_HEADER(${CMAKE_CURRENT_LIST_DIR} MATH_HEADER)
+LIST_SRC(${CMAKE_CURRENT_LIST_DIR} MATH_SRC)

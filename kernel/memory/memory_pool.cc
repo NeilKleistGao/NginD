@@ -28,12 +28,20 @@
 #include <iostream>
 #include <cstring>
 
+#include "log/logger_factory.h"
+
 namespace ngind::memory {
 MemoryPool* MemoryPool::_instance = nullptr;
 
 MemoryPool* MemoryPool::getInstance() {
     if (_instance == nullptr) {
         _instance = new(std::nothrow) MemoryPool();
+
+        if (_instance == nullptr) {
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create memory pool instance.");
+            logger->flush();
+        }
     }
 
     return _instance;
@@ -45,6 +53,10 @@ void MemoryPool::destroyInstance() {
 }
 
 void MemoryPool::clear() {
+    if (!_dirty) {
+        return;
+    }
+
     auto tbm = _pool.end();
     for (auto it = _pool.begin(); it != _pool.end(); ++it) {
         if (tbm != _pool.end()) {
@@ -64,6 +76,8 @@ void MemoryPool::clear() {
     if (tbm != _pool.end()) {
         _pool.erase(tbm);
     }
+
+    _dirty = false;
 }
 
 MemoryPool::MemoryPool() : _dirty(false) {

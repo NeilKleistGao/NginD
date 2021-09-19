@@ -81,6 +81,13 @@ public:
         return reinterpret_cast<T*>(p);
     }
 
+    /**
+     * Set dirty flag and when this frame ends unused memory would be cleaned.
+     */
+    inline void setFlag() {
+        _dirty = true;
+    }
+
 private:
     /**
      * The instance of memory pool

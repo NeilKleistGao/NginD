@@ -7,7 +7,6 @@ include(kernel/log/CMakeLists.txt)
 include(kernel/math/CMakeLists.txt)
 include(kernel/memory/CMakeLists.txt)
 include(kernel/objects/CMakeLists.txt)
-include(kernel/platforms/CMakeLists.txt)
 include(kernel/rendering/CMakeLists.txt)
 include(kernel/resources/CMakeLists.txt)
 include(kernel/timer/CMakeLists.txt)
@@ -28,7 +27,6 @@ set(KERNEL_HEADER
         ${MATH_HEADER}
         ${MEMORY_HEADER}
         ${OBJECTS_HEADER}
-        ${PLATFORMS_HEADER}
         ${RENDER_HEADER}
         ${RESOURCES_HEADER}
         ${TIMER_HEADER}
@@ -49,7 +47,6 @@ set(KERNEL_SRC
         ${MATH_SRC}
         ${MEMORY_SRC}
         ${OBJECTS_SRC}
-        ${PLATFORMS_SRC}
         ${RENDER_SRC}
         ${RESOURCES_SRC}
         ${TIMER_SRC}
