@@ -27,6 +27,7 @@
 
 #include "resources/resources_manager.h"
 #include "object_factory.h"
+#include "log/logger_factory.h"
 
 namespace ngind::objects {
 PrefabFactory* PrefabFactory::_instance = nullptr;
@@ -36,7 +37,9 @@ PrefabFactory* PrefabFactory::getInstance() {
         _instance = new(std::nothrow) PrefabFactory();
 
         if (_instance == nullptr) {
-            // TODO:
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create prefab factory instance.");
+            logger->flush();
         }
     }
 

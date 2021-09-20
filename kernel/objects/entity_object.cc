@@ -26,12 +26,12 @@
 #include "entity_object.h"
 
 #include "game.h"
+#include "log/logger_factory.h"
 
 namespace ngind::objects {
 
 EntityObject::EntityObject() : Object(), _position(), _scale(1, 1),
 _rotation(0.0f), _z_order(0), _anchor(0.5f, 0.5f), _global_rotation(0.0f), _global_scale(), _global_position(), _id(-1) {
-
 }
 
 EntityObject::~EntityObject() {
@@ -100,29 +100,38 @@ void EntityObject::setDirtyComponents() {
 }
 
 void EntityObject::init(const typename resources::ConfigResource::JsonObject& data) {
-    auto position = data["position"].GetObject();
-    setPositionX(position["x"].GetFloat());
-    setPositionY(position["y"].GetFloat());
+    try {
+        auto position = data["position"].GetObject();
+        setPositionX(position["x"].GetFloat());
+        setPositionY(position["y"].GetFloat());
 
-    auto scale = data["scale"].GetObject();
-    setScaleX(scale["x"].GetFloat());
-    setScaleY(scale["y"].GetFloat());
+        auto scale = data["scale"].GetObject();
+        setScaleX(scale["x"].GetFloat());
+        setScaleY(scale["y"].GetFloat());
 
-    setRotation(data["rotate"].GetFloat());
-    setZOrder(data["z-order"].GetInt());
+        setRotation(data["rotate"].GetFloat());
+        setZOrder(data["z-order"].GetInt());
 
-    if (data.HasMember("id")) {
-        _id = data["id"].GetInt();
+        if (data.HasMember("id")) {
+            _id = data["id"].GetInt();
+        }
+        else {
+            _id = Game::getInstance()->getCurrentWorld()->getChildrenNumber() + 1;
+        }
     }
-    else {
-        _id = Game::getInstance()->getCurrentWorld()->getChildrenNumber() + 1;
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create entity in the scene.");
+        logger->flush();
     }
 }
 
 EntityObject* EntityObject::create(const typename resources::ConfigResource::JsonObject& data) {
     auto* entity = memory::MemoryPool::getInstance()->create<EntityObject>();
     if (entity == nullptr) {
-        // TODO:
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create entity in the scene.");
+        logger->flush();
     }
 
     entity->init(data);

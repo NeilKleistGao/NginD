@@ -39,6 +39,6 @@ public:
      */
     virtual void update(const float& dlt) = 0;
 };
-} // namespace ngind::memory
+} // namespace ngind::objects
 
 #endif //NGIND_UPDATABLE_OBJECT_H

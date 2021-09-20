@@ -27,41 +27,60 @@
 
 #include "components/component_factory.h"
 #include "prefab_factory.h"
+#include "log/logger_factory.h"
 
 namespace ngind::objects {
 
 EntityObject* ObjectFactory::createEntityObject(const typename resources::ConfigResource::JsonObject& data) {
-    if (data.HasMember("prefab")) {
-        auto* entity = PrefabFactory::getInstance()->loadPrefab(data["prefab"].GetString());
-        entity->init(data);
-        return entity;
-    }
-    else {
-        auto* entity = EntityObject::create(data);
-
-        if (data.HasMember("components")) {
-            auto components = data["components"].GetArray();
-            for (const auto& com : components) {
-                components::Component* next = createComponent(com);
-                entity->addComponent(com["name"].GetString(), next);
-            }
+    try {
+        if (data.HasMember("prefab")) {
+            auto* entity = PrefabFactory::getInstance()->loadPrefab(data["prefab"].GetString());
+            entity->init(data);
+            return entity;
         }
-        if (data.HasMember("children")) {
-            auto children = data["children"].GetArray();
-            for (const auto& child : children) {
-                EntityObject* next = createEntityObject(child);
-                entity->addChild(child["name"].GetString(), next);
-            }
-        }
+        else {
+            auto* entity = EntityObject::create(data);
 
-        return entity;
+            if (data.HasMember("components")) {
+                auto components = data["components"].GetArray();
+                for (const auto& com : components) {
+                    components::Component* next = createComponent(com);
+                    entity->addComponent(com["name"].GetString(), next);
+                }
+            }
+            if (data.HasMember("children")) {
+                auto children = data["children"].GetArray();
+                for (const auto& child : children) {
+                    EntityObject* next = createEntityObject(child);
+                    entity->addChild(child["name"].GetString(), next);
+                }
+            }
+
+            return entity;
+        }
     }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create entity object in object factory.");
+        logger->flush();
+    }
+
+    return nullptr;
 }
 
 components::Component* ObjectFactory::createComponent(const typename resources::ConfigResource::JsonObject& data) {
-    auto factory = components::ComponentFactory::getInstance();
-    components::Component* com = factory->create(data["type"].GetString(), data);
-    return com;
+    try {
+        auto factory = components::ComponentFactory::getInstance();
+        components::Component* com = factory->create(data["type"].GetString(), data);
+        return com;
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create component in object factory.");
+        logger->flush();
+    }
+
+    return nullptr;
 }
 
 } // namespace ngind::objects

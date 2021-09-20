@@ -30,10 +30,23 @@
 #include "components/component.h"
 
 namespace ngind::objects {
-
+/**
+ * Factory providing interface to create objects and components
+ */
 class ObjectFactory {
 public:
+    /**
+     * Create an entity object with given config data
+     * @param data: given config data
+     * @return EntityObject*, a new entity object
+     */
     static EntityObject* createEntityObject(const typename resources::ConfigResource::JsonObject& data);
+
+    /**
+     * Create a component with given config data
+     * @param data: given config data
+     * @return components::Component*, a new component
+     */
     static components::Component* createComponent(const typename resources::ConfigResource::JsonObject& data);
 };
 

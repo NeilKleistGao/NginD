@@ -61,6 +61,10 @@ public:
      */
     void removeChild(const std::string& name);
 
+    /**
+     * Remove all children by given name.
+     * @param name: the given name
+     */
     void removeAllChildren(const std::string& name);
 
     /**
@@ -70,10 +74,24 @@ public:
      */
     EntityObject* getChildByName(const std::string& name);
 
+    /**
+     * Get children by given name.
+     * @param name: the given name
+     * @return std::vector<EntityObject*>, the list of children
+     */
     std::vector<EntityObject*> getChildrenByName(const std::string& name);
 
+    /**
+     * Get children by given name, and save it in the lua ref object.
+     * @param ref: where the object would be saved
+     * @param name: name of children
+     */
     void getChildrenByName(luabridge::LuaRef ref, const std::string& name);
 
+    /**
+     * Get all children objects.
+     * @return std::vector<EntityObject*>, all children
+     */
     std::vector<EntityObject*> getChildren();
 
     /**
@@ -95,22 +113,14 @@ public:
     /**
      * @see kernel/objects/updatable_object.h
      */
-    virtual void update(const float&);
+    void update(const float&) override;
 
     /**
      * Add a component. If component exists, nothing will happen.
      * @param name: name of component
      * @param component: component pointer
      */
-    virtual inline void addComponent(const std::string& name, components::Component* component) {
-        if (_components.find(name) == _components.end()) {
-            _components[name] = component;
-            component->addReference();
-            component->setParent(this);
-        } else {
-            // TODO:
-        }
-    }
+    virtual void addComponent(const std::string& name, components::Component* component);
 
     /**
      * Get the component by name. If the component doesn't exist, it will return a null pointer.
@@ -127,6 +137,12 @@ public:
         return dynamic_cast<Type*>(_components[name]);
     }
 
+    /**
+     * Get all components by given type
+     * @tparam Type: given component type
+     * @param type: name of type
+     * @return std::vector<Type*>, list of components
+     */
     template<typename Type>
     std::vector<Type*> getComponents(const std::string& type) {
         std::vector<Type*> res;

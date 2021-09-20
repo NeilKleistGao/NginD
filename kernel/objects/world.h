@@ -47,6 +47,9 @@ public:
      */
     explicit World(std::string name);
 
+    /**
+     * @param config: the configure data of this world
+     */
     explicit World(resources::ConfigResource* config);
 
     ~World() override;
@@ -88,15 +91,33 @@ public:
      */
     void update(const float&) override;
 
+    /**
+     * Find entity object by given id
+     * @param id: the given id
+     * @return EntityObject*, the object with given id
+     */
     EntityObject* getChildByID(const int& id);
 
+    /**
+     * Add an entity object to the world.
+     * @param id: id of the object
+     * @param entity: the object
+     */
     inline void registerEntity(int id, EntityObject* entity) {
         _all_children[id] = entity;
     }
 
+    /**
+     * Remove an entity object from the world.
+     * @param id: id of the entity object
+     */
     void unregisterEntity(int id);
 
-    inline int getChildrenNumber() const {
+    /**
+     * Get the number of children.
+     * @return size_t, the number of children
+     */
+    inline size_t getChildrenNumber() const {
         return _all_children.size();
     }
 
@@ -120,6 +141,9 @@ private:
      */
     rendering::Color _background_color;
 
+    /**
+     * Table containing all entity objects in the world
+     */
     std::unordered_map<int, EntityObject*> _all_children;
 };
 

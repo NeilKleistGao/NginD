@@ -32,21 +32,45 @@
 #include "script/lua_registration.h"
 
 namespace ngind::objects {
-
+/**
+ * Factory allowing users instantiate object from prefab.
+ */
 class PrefabFactory {
 public:
+    /**
+     * Get the unique instance of factory. If it does not exist, this function will create one.
+     * @return PrefabFactory*, the unique instance
+     */
     static PrefabFactory* getInstance();
+
+    /**
+     * Destroy the unique instance if it exists.
+     */
     static void destroyInstance();
 
     PrefabFactory(const PrefabFactory&) = delete;
     PrefabFactory& operator= (const PrefabFactory&) = delete;
 
+    /**
+     * Load and instantiate a prefab.
+     * @param name: name of prefab
+     * @return EntityObject*, the instance of prefab
+     */
     EntityObject* loadPrefab(const std::string& name);
 
+    /**
+     * Remove all prefab from the cache
+     */
     void clearCache();
 private:
+    /**
+     * The unique instance.
+     */
     static PrefabFactory* _instance;
 
+    /**
+     * The prefabs cache.
+     */
     std::map<std::string, resources::ConfigResource*> _cache;
 
     PrefabFactory() = default;
@@ -63,6 +87,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(PrefabFactory) {
                 .addFunction("loadPrefab", &PrefabFactory::loadPrefab)
             .endClass()
         .endNamespace();
+
+    luabridge::setGlobal(script::LuaState::getInstance()->getState(), PrefabFactory::getInstance(), "PrefabFactory");
 }
 
 } //namespace ngind::objects

@@ -25,6 +25,7 @@
 
 #include "object.h"
 #include "entity_object.h"
+#include "log/logger_factory.h"
 
 #ifdef ENABLE_PHYSICS
 #include "extern/physics/physics_world.h"
@@ -121,7 +122,7 @@ std::vector<EntityObject*> Object::getChildrenByName(const std::string& name) {
 
 void Object::getChildrenByName(luabridge::LuaRef ref, const std::string& name) {
     if (!ref.isTable()) {
-        // TODO:
+        return;
     }
 
     auto vec = this->getChildrenByName(name);
@@ -137,6 +138,18 @@ std::vector<EntityObject*> Object::getChildren() {
     }
 
     return children;
+}
+
+void Object::addComponent(const std::string& name, components::Component* component) {
+    if (_components.find(name) == _components.end()) {
+        _components[name] = component;
+        component->addReference();
+        component->setParent(this);
+    } else {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("warning.log", log::LogLevel::LOG_LEVEL_WARNING);
+        logger->log("redundant component " + name + ".");
+        logger->flush();
+    }
 }
 
 } // namespace ngind::objects

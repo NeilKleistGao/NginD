@@ -33,31 +33,46 @@
 #include "ui/event_system.h"
 #include "object_factory.h"
 #include "prefab_factory.h"
+#include "log/logger_factory.h"
 
 namespace ngind::objects {
 
 World::World(std::string name) : Object(), _name(std::move(name)), _config(nullptr), _background_color() {
-    _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("worlds/" + _name + ".json");
-    _background_color = rendering::Color((*_config)["background-color"].GetString());
+    try {
+        _config = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("worlds/" + _name + ".json");
+        _background_color = rendering::Color((*_config)["background-color"].GetString());
 
-    ui::EventSystem::getInstance()->init();
+        ui::EventSystem::getInstance()->init();
 
-    glm::vec2 center;
-    auto camera = (*_config)["camera"].GetObject();
-    center.x = camera["x"].GetInt(); center.y = camera["y"].GetInt();
-    rendering::Camera::getInstance()->moveTo(center);
+        glm::vec2 center;
+        auto camera = (*_config)["camera"].GetObject();
+        center.x = camera["x"].GetInt(); center.y = camera["y"].GetInt();
+        rendering::Camera::getInstance()->moveTo(center);
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create world " + name + ".");
+        logger->flush();
+    }
 }
 
 World::World(resources::ConfigResource* config) : Object(), _name(), _config(config), _background_color() {
-    _name = (*_config)["world-name"].GetString();
-    _background_color = rendering::Color((*_config)["background-color"].GetString());
+    try {
+        _name = (*_config)["world-name"].GetString();
+        _background_color = rendering::Color((*_config)["background-color"].GetString());
 
-    ui::EventSystem::getInstance()->init();
+        ui::EventSystem::getInstance()->init();
 
-    glm::vec2 center;
-    auto camera = (*_config)["camera"].GetObject();
-    center.x = camera["x"].GetInt(); center.y = camera["y"].GetInt();
-    rendering::Camera::getInstance()->moveTo(center);
+        glm::vec2 center;
+        auto camera = (*_config)["camera"].GetObject();
+        center.x = camera["x"].GetInt(); center.y = camera["y"].GetInt();
+        rendering::Camera::getInstance()->moveTo(center);
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create world " + _name + ".");
+        logger->flush();
+    }
 }
 
 World::~World() {
@@ -70,18 +85,25 @@ void World::update(const float& delta) {
 }
 
 void World::loadObjects() {
-    auto children = (*_config)["children"].GetArray();
+    try {
+        auto children = (*_config)["children"].GetArray();
 
-    for (const auto& child : children) {
-        EntityObject* obj = ObjectFactory::createEntityObject(child);
-        this->addChild(child["name"].GetString(), obj);
+        for (const auto& child : children) {
+            EntityObject* obj = ObjectFactory::createEntityObject(child);
+            this->addChild(child["name"].GetString(), obj);
+        }
+
+        auto components = (*_config)["components"].GetArray();
+
+        for (const auto& component : components) {
+            auto com = ObjectFactory::createComponent(component);
+            this->addComponent(component["name"].GetString(), com);
+        }
     }
-
-    auto components = (*_config)["components"].GetArray();
-
-    for (const auto& component : components) {
-        auto com = ObjectFactory::createComponent(component);
-        this->addComponent(component["name"].GetString(), com);
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't load objects in world" + _name + ".");
+        logger->flush();
     }
 }
 

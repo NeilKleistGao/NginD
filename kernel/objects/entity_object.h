@@ -46,7 +46,7 @@ public:
     EntityObject& operator= (const EntityObject&) = delete;
 
     /// @see kernel/objects/object.h
-    virtual void update(const float&);
+    void update(const float&) override;
 
     /**
      * Set position for this object
@@ -289,6 +289,11 @@ public:
         return _anchor.y;
     }
 
+    /**
+     * Create EntityObject with json data.
+     * @param data: config data written in json
+     * @return EntityObject*, a new entity object
+     */
     static EntityObject* create(const typename resources::ConfigResource::JsonObject& data);
 
     friend class ObjectFactory;
@@ -333,6 +338,9 @@ private:
      */
     int _z_order;
 
+    /**
+     * Global index.
+     */
     int _id;
 
     /**
@@ -355,6 +363,10 @@ private:
      */
     void setDirtyComponents();
 
+    /**
+     * Initialize entity object with json config data
+     * @param data: json config data
+     */
     void init(const typename resources::ConfigResource::JsonObject& data);
 };
 
@@ -389,6 +401,12 @@ luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
             .addFunction("getRotation", &EntityObject::getRotation)
             .addFunction("setZOrder", &EntityObject::setZOrder)
             .addFunction("getZOrder", &EntityObject::getZOrder)
+            .addFunction("setAnchor", &EntityObject::setAnchor)
+            .addFunction("setAnchorX", &EntityObject::setAnchorX)
+            .addFunction("setAnchorY", &EntityObject::setAnchorY)
+            .addFunction("getAnchor", &EntityObject::getAnchor)
+            .addFunction("getAnchorX", &EntityObject::getAnchorX)
+            .addFunction("getAnchorY", &EntityObject::getAnchorY)
         .endClass()
         .endNamespace();
 }
