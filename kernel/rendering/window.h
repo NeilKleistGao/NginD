@@ -98,6 +98,10 @@ public:
      */
     void resize(const size_t& width, const size_t& height);
 
+    /**
+     * Get the window's size.
+     * @return glm::vec2, the window's size
+     */
     glm::vec2 getWindowSize() const;
 
 private:
@@ -111,8 +115,19 @@ private:
      */
     GLFWimage* _icon;
 
-    int _width, _height;
+    /**
+     * Window's width.
+     */
+    int _width;
 
+    /**
+     * Window's height.
+     */
+    int _height;
+
+    /**
+     * Is window displayed in full screen.
+     */
     bool _is_full;
 };
 } // namespace ngind::rendering

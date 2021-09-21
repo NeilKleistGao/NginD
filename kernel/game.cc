@@ -82,23 +82,23 @@ void Game::start() {
     std::string tactic = (*_global_settings)["adaptation-tactic"].GetString();
     if (tactic == "SHOW_ALL") {
         rendering::Adaptor::getInstance()->
-            setResolutionAdaptionTactic(rendering::Adaptor::ResolutionAdaptionTactic::SHOW_ALL);
+            setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::SHOW_ALL);
     }
     else if (tactic == "NO_BORDER") {
         rendering::Adaptor::getInstance()->
-                setResolutionAdaptionTactic(rendering::Adaptor::ResolutionAdaptionTactic::NO_BORDER);
+                setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::NO_BORDER);
     }
     else if (tactic == "FIXED_WIDTH") {
         rendering::Adaptor::getInstance()->
-                setResolutionAdaptionTactic(rendering::Adaptor::ResolutionAdaptionTactic::FIXED_WIDTH);
+                setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::FIXED_WIDTH);
     }
     else if (tactic == "FIXED_HEIGHT") {
         rendering::Adaptor::getInstance()->
-                setResolutionAdaptionTactic(rendering::Adaptor::ResolutionAdaptionTactic::FIXED_HEIGHT);
+                setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::FIXED_HEIGHT);
     }
     else {
         rendering::Adaptor::getInstance()->
-                setResolutionAdaptionTactic(rendering::Adaptor::ResolutionAdaptionTactic::EXACT_FIT);
+                setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::EXACT_FIT);
     }
 
     script::LuaState::getInstance()->preload("kernel");

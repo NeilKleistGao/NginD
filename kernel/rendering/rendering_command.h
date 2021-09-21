@@ -38,7 +38,7 @@ namespace ngind::rendering {
  */
 class RenderingCommand : public memory::AutoCollectionObject {
 public:
-    RenderingCommand() : AutoCollectionObject() {}
+    RenderingCommand() : AutoCollectionObject(), _program{}, _z{}, _color(), _model{} {}
 
     /**
      * execute the command.
@@ -109,6 +109,9 @@ public:
         return _program;
     }
 
+    /**
+     * Prepare before rendering begin, setting OpenGL context.
+     */
     virtual void prepare() {
         this->getProgram()->use();
         auto color = this->getColor();

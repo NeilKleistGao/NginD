@@ -27,13 +27,19 @@
 
 #include "renderer.h"
 #include "camera.h"
+#include "log/logger_factory.h"
 
 namespace ngind::rendering {
 Renderer* Renderer::_instance = nullptr;
 
 Renderer* Renderer::getInstance() {
     if (_instance == nullptr) {
-        _instance = new Renderer();
+        _instance = new(std::nothrow) Renderer();
+        if (_instance == nullptr) {
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create renderer instance.");
+            logger->flush();
+        }
     }
 
     return _instance;
@@ -85,8 +91,9 @@ void Renderer::createWindow(int screen_width,
 
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {
-        //TODO: init error
-        exit(-1);
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create initialize OpenGL.");
+        logger->flush();
     }
 
     glEnable(GL_BLEND);

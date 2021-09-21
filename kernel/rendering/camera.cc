@@ -29,11 +29,12 @@
 
 #include "SOIL2/SOIL2.h"
 #include "adaptor.h"
+#include "log/logger_factory.h"
 
 namespace ngind::rendering {
 Camera* Camera::_instance = nullptr;
 
-Camera::Camera() : _width(0), _height(0), _projection() {
+Camera::Camera() : _width(0), _height(0), _projection(), _center() {
 }
 
 Camera* Camera::getInstance() {
@@ -41,7 +42,9 @@ Camera* Camera::getInstance() {
         _instance = new(std::nothrow) Camera();
 
         if (_instance == nullptr) {
-            // TODO: throw
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create camera instance.");
+            logger->flush();
         }
     }
 
@@ -59,7 +62,6 @@ void Camera::init(const glm::vec2& center, const size_t& width, const size_t& he
     _width = width; _height = height;
     _center = center;
 
-//    glViewport(0, 0, _width, _height);
     Adaptor::getInstance()->setResolution({_width, _height});
     _projection = glm::ortho(_center.x - _width / 2, _center.x + _width / 2,
                              _center.y - _height / 2, _center.y + _height / 2, -1.0f, 1.0f);

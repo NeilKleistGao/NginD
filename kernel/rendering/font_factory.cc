@@ -25,13 +25,17 @@
 
 #include "font_factory.h"
 
+#include "log/logger_factory.h"
+
 namespace ngind::rendering {
 FontFactory* FontFactory::_instance = nullptr;
 
 FontFactory::FontFactory() : _library(nullptr) {
     auto error = FT_Init_FreeType(&_library);
     if (error) {
-        // TODO: throw
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't load Free Type Library");
+        logger->flush();
     }
 }
 

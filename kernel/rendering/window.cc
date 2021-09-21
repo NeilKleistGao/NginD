@@ -26,6 +26,7 @@
 #include "adaptor.h"
 #include "input/input.h"
 #include "SOIL2/SOIL2.h"
+#include "log/logger_factory.h"
 
 namespace ngind::rendering {
 
@@ -48,8 +49,9 @@ Window::Window(const size_t& width,
     }
 
     if (this->_window == nullptr) {
-        glfwTerminate();
-        exit(-1);
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create window.");
+        logger->flush();
     }
 
     glfwMakeContextCurrent(this->_window);
@@ -65,6 +67,8 @@ Window::~Window() {
 
     delete this->_icon;
     this->_icon = nullptr;
+
+    glfwTerminate();
 }
 
 void Window::setIcon(const std::string& path) {
@@ -75,7 +79,7 @@ void Window::setIcon(const std::string& path) {
 
     this->_icon = new(std::nothrow) GLFWimage();
     if (this->_icon == nullptr) {
-        // TODO:
+        return;
     }
 
     this->_icon->pixels = SOIL_load_image((resources::TextureResource::IMAGE_RESOURCE_PATH + "/" + path).c_str(),

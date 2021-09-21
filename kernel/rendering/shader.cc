@@ -26,6 +26,7 @@
 #include "filesystem/file_input_stream.h"
 #include "filesystem/cipher_input_stream.h"
 #include "settings.h"
+#include "log/logger_factory.h"
 
 namespace ngind::rendering {
 
@@ -61,7 +62,11 @@ Shader::Shader(const std::string& filename, const int& type) {
     GLint success;
     glGetShaderiv(this->_shader, GL_COMPILE_STATUS, &success);
     if (!success) {
-        // TODO:
+        char info[512];
+        glGetShaderInfoLog(this->_shader, 512, nullptr, info);
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't compile shader: " + std::string{info});
+        logger->flush();
     }
 }
 

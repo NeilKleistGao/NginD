@@ -83,8 +83,16 @@ public:
         return glm::vec2{_width, _height};
     }
 
+    /**
+     * Capture a picture in the screen.
+     * @param filename: the saved file's name
+     */
     void capture(const std::string& filename) const;
 
+    /**
+     * Get camera's position
+     * @return glm::vec2, camera's position
+     */
     inline glm::vec2 getCameraPosition() const {
         return _center;
     }
@@ -102,6 +110,9 @@ private:
      */
     size_t _width, _height;
 
+    /**
+     * The central position of camera
+     */
     glm::vec2 _center;
 
     /**
@@ -120,6 +131,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(Camera) {
                 .addFunction("getCameraPosition", &Camera::getCameraPosition)
             .endClass()
         .endNamespace();
+
+    luabridge::setGlobal(script::LuaState::getInstance()->getState(), Camera::getInstance(), "Camera");
 }
 
 } // namespace ngind::rendering

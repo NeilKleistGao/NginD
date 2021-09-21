@@ -91,20 +91,41 @@ public:
         _queue->push(cmd);
     }
 
+    /**
+     * Set blend factors for blend function.
+     * @param src: source factor
+     * @param dst: destination factor
+     */
     inline void setBlendFactor(const unsigned int& src, const unsigned int& dst) {
         glBlendFunc(src, dst);
     }
 
+    /**
+     * Enable multisampling or not.
+     * @param en: true if enable multisampling
+     */
     void enableMultisampling(const bool& en);
 
+    /**
+     * Check if multisampling is enabled.
+     * @return bool, true if enable multisampling
+     */
     bool isMultisampling() const {
         return _multisampling;
     }
 
+    /**
+     * Enable full screen display or not.
+     * @param enable: true if full screen display is enabled
+     */
     inline void setFullScreen(bool enable) {
         _window->setFullScreen(enable);
     }
 
+    /**
+     * Get window's size.
+     * @return glm::vec2, window's size
+     */
     inline glm::vec2 getWindowSize() const {
         return _window->getWindowSize();
     }
@@ -125,6 +146,9 @@ private:
      */
     RenderingQueue* _queue;
 
+    /**
+     * True if enable multisampling
+     */
     bool _multisampling;
 
     /**
@@ -137,17 +161,6 @@ private:
 
     ~Renderer();
 };
-
-NGIND_LUA_BRIDGE_REGISTRATION(Renderer) {
-    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
-        .beginNamespace("engine")
-            .beginClass<Renderer>("Renderer")
-                .addStaticFunction("getInstance", &Renderer::getInstance)
-                .addFunction("enableMultisampling", &Renderer::enableMultisampling)
-                .addFunction("isMultisampling", &Renderer::isMultisampling)
-            .endClass()
-        .endNamespace();
-}
 
 } // namespace ngind::rendering
 

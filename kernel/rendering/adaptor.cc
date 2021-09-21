@@ -28,6 +28,7 @@
 #include <cmath>
 
 #include "GL/glew.h"
+#include "log/logger_factory.h"
 
 namespace ngind::rendering {
 Adaptor* Adaptor::_instance = nullptr;
@@ -37,7 +38,9 @@ Adaptor* Adaptor::getInstance() {
         _instance = new(std::nothrow) Adaptor();
 
         if (_instance == nullptr) {
-            // TODO:
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create adaptor instance.");
+            logger->flush();
         }
     }
 

@@ -26,6 +26,7 @@
 #include "program.h"
 
 #include "resources/resources_manager.h"
+#include "log/logger_factory.h"
 
 namespace ngind::rendering {
 
@@ -44,7 +45,11 @@ Program::Program(const std::string& program_name) {
     GLint success;
     glGetProgramiv(this->_program, GL_LINK_STATUS, &success);
     if (!success) {
-        /// @todo error process
+        char info[512];
+        glGetProgramInfoLog(this->_program, 512, nullptr, info);
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't link program: " + std::string{info});
+        logger->flush();
     }
 }
 
@@ -60,121 +65,130 @@ Program::~Program() {
 GLint Program::getUniform(const std::string& name) const {
     auto res = glGetUniformLocation(this->_program, name.c_str());
     if (res == -1) {
-        // TODO:
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Unknown uniform variable " + name + ".");
+        logger->flush();
     }
 
     return res;
 }
 
 void Program::prepare() {
-    auto args = (*_program_config)["args"].GetArray();
-    for (const auto& arg : args) {
-        std::string name = arg["name"].GetString();
-        std::string type = arg["type"].GetString();
+    try {
+        auto args = (*_program_config)["args"].GetArray();
+        for (const auto& arg : args) {
+            std::string name = arg["name"].GetString();
+            std::string type = arg["type"].GetString();
 
-        if (type == "float") {
-            this->setFloat(name, arg["value"].GetFloat());
+            if (type == "float") {
+                this->setFloat(name, arg["value"].GetFloat());
+            }
+            else if (type == "float2") {
+                auto value = arg["value"].GetArray();
+                this->setFloat2(name, value[0].GetFloat(), value[1].GetFloat());
+            }
+            else if (type == "float3") {
+                auto value = arg["value"].GetArray();
+                this->setFloat3(name, value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat());
+            }
+            else if (type == "float4") {
+                auto value = arg["value"].GetArray();
+                this->setFloat4(name, value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat());
+            }
+            else if (type == "int") {
+                this->setInteger(name, arg["value"].GetInt());
+            }
+            else if (type == "int2") {
+                auto value = arg["value"].GetArray();
+                this->setFloat2(name, value[0].GetInt(), value[1].GetInt());
+            }
+            else if (type == "int3") {
+                auto value = arg["value"].GetArray();
+                this->setFloat3(name, value[0].GetInt(), value[1].GetInt(), value[2].GetInt());
+            }
+            else if (type == "int4") {
+                auto value = arg["value"].GetArray();
+                this->setFloat4(name, value[0].GetInt(), value[1].GetInt(), value[2].GetInt(), value[3].GetInt());
+            }
+            else if (type == "unsigned") {
+                this->setUnsigned(name, arg["value"].GetUint());
+            }
+            else if (type == "unsigned2") {
+                auto value = arg["value"].GetArray();
+                this->setUnsigned2(name, value[0].GetUint(), value[1].GetUint());
+            }
+            else if (type == "unsigned3") {
+                auto value = arg["value"].GetArray();
+                this->setUnsigned3(name, value[0].GetUint(), value[1].GetUint(), value[2].GetUint());
+            }
+            else if (type == "unsigned4") {
+                auto value = arg["value"].GetArray();
+                this->setUnsigned4(name, value[0].GetUint(), value[1].GetUint(), value[2].GetUint(), value[3].GetUint());
+            }
+            else if (type == "matrix2") {
+                auto value = arg["value"].GetArray();
+                auto mat = glm::mat2{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat()};
+                this->setMatrix2(name, mat);
+            }
+            else if (type == "matrix3") {
+                auto value = arg["value"].GetArray();
+                auto mat = glm::mat3{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(),
+                                     value[3].GetFloat(), value[4].GetFloat(), value[5].GetFloat(),
+                                     value[6].GetFloat(), value[7].GetFloat(), value[8].GetFloat()};
+                this->setMatrix3(name, mat);
+            }
+            else if (type == "matrix4") {
+                auto value = arg["value"].GetArray();
+                auto mat = glm::mat4{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
+                                     value[4].GetFloat(), value[5].GetFloat(),value[6].GetFloat(), value[7].GetFloat(),
+                                     value[8].GetFloat(), value[9].GetFloat(), value[10].GetFloat(), value[11].GetFloat(),
+                                     value[12].GetFloat(), value[13].GetFloat(), value[14].GetFloat(), value[15].GetFloat()};
+                this->setMatrix4(name, mat);
+            }
+            else if (type == "matrix23") {
+                auto value = arg["value"].GetArray();
+                auto mat = glm::mat2x3{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(),
+                                       value[3].GetFloat(), value[4].GetFloat(), value[5].GetFloat()};
+                this->setMatrix2x3(name, mat);
+            }
+            else if (type == "matrix24") {
+                auto value = arg["value"].GetArray();
+                auto mat = glm::mat2x4{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
+                                       value[4].GetFloat(), value[5].GetFloat(), value[6].GetFloat(), value[7].GetFloat()};
+                this->setMatrix2x4(name, mat);
+            }
+            else if (type == "matrix32") {
+                auto value = arg["value"].GetArray();
+                auto mat = glm::mat3x2{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(),
+                                       value[3].GetFloat(), value[4].GetFloat(), value[5].GetFloat()};
+                this->setMatrix3x2(name, mat);
+            }
+            else if (type == "matrix34") {
+                auto value = arg["value"].GetArray();
+                auto mat = glm::mat3x4{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
+                                       value[4].GetFloat(), value[5].GetFloat(), value[6].GetFloat(), value[7].GetFloat(),
+                                       value[8].GetFloat(), value[9].GetFloat(), value[10].GetFloat(), value[11].GetFloat()};
+                this->setMatrix3x4(name, mat);
+            }
+            else if (type == "matrix42") {
+                auto value = arg["value"].GetArray();
+                auto mat = glm::mat4x2{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
+                                       value[4].GetFloat(), value[5].GetFloat(), value[6].GetFloat(), value[7].GetFloat()};
+                this->setMatrix4x2(name, mat);
+            }
+            else if (type == "matrix43") {
+                auto value = arg["value"].GetArray();
+                auto mat = glm::mat4x3{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
+                                       value[4].GetFloat(), value[5].GetFloat(), value[6].GetFloat(), value[7].GetFloat(),
+                                       value[8].GetFloat(), value[9].GetFloat(), value[10].GetFloat(), value[11].GetFloat()};
+                this->setMatrix4x3(name, mat);
+            }
         }
-        else if (type == "float2") {
-            auto value = arg["value"].GetArray();
-            this->setFloat2(name, value[0].GetFloat(), value[1].GetFloat());
-        }
-        else if (type == "float3") {
-            auto value = arg["value"].GetArray();
-            this->setFloat3(name, value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat());
-        }
-        else if (type == "float4") {
-            auto value = arg["value"].GetArray();
-            this->setFloat4(name, value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat());
-        }
-        else if (type == "int") {
-            this->setInteger(name, arg["value"].GetInt());
-        }
-        else if (type == "int2") {
-            auto value = arg["value"].GetArray();
-            this->setFloat2(name, value[0].GetInt(), value[1].GetInt());
-        }
-        else if (type == "int3") {
-            auto value = arg["value"].GetArray();
-            this->setFloat3(name, value[0].GetInt(), value[1].GetInt(), value[2].GetInt());
-        }
-        else if (type == "int4") {
-            auto value = arg["value"].GetArray();
-            this->setFloat4(name, value[0].GetInt(), value[1].GetInt(), value[2].GetInt(), value[3].GetInt());
-        }
-        else if (type == "unsigned") {
-            this->setUnsigned(name, arg["value"].GetUint());
-        }
-        else if (type == "unsigned2") {
-            auto value = arg["value"].GetArray();
-            this->setUnsigned2(name, value[0].GetUint(), value[1].GetUint());
-        }
-        else if (type == "unsigned3") {
-            auto value = arg["value"].GetArray();
-            this->setUnsigned3(name, value[0].GetUint(), value[1].GetUint(), value[2].GetUint());
-        }
-        else if (type == "unsigned4") {
-            auto value = arg["value"].GetArray();
-            this->setUnsigned4(name, value[0].GetUint(), value[1].GetUint(), value[2].GetUint(), value[3].GetUint());
-        }
-        else if (type == "matrix2") {
-            auto value = arg["value"].GetArray();
-            auto mat = glm::mat2{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat()};
-            this->setMatrix2(name, mat);
-        }
-        else if (type == "matrix3") {
-            auto value = arg["value"].GetArray();
-            auto mat = glm::mat3{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(),
-                                 value[3].GetFloat(), value[4].GetFloat(), value[5].GetFloat(),
-                                 value[6].GetFloat(), value[7].GetFloat(), value[8].GetFloat()};
-            this->setMatrix3(name, mat);
-        }
-        else if (type == "matrix4") {
-            auto value = arg["value"].GetArray();
-            auto mat = glm::mat4{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
-                                 value[4].GetFloat(), value[5].GetFloat(),value[6].GetFloat(), value[7].GetFloat(),
-                                 value[8].GetFloat(), value[9].GetFloat(), value[10].GetFloat(), value[11].GetFloat(),
-                                 value[12].GetFloat(), value[13].GetFloat(), value[14].GetFloat(), value[15].GetFloat()};
-            this->setMatrix4(name, mat);
-        }
-        else if (type == "matrix23") {
-            auto value = arg["value"].GetArray();
-            auto mat = glm::mat2x3{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(),
-                                   value[3].GetFloat(), value[4].GetFloat(), value[5].GetFloat()};
-            this->setMatrix2x3(name, mat);
-        }
-        else if (type == "matrix24") {
-            auto value = arg["value"].GetArray();
-            auto mat = glm::mat2x4{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
-                                   value[4].GetFloat(), value[5].GetFloat(), value[6].GetFloat(), value[7].GetFloat()};
-            this->setMatrix2x4(name, mat);
-        }
-        else if (type == "matrix32") {
-            auto value = arg["value"].GetArray();
-            auto mat = glm::mat3x2{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(),
-                                   value[3].GetFloat(), value[4].GetFloat(), value[5].GetFloat()};
-            this->setMatrix3x2(name, mat);
-        }
-        else if (type == "matrix34") {
-            auto value = arg["value"].GetArray();
-            auto mat = glm::mat3x4{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
-                                   value[4].GetFloat(), value[5].GetFloat(), value[6].GetFloat(), value[7].GetFloat(),
-                                   value[8].GetFloat(), value[9].GetFloat(), value[10].GetFloat(), value[11].GetFloat()};
-            this->setMatrix3x4(name, mat);
-        }
-        else if (type == "matrix42") {
-            auto value = arg["value"].GetArray();
-            auto mat = glm::mat4x2{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
-                                   value[4].GetFloat(), value[5].GetFloat(), value[6].GetFloat(), value[7].GetFloat()};
-            this->setMatrix4x2(name, mat);
-        }
-        else if (type == "matrix43") {
-            auto value = arg["value"].GetArray();
-            auto mat = glm::mat4x3{value[0].GetFloat(), value[1].GetFloat(), value[2].GetFloat(), value[3].GetFloat(),
-                                   value[4].GetFloat(), value[5].GetFloat(), value[6].GetFloat(), value[7].GetFloat(),
-                                   value[8].GetFloat(), value[9].GetFloat(), value[10].GetFloat(), value[11].GetFloat()};
-            this->setMatrix4x3(name, mat);
-        }
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Program initialization failed.");
+        logger->flush();
     }
 }
 

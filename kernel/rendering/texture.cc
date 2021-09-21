@@ -27,10 +27,11 @@
 #include "filesystem/file_input_stream.h"
 #include "filesystem/zip_input_stream.h"
 #include "settings.h"
+#include "log/logger_factory.h"
 
 namespace ngind::rendering {
 
-Texture::Texture(const std::string& filename, const TextureColorMode& mode) {
+Texture::Texture(const std::string& filename, const TextureColorMode& mode) : _texture_id{}, _mode{mode}, _size{} {
     glGenTextures(1, &_texture_id);
     glBindTexture(GL_TEXTURE_2D, _texture_id);
 
@@ -41,7 +42,7 @@ Texture::Texture(const std::string& filename, const TextureColorMode& mode) {
 
     int width = 0, height = 0;
     unsigned char* img = nullptr;
-    int channel, gl_color_mode;
+    int channel = 0, gl_color_mode = 0;
     if (mode == TextureColorMode::MODE_RGB) {
         channel = SOIL_LOAD_RGB; gl_color_mode = GL_RGB;
     }
@@ -49,7 +50,9 @@ Texture::Texture(const std::string& filename, const TextureColorMode& mode) {
         channel = SOIL_LOAD_RGBA; gl_color_mode = GL_RGBA;
     }
     else {
-        // TODO:
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Unsupported image format.");
+        logger->flush();
     }
 
     if constexpr (CURRENT_MODE == MODE_RELEASE) {
@@ -77,7 +80,6 @@ Texture::Texture(const std::string& filename, const TextureColorMode& mode) {
 
     _size = glm::vec2{width, height};
     SOIL_free_image_data(img);
-    _mode = mode;
 
     glBindTexture(GL_TEXTURE_2D, 0);
 }

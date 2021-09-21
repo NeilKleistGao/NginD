@@ -26,6 +26,8 @@
 #include <iostream>
 #include <algorithm>
 
+#include "log/logger_factory.h"
+
 namespace ngind::rendering {
 
 TrueTypeFont::TrueTypeFont() : _font_face(nullptr), _cache(), _max_height(0) {
@@ -34,14 +36,21 @@ TrueTypeFont::TrueTypeFont() : _font_face(nullptr), _cache(), _max_height(0) {
 TrueTypeFont::~TrueTypeFont() {
     auto error = FT_Done_Face(_font_face);
     if (error) {
-        ///@todo
+        auto logger = log::LoggerFactory::getInstance()->getLogger("warning.log", log::LogLevel::LOG_LEVEL_WARNING);
+        logger->log("Can't release true type font");
+        logger->flush();
     }
 
     for (const auto& [_, ch] : _cache) {
         glDeleteTextures(1, &ch.texture);
     }
 
+    for (const auto& [_, ch] : _w_cache) {
+        glDeleteTextures(1, &ch.texture);
+    }
+
     _cache.clear();
+    _w_cache.clear();
 }
 
 Character TrueTypeFont::generateCharacterData(const char& c) {
@@ -49,31 +58,12 @@ Character TrueTypeFont::generateCharacterData(const char& c) {
         FT_Select_Charmap(_font_face, FT_ENCODING_NONE);
         FT_Set_Pixel_Sizes(_font_face, 0, DEFAULT_FONT_SIZE);
         if (FT_Load_Char(_font_face, c, FT_LOAD_RENDER)) {
-            ///@todo
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't load true type font character.");
+            logger->flush();
         }
 
-        Character character;
-        glGenTextures(1, &character.texture);
-        glBindTexture(GL_TEXTURE_2D, character.texture);
-        character.size = {_font_face->glyph->bitmap.width, _font_face->glyph->bitmap.rows};
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
-                     character.size.x, character.size.y,
-                     0, GL_RED, GL_UNSIGNED_BYTE,
-                     _font_face->glyph->bitmap.buffer);
-
-        _max_height = std::max<unsigned int>(_max_height, _font_face->glyph->bitmap.rows);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        character.bearing = {_font_face->glyph->bitmap_left, _font_face->glyph->bitmap_top};
-        character.advance = {_font_face->glyph->advance.x, _font_face->glyph->advance.y};
-
-        _cache[c] = character;
-
-        glBindTexture(GL_TEXTURE_2D, 0);
+        _cache[c] = bind();
     }
 
     return _cache[c];
@@ -84,34 +74,40 @@ Character TrueTypeFont::generateCharacterData(const wchar_t& c) {
         FT_Select_Charmap(_font_face, FT_ENCODING_UNICODE);
         FT_Set_Pixel_Sizes(_font_face, 0, DEFAULT_FONT_SIZE);
         if (FT_Load_Char(_font_face, c, FT_LOAD_RENDER)) {
-            ///@todo
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't load true type font character.");
+            logger->flush();
         }
 
-        Character character;
-        glGenTextures(1, &character.texture);
-        glBindTexture(GL_TEXTURE_2D, character.texture);
-        character.size = {_font_face->glyph->bitmap.width, _font_face->glyph->bitmap.rows};
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
-                     character.size.x, character.size.y,
-                     0, GL_RED, GL_UNSIGNED_BYTE,
-                     _font_face->glyph->bitmap.buffer);
-
-        _max_height = std::max<unsigned int>(_max_height, _font_face->glyph->bitmap.rows);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        character.bearing = {_font_face->glyph->bitmap_left, _font_face->glyph->bitmap_top};
-        character.advance = {_font_face->glyph->advance.x, _font_face->glyph->advance.y};
-
-        _w_cache[c] = character;
-
-        glBindTexture(GL_TEXTURE_2D, 0);
+        _w_cache[c] = bind();
     }
 
     return _w_cache[c];
+}
+
+Character TrueTypeFont::bind() {
+    Character character{};
+    glGenTextures(1, &character.texture);
+    glBindTexture(GL_TEXTURE_2D, character.texture);
+    character.size = {_font_face->glyph->bitmap.width, _font_face->glyph->bitmap.rows};
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+                 character.size.x, character.size.y,
+                 0, GL_RED, GL_UNSIGNED_BYTE,
+                 _font_face->glyph->bitmap.buffer);
+
+    _max_height = std::max<unsigned int>(_max_height, _font_face->glyph->bitmap.rows);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    character.bearing = {_font_face->glyph->bitmap_left, _font_face->glyph->bitmap_top};
+    character.advance = {_font_face->glyph->advance.x, _font_face->glyph->advance.y};
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    return character;
 }
 
 } // namespace ngind::rendering

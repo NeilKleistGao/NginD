@@ -25,7 +25,7 @@
 #define NGIND_TRUE_TYPE_FONT_H
 
 #include <string>
-#include <map>
+#include <unordered_map>
 
 #include <freetype2/ft2build.h>
 #include FT_FREETYPE_H
@@ -53,9 +53,24 @@ public:
         _font_face = face;
     }
 
+    /**
+     * Generate Character bitmap if it does not exist
+     * @param c: the given character
+     * @return Character, the bitmap and data of character
+     */
     Character generateCharacterData(const char& c);
+
+    /**
+     * Generate UTF8 Character bitmap if it does not exist
+     * @param c: the given character
+     * @return Character, the bitmap and data of character
+     */
     Character generateCharacterData(const wchar_t& c);
 
+    /**
+     * Get the max height of all characters.
+     * @return size_t, the max height
+     */
     inline size_t getMaxHeight() const {
         return _max_height;
     }
@@ -64,9 +79,27 @@ private:
      * Font face data
      */
     FT_Face _font_face;
-    std::map<char, Character> _cache;
-    std::map<wchar_t, Character> _w_cache;
+
+    /**
+     * ASCII characters cache.
+     */
+    std::unordered_map<char, Character> _cache;
+
+    /**
+     * UTF8 characters cache.
+     */
+    std::unordered_map<wchar_t, Character> _w_cache;
+
+    /**
+     * Max height of all characters.
+     */
     size_t _max_height;
+
+    /**
+     * Bind character data.
+     * @return The available character data.
+     */
+    Character bind();
 };
 
 } // namespace ngind::rendering

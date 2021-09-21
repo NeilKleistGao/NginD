@@ -32,7 +32,9 @@ Quad::Quad(std::initializer_list<GLfloat> vs) : AutoCollectionObject() {
     _size = vs.size();
 
     if (_size == 0) {
-        // TODO:
+        auto logger = log::LoggerFactory::getInstance()->getLogger("waring.log", log::LogLevel::LOG_LEVEL_WARNING);
+        logger->log("Empty quad data.");
+        logger->flush();
     }
     else {
         glGenVertexArrays(1, &_vao);

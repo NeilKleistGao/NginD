@@ -28,50 +28,99 @@
 
 namespace ngind::rendering {
 
+/**
+ * Adaptation Tactics.
+ */
+enum class ResolutionAdaptionTactic {
+    EXACT_FIT,
+    SHOW_ALL,
+    NO_BORDER,
+    FIXED_WIDTH,
+    FIXED_HEIGHT
+};
+
+/**
+ * Screen Adaptor.
+ */
 class Adaptor {
 public:
-    enum class ResolutionAdaptionTactic {
-        EXACT_FIT,
-        SHOW_ALL,
-        NO_BORDER,
-        FIXED_WIDTH,
-        FIXED_HEIGHT
-    };
-
+    /**
+     * Get the unique instance of adaptor. If it does not exist, this function will create one.
+     * @return Adaptor*, the unique instance
+     */
     static Adaptor* getInstance();
+
+    /**
+     * Destroy the unique instance if it exists.
+     */
     static void destroyInstance();
 
+    /**
+     * Set adaptation tactic.
+     * @param tactic: the given tactic.
+     */
     inline void setResolutionAdaptionTactic(ResolutionAdaptionTactic tactic) {
         _tactic = tactic;
         update();
     }
 
+    /**
+     * Set the resolution of screen.
+     * @param resolution: the screen's resolution.
+     */
     inline void setResolution(const glm::vec2& resolution) {
         _resolution = resolution;
         update();
     }
 
+    /**
+     * Set the size of window
+     * @param size: the size of window
+     */
     inline void setWindowSize(const glm::vec2& size) {
         _screen = size;
         update();
 
     }
 
+    /**
+     * Initialize adaptor.
+     * @param size: window's size
+     * @param resolution: screen's resolution
+     * @param tactic: adaptation tactic
+     */
     inline void init(const glm::vec2& size, const glm::vec2& resolution,
                      ResolutionAdaptionTactic tactic = ResolutionAdaptionTactic::EXACT_FIT) {
         _tactic = tactic; _resolution = resolution; _screen = size;
         update();
     }
 private:
+    /**
+     * The unique instance.
+     */
     static Adaptor* _instance;
 
+    /**
+     * Current adaptation tactic.
+     */
     ResolutionAdaptionTactic _tactic;
+
+    /**
+     * Screen's resolution.
+     */
     glm::vec2 _resolution;
+
+    /**
+     * Screen's size.
+     */
     glm::vec2 _screen;
 
     Adaptor() : _tactic(ResolutionAdaptionTactic::EXACT_FIT), _screen(), _resolution() {}
     ~Adaptor() = default;
 
+    /**
+     * Update OpenGL context.
+     */
     void update();
 };
 
