@@ -50,7 +50,11 @@ public:
         return _program;
     }
 
-    inline rendering::Program* operator-> () {
+    /**
+     * Get program object
+     * @return Program*, the program object
+     */
+    inline rendering::Program* operator-> () const {
         return get();
     }
 private:

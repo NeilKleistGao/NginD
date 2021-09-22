@@ -99,7 +99,7 @@ public:
     }
 
     inline luabridge::LuaRef createNil() {
-        return luabridge::LuaRef(_state);
+        return {_state};
     }
 private:
     /**

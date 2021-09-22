@@ -48,4 +48,4 @@ void ConfigResource::load(const std::string& filename) {
     _doc.Parse(content.c_str());
     this->_path = filename;
 }
-} // namespace ngind
+} // namespace ngind::resources

@@ -31,6 +31,12 @@ ResourcesManager* ResourcesManager::_instance = nullptr;
 ResourcesManager* ResourcesManager::getInstance() {
     if (_instance == nullptr) {
         _instance = new(std::nothrow) ResourcesManager();
+
+        if (_instance == nullptr) {
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create resource manager instance.");
+            logger->flush();
+        }
     }
 
     return _instance;
@@ -55,4 +61,4 @@ void ResourcesManager::release(const std::string& path) {
     }
 }
 
-} // namespace ngind
+} // namespace ngind::resources

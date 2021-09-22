@@ -29,6 +29,9 @@
 #define __NGIND_LUA_BRIDGE_REGISTRATION_CAT(__X__, __Y__) __X__##__Y__
 #define NGIND_LUA_BRIDGE_REGISTRATION_CAT(__X__, __Y__) __NGIND_LUA_BRIDGE_REGISTRATION_CAT(__X__, __Y__)
 
+/**
+ * Macro for lua registration.
+ */
 #define NGIND_LUA_BRIDGE_REGISTRATION(__NAME__)                                                                                        \
 static void NGIND_LUA_BRIDGE_REGISTRATION_CAT(__NAME__, __lua_bridge_register) ();                                                                                                   \
 namespace {                                                                                                                            \

@@ -24,6 +24,7 @@
 #include "music_resource.h"
 
 #include "audio/audio_manager.h"
+#include "log/logger_factory.h"
 
 namespace ngind::resources {
 const std::string MusicResource::MUSIC_RESOURCE_PATH = "resources/music";
@@ -43,7 +44,9 @@ MusicResource::~MusicResource() {
 void MusicResource::load(const std::string& name) {
     auto err = _stream->load((MUSIC_RESOURCE_PATH + "/" + name).c_str());
     if (err) {
-        // TODO:
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't load music " + name + ".");
+        logger->flush();
     }
 
     _length = _stream->getLength();

@@ -46,14 +46,23 @@ public:
     /**
      * @see kernel/resources/resource.h
      */
-    virtual void load(const std::string&);
+    void load(const std::string&) override;
 
     using JsonObject = rapidjson::GenericValue<rapidjson::UTF8<>>;
 
+    /**
+     * Get rapid json document.
+     * @return rapidjson::Document&, rapid json document
+     */
     inline rapidjson::Document& operator* () {
         return _doc;
     }
 
+    /**
+     * Get item by given key.
+     * @param key: specified key
+     * @return rapidjson::Document::ValueType&, item's value
+     */
     inline rapidjson::Document::ValueType& operator[] (const std::string& key) {
         return _doc[key.c_str()];
     }

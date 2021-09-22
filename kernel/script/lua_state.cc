@@ -28,13 +28,13 @@
 #include "settings.h"
 #include "filesystem/file_input_stream.h"
 #include "filesystem/cipher_input_stream.h"
+#include "log/logger_factory.h"
 
 namespace ngind::script {
 LuaState* LuaState::_instance = nullptr;
 const std::string LuaState::SCRIPT_PATH = "resources/script";
 
-LuaState::LuaState() : _state(nullptr) {
-    _state = luaL_newstate();
+LuaState::LuaState() : _state(luaL_newstate()) {
     luaL_openlibs(_state);
 }
 
@@ -48,6 +48,12 @@ LuaState::~LuaState() {
 LuaState* LuaState::getInstance() {
     if (_instance == nullptr) {
         _instance = new(std::nothrow) LuaState();
+
+        if (_instance == nullptr) {
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create lua state instance.");
+            logger->flush();
+        }
     }
 
     return _instance;
@@ -90,14 +96,18 @@ void LuaState::loadScript(const std::string& name) {
     }
 
     if (res) {
-        // TODO:
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Failed when loading script " + name + ".");
+        logger->flush();
     }
 }
 
 luabridge::LuaRef LuaState::createStateMachine(const std::string& classname) {
     luabridge::LuaRef create_function = luabridge::getGlobal(_state, classname.c_str())["new"];
     if (create_function.isNil() || !create_function.isFunction()) {
-        // TODO:
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("No create function for state machine " + classname + ".");
+        logger->flush();
     }
 
     luabridge::LuaRef object = create_function();

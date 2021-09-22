@@ -1,5 +1,4 @@
-set(TIMER_HEADER
-        kernel/timer/timer.h)
+include(cmake/CMakeLists.txt)
 
-set(TIMER_SRC
-        kernel/timer/timer.cc)
+LIST_HEADER(${CMAKE_CURRENT_LIST_DIR} TIMER_HEADER)
+LIST_SRC(${CMAKE_CURRENT_LIST_DIR} TIMER_SRC)

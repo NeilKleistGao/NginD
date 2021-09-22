@@ -1,22 +1,4 @@
-set(RESOURCES_HEADER
-        kernel/resources/config_resource.h
-        kernel/resources/font_resource.h
-        kernel/resources/program_resource.h
-        kernel/resources/resource.h
-        kernel/resources/resources_manager.h
-        kernel/resources/shader_resource.h
-        kernel/resources/texture_resource.h
-        kernel/resources/music_resource.h
-        kernel/resources/effect_resource.h
-        kernel/resources/animation_resource.h)
+include(cmake/CMakeLists.txt)
 
-set(RESOURCES_SRC
-        kernel/resources/config_resource.cc
-        kernel/resources/font_resource.cc
-        kernel/resources/program_resource.cc
-        kernel/resources/resources_manager.cc
-        kernel/resources/shader_resource.cc
-        kernel/resources/texture_resource.cc
-        kernel/resources/music_resource.cc
-        kernel/resources/effect_resource.cc
-        kernel/resources/animation_resource.cc)
+LIST_HEADER(${CMAKE_CURRENT_LIST_DIR} RESOURCES_HEADER)
+LIST_SRC(${CMAKE_CURRENT_LIST_DIR} RESOURCES_SRC)

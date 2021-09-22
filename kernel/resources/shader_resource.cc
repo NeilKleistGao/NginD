@@ -50,4 +50,4 @@ void ShaderResource::load(const std::string& filename) {
     }
 }
 
-} // namespace
+} // namespace ngind::resources

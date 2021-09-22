@@ -45,8 +45,12 @@ public:
     /**
      * @see kernel/resources/resource.h
      */
-    virtual void load(const std::string&);
+    void load(const std::string&) override;
 
+    /**
+     * Get shader object.
+     * @return rendering::Shader*, shader object
+     */
     inline rendering::Shader* operator-> () {
         return _shader;
     }

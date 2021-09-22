@@ -95,20 +95,58 @@ public:
      */
     void cancel(components::StateMachine* machine, const std::string& name);
 
+    /**
+     * Update messages' states.
+     */
     void update();
 private:
     Observer() = default;
     ~Observer();
 
+    /**
+     * Data pack used to save message in queue.
+     */
     struct MessageDataPack {
+        /**
+         * Message's name.
+         */
         std::string name;
+
+        /**
+         * Data to be sent.
+         */
         luabridge::LuaRef data;
+
+        /**
+         * Message's sender
+         */
         luabridge::LuaRef sender;
+
+        /**
+         * Sender's parent object.
+         */
         objects::Object* object;
+
+        /**
+         * Should I send message to all objects meeting requirements.
+         */
         bool all;
 
         MessageDataPack();
+
+        /**
+         * @param n: name of message
+         * @param s: sender of message
+         * @param d: data in message
+         * @param all: send to all objects.
+         */
         MessageDataPack(std::string n, const luabridge::LuaRef& s, const luabridge::LuaRef& d, bool all);
+
+        /**
+         * @param n: name of message
+         * @param obj: parent object
+         * @param d: data in message
+         */
         MessageDataPack(std::string n, objects::Object* obj, luabridge::LuaRef d);
     };
 
@@ -117,6 +155,9 @@ private:
      */
     static Observer* _instance;
 
+    /**
+     * Message queue.
+     */
     std::queue<MessageDataPack> _queue;
 
     /**

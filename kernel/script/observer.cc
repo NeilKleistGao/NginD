@@ -27,6 +27,7 @@
 
 #include "components/state_machine.h"
 #include "math/random.h"
+#include "log/logger_factory.h"
 
 namespace ngind::script {
 Observer* Observer::_instance = nullptr;
@@ -38,6 +39,12 @@ Observer::~Observer() {
 Observer* Observer::getInstance() {
     if (_instance == nullptr) {
         _instance = new(std::nothrow) Observer();
+
+        if (_instance == nullptr) {
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create observer instance.");
+            logger->flush();
+        }
     }
 
     return _instance;

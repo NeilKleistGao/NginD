@@ -42,4 +42,4 @@ void ProgramResource::load(const std::string& name) {
     this->_path = "program" + name;
 }
 
-} // namespace ngind
+} // namespace ngind::resources

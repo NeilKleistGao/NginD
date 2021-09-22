@@ -47,6 +47,10 @@ public:
      */
     void load(const std::string&) override;
 
+    /**
+     * Get true type font object.
+     * @return rendering::TrueTypeFont*, true type font object
+     */
     inline rendering::TrueTypeFont* operator-> () {
         return _font;
     }

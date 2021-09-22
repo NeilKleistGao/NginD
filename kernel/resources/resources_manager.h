@@ -31,6 +31,7 @@
 
 #include "resource.h"
 #include "memory/memory_pool.h"
+#include "log/logger_factory.h"
 
 namespace ngind::resources {
 
@@ -65,7 +66,9 @@ public:
 
         this->_resources[path] = memory::MemoryPool::getInstance()->create<Type>();
         if (this->_resources[path] == nullptr) {
-            //TODO: Exception Detect
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't load resource " + path + ".");
+            logger->flush();
         }
         else {
             this->_resources[path]->load(path);

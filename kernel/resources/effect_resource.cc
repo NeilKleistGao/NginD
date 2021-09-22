@@ -23,22 +23,27 @@
 
 #include "effect_resource.h"
 
+#include "log/logger_factory.h"
+
 namespace ngind::resources {
 const std::string EffectResource::EFFECT_RESOURCE_PATH = "resources/effect";
 
-EffectResource::EffectResource() : Resource(), _effect(nullptr) {
-    _effect = new SoLoud::Sfxr();
+EffectResource::EffectResource() : Resource(), _effect(new SoLoud::Sfxr()) {
 }
 
 EffectResource::~EffectResource() {
-    delete _effect;
-    _effect = nullptr;
+    if (_effect != nullptr) {
+        delete _effect;
+        _effect = nullptr;
+    }
 }
 
 void EffectResource::load(const std::string& name) {
     auto err = _effect->loadParams((EFFECT_RESOURCE_PATH + "/" + name).c_str());
     if (err) {
-        // TODO:
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't load effect " + name + ".");
+        logger->flush();
     }
 
     this->_path = name;

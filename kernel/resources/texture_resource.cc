@@ -23,6 +23,8 @@
 
 #include "texture_resource.h"
 
+#include "log/logger_factory.h"
+
 namespace ngind::resources {
 const std::string TextureResource::IMAGE_RESOURCE_PATH = "resources/images";
 
@@ -34,7 +36,7 @@ void TextureResource::load(const std::string& filename) {
 
     this->_path = filename;
 
-    int pos = filename.find_last_of('.');
+    auto pos = filename.find_last_of('.');
     std::string ext = filename.substr(pos + 1);
 
     if (ext == "png") {
@@ -44,8 +46,9 @@ void TextureResource::load(const std::string& filename) {
         _texture = new rendering::Texture(IMAGE_RESOURCE_PATH + "/" + filename, rendering::TextureColorMode::MODE_RGB);
     }
     else {
-        _texture = new rendering::Texture(IMAGE_RESOURCE_PATH + "/" + filename, rendering::TextureColorMode::MODE_RGB);
-        // TODO: unsupported format
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Unsupported texture format.");
+        logger->flush();
     }
 }
-} // namespace ngind
+} // namespace ngind::resources

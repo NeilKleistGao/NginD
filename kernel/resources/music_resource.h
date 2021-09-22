@@ -40,7 +40,7 @@ public:
     const static std::string MUSIC_RESOURCE_PATH;
 
     MusicResource();
-    ~MusicResource();
+    ~MusicResource() override;
 
     /**
      * @see kernel/resources/resource.h
@@ -104,10 +104,18 @@ public:
         return _stream->getLoopPoint();
     }
 
+    /**
+     * Get SoLoud Wav Stream object.
+     * @return SoLoud::WavStream*, SoLoud Wav Stream object
+     */
     inline SoLoud::WavStream* operator-> () {
         return _stream;
     }
 
+    /**
+     * Get SoLoud Wav Stream reference.
+     * @return SoLoud::WavStream&, SoLoud Wav Stream reference
+     */
     inline SoLoud::WavStream& operator* () {
         return *_stream;
     }

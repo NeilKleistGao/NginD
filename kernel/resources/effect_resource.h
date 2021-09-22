@@ -63,10 +63,18 @@ public:
         return _effect->mVolume;
     }
 
+    /**
+     * Get soLoud Sfxr object.
+     * @return SoLoud::Sfxr*, Sfxr object.
+     */
     inline SoLoud::Sfxr* operator-> () {
         return _effect;
     }
 
+    /**
+     * Get soLoud Sfxr reference
+     * @return SoLoud::Sfxr&, Sfxr reference
+     */
     inline SoLoud::Sfxr& operator* () {
         return *_effect;
     }

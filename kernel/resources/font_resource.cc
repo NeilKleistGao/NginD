@@ -24,12 +24,12 @@
 #include "font_resource.h"
 
 #include "rendering/font_factory.h"
+#include "log/logger_factory.h"
 
 namespace ngind::resources {
 const std::string FontResource::FONT_RESOURCE_PATH = "resources/fonts";
 
-FontResource::FontResource() : Resource(), _font(nullptr) {
-    _font = new rendering::TrueTypeFont();
+FontResource::FontResource() : Resource(), _font(new(std::nothrow) rendering::TrueTypeFont()) {
 }
 
 FontResource::~FontResource() {
@@ -43,6 +43,11 @@ void FontResource::load(const std::string& filename) {
         auto face = rendering::FontFactory::getInstance()->loadFontFace(FONT_RESOURCE_PATH + "/" + filename, 0);
         _font->setFontFace(face);
     }
+    else {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't load font " + filename + ".");
+        logger->flush();
+    }
 }
 
-} // namespace ngind
+} // namespace ngind::resources

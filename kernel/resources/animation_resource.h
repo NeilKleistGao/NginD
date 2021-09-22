@@ -34,15 +34,19 @@ namespace ngind::resources {
  */
 class AnimationResource : public Resource {
 public:
-    AnimationResource() : Resource() {
+    AnimationResource() : Resource(), _ase{nullptr} {
     }
     ~AnimationResource() override = default;
 
     /**
      * @see kernel/resources/resource.h
      */
-    virtual void load(const std::string&);
+    void load(const std::string&) override;
 
+    /**
+     * Get Aseprite object.
+     * @return animation::Aseprite*, Aseprite object.
+     */
     inline animation::Aseprite* operator-> () const noexcept {
         return _ase;
     }

@@ -45,8 +45,12 @@ public:
     /**
      * @see kernel/resources/resource.h
      */
-    virtual void load(const std::string&);
+    void load(const std::string&) override;
 
+    /**
+     * Get texture object.
+     * @return rendering::Texture*, texture object
+     */
     inline rendering::Texture* operator-> () {
         return _texture;
     }
@@ -58,6 +62,6 @@ private:
     rendering::Texture* _texture;
 };
 
-}
+} // namespace ngind::resources
 
 #endif //NGIND_TEXTURE_RESOURCE_H
