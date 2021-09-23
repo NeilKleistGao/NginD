@@ -29,11 +29,12 @@
 #include "input/input.h"
 #include "script/observer.h"
 #include "script/lua_state.h"
+#include "log/logger_factory.h"
 
 namespace ngind::ui {
 EventSystem* EventSystem::_instance = nullptr;
 
-EventSystem::EventSystem() : _tree(nullptr), _current_receiver(nullptr), _current_moving(nullptr) {
+EventSystem::EventSystem() : _tree(nullptr), _current_receiver(nullptr), _current_moving(nullptr), _win_height(0) {
 }
 
 EventSystem::~EventSystem() {
@@ -47,7 +48,9 @@ EventSystem* EventSystem::getInstance() {
     if (_instance == nullptr) {
         _instance = new(std::nothrow) EventSystem();
         if (_instance == nullptr) {
-            // TODO:
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create event system instance.");
+            logger->flush();
         }
     }
 
@@ -59,22 +62,6 @@ void EventSystem::destroyInstance() {
         delete _instance;
         _instance = nullptr;
     }
-}
-
-void EventSystem::registerEvent(const ClickableReceiver& receiver) {
-    if (_tree == nullptr) {
-        // TODO:
-    }
-
-    _tree->insert(receiver);
-}
-
-void EventSystem::unregisterEvent(const ClickableReceiver& receiver) {
-    if (_tree == nullptr) {
-        // TODO:
-    }
-
-    _tree->erase(receiver);
 }
 
 void EventSystem::update() {
@@ -145,7 +132,9 @@ void EventSystem::init() {
 
     _tree = new(std::nothrow) KDTree();
     if (_tree == nullptr) {
-        // TODO:
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't create KD tree.");
+        logger->flush();
     }
 }
 

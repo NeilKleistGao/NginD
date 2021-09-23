@@ -37,8 +37,7 @@
 namespace ngind {
 Game* Game::_instance = nullptr;
 
-Game::Game() : _global_timer(), _loop_flag(true), _current_world(nullptr), _transition(), _trans_next(false) {
-    this->_global_settings = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("global_settings.json");
+Game::Game() : _global_timer(), _loop_flag(true), _current_world(nullptr), _transition(), _trans_next(false), _global_settings{nullptr} {
 }
 
 Game::~Game() {
@@ -49,12 +48,18 @@ Game::~Game() {
     }
 
     _worlds.clear();
-    script::LuaState::getInstance()->destroyInstance();
+    script::LuaState::destroyInstance();
 }
 
 Game* Game::getInstance() {
     if (_instance == nullptr) {
-        _instance = new Game();
+        _instance = new(std::nothrow) Game();
+
+        if (_instance == nullptr) {
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create game instance.");
+            logger->flush();
+        }
     }
 
     return _instance;
@@ -68,37 +73,46 @@ void Game::destroyInstance() {
 }
 
 void Game::start() {
+    this->_global_settings = resources::ResourcesManager::getInstance()->load<resources::ConfigResource>("global_settings.json");
     auto render = rendering::Renderer::getInstance();
-    auto height = (*_global_settings)["window-height"].GetInt();
-    render->createWindow((*_global_settings)["window-width"].GetInt(), height,
-                         (*_global_settings)["resolution-width"].GetInt(),
-                         (*_global_settings)["resolution-height"].GetInt(),
-                         (*_global_settings)["window-title"].GetString(),
-                         (*_global_settings)["window-icon"].GetString(),
-                         (*_global_settings)["window-full-screen"].GetBool());
 
-    ui::EventSystem::getInstance()->init(height);
+    try {
+        auto height = (*_global_settings)["window-height"].GetInt();
+        render->createWindow((*_global_settings)["window-width"].GetInt(), height,
+                             (*_global_settings)["resolution-width"].GetInt(),
+                             (*_global_settings)["resolution-height"].GetInt(),
+                             (*_global_settings)["window-title"].GetString(),
+                             (*_global_settings)["window-icon"].GetString(),
+                             (*_global_settings)["window-full-screen"].GetBool());
 
-    std::string tactic = (*_global_settings)["adaptation-tactic"].GetString();
-    if (tactic == "SHOW_ALL") {
-        rendering::Adaptor::getInstance()->
-            setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::SHOW_ALL);
+        ui::EventSystem::getInstance()->init(height);
+
+        std::string tactic = (*_global_settings)["adaptation-tactic"].GetString();
+        if (tactic == "SHOW_ALL") {
+            rendering::Adaptor::getInstance()->
+                    setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::SHOW_ALL);
+        }
+        else if (tactic == "NO_BORDER") {
+            rendering::Adaptor::getInstance()->
+                    setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::NO_BORDER);
+        }
+        else if (tactic == "FIXED_WIDTH") {
+            rendering::Adaptor::getInstance()->
+                    setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::FIXED_WIDTH);
+        }
+        else if (tactic == "FIXED_HEIGHT") {
+            rendering::Adaptor::getInstance()->
+                    setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::FIXED_HEIGHT);
+        }
+        else {
+            rendering::Adaptor::getInstance()->
+                    setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::EXACT_FIT);
+        }
     }
-    else if (tactic == "NO_BORDER") {
-        rendering::Adaptor::getInstance()->
-                setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::NO_BORDER);
-    }
-    else if (tactic == "FIXED_WIDTH") {
-        rendering::Adaptor::getInstance()->
-                setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::FIXED_WIDTH);
-    }
-    else if (tactic == "FIXED_HEIGHT") {
-        rendering::Adaptor::getInstance()->
-                setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::FIXED_HEIGHT);
-    }
-    else {
-        rendering::Adaptor::getInstance()->
-                setResolutionAdaptionTactic(rendering::ResolutionAdaptionTactic::EXACT_FIT);
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("Can't start game.");
+        logger->flush();
     }
 
     script::LuaState::getInstance()->preload("kernel");

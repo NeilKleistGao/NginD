@@ -52,13 +52,17 @@ public:
      * Register a new click event.
      * @param receiver: clickable area data
      */
-    void registerEvent(const ClickableReceiver& receiver);
+    inline void registerEvent(const ClickableReceiver& receiver) {
+        _tree->insert(receiver);
+    }
 
     /**
      * Unregister some click event.
      * @param receiver: clickable area data
      */
-    void unregisterEvent(const ClickableReceiver& receiver);
+    inline void unregisterEvent(const ClickableReceiver& receiver) {
+        _tree->erase(receiver);
+    }
 
     /**
      * Update events' states each frame.

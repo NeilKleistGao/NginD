@@ -1,10 +1,4 @@
-set(UI_PREFIX kernel/ui)
+include(cmake/CMakeLists.txt)
 
-set(UI_HEADER
-        ${UI_PREFIX}/kd_tree.h
-        ${UI_PREFIX}/clickable_receiver.h
-        ${UI_PREFIX}/event_system.h)
-
-set(UI_SRC
-        ${UI_PREFIX}/kd_tree.cc
-        ${UI_PREFIX}/event_system.cc)
+LIST_HEADER(${CMAKE_CURRENT_LIST_DIR} UI_HEADER)
+LIST_SRC(${CMAKE_CURRENT_LIST_DIR} UI_SRC)

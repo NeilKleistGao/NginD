@@ -33,10 +33,10 @@ function CameraMover:enter()
 end
 
 function CameraMover:updateLeft(delta)
-    pos = Camera.getCameraPosition()
+    pos = Camera:getCameraPosition()
     if self._dis > 0 then
         pos.x = pos.x - delta * 100
-        Camera.moveTo(pos)
+        Camera:moveTo(pos)
         self._dis = self._dis - 1
     else
         self._dis = 100
@@ -45,10 +45,10 @@ function CameraMover:updateLeft(delta)
 end
 
 function CameraMover:updateRight(delta)
-    pos = Camera.getCameraPosition()
+    pos = Camera:getCameraPosition()
     if self._dis > 0 then
         pos.x = pos.x + delta * 100
-        Camera.moveTo(pos)
+        Camera:moveTo(pos)
         self._dis = self._dis - 1
     else
         self._dis = 100

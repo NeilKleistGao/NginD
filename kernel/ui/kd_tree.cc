@@ -24,11 +24,7 @@
 #include "kd_tree.h"
 
 namespace ngind::ui {
-KDTree::KDTree() {
-    _root = new(std::nothrow) KDNode();
-    if (_root == nullptr) {
-        // TODO:
-    }
+KDTree::KDTree() : _root(new KDNode()) {
 }
 
 KDTree::~KDTree() {
@@ -231,10 +227,10 @@ void KDTree::insert(KDNode* node, const ClickableReceiver& value, float top, flo
 ClickableReceiver* KDTree::query(KDNode* node, const glm::vec2& point) {
     ClickableReceiver* res = nullptr;
     if (!node->receivers.empty()) {
-        for (int i = 0; i < node->receivers.size(); ++i) {
-            if (node->receivers[i]*point) {
-                if (res == nullptr || res->z_order < node->receivers[i].z_order) {
-                    res = &node->receivers[i];
+        for (auto & receiver : node->receivers) {
+            if (receiver*point) {
+                if (res == nullptr || res->z_order < receiver.z_order) {
+                    res = &receiver;
                 }
             }
         }

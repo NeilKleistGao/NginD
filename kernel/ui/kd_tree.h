@@ -62,17 +62,41 @@ private:
      */
     constexpr static size_t MAX_NODE_THRESHOLD = 8;
 
+    /**
+     * KD tree node.
+     */
     struct KDNode {
+        /**
+         * Split in vertical direction.
+         */
         bool vertical;
+
+        /**
+         * Central position in this axis.
+         */
         float center;
+
+        /**
+         * First child.
+         */
         KDNode* first;
+
+        /**
+         * Second child.
+         */
         KDNode* second;
 
+        /**
+         * All receivers in this leaf node.
+         */
         std::vector<ClickableReceiver> receivers;
 
         KDNode() : vertical(true), center(0.0f), first(nullptr), second(nullptr), receivers() {}
     };
 
+    /**
+     * Root of KD tree.
+     */
     KDNode* _root;
 
     /**

@@ -32,7 +32,7 @@ function PrefabLoader:enter()
 end
 
 function PrefabLoader:updateCreate(delta)
-    local spin1 = PrefabFactory.loadPrefab("spin")
+    local spin1 = PrefabFactory:loadPrefab("spin")
     spin1:setPosition(engine.vec2(200, 384))
     local script = StateMachine.getComponent(spin1, "Spin")
     script.direction = 1

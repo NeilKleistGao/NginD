@@ -40,11 +40,16 @@ std::unordered_map<LanguageCode, std::string> I18N::_mapping = {
 };
 
 I18N::I18N() : _lang(LanguageCode::EN_US) {
+    init();
 }
 
 I18N* I18N::getInstance() {
     if (_instance == nullptr) {
-        _instance = new I18N{};
+        _instance = new(std::nothrow) I18N{};
+
+        if (_instance == nullptr) {
+
+        }
     }
 
     return _instance;
@@ -121,7 +126,7 @@ void I18N::loadLanguagePack(const int& icode, const std::string& filename) {
 
 std::string I18N::getByName(const std::string& name) {
     if (_data.find(_lang) == _data.end()) {
-        // TODO:
+        return "";
     }
 
     auto& pack = _data[_lang];
@@ -134,7 +139,7 @@ std::string I18N::getByName(const std::string& name) {
 
 std::string I18N::getByIndex(const size_t & index) {
     if (_default.find(_lang) == _default.end()) {
-        // TODO:
+        return "";
     }
 
     auto& pack = _default[_lang];
@@ -143,6 +148,20 @@ std::string I18N::getByIndex(const size_t & index) {
     }
 
     return "";
+}
+
+void I18N::init() {
+    auto state = script::LuaState::getInstance()->getState();
+    auto lang_table = luabridge::newTable(state);
+    {
+        lang_table["EN_US"] = static_cast<int>(LanguageCode::EN_US);
+        lang_table["ZH_CN"] = static_cast<int>(LanguageCode::ZH_CN);
+        lang_table["JA_JP"] = static_cast<int>(LanguageCode::JA_JP);
+        lang_table["FR_FR"] = static_cast<int>(LanguageCode::FR_FR);
+        lang_table["DE_DE"] = static_cast<int>(LanguageCode::DE_DE);
+    }
+
+    luabridge::setGlobal(state, lang_table, "LANGUAGE_CODE");
 }
 
 } // namespace ngind::i18n

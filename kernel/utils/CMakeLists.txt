@@ -1,6 +1,4 @@
-set(UTILS_HEADER
-        kernel/utils/converter.h
-        kernel/utils/archive.h)
-set(UTILS_SRC
-        kernel/utils/converter.cc
-        kernel/utils/archive.cc)
+include(cmake/CMakeLists.txt)
+
+LIST_HEADER(${CMAKE_CURRENT_LIST_DIR} UTILS_HEADER)
+LIST_SRC(${CMAKE_CURRENT_LIST_DIR} UTILS_SRC)

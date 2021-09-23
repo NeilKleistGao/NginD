@@ -32,15 +32,15 @@ function ScreenSize:enter()
 end
 
 function ScreenSize:updateWin()
-    if Input.getKeyReleased(KEY_CODE.SPACE) then
-        Game.setFullScreen(true)
+    if Input:getKeyReleased(KEY_CODE.SPACE) then
+        Game:setFullScreen(true)
         self.move("Full")
     end
 end
 
 function ScreenSize:updateFull()
-    if Input.getKeyReleased(KEY_CODE.SPACE) then
-        Game.setFullScreen(false)
+    if Input:getKeyReleased(KEY_CODE.SPACE) then
+        Game:setFullScreen(false)
         self.move("Win")
     end
 end

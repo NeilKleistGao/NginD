@@ -28,7 +28,7 @@ function RecordTime:ctor()
 end
 
 function RecordTime:enter()
-    self.date = Archive.getString("date", "")
+    self.date = Archive:getString("date", "")
     self.move("Display")
 end
 
@@ -48,5 +48,5 @@ end
 
 function RecordTime:exit()
     local now = os.date("%Y-%m-%d %H:%M:%S")
-    Archive.setString("date", now)
+    Archive:setString("date", now)
 end

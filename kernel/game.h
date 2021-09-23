@@ -57,6 +57,10 @@ public:
      */
     void loadWorld(const std::string& name);
 
+    /**
+     * Load a game world by given configuration data.
+     * @param config: given configuration data
+     */
     void loadWorld(resources::ConfigResource* config);
 
     /**
@@ -103,15 +107,27 @@ public:
         this->_loop_flag = false;
     }
 
+    /**
+     * Get world's name
+     * @return
+     */
     inline std::string getCurrentWorldName() {
         return this->_current_world->getName();
     }
 
+    /**
+     * Set full display.
+     * @param enable: true if display on the full screen.
+     */
     void setFullScreen(bool enable);
 private:
     Game();
     ~Game();
 
+    /**
+     * Update all components.
+     * @param delta
+     */
     void update(float delta);
 
     /**
@@ -149,8 +165,19 @@ private:
      */
     bool _loop_flag;
 
+    /**
+     * World transition function.
+     */
     std::function<void(void)> _transition;
+
+    /**
+     * Should transform to another world after this frame.
+     */
     bool _trans_next;
+
+    /**
+     * Next world to show.
+     */
     std::string _next_world;
 };
 
@@ -165,6 +192,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(Input) {
                 .addFunction("setFullScreen", &Game::setFullScreen)
             .endClass()
         .endNamespace();
+
+    luabridge::setGlobal(script::LuaState::getInstance()->getState(), Game::getInstance(), "Game");
 }
 
 } // namespace ngind

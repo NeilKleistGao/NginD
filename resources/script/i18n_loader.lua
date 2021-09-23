@@ -29,14 +29,14 @@ function I18NLoader:ctor()
 end
 
 function I18NLoader:enter()
-    I18N.loadLanguagePack(LANGUAGE_CODE.ZH_CN, "greeting.tini")
+    I18N:loadLanguagePack(LANGUAGE_CODE.ZH_CN, "greeting.tini")
     self.move("Idle")
 end
 
 function I18NLoader:updateIdle()
     if not self.showed then
-        I18N.use(LANGUAGE_CODE.ZH_CN)
-        local text = I18N.getByName("hello")
+        I18N:use(LANGUAGE_CODE.ZH_CN)
+        local text = I18N:getByName("hello")
         local label = Label.getComponent(self.game_object)
         label:setText(text)
         self.showed = true

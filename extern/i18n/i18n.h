@@ -86,6 +86,8 @@ private:
     I18N();
     ~I18N() = default;
 
+    static void init();
+
     /**
      * The unique instance.
      */
@@ -125,7 +127,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(I18N) {
                 .addFunction("getByIndex", &I18N::getByIndex)
             .endClass()
         .endNamespace();
-    script::LuaState::getInstance()->preload("extern/i18n");
+
+    luabridge::setGlobal(script::LuaState::getInstance()->getState(), I18N::getInstance(), "I18N");
 }
 
 } // namespace ngind::i18n

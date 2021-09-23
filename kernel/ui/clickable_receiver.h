@@ -77,6 +77,11 @@ struct ClickableReceiver {
         return true;
     }
 
+    /**
+     * Check if given point is in the polygon.
+     * @param point: the given point
+     * @return bool, true if this polygon contains this point
+     */
     bool operator* (const glm::vec2& point) {
         int count = 0;
         auto size = vertex.size();

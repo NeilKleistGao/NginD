@@ -26,7 +26,6 @@
 #ifndef NGIND_COLOR_H
 #define NGIND_COLOR_H
 
-#include "utils/converter.h"
 #include "script/lua_registration.h"
 
 namespace ngind::rendering {
@@ -36,8 +35,8 @@ namespace ngind::rendering {
  */
 struct Color {
     Color() = default;
-    explicit Color(const std::string& code) {
-        auto color = Converter::convertHexString(code.substr(1));
+    explicit Color(const std::string& code) : r(), g(), b(), a() {
+        auto color = convertHexString(code.substr(1));
         r = (color & 0xFF000000) >> 24;
         g = (color & 0x00FF0000) >> 16;
         b = (color & 0x0000FF00) >> 8;
@@ -48,6 +47,24 @@ struct Color {
      * R,G,B,A components.
      */
     unsigned char r, g, b, a;
+private:
+    static unsigned int convertHexString(const std::string& str) {
+        unsigned int res = 0;
+        for (const auto& ch : str) {
+            res <<= 4;
+            if (isdigit(ch)) {
+                res += static_cast<unsigned int>(ch - '0');
+            }
+            else if (islower(ch)) {
+                res += static_cast<unsigned int>(ch - 'a' + 10);
+            }
+            else {
+                res += static_cast<unsigned int>(ch - 'A' + 10);
+            }
+        }
+
+        return res;
+    }
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(RGBA) {

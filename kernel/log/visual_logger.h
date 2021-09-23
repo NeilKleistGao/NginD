@@ -28,7 +28,6 @@
 
 #include "objects/entity_object.h"
 #include "components/label.h"
-#include "utils/converter.h"
 
 namespace ngind::log {
 

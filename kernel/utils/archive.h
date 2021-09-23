@@ -32,24 +32,95 @@
 
 namespace ngind::utils {
 
+/**
+ * Archive manager used to save simple user data.
+ */
 class Archive {
 public:
+    /**
+     * Get the unique instance of archive. If it does not exist, this function will create one.
+     * @return Archive*, the unique instance
+     */
     static Archive* getInstance();
+
+    /**
+     * Destroy the instance if it exists.
+     */
     static void destroyInstance();
 
+    /**
+     * Save string variable.
+     * @param key: variable's key
+     * @param value: variable's value
+     */
     void setString(const std::string& key, const std::string& value);
+
+    /**
+     * Save integer variable.
+     * @param key: variable's key
+     * @param value: variable's value
+     */
     void setInteger(const std::string& key, int value);
+
+    /**
+     * Save float variable.
+     * @param key: variable's key
+     * @param value: variable's value
+     */
     void setFloat(const std::string& key, float value);
+
+    /**
+     * Save boolean variable.
+     * @param key: variable's key
+     * @param value: variable's value
+     */
     void setBoolean(const std::string& key, bool value);
 
+    /**
+     * Read string variable.
+     * @param key: variable's key
+     * @param default_value: default value if the key does not exist
+     * @return std::string, string variable
+     */
     std::string getString(const std::string& key, const std::string& default_value);
+
+    /**
+     * Read integer variable.
+     * @param key: variable's key
+     * @param default_value: default value if the key does not exist
+     * @return int, integer variable
+     */
     int getInteger(const std::string& key, int default_value);
+
+    /**
+     * Read float variable.
+     * @param key: variable's key
+     * @param default_value: default value if the key does not exist
+     * @return float, float variable
+     */
     float getFloat(const std::string& key, float default_value);
+
+    /**
+     * Read boolean variable.
+     * @param key: variable's key
+     * @param default_value: default value if the key does not exist
+     * @return bool, boolean variable
+     */
     bool getBoolean(const std::string& key, bool default_value);
 private:
+    /**
+     * The unique instance.
+     */
     static Archive* _instance;
 
+    /**
+     * Archive document.
+     */
     rapidjson::Document _doc;
+
+    /**
+     * Path to store the archive.
+     */
     static const std::string ARCHIVE_FILENAME;
 
     Archive();
@@ -71,6 +142,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(Archive) {
                 .addFunction("getBoolean", &Archive::getBoolean)
             .endClass()
         .endNamespace();
+
+    luabridge::setGlobal(script::LuaState::getInstance()->getState(), Archive::getInstance(), "Archive");
 }
 
 } // namespace ngind::utils

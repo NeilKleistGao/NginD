@@ -32,8 +32,8 @@ function Capture:enter()
 end
 
 function Capture:updateIdle()
-    if Input.getKeyReleased(KEY_CODE.SPACE) then
-        Camera.capture("capture_test.png")
+    if Input:getKeyReleased(KEY_CODE.SPACE) then
+        Camera:capture("capture_test.png")
     end
 end
 

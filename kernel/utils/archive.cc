@@ -30,10 +30,8 @@
 #include "filesystem/file_output_stream.h"
 #include "filesystem/cipher_output_stream.h"
 #include "filesystem/cipher_input_stream.h"
-#include "resources/config_resource.h"
-#include "resources/resources_manager.h"
-#include "game.h"
 #include "settings.h"
+#include "log/logger_factory.h"
 
 namespace ngind::utils {
 Archive* Archive::_instance = nullptr;
@@ -43,7 +41,9 @@ Archive* Archive::getInstance() {
     if (_instance == nullptr) {
         _instance = new(std::nothrow) Archive();
         if (_instance == nullptr) {
-            // TODO:
+            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+            logger->log("Can't create archive instance.");
+            logger->flush();
         }
     }
 
