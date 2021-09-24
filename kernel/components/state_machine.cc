@@ -103,6 +103,10 @@ void StateMachine::halt() {
 }
 
 void StateMachine::update(const float& dlt) {
+    if (_instance.isNil()) {
+        return;
+    }
+
     if (_update_function.isNil()) {
         if (_state_name.empty()) {
             luabridge::LuaRef entry = _instance["enter"];

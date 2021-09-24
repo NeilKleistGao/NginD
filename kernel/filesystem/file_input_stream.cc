@@ -43,6 +43,11 @@ void FileInputStream::open(const std::string& filename) {
         this->close();
     }
 
+    if (!std::filesystem::exists(filename)) {
+        _fp = fopen(filename.c_str(), "a+");
+        fclose(_fp);
+    }
+
     _fp = fopen(filename.c_str(), "rb");
     if (_fp == nullptr) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);

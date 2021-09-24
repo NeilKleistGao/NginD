@@ -46,61 +46,46 @@ end
 function WorldSwitch:exit()
 end
 
-WORLD_SWITCH_TABLE = {
-    [welcome] = {
-        [next] = "colorful-labels",
-        [prev] = "resolution"
-    },
-    [colorful-labels] = {
-        [next] = "audio",
-        [prev] = "welcome"
-    },
-    [audio] = {
-        [next] = "i18n",
-        [prev] = "colorful-labels"
-    },
-    [i18n] = {
-        [next] = "animation",
-        [prev] = "audio"
-    },
-    [animation] = {
-        [next] = "button",
-        [prev] = "i18n"
-    },
-    [button] = {
-        [next] = "capture",
-        [prev] = "animation"
-    },
-    [capture] = {
-        [next] = "physics",
-        [prev] = "button"
-    },
-    [physics] = {
-        [next] = "joint",
-        [prev] = "capture"
-    },
-    [joint] = {
-        [next] = "camera",
-        [prev] = "physics"
-    },
-    [camera] = {
-        [next] = "archive",
-        [prev] = "joint"
-    },
-    [archive] = {
-        [next] = "prefab",
-        [prev] = "camera"
-    },
-    [prefab] = {
-        [next] = "shader",
-        [prev] = "archive"
-    },
-    [shader] = {
-        [next] = "resolution",
-        [prev] = "prefab"
-    },
-    [resolution] = {
-        [next] = "welcome",
-        [prev] = "shader"
-    }
-}
+WORLD_SWITCH_TABLE = {}
+WORLD_SWITCH_TABLE["welcome"] = {}
+WORLD_SWITCH_TABLE["welcome"]["next"] = "colorful-labels"
+WORLD_SWITCH_TABLE["welcome"]["prev"] = "resolution"
+WORLD_SWITCH_TABLE["colorful-labels"] = {}
+WORLD_SWITCH_TABLE["colorful-labels"]["next"] = "audio"
+WORLD_SWITCH_TABLE["colorful-labels"]["prev"] = "welcome"
+WORLD_SWITCH_TABLE["audio"] = {}
+WORLD_SWITCH_TABLE["audio"]["next"] = "i18n"
+WORLD_SWITCH_TABLE["audio"]["prev"] = "colorful-labels"
+WORLD_SWITCH_TABLE["i18n"] = {}
+WORLD_SWITCH_TABLE["i18n"]["next"] = "animation"
+WORLD_SWITCH_TABLE["i18n"]["prev"] = "audio"
+WORLD_SWITCH_TABLE["animation"] = {}
+WORLD_SWITCH_TABLE["animation"]["next"] = "button"
+WORLD_SWITCH_TABLE["animation"]["prev"] = "i18n"
+WORLD_SWITCH_TABLE["button"] = {}
+WORLD_SWITCH_TABLE["button"]["next"] = "capture"
+WORLD_SWITCH_TABLE["button"]["prev"] = "animation"
+WORLD_SWITCH_TABLE["capture"] = {}
+WORLD_SWITCH_TABLE["capture"]["next"] = "physics"
+WORLD_SWITCH_TABLE["capture"]["prev"] = "button"
+WORLD_SWITCH_TABLE["physics"] = {}
+WORLD_SWITCH_TABLE["physics"]["next"] = "joint"
+WORLD_SWITCH_TABLE["physics"]["prev"] = "capture"
+WORLD_SWITCH_TABLE["joint"] = {}
+WORLD_SWITCH_TABLE["joint"]["next"] = "camera"
+WORLD_SWITCH_TABLE["joint"]["prev"] = "physics"
+WORLD_SWITCH_TABLE["camera"] = {}
+WORLD_SWITCH_TABLE["camera"]["next"] = "archive"
+WORLD_SWITCH_TABLE["camera"]["prev"] = "joint"
+WORLD_SWITCH_TABLE["archive"] = {}
+WORLD_SWITCH_TABLE["archive"]["next"] = "prefab"
+WORLD_SWITCH_TABLE["archive"]["prev"] = "camera"
+WORLD_SWITCH_TABLE["prefab"] = {}
+WORLD_SWITCH_TABLE["prefab"]["next"] = "shader"
+WORLD_SWITCH_TABLE["prefab"]["prev"] = "archive"
+WORLD_SWITCH_TABLE["shader"] = {}
+WORLD_SWITCH_TABLE["shader"]["next"] = "resolution"
+WORLD_SWITCH_TABLE["shader"]["prev"] = "prefab"
+WORLD_SWITCH_TABLE["resolution"] = {}
+WORLD_SWITCH_TABLE["resolution"]["next"] = "welcome"
+WORLD_SWITCH_TABLE["resolution"]["prev"] = "shader"

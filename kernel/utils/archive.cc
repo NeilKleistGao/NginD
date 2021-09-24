@@ -35,7 +35,6 @@
 
 namespace ngind::utils {
 Archive* Archive::_instance = nullptr;
-const std::string Archive::ARCHIVE_FILENAME = "NGIND_ARCHIVE.json";
 
 Archive* Archive::getInstance() {
     if (_instance == nullptr) {
@@ -58,6 +57,7 @@ void Archive::destroyInstance() {
 }
 
 Archive::Archive() {
+    const std::string ARCHIVE_FILENAME = "NGIND_ARCHIVE.json";
     std::string content;
     if constexpr (CURRENT_MODE == MODE_RELEASE) {
         std::string temp = ARCHIVE_FILENAME;
@@ -80,6 +80,7 @@ Archive::Archive() {
 }
 
 Archive::~Archive() {
+    const std::string ARCHIVE_FILENAME = "NGIND_ARCHIVE.json";
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     _doc.Accept(writer);

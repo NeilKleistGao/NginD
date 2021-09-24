@@ -23,25 +23,38 @@
 
 #include "physics_world.h"
 
+#include "kernel/log/logger_factory.h"
+
 namespace ngind::physics {
 
-PhysicsWorld::PhysicsWorld() : components::Component(), _gravity(0, -9.8), _world(_gravity) {
+PhysicsWorld::PhysicsWorld() : components::Component(), _gravity(0, -9.8), _world(_gravity), _passed(0.0f) {
 }
 
-PhysicsWorld::~PhysicsWorld() {
-}
+PhysicsWorld::~PhysicsWorld() = default;
 
 void PhysicsWorld::update(const float& delta) {
     components::Component::update(delta);
-    _world.Step(delta, 8, 3);
+    _passed += _timer.getTick();
+    if (_passed >= 0.2f) {
+        _world.Step(0.2f, 8, 3);
+        _passed -= 0.2f;
+    }
 }
 
 void PhysicsWorld::init(const typename resources::ConfigResource::JsonObject& data) {
-    auto gravity = data["gravity"].GetObject();
-    setGravity(gravity["x"].GetFloat(), gravity["y"].GetFloat());
-    _world.SetContinuousPhysics(true);
-    _world.SetAllowSleeping(true);
-    _world.SetContactListener(&listener);
+    try {
+        auto gravity = data["gravity"].GetObject();
+        _gravity = {gravity["x"].GetFloat(), gravity["y"].GetFloat()};
+        setGravity(_gravity.x, _gravity.y);
+        _world.SetContinuousPhysics(true);
+        _world.SetAllowSleeping(true);
+        _world.SetContactListener(&listener);
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("An error occurred when initializing physics world.");
+        logger->flush();
+    }
 }
 
 PhysicsWorld* PhysicsWorld::create(const typename resources::ConfigResource::JsonObject& data) {

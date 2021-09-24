@@ -29,35 +29,92 @@
 
 namespace ngind::physics {
 
+/**
+ * General physics collision shape. Use a specified class rather than this.
+ */
 struct PhysicsShape {
+    /**
+     * b2 shape object.
+     */
     b2Shape* shape;
     PhysicsShape() : shape(nullptr) {}
-    virtual ~PhysicsShape(){};
+    virtual ~PhysicsShape() = default;
 };
 
+/**
+ * Physics collision with circle shape.
+ */
 struct CircleShape : public PhysicsShape {
+    /**
+     * Radius of circle.
+     */
     float radius;
+
+    /**
+     * @param data: the configuration data this component initialization process requires
+     */
     explicit CircleShape(const typename resources::ConfigResource::JsonObject& data);
     ~CircleShape() override;
 };
 
+/**
+ * Physics collision with polygon shape.
+ */
 struct PolygonShape : public PhysicsShape {
+    /**
+     * Length of vertices array.
+     */
     int length;
+
+    /**
+     * Vertices list.
+     */
     b2Vec2* vertex;
+
+    /**
+     * @param data: the configuration data this component initialization process requires
+     */
     explicit PolygonShape(const typename resources::ConfigResource::JsonObject& data);
     ~PolygonShape() override;
 };
 
+/**
+ * Physics collision with edge shape.
+ */
 struct EdgeShape : public PhysicsShape {
+    /**
+     * Length of vertices array.
+     */
     int length;
+
+    /**
+     * Vertices list.
+     */
     b2Vec2* vertex;
+
+    /**
+     * @param data: the configuration data this component initialization process requires
+     */
     explicit EdgeShape(const typename resources::ConfigResource::JsonObject& data);
     ~EdgeShape() override;
 };
 
+/**
+ * Physics collision with chain shape.
+ */
 struct ChainShape : public PhysicsShape {
+    /**
+     * Length of vertices array.
+     */
     int length;
+
+    /**
+     * Vertices list.
+     */
     b2Vec2* vertex;
+    /**
+     * @param data: the configuration data this component initialization process requires
+     */
     explicit ChainShape(const typename resources::ConfigResource::JsonObject& data);
     ~ChainShape() override;
 };

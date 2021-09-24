@@ -118,11 +118,6 @@ private:
      */
     rapidjson::Document _doc;
 
-    /**
-     * Path to store the archive.
-     */
-    static const std::string ARCHIVE_FILENAME;
-
     Archive();
     ~Archive();
 };

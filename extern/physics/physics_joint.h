@@ -31,6 +31,9 @@
 
 namespace ngind::physics {
 
+/**
+ * 2D general physics joint. You should use specified joint type rather than this.
+ */
 class PhysicsJoint : public components::Component {
 public:
     PhysicsJoint()
@@ -40,36 +43,88 @@ public:
         {}
     ~PhysicsJoint() override;
 
+    /**
+     * @see objects/updatable_object.h
+     */
     void update(const float& delta) override {}
 
+    /**
+     * Initialization function of this class used by configuration creating method. This function
+     * is inherited from Component
+     * @param data: the configuration data this component initialization process requires.
+     */
     void init(const typename resources::ConfigResource::JsonObject& data) override {}
 
+    /**
+     * Get the first body connected by this joint.
+     * @return RigidBody* the first rigid body
+     */
     inline RigidBody* getBodyA() {
         return _body_a;
     }
 
+    /**
+     * Get the second body connected by this joint.
+     * @return RigidBody* the second rigid body
+     */
     inline RigidBody* getBodyB() {
         return _body_b;
     }
 
+    /**
+     * Get connection anchor in first rigid body.
+     * @return glm::vec2, connection anchor in first rigid body
+     */
     glm::vec2 getAnchorA() const;
+
+    /**
+     * Get connection anchor in second rigid body.
+     * @return glm::vec2, connection anchor in second rigid body
+     */
     glm::vec2 getAnchorB() const;
 
+    /**
+     * Get b2joint object.
+     * @return b2Joint*, b2joint object
+     */
     inline b2Joint* getJoint() {
         return _joint;
     }
 private:
 protected:
+    /**
+     * B2joint object.
+     */
     b2Joint* _joint;
 
+    /**
+     * Index of body a.
+     */
     int _index_a;
+
+    /**
+     * Index of body b.
+     */
     int _index_b;
 
+    /**
+     * Rigid body a.
+     */
     RigidBody* _body_a;
+
+    /**
+     * Rigid body b.
+     */
     RigidBody* _body_b;
 
+    /**
+     * Calculate collision or not.
+     */
     bool _collide;
 
+    /**
+     * Initialize body information.
+     */
     void setBodies();
 };
 
@@ -85,6 +140,9 @@ NGIND_LUA_BRIDGE_REGISTRATION(PhysicsJoint) {
         .endNamespace();
 }
 
+/**
+ * Distance joint.
+ */
 class DistanceJoint : public PhysicsJoint {
 public:
     DistanceJoint() : PhysicsJoint() {}
@@ -101,19 +159,57 @@ public:
      */
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
+    /**
+     * Create a distance joint component instance.
+     * @param data: the configuration data this component initialization process requires
+     * @return DistanceJoint*, the instance of distance joint component
+     */
     static DistanceJoint* create(const typename resources::ConfigResource::JsonObject& data);
 
+    /**
+     * Get current length of distance joint
+     * @return float, current length
+     */
     float getCurrentLength() const;
 private:
+    /**
+     * Joint definition data.
+     */
     b2DistanceJointDef _def;
 
+    /**
+     * Anchor's position in first rigid body.
+     */
     glm::vec2 _anchor_a{};
+
+    /**
+     * Anchor's position in second rigid body.
+     */
     glm::vec2 _anchor_b{};
 
+    /**
+     * Initial length of joint.
+     */
     float _length{};
+
+    /**
+     * Minimum length of joint.
+     */
     float _min_length{};
+
+    /**
+     * Maximum length of joint.
+     */
     float _max_length{};
+
+    /**
+     * Damping factor.
+     */
     float _damping{};
+
+    /**
+     * Stiffness of the joints
+     */
     float _stiffness{};
 };
 
@@ -128,6 +224,9 @@ NGIND_LUA_BRIDGE_REGISTRATION(DistanceJoint) {
         .endNamespace();
 }
 
+/*
+ * Revolute joint.
+ */
 class RevoluteJoint : public PhysicsJoint {
 public:
     RevoluteJoint() : PhysicsJoint() {}
@@ -144,17 +243,51 @@ public:
      */
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
+    /**
+     * Create a revolute joint component instance.
+     * @param data: the configuration data this component initialization process requires
+     * @return RevoluteJoint*, the instance of revolute joint component
+     */
     static RevoluteJoint* create(const typename resources::ConfigResource::JsonObject& data);
 private:
+    /**
+     * Joint definition data.
+     */
     b2RevoluteJointDef _def;
 
+    /**
+     * The lower joint limit in radians.
+     */
     float _lower_angle{};
+
+    /**
+     * The upper joint limit in radians.
+     */
     float _upper_angle{};
+
+    /**
+     * 	Is the joint limit enabled.
+     */
     bool _enable_limit{};
+
+    /**
+     * The maximum motor torque, usually in N-m.
+     */
     float _max_motor{};
+
+    /**
+     * The motor speed in radians per second.
+     */
     float _motor_speed{};
+
+    /**
+     * 	Enable the joint motor.
+     */
     bool _enable_motor{};
 
+    /**
+     * Central position.
+     */
     glm::vec2 _center{};
 };
 
@@ -167,6 +300,9 @@ NGIND_LUA_BRIDGE_REGISTRATION(RevoluteJoint) {
         .endNamespace();
 }
 
+/**
+ * Prismatic joint.
+ */
 class PrismaticJoint : public PhysicsJoint {
 public:
     PrismaticJoint() : PhysicsJoint() {}
@@ -183,18 +319,56 @@ public:
      */
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
+    /**
+     * Create a prismatic joint component instance.
+     * @param data: the configuration data this component initialization process requires
+     * @return PrismaticJoint*, the instance of prismatic joint component
+     */
     static PrismaticJoint* create(const typename resources::ConfigResource::JsonObject& data);
 private:
+    /**
+     * Joint definition data.
+     */
     b2PrismaticJointDef _def;
 
+    /**
+     * Central position.
+     */
     glm::vec2 _center{};
+
+    /**
+     * Joint axis.
+     */
     glm::vec2 _axis{};
 
+    /**
+     * The lower translation limit, usually in meters.
+     */
     float _lower_trans{};
+
+    /**
+     * The upper translation limit, usually in meters.
+     */
     float _upper_trans{};
+
+    /**
+     * Enable the joint limit.
+     */
     bool _enable_limit{};
+
+    /**
+     * The maximum motor torque, usually in N-m.
+     */
     float _max_force{};
+
+    /**
+     * The desired motor speed in radians per second.
+     */
     float _motor_speed{};
+
+    /**
+     * 	Enable the joint motor.
+     */
     bool _enable_motor{};
 };
 
@@ -207,6 +381,9 @@ NGIND_LUA_BRIDGE_REGISTRATION(PrismaticJoint) {
         .endNamespace();
 }
 
+/**
+ * Pulley joint.
+ */
 class PulleyJoint : public PhysicsJoint {
 public:
     PulleyJoint() : PhysicsJoint() {}
@@ -223,17 +400,53 @@ public:
      */
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
+    /**
+     * Create a pulley joint component instance.
+     * @param data: the configuration data this component initialization process requires
+     * @return PulleyJoint*, the instance of pulley joint component
+     */
     static PulleyJoint* create(const typename resources::ConfigResource::JsonObject& data);
 
+    /**
+     * Get the current length of the segment attached to the first body.
+     * @return float, current length of the segment
+     */
     float getCurrentLengthA() const;
+
+    /**
+     * Get the current length of the segment attached to the second body.
+     * @return float, current length of the segment
+     */
     float getCurrentLengthB() const;
 private:
+    /**
+     * Joint definition data.
+     */
     b2PulleyJointDef _def;
 
+    /**
+     * 	The pulley ratio, used to simulate a block-and-tackle.
+     */
     float _ratio{};
+
+    /**
+     * 	The local anchor point relative to bodyA's origin.
+     */
     glm::vec2 _anchor_a{};
+
+    /**
+     * 	The local anchor point relative to bodyB's origin.
+     */
     glm::vec2 _anchor_b{};
+
+    /**
+     * The first ground anchor in world coordinates. This point never moves.
+     */
     glm::vec2 _ground_a{};
+
+    /**
+     * The second ground anchor in world coordinates. This point never moves.
+     */
     glm::vec2 _ground_b{};
 };
 
@@ -248,6 +461,9 @@ NGIND_LUA_BRIDGE_REGISTRATION(PulleyJoint) {
         .endNamespace();
 }
 
+/**
+ * Gear joint.
+ */
 class GearJoint : public PhysicsJoint {
 public:
     GearJoint() : PhysicsJoint() {}
@@ -264,18 +480,53 @@ public:
      */
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
+    /**
+     * Create a gear joint component instance.
+     * @param data: the configuration data this component initialization process requires
+     * @return GearJoint*, the instance of gear joint component
+     */
     static GearJoint* create(const typename resources::ConfigResource::JsonObject& data);
 
+    /**
+     * Get the first joint.
+     * @return PhysicsJoint*, the first joint.
+     */
     PhysicsJoint* getJointA() const;
+
+    /**
+     * Get the second joint.
+     * @return PhysicsJoint*, the second joint.
+     */
     PhysicsJoint* getJointB() const;
 private:
+    /**
+     * Joint definition data.
+     */
     b2GearJointDef _def;
 
+    /**
+     * Rigid body A's index.
+     */
     int _joint_a{};
+
+    /**
+     * Rigid body B's index.
+     */
     int _joint_b{};
+
+    /**
+     * Gear ratio.
+     */
     float _ratio{};
 
+    /**
+     * Component A's name.
+     */
     std::string _name_a;
+
+    /**
+     * Component B's name.
+     */
     std::string _name_b;
 };
 

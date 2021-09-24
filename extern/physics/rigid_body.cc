@@ -26,6 +26,7 @@
 #include "kernel/game.h"
 #include "physics_world.h"
 #include "glm/glm.hpp"
+#include "kernel/log/logger_factory.h"
 
 namespace ngind::physics {
 
@@ -34,8 +35,10 @@ RigidBody::RigidBody() : components::Component(),
 }
 
 RigidBody::~RigidBody() {
-    delete _shape;
-    _shape = nullptr;
+    if (_shape != nullptr) {
+        delete _shape;
+        _shape = nullptr;
+    }
 
     if (_body != nullptr) {
         auto game = Game::getInstance();
@@ -67,7 +70,6 @@ void RigidBody::update(const float& delta) {
     if (_ep == nullptr) {
         _ep = dynamic_cast<objects::EntityObject*>(_parent);
         if (_ep == nullptr) {
-            //TODO:
             return;
         }
     }
@@ -79,38 +81,48 @@ void RigidBody::update(const float& delta) {
 }
 
 void RigidBody::init(const typename resources::ConfigResource::JsonObject& data) {
-    auto position = data["init-position"].GetObject();
-    _def.position.Set(position["x"].GetFloat(), position["y"].GetFloat());
-    _def.angle = data["init-angle"].GetFloat();
-    _def.angularDamping = data["angular-damping"].GetFloat();
-    _def.linearDamping = data["linear-damping"].GetFloat();
-    _def.type = static_cast<b2BodyType>(data["rigid-type"].GetInt());
-    _def.fixedRotation = data["fixed-rotation"].GetBool();
-    _def.gravityScale = data["gravity-scale"].GetFloat();
+    try {
+        auto position = data["init-position"].GetObject();
+        _def.position.Set(position["x"].GetFloat(), position["y"].GetFloat());
+        _def.angle = data["init-angle"].GetFloat();
+        _def.angularDamping = data["angular-damping"].GetFloat();
+        _def.linearDamping = data["linear-damping"].GetFloat();
+        _def.type = static_cast<b2BodyType>(data["rigid-type"].GetInt());
+        _def.fixedRotation = data["fixed-rotation"].GetBool();
+        _def.gravityScale = data["gravity-scale"].GetFloat();
 
-    _def.userData.pointer = reinterpret_cast<uintptr_t>(this);
+        _def.userData.pointer = reinterpret_cast<uintptr_t>(this);
 
-    _fixture_def.density = data["density"].GetFloat();
-    _fixture_def.friction = data["friction"].GetFloat();
-    _fixture_def.filter.categoryBits = data["category"].GetInt();
-    _fixture_def.filter.maskBits = data["mask"].GetInt();
+        _fixture_def.density = data["density"].GetFloat();
+        _fixture_def.friction = data["friction"].GetFloat();
+        _fixture_def.filter.categoryBits = data["category"].GetInt();
+        _fixture_def.filter.maskBits = data["mask"].GetInt();
 
-    auto shape_data = data["shape"].GetObject();
-    std::string shape_name = shape_data["name"].GetString();
-    if (shape_name == "circle") {
-        _shape = new CircleShape(shape_data["data"]);
-    }
-    else if (shape_name == "polygon") {
-        _shape = new PolygonShape(shape_data["data"]);
-    }
-    else if (shape_name == "edge") {
-        _shape = new EdgeShape(shape_data["data"]);
-    }
-    else if (shape_name == "chain") {
-        _shape = new ChainShape(shape_data["data"]);
-    }
+        auto shape_data = data["shape"].GetObject();
+        std::string shape_name = shape_data["name"].GetString();
+        if (shape_name == "circle") {
+            _shape = new CircleShape(shape_data["data"]);
+        }
+        else if (shape_name == "polygon") {
+            _shape = new PolygonShape(shape_data["data"]);
+        }
+        else if (shape_name == "edge") {
+            _shape = new EdgeShape(shape_data["data"]);
+        }
+        else if (shape_name == "chain") {
+            _shape = new ChainShape(shape_data["data"]);
+        }
+        else {
+            throw std::exception();
+        }
 
-    _fixture_def.shape = _shape->shape;
+        _fixture_def.shape = _shape->shape;
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("An error occurred when initializing rigid body.");
+        logger->flush();
+    }
 }
 
 RigidBody* RigidBody::create(const typename resources::ConfigResource::JsonObject& data) {

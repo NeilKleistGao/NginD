@@ -26,13 +26,9 @@
 #include "logger.h"
 
 namespace ngind::log {
-void Logger::log(const std::string& msg, const LogLevel& level) {
-    if (level < this->_level) {
-        return;
-    }
-
+void Logger::log(const std::string& msg) {
     std::string format_msg;
-    switch (level) {
+    switch (_level) {
         case LogLevel::LOG_LEVEL_INFO:
             format_msg = std::string{INFO_FORMAT}.append(msg);
             break;
@@ -61,9 +57,9 @@ void Logger::log(const std::string& msg, const LogLevel& level) {
         format_msg.replace(index, hs.length(), buffer);
     }
 
-    _output->write(format_msg);
+    _output->write(format_msg + '\n');
 
-    if (level == LogLevel::LOG_LEVEL_ERROR) {
+    if (_level == LogLevel::LOG_LEVEL_ERROR) {
         _output->close();
         std::terminate();
     }

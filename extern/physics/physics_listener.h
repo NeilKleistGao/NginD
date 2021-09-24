@@ -29,18 +29,44 @@
 
 namespace ngind::physics {
 
+/**
+ * Physics event listener.
+ */
 class PhysicsListener : public b2ContactListener {
 public:
+    /**
+     * @see b2_world_callbacks.h
+     */
     void BeginContact(b2Contact* contact) override;
 
+    /**
+     * @see b2_world_callbacks.h
+     */
     void EndContact(b2Contact* contact) override;
 
+    /**
+     * @see b2_world_callbacks.h
+     */
     void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) override;
 
+    /**
+     * @see b2_world_callbacks.h
+     */
     void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
 private:
-    std::pair<RigidBody*, RigidBody*> getContactingBodies(b2Contact* contact) const;
+    /**
+     * Get the pair of rigid bodies by given contact object
+     * @param contact: the given contact object
+     * @return std::pair<RigidBody*, RigidBody*>, the pair of rigid bodies
+     */
+    static std::pair<RigidBody*, RigidBody*> getContactingBodies(b2Contact* contact) ;
 
+    /**
+     * Send messages related to physics event.
+     * @param name: name of message
+     * @param sender: sender of message
+     * @param other: another object
+     */
     static void sendMessage(const std::string& name, objects::Object* sender, objects::Object* other) ;
 };
 

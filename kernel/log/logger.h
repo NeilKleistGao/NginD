@@ -48,33 +48,35 @@ public:
      * @param filename: the filename this logger uses
      * @param level: the level of logger
      */
-    Logger(const std::string& filename, const LogLevel& level) : _level(level), _output{new filesystem::FileOutputStream{filename}} {
+    Logger(const std::string& filename, const LogLevel& level) : _level(level), _output{new filesystem::FileOutputStream{filename, true}} {
     }
 
     /**
      * Output some message to logger file
      * @tparam T: the type of message, which is not convertible for std::string
      * @param msg: the message to be outputted
-     * @param level: the type of log information
      */
     template<typename T, std::enable_if_t<std::negation_v<std::is_convertible<T, std::string>>, bool> = true>
-    void log(T msg, const LogLevel& level = LogLevel::LOG_LEVEL_DEBUG) {
+    void log(T msg) {
         std::string string_msg;
         std::stringstream stream;
         stream << msg;
         stream >> string_msg;
-        log(string_msg, level);
+        log(string_msg);
     }
 
     /**
      * Output some message to logger file
      * @param msg: string message
-     * @param level: the type of log information
      */
-    void log(const std::string& msg, const LogLevel& level = LogLevel::LOG_LEVEL_DEBUG);
+    void log(const std::string& msg);
 
-    inline void logForLua(const std::string& msg, int level = 1) {
-        log(msg, static_cast<LogLevel>(level));
+    /**
+     * Log function for lua.
+     * @param msg: string message
+     */
+    inline void logForLua(const std::string& msg) {
+        log(msg);
     }
 
     /**

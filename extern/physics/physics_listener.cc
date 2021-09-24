@@ -65,7 +65,7 @@ void PhysicsListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
 void PhysicsListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {
 }
 
-std::pair<RigidBody*, RigidBody*> PhysicsListener::getContactingBodies(b2Contact* contact) const {
+std::pair<RigidBody*, RigidBody*> PhysicsListener::getContactingBodies(b2Contact* contact) {
     auto fix_a = contact->GetFixtureA(),
          fix_b = contact->GetFixtureB();
 

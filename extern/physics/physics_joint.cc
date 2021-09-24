@@ -25,6 +25,7 @@
 
 #include "kernel/game.h"
 #include "physics_world.h"
+#include "kernel/log/logger_factory.h"
 
 namespace ngind::physics {
 
@@ -34,7 +35,6 @@ PhysicsJoint::~PhysicsJoint() {
 
 glm::vec2 PhysicsJoint::getAnchorA() const {
     if (_joint == nullptr) {
-        // TODO: warning
         return glm::vec2 {};
     }
 
@@ -44,7 +44,6 @@ glm::vec2 PhysicsJoint::getAnchorA() const {
 
 glm::vec2 PhysicsJoint::getAnchorB() const {
     if (_joint == nullptr) {
-        // TODO: warning
         return glm::vec2 {};
     }
 
@@ -82,7 +81,9 @@ void DistanceJoint::update(const float& delta) {
         auto world = game->getCurrentWorld();
 
         auto pw = world->getComponent<PhysicsWorld>("PhysicsWorld");
-        _joint = pw->_world.CreateJoint(&_def);
+        if (pw != nullptr) {
+            _joint = pw->_world.CreateJoint(&_def);
+        }
     }
 }
 
@@ -95,21 +96,28 @@ float DistanceJoint::getCurrentLength() const {
 }
 
 void DistanceJoint::init(const typename resources::ConfigResource::JsonObject& data) {
-    _index_a = data["index-a"].GetInt();
-    _index_b = data["index-b"].GetInt();
+    try {
+        _index_a = data["index-a"].GetInt();
+        _index_b = data["index-b"].GetInt();
 
-    _length = data["length"].GetFloat();
-    _min_length = data["min-length"].GetFloat();
-    _max_length = data["max-length"].GetFloat();
-    _damping = data["damping"].GetFloat();
-    _stiffness = data["stiffness"].GetFloat();
-    _collide = data["collide"].GetBool();
+        _length = data["length"].GetFloat();
+        _min_length = data["min-length"].GetFloat();
+        _max_length = data["max-length"].GetFloat();
+        _damping = data["damping"].GetFloat();
+        _stiffness = data["stiffness"].GetFloat();
+        _collide = data["collide"].GetBool();
 
-    auto anchor_a = data["anchor-a"].GetObject();
-    auto anchor_b = data["anchor-b"].GetObject();
+        auto anchor_a = data["anchor-a"].GetObject();
+        auto anchor_b = data["anchor-b"].GetObject();
 
-    _anchor_a = {anchor_a["x"].GetFloat(), anchor_a["y"].GetFloat()};
-    _anchor_b = {anchor_b["x"].GetFloat(), anchor_b["y"].GetFloat()};
+        _anchor_a = {anchor_a["x"].GetFloat(), anchor_a["y"].GetFloat()};
+        _anchor_b = {anchor_b["x"].GetFloat(), anchor_b["y"].GetFloat()};
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("An error occurred when initializing distance joint.");
+        logger->flush();
+    }
 }
 
 DistanceJoint* DistanceJoint::create(const typename resources::ConfigResource::JsonObject& data) {
@@ -140,24 +148,33 @@ void RevoluteJoint::update(const float& delta) {
         auto world = game->getCurrentWorld();
 
         auto pw = world->getComponent<PhysicsWorld>("PhysicsWorld");
-        _joint = pw->_world.CreateJoint(&_def);
+        if (pw != nullptr) {
+            _joint = pw->_world.CreateJoint(&_def);
+        }
     }
 }
 
 void RevoluteJoint::init(const typename resources::ConfigResource::JsonObject& data) {
-    _index_a = data["index-a"].GetInt();
-    _index_b = data["index-b"].GetInt();
+    try {
+        _index_a = data["index-a"].GetInt();
+        _index_b = data["index-b"].GetInt();
 
-    _collide = data["collide"].GetBool();
-    _enable_limit = data["enable-limit"].GetBool();
-    _enable_motor = data["enable-motor"].GetBool();
-    _max_motor = data["max-motor"].GetFloat();
-    _motor_speed = data["motor-speed"].GetFloat();
-    _lower_angle = data["lower-angle"].GetFloat();
-    _upper_angle = data["upper-angle"].GetFloat();
+        _collide = data["collide"].GetBool();
+        _enable_limit = data["enable-limit"].GetBool();
+        _enable_motor = data["enable-motor"].GetBool();
+        _max_motor = data["max-motor"].GetFloat();
+        _motor_speed = data["motor-speed"].GetFloat();
+        _lower_angle = data["lower-angle"].GetFloat();
+        _upper_angle = data["upper-angle"].GetFloat();
 
-    auto center = data["center"].GetObject();
-    _center = {center["x"].GetFloat(), center["y"].GetFloat()};
+        auto center = data["center"].GetObject();
+        _center = {center["x"].GetFloat(), center["y"].GetFloat()};
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("An error occurred when initializing revolute joint.");
+        logger->flush();
+    }
 }
 
 RevoluteJoint* RevoluteJoint::create(const typename resources::ConfigResource::JsonObject& data) {
@@ -188,26 +205,35 @@ void PrismaticJoint::update(const float& delta) {
         _def.upperTranslation = _upper_trans;
 
         auto pw = world->getComponent<PhysicsWorld>("PhysicsWorld");
-        _joint = pw->_world.CreateJoint(&_def);
+        if (pw != nullptr) {
+            _joint = pw->_world.CreateJoint(&_def);
+        }
     }
 }
 
 void PrismaticJoint::init(const typename resources::ConfigResource::JsonObject& data) {
-    _index_a = data["index-a"].GetInt();
-    _index_b = data["index-b"].GetInt();
+    try {
+        _index_a = data["index-a"].GetInt();
+        _index_b = data["index-b"].GetInt();
 
-    _motor_speed = data["motor-speed"].GetFloat();
-    _enable_motor = data["enable-motor"].GetBool();
-    _enable_limit = data["enable-limit"].GetBool();
-    _lower_trans = data["lower-trans"].GetFloat();
-    _upper_trans = data["upper-trans"].GetFloat();
-    _max_force = data["max-force"].GetFloat();
-    _collide = data["collide"].GetBool();
+        _motor_speed = data["motor-speed"].GetFloat();
+        _enable_motor = data["enable-motor"].GetBool();
+        _enable_limit = data["enable-limit"].GetBool();
+        _lower_trans = data["lower-trans"].GetFloat();
+        _upper_trans = data["upper-trans"].GetFloat();
+        _max_force = data["max-force"].GetFloat();
+        _collide = data["collide"].GetBool();
 
-    auto center = data["center"].GetObject();
-    _center = {center["x"].GetFloat(), center["y"].GetFloat()};
-    auto axis = data["axis"].GetObject();
-    _axis = {axis["x"].GetFloat(), axis["y"].GetFloat()};
+        auto center = data["center"].GetObject();
+        _center = {center["x"].GetFloat(), center["y"].GetFloat()};
+        auto axis = data["axis"].GetObject();
+        _axis = {axis["x"].GetFloat(), axis["y"].GetFloat()};
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("An error occurred when initializing prismatic joint.");
+        logger->flush();
+    }
 }
 
 PrismaticJoint* PrismaticJoint::create(const typename resources::ConfigResource::JsonObject& data) {
@@ -235,24 +261,33 @@ void PulleyJoint::update(const float& delta) {
         _def.collideConnected = _collide;
 
         auto pw = world->getComponent<PhysicsWorld>("PhysicsWorld");
-        _joint = pw->_world.CreateJoint(&_def);
+        if (pw != nullptr) {
+            _joint = pw->_world.CreateJoint(&_def);
+        }
     }
 }
 
 void PulleyJoint::init(const typename resources::ConfigResource::JsonObject& data) {
-    _index_a = data["index-a"].GetInt();
-    _index_b = data["index-b"].GetInt();
+    try {
+        _index_a = data["index-a"].GetInt();
+        _index_b = data["index-b"].GetInt();
 
-    _collide = data["collide"].GetBool();
+        _collide = data["collide"].GetBool();
 
-    auto temp1 = data["anchor-a"].GetObject();
-    _anchor_a = {temp1["x"].GetFloat(), temp1["y"].GetFloat()};
-    auto temp2 = data["anchor-b"].GetObject();
-    _anchor_b = {temp2["x"].GetFloat(), temp2["y"].GetFloat()};
-    auto temp3 = data["ground-a"].GetObject();
-    _ground_a = {temp3["x"].GetFloat(), temp3["y"].GetFloat()};
-    auto temp4 = data["ground-b"].GetObject();
-    _ground_b = {temp4["x"].GetFloat(), temp4["y"].GetFloat()};
+        auto temp1 = data["anchor-a"].GetObject();
+        _anchor_a = {temp1["x"].GetFloat(), temp1["y"].GetFloat()};
+        auto temp2 = data["anchor-b"].GetObject();
+        _anchor_b = {temp2["x"].GetFloat(), temp2["y"].GetFloat()};
+        auto temp3 = data["ground-a"].GetObject();
+        _ground_a = {temp3["x"].GetFloat(), temp3["y"].GetFloat()};
+        auto temp4 = data["ground-b"].GetObject();
+        _ground_b = {temp4["x"].GetFloat(), temp4["y"].GetFloat()};
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("An error occurred when initializing pulley joint.");
+        logger->flush();
+    }
 }
 
 PulleyJoint* PulleyJoint::create(const typename resources::ConfigResource::JsonObject& data) {
@@ -296,21 +331,30 @@ void GearJoint::update(const float& delta) {
         _def.collideConnected = _collide;
 
         auto pw = world->getComponent<PhysicsWorld>("PhysicsWorld");
-        _joint = pw->_world.CreateJoint(&_def);
+        if (pw != nullptr) {
+            _joint = pw->_world.CreateJoint(&_def);
+        }
     }
 }
 
 void GearJoint::init(const typename resources::ConfigResource::JsonObject& data) {
-    _index_a = data["index-a"].GetInt();
-    _index_b = data["index-b"].GetInt();
+    try {
+        _index_a = data["index-a"].GetInt();
+        _index_b = data["index-b"].GetInt();
 
-    _joint_a = data["index-a"].GetInt();
-    _joint_b = data["index-b"].GetInt();
-    _name_a = data["name-a"].GetString();
-    _name_b = data["name-b"].GetString();
+        _joint_a = data["index-a"].GetInt();
+        _joint_b = data["index-b"].GetInt();
+        _name_a = data["name-a"].GetString();
+        _name_b = data["name-b"].GetString();
 
-    _collide = data["collide"].GetBool();
-    _ratio = data["ratio"].GetFloat();
+        _collide = data["collide"].GetBool();
+        _ratio = data["ratio"].GetFloat();
+    }
+    catch (...) {
+        auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
+        logger->log("An error occurred when initializing gear joint.");
+        logger->flush();
+    }
 }
 
 GearJoint* GearJoint::create(const typename resources::ConfigResource::JsonObject& data) {

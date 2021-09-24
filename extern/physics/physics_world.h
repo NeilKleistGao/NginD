@@ -29,6 +29,7 @@
 #include "kernel/script/lua_registration.h"
 #include "kernel/components/component_factory.h"
 #include "physics_listener.h"
+#include "kernel/timer/timer.h"
 
 namespace ngind::objects {
 class Object;
@@ -43,6 +44,9 @@ class PrismaticJoint;
 class PulleyJoint;
 class GearJoint;
 
+/**
+ * Physics simulation component for world.
+ */
 class PhysicsWorld : public components::Component {
 public:
     PhysicsWorld();
@@ -62,30 +66,61 @@ public:
      */
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
+    /**
+     * Create a physics world component instance.
+     * @param data: the configuration data this component initialization process requires
+     * @return PhysicsWorld*, the instance of physics world component
+     */
     static PhysicsWorld* create(const typename resources::ConfigResource::JsonObject& data);
 
+    /**
+     * Set gravity in this world.
+     * @param x: x factor
+     * @param y: y factor
+     */
     inline void setGravity(const float& x, const float& y) {
         _gravity = b2Vec2(x, y);
         _world.SetGravity(_gravity);
     }
 
+    /**
+     * Set gravity in x axis.
+     * @param x: value
+     */
     inline void setGravityX(float x) {
-        _world.SetGravity({x, _world.GetGravity().y});
+        _gravity.x = x;
+        _world.SetGravity({x, _gravity.y});
     }
 
+    /**
+     * Set gravity in y axis.
+     * @param y: value
+     */
     inline void setGravityY(float y) {
-        _world.SetGravity({_world.GetGravity().x, y});
+        _gravity.y = y;
+        _world.SetGravity({_gravity.x, y});
     }
 
+    /**
+     * Get gravity vector.
+     * @return glm::vec2, gravity vector
+     */
     inline glm::vec2 getGravity() const {
-        auto temp = _world.GetGravity();
-        return {temp.x, temp.y};
+        return {_gravity.x, _gravity.y};
     }
 
+    /**
+     * Get gravity in x axis.
+     * @return float, gravity in x axis.
+     */
     inline float getGravityX() const {
         return _gravity.x;
     }
 
+    /**
+     * Get gravity in y axis.
+     * @return float, gravity in y axis.
+     */
     inline float getGravityY() const {
         return _gravity.y;
     }
@@ -98,10 +133,35 @@ public:
     friend class GearJoint;
     friend class objects::Object;
 private:
+    /**
+     * Gravity vector in this world.
+     */
     b2Vec2 _gravity;
+
+    /**
+     * b2World object.
+     */
     b2World _world;
+
+    /**
+     * Event listener.
+     */
     PhysicsListener listener;
 
+    /**
+     * Physics fixed timer.
+     */
+    timer::Timer _timer;
+
+    /**
+     * Time passed.
+     */
+    float _passed;
+
+    /**
+     * Clear all rigid body in the given node.
+     * @param node: the given node.
+     */
     void clearRigidBody(objects::Object* node);
 };
 

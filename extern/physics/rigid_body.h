@@ -51,31 +51,99 @@ public:
      */
     void init(const typename resources::ConfigResource::JsonObject& data) override;
 
+    /**
+     * Create a rigid body component instance.
+     * @param data: the configuration data this component initialization process requires
+     * @return PulleyJoint*, the instance of pulley joint component
+     */
     static RigidBody* create(const typename resources::ConfigResource::JsonObject& data);
 
+    /**
+     * Get b2Body object.
+     * @return b2Body*, b2Body object
+     */
     inline b2Body* getBody() const {
         return _body;
     }
 
+    /**
+     * Apply force on this rigid body.
+     * @param force: force on this rigid body.
+     */
     void applyForce(const glm::vec2& force);
+
+    /**
+     * Apply torque on this rigid body.
+     * @param torque: torque on this rigid body.
+     */
     void applyTorque(float torque);
+
+    /**
+     * Set velocity of this rigid body directly.
+     * @param velocity: velocity of this rigid body
+     */
     void setVelocity(const glm::vec2& velocity);
+
+    /**
+     * Set angular velocity of this rigid body directly.
+     * @param velocity: angular velocity of this rigid body
+     */
     void setAngularVelocity(float velocity);
 
+    /**
+     * Allow this rigid body to sleep or not.
+     * @param allowed: true if this body can sleep
+     */
     void setSleepingAllowed(bool allowed);
+
+    /**
+     * Can this rigid body sleep.
+     * @return bool, true if this body can sleep
+     */
     bool isSleepingAllowed() const;
 
+    /**
+     * Allow this rigid body to rotate or not.
+     * @param fixed: true if this body can't rotate
+     */
     void setRotationFixed(bool fixed);
+
+    /**
+     * Can this rigid body rotate.
+     * @return bool, true if this body can't rotate
+     */
     bool isRotationFixed() const;
 
     friend class PhysicsWorld;
 private:
+    /**
+     * Body definition.
+     */
     b2BodyDef _def;
+
+    /**
+     * Fixture definition.
+     */
     b2FixtureDef _fixture_def;
+
+    /**
+     * Fixture of body.
+     */
     b2Fixture* _fixture;
+
+    /**
+     * Collision shape.
+     */
     PhysicsShape* _shape;
+
+    /**
+     * B2 body object.
+     */
     b2Body* _body;
 
+    /**
+     * Entity parent object.
+     */
     objects::EntityObject* _ep;
 };
 
