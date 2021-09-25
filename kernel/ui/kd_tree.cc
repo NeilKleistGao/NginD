@@ -23,6 +23,8 @@
 
 #include "kd_tree.h"
 
+#include <algorithm>
+
 namespace ngind::ui {
 KDTree::KDTree() : _root(new KDNode()) {
 }

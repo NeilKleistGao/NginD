@@ -25,6 +25,8 @@
 
 #include "logger.h"
 
+#include <ctime>
+
 namespace ngind::log {
 void Logger::log(const std::string& msg) {
     std::string format_msg;

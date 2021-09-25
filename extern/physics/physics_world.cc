@@ -65,15 +65,19 @@ PhysicsWorld* PhysicsWorld::create(const typename resources::ConfigResource::Jso
 
 void PhysicsWorld::clearRigidBody(objects::Object* node) {
     auto body = node->getComponent<RigidBody>("RigidBody");
+    _world.SetContactListener(nullptr);
     if (body != nullptr) {
-        _world.DestroyBody(body->_body);
+        auto temp = body->_body;
         body->_body = nullptr;
+        _world.DestroyBody(temp);
     }
 
     auto children = node->getChildren();
     for (auto* child : children) {
         clearRigidBody(child);
     }
+
+    _world.SetContactListener(&listener);
 }
 
 } // namespace ngind::physics

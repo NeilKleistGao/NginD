@@ -28,6 +28,7 @@
 #include "renderer.h"
 #include "camera.h"
 #include "log/logger_factory.h"
+#include "adaptor.h"
 
 namespace ngind::rendering {
 Renderer* Renderer::_instance = nullptr;
@@ -99,6 +100,7 @@ void Renderer::createWindow(int screen_width,
     glEnable(GL_BLEND);
     setBlendFactor(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_MULTISAMPLE);
+    Adaptor::getInstance()->setWindowSize({screen_width, screen_height});
     Camera::getInstance()->init({resolution_width / 2.0f, resolution_height / 2.0f},
                                 resolution_width, resolution_height);
 }
