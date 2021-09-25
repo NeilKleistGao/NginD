@@ -1,7 +1,9 @@
 # NginD
-[![Documentation Status](https://readthedocs.org/projects/ngind-doc/badge/?version=latest)](https://ngind-doc.readthedocs.io/en/latest/?badge=latest)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d041751b-91fe-48d4-82e8-8a71ca3b96ae/deploy-status)](https://app.netlify.com/sites/ngind-doc/deploys)
 
 A game engine for 2D pixel game powered by C++ (自家用). 
+
+[NginD Quick-Start](https://github.com/NeilKleistGao/NginD/wiki)
 
 ## Features
 + Drag spirits to decorate your scenes
@@ -16,10 +18,6 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + ...
 
 ## TODO List
-### 1.0
-+ [x] Screen Adaptor
-+ [ ] Package Tools
-
 ### 1.1
 + [ ] Game AI Interface
 
@@ -44,9 +42,6 @@ A game engine for 2D pixel game powered by C++ (自家用).
 + [Snappy 1.1.8](https://github.com/google/snappy)
 + [Box2d 2.4.1](https://box2d.org/documentation/index.html)
 
-### Documentation Libraries
-+ [Sphinx 2.2.0](https://www.sphinx.org.cn/)
-
 Thanks for these open source developers!
 
 ## Code Style Guide
@@ -59,14 +54,8 @@ However, here are some exceptions:
 + The underline after the name of class members should be moved to the front of the name
 + Stream will be used for conversion
 
-## Code Environment
-+ OS: Ubuntu 20.04.1 LTS
-+ Compiler: G++9.3.0(C++17) with CMake 3.15.3
-+ IDE: CLion 2021.1.2
-
-The engine will support for Windows and MacOS later.
-
 ## Special Acknowledgements
++ **hushanwitch**
 + Humphrey_Yang
 + riceblast
 + JzJerry

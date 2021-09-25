@@ -1,5 +1,3 @@
-project(NginD)
-
 include(kernel/components/CMakeLists.txt)
 include(kernel/filesystem/CMakeLists.txt)
 include(kernel/input/CMakeLists.txt)

@@ -22,7 +22,6 @@
 /// @file galois_field.cc
 
 #include "galois_field.h"
-#include "log/logger_factory.h"
 
 namespace ngind::math {
 
@@ -61,9 +60,6 @@ unsigned int GaloisField::multiply(const unsigned int& n, const unsigned int& s)
             break;
         default:
             res = -1;
-            auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
-            logger->log("An error occurred when calculating AES data.");
-            logger->flush();
             break;
     }
 

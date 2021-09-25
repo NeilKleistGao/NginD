@@ -1,5 +1,3 @@
-project(NginD)
-
 include(extern/i18n/CMakeLists.txt)
 include(extern/physics/CMakeLists.txt)
 
