@@ -67,7 +67,7 @@ void VisualLogger::enable() {
         _entity->addReference();
         _entity->setZOrder(999);
         _entity->setAnchor({0, 0});
-        _entity->setPosition({0 - camera_pos.x + camera_size.x / 2, 768 - camera_pos.y + camera_size.y / 2});
+        _entity->setPosition({0 - camera_pos.x + camera_size.x / 2, camera_pos.y - camera_size.y / 2});
         _entity->setScale({1, 1});
         _entity->setRotation(0);
 
