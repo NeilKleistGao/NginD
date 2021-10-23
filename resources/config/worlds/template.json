@@ -1,5 +1,5 @@
 {
-    "world-name": "world",
+    "world-name": "{{world_name}}",
     "background-color": "#000000FF",
     "camera": {
       "x": 512,
