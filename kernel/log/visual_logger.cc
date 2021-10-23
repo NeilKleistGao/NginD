@@ -94,7 +94,7 @@ void VisualLogger::draw() {
 
         auto camera_pos = rendering::Camera::getInstance()->getCameraPosition();
         auto camera_size = rendering::Camera::getInstance()->getCameraSize();
-        _entity->setPosition({0 + camera_pos.x - camera_size.x / 2, 768 + camera_pos.y - camera_size.y / 2});
+        _entity->setPosition({0 + camera_pos.x - camera_size.x / 2, camera_pos.y + camera_size.y / 2});
 
         _label->setText(_text);
         _entity->update(0);
