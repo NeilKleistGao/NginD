@@ -103,8 +103,13 @@ void Window::setFullScreen(const bool& is_full) {
     if (is_full) {
         glfwSetWindowMonitor(this->_window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
 
+#ifdef PLATFORM_WINDOWS
         auto scale = getContentScale();
-        Adaptor::getInstance()->setWindowSize({mode->width * scale.first, mode->height * scale.second});
+        Adaptor::getInstance()->setWindowSize({ mode->width, mode->height });
+#else
+        auto scale = getContentScale();
+        Adaptor::getInstance()->setWindowSize({ mode->width * scale.first, mode->height * scale.second });
+#endif
     }
     else {
         glfwSetWindowMonitor(this->_window, nullptr, 0, 0, _width, _height, 0);
