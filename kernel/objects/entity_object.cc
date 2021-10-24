@@ -112,6 +112,12 @@ void EntityObject::init(const typename resources::ConfigResource::JsonObject& da
         setRotation(data["rotate"].GetFloat());
         setZOrder(data["z-order"].GetInt());
 
+        if (data.HasMember(("anchor"))) {
+            auto anchor = data["anchor"].GetObject();
+            setAnchorX(anchor["x"].GetFloat());
+            setAnchorY(anchor["y"].GetFloat());
+        }
+
         if (data.HasMember("id")) {
             _id = data["id"].GetInt();
         }
