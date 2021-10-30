@@ -62,6 +62,15 @@ void RigidBody::update(const float& delta) {
             return;
         }
 
+        _ep = dynamic_cast<objects::EntityObject*>(_parent);
+        if (_ep == nullptr) {
+            return;
+        }
+        _def.position += b2Vec2{_ep->getGlobalPositionX(), _ep->getGlobalPositionY()};
+        _def.position -= b2Vec2{_ep->getPositionX(), _ep->getPositionY()};
+        _def.angle += _ep->getGlobalRotation();
+        _def.angle -= _ep->getRotation();
+
         _body = pw->_world.CreateBody(&_def);
 
         if (_body == nullptr) {
@@ -71,17 +80,19 @@ void RigidBody::update(const float& delta) {
         _fixture = _body->CreateFixture(&_fixture_def);
     }
 
-    if (_ep == nullptr) {
-        _ep = dynamic_cast<objects::EntityObject*>(_parent);
-        if (_ep == nullptr) {
-            return;
-        }
+    auto position = _body->GetPosition();
+    auto global_offset = glm::vec2 {0, 0};
+    float global_rot = 0.0f;
+    auto gp = dynamic_cast<objects::EntityObject*>(_ep->getParent());
+
+    if (gp) {
+        global_offset = gp->getGlobalPosition();
+        global_rot = gp->getGlobalRotation();
     }
 
-    auto position = _body->GetPosition();
-    _ep->setPosition(glm::vec2{position.x, position.y});
+    _ep->setPosition(glm::vec2{position.x, position.y} - global_offset);
     auto angle = _body->GetAngle();
-    _ep->setRotation(angle);
+    _ep->setRotation(angle - global_rot);
 }
 
 void RigidBody::init(const typename resources::ConfigResource::JsonObject& data) {
