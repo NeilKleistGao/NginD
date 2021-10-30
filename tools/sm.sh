@@ -1,7 +1,7 @@
 read -p "State Machine Name: " sm_name
 read -p "Directory: " sm_path
 echo "
-GameStarter = class(\"{{sm_name}}\")
+{{sm_name}} = class(\"{{sm_name}}\")
 
 function {{sm_name}}:ctor()
 end
