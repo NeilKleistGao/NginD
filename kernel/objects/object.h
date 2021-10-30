@@ -59,7 +59,7 @@ public:
      * Remove a reference of a child. If child is not found, nothing
      * @param name: the name of child
      */
-    void removeChild(const std::string& name);
+    void removeChild(Object* child);
 
     /**
      * Remove all children by given name.

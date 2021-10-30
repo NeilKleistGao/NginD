@@ -65,17 +65,21 @@ void Object::addChild(const std::string& name, EntityObject* object) {
     object->setParent(this);
 }
 
-void Object::removeChild(const std::string& name) {
-    auto it = this->_children.find(name);
-    Object* object = nullptr;
-    if (it != this->_children.end()) {
-        object = it->second;
-        this->_children.erase(it);
-    }
+void Object::removeChild(Object* child) {
+    if (child != nullptr) {
+        bool flag = false;
+        for (auto it = _children.begin(); it != _children.end(); ++it) {
+            if (it->second == child) {
+                flag = true;
+                _children.erase(it);
+                break;
+            }
+        }
 
-    if (object != nullptr) {
-        object->removeReference();
-        object->setParent(nullptr);
+        if (flag) {
+            child->removeReference();
+            child->setParent(nullptr);
+        }
     }
 }
 
