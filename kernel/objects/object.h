@@ -53,7 +53,7 @@ public:
      * @param name: the name of child
      * @param object: the pointer to child object
      */
-    void addChild(const std::string& name, EntityObject* object);
+    virtual void addChild(const std::string& name, EntityObject* object);
 
     /**
      * Remove a reference of a child. If child is not found, nothing

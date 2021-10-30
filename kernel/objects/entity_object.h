@@ -45,6 +45,13 @@ public:
     EntityObject(const EntityObject&) = delete;
     EntityObject& operator= (const EntityObject&) = delete;
 
+    /**
+     * Add a child object
+     * @param name: the name of child
+     * @param object: the pointer to child object
+     */
+    void addChild(const std::string& name, EntityObject* object) override;
+
     /// @see kernel/objects/object.h
     void update(const float&) override;
 
