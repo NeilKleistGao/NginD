@@ -125,6 +125,8 @@ public:
     * Load children objects using config file
     */
     void loadObjects();
+
+    void removeChild(Object* child) override;
 private:
     /**
      * The name of this world

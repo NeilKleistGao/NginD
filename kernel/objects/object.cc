@@ -71,7 +71,7 @@ void Object::removeChild(Object* child) {
         for (auto it = _children.begin(); it != _children.end(); ++it) {
             if (it->second == child) {
                 flag = true;
-                _children.erase(it);
+                it->second = nullptr;
                 break;
             }
         }
@@ -99,7 +99,9 @@ void Object::update(const float& delta) {
     }
 
     for (auto child : this->_children) {
-        child.second->update(delta);
+        if (child.second) {
+            child.second->update(delta);
+        }
     }
 }
 

@@ -121,4 +121,15 @@ void World::unregisterEntity(int id) {
     }
 }
 
+void World::removeChild(Object* child) {
+    for (auto it = _all_children.begin(); it != _all_children.end(); ++it) {
+        if (it->second == child) {
+            _all_children.erase(it);
+            break;
+        }
+    }
+
+    Object::removeChild(child);
+}
+
 } // namespace ngind::objects

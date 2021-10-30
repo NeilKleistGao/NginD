@@ -34,7 +34,6 @@ _update_function(script::LuaState::getInstance()->getState()) {
 
 StateMachine::~StateMachine() {
     halt();
-    script::LuaState::getInstance()->destroyStateMachineInstance(_instance);
 }
 
 void StateMachine::init(const typename resources::ConfigResource::JsonObject& data) {
@@ -91,15 +90,21 @@ StateMachine* StateMachine::create(const typename resources::ConfigResource::Jso
 }
 
 void StateMachine::halt() {
+    if (_instance.isNil()) {
+        return;
+    }
+
     luabridge::LuaRef state_exit = _instance["exit"];
     if (!state_exit.isNil()) {
-        state_exit();
+        state_exit(_instance);
     }
 
     auto instance = script::Observer::getInstance();
     for (const auto& [name, _] : _subscribe) {
         instance->cancel(this, name);
     }
+
+    script::LuaState::getInstance()->destroyStateMachineInstance(_instance);
 }
 
 void StateMachine::update(const float& dlt) {

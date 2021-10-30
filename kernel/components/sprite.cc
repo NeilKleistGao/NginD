@@ -35,8 +35,8 @@ namespace ngind::components {
 
 Sprite::Sprite()
         : RendererComponent(),
-          _command(nullptr), _quad(nullptr),
-          _texture(nullptr), _lb(), _rt() {
+        _command(nullptr), _quad(nullptr),
+        _texture(nullptr), _lb(), _rt() {
 }
 
 Sprite::~Sprite() {
@@ -100,7 +100,7 @@ void Sprite::draw() {
                         0.0f, 0.0f, static_cast<float>(_lb.x) / texture_size.x, static_cast<float>(_rt.y) / texture_size.y, // Bottom Left
                         0.0f, _rt.y - _lb.y, static_cast<float>(_lb.x) / texture_size.x, static_cast<float>(_lb.y) / texture_size.y  // Top Left
                 }
-        );
+                );
         _quad->addReference();
         _command = memory::MemoryPool::getInstance()
                 ->create<rendering::QuadRenderingCommand>(_quad, (*_texture)->getTextureID());

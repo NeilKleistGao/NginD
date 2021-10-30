@@ -56,10 +56,10 @@ public:
     virtual void addChild(const std::string& name, EntityObject* object);
 
     /**
-     * Remove a reference of a child. If child is not found, nothing
+     * Remove a reference of a child. If child is not found, nothing will be done
      * @param name: the name of child
      */
-    void removeChild(Object* child);
+    virtual void removeChild(Object* child);
 
     /**
      * Remove all children by given name.
