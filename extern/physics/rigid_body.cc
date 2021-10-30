@@ -90,9 +90,11 @@ void RigidBody::update(const float& delta) {
         global_rot = gp->getGlobalRotation();
     }
 
-    _ep->setPosition(glm::vec2{position.x, position.y} - global_offset);
-    auto angle = _body->GetAngle();
-    _ep->setRotation(angle - global_rot);
+    if (_def.type != b2BodyType::b2_staticBody) {
+        _ep->setPosition(glm::vec2{position.x, position.y} - global_offset);
+        auto angle = _body->GetAngle();
+        _ep->setRotation(angle - global_rot);
+    }
 }
 
 void RigidBody::init(const typename resources::ConfigResource::JsonObject& data) {
