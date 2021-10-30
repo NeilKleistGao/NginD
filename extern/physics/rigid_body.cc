@@ -58,6 +58,10 @@ void RigidBody::update(const float& delta) {
         auto world = game->getCurrentWorld();
 
         auto pw = world->getComponent<PhysicsWorld>("PhysicsWorld");
+        if (pw == nullptr) {
+            return;
+        }
+
         _body = pw->_world.CreateBody(&_def);
 
         if (_body == nullptr) {
