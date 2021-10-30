@@ -24,7 +24,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 ### 1.2
 + [ ] Web Components
 
-### 1.3
+### 2.0
 + [ ] Graphic Editor
 
 ## Dependent Libraries
