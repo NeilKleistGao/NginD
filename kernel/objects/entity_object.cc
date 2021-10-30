@@ -31,7 +31,7 @@
 namespace ngind::objects {
 
 EntityObject::EntityObject() : Object(), _position(), _scale(1, 1),
-_rotation(0.0f), _z_order(0), _anchor(0.5f, 0.5f), _global_rotation(0.0f), _global_scale(), _global_position(), _id(-1) {
+    _rotation(0.0f), _z_order(0), _anchor(0.5f, 0.5f), _global_rotation(0.0f), _global_scale(), _global_position(), _id(-1) {
 }
 
 EntityObject::~EntityObject() {
@@ -52,7 +52,6 @@ void EntityObject::adjustGlobalPosition() {
     }
 
     for (auto& [_, child] : _children) {
-        child->_global_position = child->_position + _global_position;
         child->adjustGlobalPosition();
     }
 
@@ -69,7 +68,6 @@ void EntityObject::adjustGlobalScale() {
     }
 
     for (auto& [_, child] : _children) {
-        child->_global_scale = child->_scale * _global_scale;
         child->adjustGlobalScale();
     }
 
@@ -86,7 +84,6 @@ void EntityObject::adjustGlobalRotation() {
     }
 
     for (auto& [_, child] : _children) {
-        child->_global_rotation = child->_rotation + _global_rotation;
         child->adjustGlobalRotation();
     }
 
