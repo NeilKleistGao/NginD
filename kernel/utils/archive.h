@@ -107,6 +107,8 @@ public:
      * @return bool, boolean variable
      */
     bool getBoolean(const std::string& key, bool default_value);
+
+    void flush();
 private:
     /**
      * The unique instance.
@@ -135,6 +137,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(Archive) {
                 .addFunction("getInteger", &Archive::getInteger)
                 .addFunction("getFloat", &Archive::getFloat)
                 .addFunction("getBoolean", &Archive::getBoolean)
+                .addFunction("flush", &Archive::flush)
             .endClass()
         .endNamespace();
 

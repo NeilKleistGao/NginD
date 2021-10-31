@@ -80,34 +80,13 @@ Archive::Archive() {
 }
 
 Archive::~Archive() {
-    const std::string ARCHIVE_FILENAME = "NGIND_ARCHIVE.json";
-    rapidjson::StringBuffer buffer;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-    _doc.Accept(writer);
-    std::string data = buffer.GetString();
-
-    if constexpr (CURRENT_MODE == MODE_RELEASE) {
-        std::string temp = ARCHIVE_FILENAME;
-        temp.replace(ARCHIVE_FILENAME.length() - 4, ARCHIVE_FILENAME.length(), "cson");
-        auto stream = new filesystem::CipherOutputStream(new filesystem::FileOutputStream(temp));
-        stream->write(data);
-        stream->close();
-    }
-    else {
-        auto stream = new filesystem::FileOutputStream(ARCHIVE_FILENAME);
-        stream->write(data);
-        stream->close();
-    }
+    flush();
 }
 
 void Archive::setString(const std::string& key, const std::string& value) {
     if (!_doc.HasMember(key.c_str())) {
         auto& allocator = _doc.GetAllocator();
-        auto rk = rapidjson::Value();
-        rk.SetString(key.c_str(), key.length());
-        auto rv = rapidjson::Value();
-        rv.SetString(value.c_str(), value.length());
-        _doc.AddMember(rk.Move(), rv.Move(), allocator);
+        _doc.AddMember(rapidjson::Value(key.c_str(), allocator), rapidjson::Value(value.c_str(), allocator), allocator);
     }
     else {
         auto& v = _doc[key.c_str()];
@@ -118,11 +97,7 @@ void Archive::setString(const std::string& key, const std::string& value) {
 void Archive::setInteger(const std::string& key, int value) {
     if (!_doc.HasMember(key.c_str())) {
         auto& allocator = _doc.GetAllocator();
-        auto rk = rapidjson::Value();
-        rk.SetString(key.c_str(), key.length());
-        auto rv = rapidjson::Value();
-        rv.SetInt(value);
-        _doc.AddMember(rk.Move(), rv.Move(), allocator);
+        _doc.AddMember(rapidjson::Value(key.c_str(), allocator), rapidjson::Value(value), allocator);
     }
     else {
         auto& v = _doc[key.c_str()];
@@ -133,11 +108,7 @@ void Archive::setInteger(const std::string& key, int value) {
 void Archive::setFloat(const std::string& key, float value) {
     if (!_doc.HasMember(key.c_str())) {
         auto& allocator = _doc.GetAllocator();
-        auto rk = rapidjson::Value();
-        rk.SetString(key.c_str(), key.length());
-        auto rv = rapidjson::Value();
-        rv.SetFloat(value);
-        _doc.AddMember(rk.Move(), rv.Move(), allocator);
+        _doc.AddMember(rapidjson::Value(key.c_str(), allocator), rapidjson::Value(value), allocator);
     }
     else {
         auto& v = _doc[key.c_str()];
@@ -148,11 +119,7 @@ void Archive::setFloat(const std::string& key, float value) {
 void Archive::setBoolean(const std::string& key, bool value) {
     if (!_doc.HasMember(key.c_str())) {
         auto& allocator = _doc.GetAllocator();
-        auto rk = rapidjson::Value();
-        rk.SetString(key.c_str(), key.length());
-        auto rv = rapidjson::Value();
-        rv.SetBool(value);
-        _doc.AddMember(rk.Move(), rv.Move(), allocator);
+        _doc.AddMember(rapidjson::Value(key.c_str(), allocator), rapidjson::Value(value), allocator);
     }
     else {
         auto& v = _doc[key.c_str()];
@@ -194,6 +161,27 @@ bool Archive::getBoolean(const std::string& key, bool default_value) {
     }
 
     return default_value;
+}
+
+void Archive::flush() {
+    const std::string ARCHIVE_FILENAME = "NGIND_ARCHIVE.json";
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    _doc.Accept(writer);
+    std::string data = buffer.GetString();
+
+    if constexpr (CURRENT_MODE == MODE_RELEASE) {
+        std::string temp = ARCHIVE_FILENAME;
+        temp.replace(ARCHIVE_FILENAME.length() - 4, ARCHIVE_FILENAME.length(), "cson");
+        auto stream = new filesystem::CipherOutputStream(new filesystem::FileOutputStream(temp));
+        stream->write(data);
+        stream->close();
+    }
+    else {
+        auto stream = new filesystem::FileOutputStream(ARCHIVE_FILENAME);
+        stream->write(data);
+        stream->close();
+    }
 }
 
 } // namespace ngind::utils
