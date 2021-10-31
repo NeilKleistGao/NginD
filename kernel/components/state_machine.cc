@@ -95,7 +95,7 @@ void StateMachine::halt() {
     }
 
     luabridge::LuaRef state_exit = _instance["exit"];
-    if (!state_exit.isNil()) {
+    if (!state_exit.isNil() && state_exit.isFunction()) {
         state_exit(_instance);
     }
 
