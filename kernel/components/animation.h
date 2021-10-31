@@ -86,6 +86,8 @@ public:
         _playing = true;
     }
 
+    static Animation* getComponent(objects::Object* parent);
+
 private:
     /**
      * Should animation be played automatically when ready.
@@ -131,11 +133,12 @@ private:
 NGIND_LUA_BRIDGE_REGISTRATION(Animation) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
         .beginNamespace("engine")
-            .deriveClass<Animation, Component>("Animation")
+            .deriveClass<Animation, Component>("AsepriteAnimation")
                 .addFunction("play", &Animation::play)
                 .addFunction("stop", &Animation::stop)
                 .addFunction("pause", &Animation::pause)
                 .addFunction("resume", &Animation::resume)
+                .addStaticFunction("getComponent", &Animation::getComponent)
             .endClass()
         .endNamespace();
 
