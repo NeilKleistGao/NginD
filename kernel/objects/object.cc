@@ -103,6 +103,12 @@ void Object::update(const float& delta) {
             child.second->update(delta);
         }
     }
+
+    for (auto it = this->_children.begin(); it != this->_children.end(); ++it) {
+        if (!it->second) {
+            it = _children.erase(it);
+        }
+    }
 }
 
 void Object::removeAllChildren(const std::string& name) {
