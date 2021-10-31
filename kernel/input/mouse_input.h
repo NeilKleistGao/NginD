@@ -30,11 +30,9 @@
 
 #include "glm/glm.hpp"
 
-#include <set>
+#include <unordered_set>
 
 namespace ngind::input {
-
-
 /**
  * The keyboard code for keyboard input. It's a simple map for GLFW_MOUSE prefixing
  * macros.
@@ -44,6 +42,8 @@ enum class MouseCode {
     BUTTON_RIGHT = GLFW_MOUSE_BUTTON_RIGHT,
     BUTTON_MIDDLE = GLFW_MOUSE_BUTTON_MIDDLE
 };
+
+void GLFWMouseCallback(GLFWwindow* window, int key, int action, int mods);
 
 /**
  * The mouse input manager. This is a more sophisticated interface with
@@ -77,11 +77,18 @@ public:
      * @see kernel/input/input.h
      */
     glm::vec2 getMouseMoving(GLFWwindow*& window);
+
+    void update();
+
+    friend void GLFWMouseCallback(GLFWwindow* window, int key, int action, int mods);
 private:
     /**
      * Record the press state of all mice
      */
-    std::set<MouseCode> _pressed;
+    std::unordered_set<MouseCode> _pressed[2];
+
+    std::unordered_set<MouseCode>* _buffer0;
+    std::unordered_set<MouseCode>* _buffer1;
 };
 
 } // namespace ngind::input

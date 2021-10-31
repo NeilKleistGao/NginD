@@ -26,7 +26,7 @@
 #ifndef NGIND_KEYBOARD_INPUT_H
 #define NGIND_KEYBOARD_INPUT_H
 
-#include <set>
+#include <unordered_set>
 
 #include "glfw3.h"
 
@@ -131,6 +131,8 @@ enum class KeyboardCode {
     RIGHT_SUPER = GLFW_KEY_RIGHT_SUPER
 };
 
+void GLFWKeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
 /**
  * The keyboard input manager. This is a more sophisticated interface with
  * GLFWwindow as a param. Use Input class instead.
@@ -159,11 +161,17 @@ public:
      */
     bool getKeyReleased(GLFWwindow* window, const KeyboardCode& code);
 
+    void update();
+
+    friend void GLFWKeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 private:
     /**
      * Record the press state of all keys
      */
-    std::set<KeyboardCode> _pressed;
+    std::unordered_set<KeyboardCode> _pressed[2];
+
+    std::unordered_set<KeyboardCode>* _buffer0;
+    std::unordered_set<KeyboardCode>* _buffer1;
 };
 
 } // namespace ngind::input

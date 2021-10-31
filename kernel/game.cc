@@ -33,6 +33,7 @@
 #include "ui/event_system.h"
 #include "rendering/adaptor.h"
 #include "script/observer.h"
+#include "input/input.h"
 
 namespace ngind {
 Game* Game::_instance = nullptr;
@@ -135,6 +136,7 @@ void Game::start() {
             _trans_next = false;
         }
 
+        input::Input::getInstance()->update();
         glfwPollEvents();
         render->clearScene(_current_world->getBackgroundColor());
 

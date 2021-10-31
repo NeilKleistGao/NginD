@@ -146,7 +146,11 @@ public:
      */
     static void init();
 
+    void update();
+
     friend class ngind::rendering::Window;
+    friend void GLFWKeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    friend void GLFWMouseCallback(GLFWwindow* window, int key, int action, int mods);
 private:
     /**
      * The instance object

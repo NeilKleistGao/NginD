@@ -170,4 +170,29 @@ void Input::init() {
     luabridge::setGlobal(state, mouse_code_table, "MOUSE_CODE");
 }
 
+void Input::update() {
+    _keyboard->update();
+    _mouse->update();
+}
+
+void GLFWKeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    auto input = Input::getInstance();
+    auto keyboard = input->_keyboard;
+    auto key_code = static_cast<KeyboardCode>(key);
+
+    if (action == GLFW_PRESS) {
+        keyboard->_buffer1->insert(key_code);
+    }
+}
+
+void GLFWMouseCallback(GLFWwindow* window, int key, int action, int mods) {
+    auto input = Input::getInstance();
+    auto mouse = input->_mouse;
+    auto mouse_code = static_cast<MouseCode>(key);
+
+    if (action == GLFW_PRESS) {
+        mouse->_buffer1->insert(mouse_code);
+    }
+}
+
 } // namespace ngind::input

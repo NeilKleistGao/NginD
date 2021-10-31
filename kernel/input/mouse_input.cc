@@ -27,59 +27,30 @@
 
 namespace ngind::input {
 
-MouseInput::MouseInput(GLFWwindow*& window) {
+MouseInput::MouseInput(GLFWwindow*& window) : _buffer0(&_pressed[0]), _buffer1(&_pressed[1]) {
     glfwSetInputMode(window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
-    _pressed.clear();
+    glfwSetMouseButtonCallback(window, GLFWMouseCallback);
 }
 
 glm::vec2 MouseInput::getMousePressed(GLFWwindow*& window, const MouseCode& code) {
-    int state = glfwGetMouseButton(window, static_cast<int>(code));
-    if (state == GLFW_PRESS) {
-        if (_pressed.find(code) == _pressed.end()) {
-            _pressed.insert(code);
-            return getMouseMoving(window);
-        }
-    }
-    else {
-        if (_pressed.find(code) != _pressed.end()) {
-            _pressed.erase(code);
-        }
+    if (_buffer1->find(code) != _buffer1->end() && _buffer0->find(code) == _buffer0->end()) {
+        return getMouseMoving(window);
     }
 
     return glm::vec2{NAN, NAN};
 }
 
 glm::vec2 MouseInput::getMouse(GLFWwindow*& window, const MouseCode& code) {
-    int state = glfwGetMouseButton(window, static_cast<int>(code));
-    if (state == GLFW_PRESS) {
-        if (_pressed.find(code) != _pressed.end()) {
-            return getMouseMoving(window);
-        }
-        else {
-            _pressed.insert(code);
-        }
-    }
-    else {
-        if (_pressed.find(code) != _pressed.end()) {
-            _pressed.erase(code);
-        }
+    if (_buffer1->find(code) != _buffer1->end()) {
+        return getMouseMoving(window);
     }
 
     return glm::vec2{NAN, NAN};
 }
 
 glm::vec2 MouseInput::getMouseReleased(GLFWwindow*& window, const MouseCode& code) {
-    int state = glfwGetMouseButton(window, static_cast<int>(code));
-    if (state == GLFW_PRESS) {
-        if (_pressed.find(code) == _pressed.end()) {
-            _pressed.insert(code);
-        }
-    }
-    else {
-        if (_pressed.find(code) != _pressed.end()) {
-            _pressed.erase(code);
-            return getMouseMoving(window);
-        }
+    if (_buffer1->find(code) == _buffer1->end() && _buffer0->find(code) != _buffer0->end()) {
+        return getMouseMoving(window);
     }
 
     return glm::vec2{NAN, NAN};
@@ -89,6 +60,13 @@ glm::vec2 MouseInput::getMouseMoving(GLFWwindow*& window) {
     double x, y;
     glfwGetCursorPos(window, &x, &y);
     return {static_cast<float>(x), static_cast<float>(y)};
+}
+
+void MouseInput::update() {
+    _buffer0->clear();
+    auto* temp = _buffer0;
+    _buffer0 = _buffer1;
+    _buffer1 = temp;
 }
 
 } // namespace ngind::input

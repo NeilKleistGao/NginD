@@ -27,56 +27,28 @@
 
 namespace ngind::input {
 
-KeyboardInput::KeyboardInput(GLFWwindow* window) {
+KeyboardInput::KeyboardInput(GLFWwindow* window) : _buffer1(&_pressed[1]), _buffer0(&_pressed[0]) {
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
-    this->_pressed.clear();
+    glfwSetKeyCallback(window, GLFWKeyboardCallback);
 }
 
 bool KeyboardInput::getKey(GLFWwindow *window, const KeyboardCode& code) {
-    int state = glfwGetKey(window, static_cast<int>(code));
-    if (state == GLFW_PRESS) {
-        if (this->_pressed.find(code) == this->_pressed.end()) {
-            this->_pressed.insert(code);
-        }
-        else {
-            return true;
-        }
-    }
-    else if (this->_pressed.find(code) != this->_pressed.end()) {
-        this->_pressed.erase(code);
-    }
-
-    return false;
+    return this->_buffer1->find(code) == this->_buffer1->end();
 }
 
 bool KeyboardInput::getKeyPressed(GLFWwindow* window, const KeyboardCode& code) {
-    int state = glfwGetKey(window, static_cast<int>(code));
-    if (state == GLFW_PRESS) {
-        if (this->_pressed.find(code) == this->_pressed.end()) {
-            this->_pressed.insert(code);
-            return true;
-        }
-    }
-    else if (this->_pressed.find(code) != this->_pressed.end()) {
-        this->_pressed.erase(code);
-    }
-
-    return false;
+    return this->_buffer1->find(code) != this->_buffer1->end() && this->_buffer0->find(code) == this->_buffer0->end();
 }
 
 bool KeyboardInput::getKeyReleased(GLFWwindow* window, const KeyboardCode& code) {
-    int state = glfwGetKey(window, static_cast<int>(code));
-    if (state == GLFW_RELEASE) {
-        if (this->_pressed.find(code) != this->_pressed.end()) {
-            this->_pressed.erase(code);
-            return true;
-        }
-    }
-    else if (this->_pressed.find(code) == this->_pressed.end()) {
-        this->_pressed.insert(code);
-    }
+    return this->_buffer1->find(code) == this->_buffer1->end() && this->_buffer0->find(code) != this->_buffer0->end();
+}
 
-    return false;
+void KeyboardInput::update() {
+    _buffer0->clear();
+    auto* temp = _buffer0;
+    _buffer0 = _buffer1;
+    _buffer1 = temp;
 }
 
 } // namespace ngind::input
