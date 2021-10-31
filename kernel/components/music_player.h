@@ -29,6 +29,7 @@
 #include "resources/music_resource.h"
 #include "script/lua_registration.h"
 #include "audio/audio_manager.h"
+#include "objects/object.h"
 
 namespace ngind::components {
 
@@ -122,6 +123,10 @@ public:
      * @return where music starts again
      */
     double getLoopPoint();
+
+    static MusicPlayer* getComponent(objects::Object* parent) {
+        return parent->getComponent<MusicPlayer>("MusicPlayer");
+    }
 private:
     /**
      * Whether music starts automatically.
@@ -148,6 +153,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(MusicPlayer) {
             .addFunction("isLooping", &MusicPlayer::isLooping)
             .addFunction("setLoopPoint", &MusicPlayer::setLoopPoint)
             .addFunction("getLoopPoint", &MusicPlayer::getLoopPoint)
+            .addStaticFunction("getComponent", &MusicPlayer::getComponent)
         .endClass()
     .endNamespace();
 

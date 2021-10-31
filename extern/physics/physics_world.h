@@ -125,6 +125,10 @@ public:
         return _gravity.y;
     }
 
+    static PhysicsWorld* getComponent(objects::Object* parent) {
+        return parent->getComponent<PhysicsWorld>("PhysicsWorld");
+    }
+
     friend class RigidBody;
     friend class DistanceJoint;
     friend class RevoluteJoint;
@@ -176,6 +180,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(PhysicsWorld) {
                 .addFunction("getGravity", &PhysicsWorld::getGravity)
                 .addFunction("getGravityX", &PhysicsWorld::getGravityX)
                 .addFunction("getGravityY", &PhysicsWorld::getGravityY)
+                .addStaticFunction("getComponent", &PhysicsWorld::getComponent)
             .endClass()
         .endNamespace();
 }

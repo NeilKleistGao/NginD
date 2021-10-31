@@ -171,6 +171,10 @@ public:
      * @return float, current length
      */
     float getCurrentLength() const;
+
+    static DistanceJoint* getComponent(objects::Object* parent) {
+        return parent->getComponent<DistanceJoint>("DistanceJoint");
+    }
 private:
     /**
      * Joint definition data.
@@ -219,7 +223,8 @@ NGIND_LUA_BRIDGE_REGISTRATION(DistanceJoint) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
         .beginNamespace("engine")
             .deriveClass<DistanceJoint, PhysicsJoint>("DistanceJoint")
-            .addFunction("getCurrentLength", &DistanceJoint::getCurrentLength)
+                .addFunction("getCurrentLength", &DistanceJoint::getCurrentLength)
+                .addStaticFunction("getComponent", &DistanceJoint::getComponent)
             .endClass()
         .endNamespace();
 }
@@ -249,6 +254,10 @@ public:
      * @return RevoluteJoint*, the instance of revolute joint component
      */
     static RevoluteJoint* create(const typename resources::ConfigResource::JsonObject& data);
+
+    static RevoluteJoint* getComponent(objects::Object* parent) {
+        return parent->getComponent<RevoluteJoint>("RevoluteJoint");
+    }
 private:
     /**
      * Joint definition data.
@@ -296,6 +305,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(RevoluteJoint) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
         .beginNamespace("engine")
             .deriveClass<RevoluteJoint, PhysicsJoint>("RevoluteJoint")
+                .addStaticFunction("getComponent", &RevoluteJoint::getComponent)
             .endClass()
         .endNamespace();
 }
@@ -325,6 +335,10 @@ public:
      * @return PrismaticJoint*, the instance of prismatic joint component
      */
     static PrismaticJoint* create(const typename resources::ConfigResource::JsonObject& data);
+
+    static PrismaticJoint* getComponent(objects::Object* parent) {
+        return parent->getComponent<PrismaticJoint>("PrismaticJoint");
+    }
 private:
     /**
      * Joint definition data.
@@ -377,6 +391,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(PrismaticJoint) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
         .beginNamespace("engine")
             .deriveClass<PrismaticJoint, PhysicsJoint>("PrismaticJoint")
+                .addStaticFunction("getComponent", &PrismaticJoint::getComponent)
             .endClass()
         .endNamespace();
 }
@@ -418,6 +433,10 @@ public:
      * @return float, current length of the segment
      */
     float getCurrentLengthB() const;
+
+    static PulleyJoint* getComponent(objects::Object* parent) {
+        return parent->getComponent<PulleyJoint>("PulleyJoint");
+    }
 private:
     /**
      * Joint definition data.
@@ -457,6 +476,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(PulleyJoint) {
             .deriveClass<PulleyJoint, PhysicsJoint>("PulleyJoint")
                 .addFunction("getCurrentLengthA", &PulleyJoint::getCurrentLengthA)
                 .addFunction("getCurrentLengthB", &PulleyJoint::getCurrentLengthB)
+                .addStaticFunction("getComponent", &PulleyJoint::getComponent)
             .endClass()
         .endNamespace();
 }
@@ -498,6 +518,10 @@ public:
      * @return PhysicsJoint*, the second joint.
      */
     PhysicsJoint* getJointB() const;
+
+    static GearJoint* getComponent(objects::Object* parent) {
+        return parent->getComponent<GearJoint>("GearJoint");
+    }
 private:
     /**
      * Joint definition data.
@@ -537,6 +561,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(GearJoint) {
             .deriveClass<GearJoint, PhysicsJoint>("GearJoint")
                 .addFunction("getJointA", &GearJoint::getJointA)
                 .addFunction("getJointB", &GearJoint::getJointB)
+                .addStaticFunction("getComponent", &GearJoint::getComponent)
             .endClass()
         .endNamespace();
 }

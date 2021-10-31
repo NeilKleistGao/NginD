@@ -81,7 +81,7 @@ std::pair<RigidBody*, RigidBody*> PhysicsListener::getContactingBodies(b2Contact
 void PhysicsListener::sendMessage(const std::string& name, objects::Object* sender, objects::Object* other) {
     auto ob = script::Observer::getInstance();
     luabridge::setGlobal(script::LuaState::getInstance()->getState(), other, "__PHYSICS_CONTACT_DATA__");
-    ob->notifySiblings(name, sender, luabridge::getGlobal(script::LuaState::getInstance()->getState(), "__PHYSICS_CONTACT_DATA__"));
+    ob->notifySiblings("BeginContact", sender, luabridge::getGlobal(script::LuaState::getInstance()->getState(), "__PHYSICS_CONTACT_DATA__"));
     luabridge::setGlobal(script::LuaState::getInstance()->getState(), 0, "__PHYSICS_CONTACT_DATA__");
 }
 

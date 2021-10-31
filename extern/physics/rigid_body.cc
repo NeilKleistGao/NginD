@@ -211,4 +211,13 @@ bool RigidBody::isRotationFixed() const {
     return _body->IsFixedRotation();
 }
 
+RigidBody* RigidBody::getComponent(objects::Object* parent) {
+    return parent->getComponent<RigidBody>("RigidBody");
+}
+
+glm::vec2 RigidBody::getVelocity() const {
+    auto temp = _body->GetLinearVelocity();
+    return glm::vec2 {temp.x, temp.y};
+}
+
 } // namespace ngind::physics

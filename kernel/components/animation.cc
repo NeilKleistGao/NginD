@@ -122,4 +122,8 @@ void Animation::stop() {
     _timer = 0.0f;
 }
 
+Animation* Animation::getComponent(objects::Object* parent) {
+    return parent->getComponent<Animation>("Animation");
+}
+
 } // namespace ngind::components

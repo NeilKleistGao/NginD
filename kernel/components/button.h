@@ -108,6 +108,10 @@ public:
     inline bool isHighlighted() const {
         return _highlighted;
     }
+
+    static Button* getComponent(objects::Object* parent) {
+        return parent->getComponent<Button>("Button");
+    }
 private:
     /**
      * If this button is clickable.
@@ -192,6 +196,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(Button) {
             .deriveClass<Button, Component>("Animation")
                 .addFunction("setAvailable", &Button::setAvailable)
                 .addFunction("isAvailable", &Button::isAvailable)
+                .addStaticFunction("getComponent", &Button::getComponent)
             .endClass()
         .endNamespace();
 

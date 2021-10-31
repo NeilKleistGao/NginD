@@ -30,6 +30,7 @@
 #include "kernel/script/lua_registration.h"
 #include "kernel/objects/entity_object.h"
 #include "physics_shape.h"
+#include "objects/object.h"
 
 namespace ngind::physics {
 class PhysicsWorld;
@@ -84,6 +85,8 @@ public:
      */
     void setVelocity(const glm::vec2& velocity);
 
+    glm::vec2 getVelocity() const;
+
     /**
      * Set angular velocity of this rigid body directly.
      * @param velocity: angular velocity of this rigid body
@@ -113,6 +116,8 @@ public:
      * @return bool, true if this body can't rotate
      */
     bool isRotationFixed() const;
+
+    static RigidBody* getComponent(objects::Object* parent);
 
     friend class PhysicsWorld;
 private:
@@ -148,8 +153,6 @@ private:
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(RigidBody) {
-    components::ComponentFactory::getInstance()->registerComponent<RigidBody>("RigidBody");
-
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
         .beginNamespace("engine")
             .deriveClass<RigidBody, components::Component>("RigidBody")
@@ -161,8 +164,12 @@ NGIND_LUA_BRIDGE_REGISTRATION(RigidBody) {
                 .addFunction("isSleepingAllowed", &RigidBody::isSleepingAllowed)
                 .addFunction("setRotationFixed", &RigidBody::setRotationFixed)
                 .addFunction("isRotationFixed", &RigidBody::isRotationFixed)
+                .addFunction("getVelocity", &RigidBody::getVelocity)
+                .addStaticFunction("getComponent", &RigidBody::getComponent)
             .endClass()
         .endNamespace();
+
+        components::ComponentFactory::getInstance()->registerComponent<RigidBody>("RigidBody");
 }
 
 } // namespace ngind::physics

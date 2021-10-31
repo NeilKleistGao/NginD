@@ -29,6 +29,7 @@
 #include "resources/effect_resource.h"
 #include "script/lua_registration.h"
 #include "audio/audio_manager.h"
+#include "objects/object.h"
 
 namespace ngind::components {
 /**
@@ -79,6 +80,10 @@ public:
      * @return float, the volume
      */
     float getVolume() const;
+
+    static EffectPlayer* getComponent(objects::Object* parent) {
+        return parent->getComponent<EffectPlayer>("EffectPlayer");
+    }
 private:
     /**
      * Sound effect resource.
@@ -93,6 +98,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(EffectPlayer) {
             .addFunction("play", &EffectPlayer::play)
             .addFunction("setVolume", &EffectPlayer::setVolume)
             .addFunction("getVolume", &EffectPlayer::getVolume)
+            .addStaticFunction("getComponent", &EffectPlayer::getComponent)
         .endClass()
     .endNamespace();
 
