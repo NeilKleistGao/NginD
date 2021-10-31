@@ -39,8 +39,6 @@ struct PhysicsShape {
     b2Shape* shape;
     PhysicsShape() : shape(nullptr) {}
     virtual ~PhysicsShape() = default;
-
-    virtual void enable(float dx, float dy) = 0;
 };
 
 /**
@@ -57,8 +55,6 @@ struct CircleShape : public PhysicsShape {
      */
     explicit CircleShape(const typename resources::ConfigResource::JsonObject& data);
     ~CircleShape() override;
-
-    void enable(float dx, float dy) override {}
 };
 
 /**
@@ -80,8 +76,6 @@ struct PolygonShape : public PhysicsShape {
      */
     explicit PolygonShape(const typename resources::ConfigResource::JsonObject& data);
     ~PolygonShape() override;
-
-    void enable(float dx, float dy) override;
 };
 
 /**
@@ -103,8 +97,6 @@ struct EdgeShape : public PhysicsShape {
      */
     explicit EdgeShape(const typename resources::ConfigResource::JsonObject& data);
     ~EdgeShape() override;
-
-    void enable(float dx, float dy) override;
 };
 
 /**
@@ -125,8 +117,6 @@ struct ChainShape : public PhysicsShape {
      */
     explicit ChainShape(const typename resources::ConfigResource::JsonObject& data);
     ~ChainShape() override;
-
-    void enable(float dx, float dy) override;
 };
 
 } // namespace ngind::physics

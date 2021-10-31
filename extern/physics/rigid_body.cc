@@ -77,7 +77,6 @@ void RigidBody::update(const float& delta) {
             return;
         }
 
-        _shape->enable(_ep->getGlobalPositionX() - _ep->getPositionX(), _ep->getGlobalPositionY() - _ep->getPositionY());
         _fixture = _body->CreateFixture(&_fixture_def);
     }
 
@@ -95,6 +94,9 @@ void RigidBody::update(const float& delta) {
         _ep->setPosition(glm::vec2{position.x, position.y} - global_offset);
         auto angle = _body->GetAngle();
         _ep->setRotation(angle - global_rot);
+    }
+    else {
+        _body->SetTransform({_ep->getGlobalPositionX(), _ep->getGlobalPositionY()}, _ep->getGlobalRotation());
     }
 }
 
