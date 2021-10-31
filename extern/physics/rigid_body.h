@@ -150,6 +150,8 @@ private:
      * Entity parent object.
      */
     objects::EntityObject* _ep;
+
+    std::string _shape_name;
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(RigidBody) {

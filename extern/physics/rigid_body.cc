@@ -77,6 +77,7 @@ void RigidBody::update(const float& delta) {
             return;
         }
 
+        _shape->enable(_ep->getGlobalPositionX() - _ep->getPositionX(), _ep->getGlobalPositionY() - _ep->getPositionY());
         _fixture = _body->CreateFixture(&_fixture_def);
     }
 

@@ -61,10 +61,8 @@ PolygonShape::PolygonShape(const typename resources::ConfigResource::JsonObject&
             auto list = data["vertex"].GetArray();
             int i = 0;
             for (const auto& v : list) {
-                vertex[i] = b2Vec2{v["x"].GetFloat(), v["y"].GetFloat()};
+                vertex[i++] = b2Vec2{v["x"].GetFloat(), v["y"].GetFloat()};
             }
-
-            dynamic_cast<b2PolygonShape*>(shape)->Set(vertex, length);
         }
     }
     catch (...) {
@@ -86,6 +84,18 @@ PolygonShape::~PolygonShape() {
     }
 }
 
+void PolygonShape::enable(float dx, float dy) {
+    if (length == 1) {
+        return;
+    }
+
+    for (int i = 0; i < length; ++i) {
+        vertex[i] = b2Vec2{vertex[i].x + dx, vertex[i].y + dy};
+    }
+
+    dynamic_cast<b2PolygonShape*>(shape)->Set(vertex, length);
+}
+
 EdgeShape::EdgeShape(const typename resources::ConfigResource::JsonObject& data) : PhysicsShape(), vertex(nullptr), length(0) {
     try {
         shape = new b2EdgeShape();
@@ -96,16 +106,6 @@ EdgeShape::EdgeShape(const typename resources::ConfigResource::JsonObject& data)
         auto array = data["vertex"].GetArray();
         for (const auto& v : array) {
             vertex[i++] = b2Vec2{v["x"].GetFloat(), v["y"].GetFloat()};
-        }
-
-        if (length == 2) {
-            dynamic_cast<b2EdgeShape*>(shape)->SetTwoSided(vertex[0], vertex[1]);
-        }
-        else if (length == 4) {
-            dynamic_cast<b2EdgeShape*>(shape)->SetOneSided(vertex[0], vertex[1], vertex[2], vertex[3]);
-        }
-        else {
-            throw std::exception();
         }
     }
     catch (...) {
@@ -127,6 +127,22 @@ EdgeShape::~EdgeShape() {
     }
 }
 
+void EdgeShape::enable(float dx, float dy) {
+    for (int i = 0; i < length; ++i) {
+        vertex[i] = b2Vec2{vertex[i].x + dx, vertex[i].y + dy};
+    }
+
+    if (length == 2) {
+        dynamic_cast<b2EdgeShape*>(shape)->SetTwoSided(vertex[0], vertex[1]);
+    }
+    else if (length == 4) {
+        dynamic_cast<b2EdgeShape*>(shape)->SetOneSided(vertex[0], vertex[1], vertex[2], vertex[3]);
+    }
+    else {
+        throw std::exception();
+    }
+}
+
 ChainShape::ChainShape(const typename resources::ConfigResource::JsonObject& data) : PhysicsShape(), vertex(nullptr), length(0) {
     try {
         shape = new b2ChainShape();
@@ -138,8 +154,6 @@ ChainShape::ChainShape(const typename resources::ConfigResource::JsonObject& dat
         for (const auto& v : array) {
             vertex[i++] = b2Vec2{v["x"].GetFloat(), v["y"].GetFloat()};
         }
-
-        dynamic_cast<b2ChainShape*>(shape)->CreateLoop(vertex, length);
     }
     catch (...) {
         auto logger = log::LoggerFactory::getInstance()->getLogger("crash.log", log::LogLevel::LOG_LEVEL_ERROR);
@@ -158,6 +172,14 @@ ChainShape::~ChainShape() {
         delete [] vertex;
         vertex = nullptr;
     }
+}
+
+void ChainShape::enable(float dx, float dy) {
+    for (int i = 0; i < length; ++i) {
+        vertex[i] = b2Vec2{vertex[i].x + dx, vertex[i].y + dy};
+    }
+
+    dynamic_cast<b2ChainShape*>(shape)->CreateLoop(vertex, length);
 }
 
 } // namespace ngind::physics
