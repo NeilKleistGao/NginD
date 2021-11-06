@@ -193,6 +193,9 @@ void GLFWMouseCallback(GLFWwindow* window, int key, int action, int mods) {
     if (action == GLFW_PRESS) {
         mouse->_buffer1->insert(mouse_code);
     }
+    else if (action == GLFW_RELEASE) {
+        mouse->_buffer1->erase(mouse_code);
+    }
 }
 
 } // namespace ngind::input

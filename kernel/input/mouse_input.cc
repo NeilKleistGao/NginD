@@ -63,7 +63,7 @@ glm::vec2 MouseInput::getMouseMoving(GLFWwindow*& window) {
 }
 
 void MouseInput::update() {
-    _buffer0->clear();
+    (*_buffer0) = (*_buffer1);
     auto* temp = _buffer0;
     _buffer0 = _buffer1;
     _buffer1 = temp;
