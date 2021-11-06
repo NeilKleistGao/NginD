@@ -19,7 +19,7 @@ A game engine for 2D pixel game powered by C++ (自家用).
 
 ## TODO List
 ### 1.1
-+ [ ] Game AI Interface
++ [ ] RL Interface
 
 ### 2.0
 + [ ] Graphic Editor
