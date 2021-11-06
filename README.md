@@ -21,9 +21,6 @@ A game engine for 2D pixel game powered by C++ (自家用).
 ### 1.1
 + [ ] Game AI Interface
 
-### 1.2
-+ [ ] Web Components
-
 ### 2.0
 + [ ] Graphic Editor
 

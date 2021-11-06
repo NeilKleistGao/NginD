@@ -124,6 +124,18 @@ void LuaState::preload(const std::string& path) {
     for (auto& p : std::filesystem::directory_iterator(SCRIPT_PATH + "/" + path)) {
         if (!p.is_directory()) {
             auto filename = path + "/" + p.path().filename().string();
+
+            if constexpr (CURRENT_MODE == MODE_RELEASE) {
+                if (filename.find(".lsm") == -1) {
+                    continue;
+                }
+            }
+            else {
+                if (filename.find(".lua") == -1) {
+                    continue;
+                }
+            }
+
             _preload_list.push_back(filename);
             this->loadScript(filename);
         }
