@@ -3,6 +3,13 @@ project(NginD)
 
 set(CMAKE_CXX_STANDARD 17)
 
+if (0)
+    set(OUT_PATH build)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
+else()
+    set(OUT_PATH bin)
+endif()
+
 option(PLATFORM_LINUX "target platform: linux" ON)
 option(PLATFORM_WINDOWS "target platform: windows" OFF)
 
@@ -25,15 +32,13 @@ elseif (PLATFORM_WINDOWS)
     include_directories(include/freetype2)
 endif()
 
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
-
 if (PLATFORM_LINUX)
     set(PLATFORM_PREFIX "/lib/linux")
 elseif (PLATFORM_WINDOWS)
     set(PLATFORM_PREFIX "/lib/windows")
 endif()
 
-set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
+set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/${OUT_PATH}")
 
 add_executable(NginD main.cc
         ${KERNEL_HEADER}
