@@ -27,8 +27,11 @@
 #include <unordered_map>
 
 #include "action.h"
-#include "objects/object.h"
 #include "memory/auto_collection_object.h"
+
+namespace ngind::objects {
+class Object;
+} // namespace ngind::objects
 
 namespace ngind::rl {
 
