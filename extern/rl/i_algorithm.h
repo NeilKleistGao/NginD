@@ -21,8 +21,8 @@
 
 /// @file algorithm.h
 
-#ifndef NGIND_ALGORITHM_H
-#define NGIND_ALGORITHM_H
+#ifndef NGIND_I_ALGORITHM_H
+#define NGIND_I_ALGORITHM_H
 
 #include "agent.h"
 #include "script/lua_state.h"
@@ -30,13 +30,15 @@
 
 namespace ngind::rl {
 
-class Algorithm : public memory::AutoCollectionObject {
+class IAlgorithm : public memory::AutoCollectionObject {
 public:
-    Algorithm() : memory::AutoCollectionObject(), _steps(1000) {}
-    ~Algorithm() override = default;
+    IAlgorithm() : memory::AutoCollectionObject(), _steps(1000),
+        _script(script::LuaState::getInstance()->createNil()) {}
+    ~IAlgorithm() override = default;
 
     virtual bool step(Agent* agent, const luabridge::LuaRef& obs) = 0;
     virtual void dump(const std::string& filename) = 0;
+    virtual void load(const std::string& filename) = 0;
 
     inline void setSteps(int steps) {
         _steps = steps;
@@ -45,10 +47,21 @@ public:
     inline int getSteps() const {
         return _steps;
     }
+
+    inline void setScript(const luabridge::LuaRef& script) {
+        _script = script;
+    }
+
+    inline luabridge::LuaRef getScript() {
+        return _script;
+    }
 private:
     int _steps;
+
+protected:
+    luabridge::LuaRef _script;
 };
 
 } // namespace ngind::rl
 
-#endif //NGIND_ALGORITHM_H
+#endif //NGIND_I_ALGORITHM_H

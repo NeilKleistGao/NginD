@@ -24,19 +24,39 @@
 #ifndef NGIND_Q_LEARNING_H
 #define NGIND_Q_LEARNING_H
 
-#include "algorithm.h"
+#include <unordered_map>
+
+#include "i_algorithm.h"
+#include "action.h"
+#include "math/random.h"
 
 namespace ngind::rl {
 
-class QLearning : Algorithm {
+class QLearning : IAlgorithm {
 public:
-    QLearning();
-    ~QLearning() override;
+    QLearning(Agent* agent, const double& learning_rate, const double& discount_factor, const double& epsilon);
+    ~QLearning() override = default;
 
     bool step(Agent* agent, const luabridge::LuaRef& obs) override;
 
     void dump(const std::string& filename) override;
+
+    void load(const std::string& filename) override;
 private:
+    using ActionRewards = std::unordered_map<int, double>;
+
+    double _learning_rate;
+    double _discount_factor;
+    double _epsilon;
+
+    int _state;
+    int _action_space_size;
+
+    std::unordered_map<int, ActionRewards> _q_table;
+
+    math::Random _random;
+
+    void learn(int state, int next_state, int action, double reward);
 protected:
 };
 

@@ -26,7 +26,7 @@
 
 namespace ngind::rl {
 
-Environment::Environment(Agent* agent, Observations* ob, Algorithm* algorithm, const std::string& script, const std::string& cl)
+Environment::Environment(Agent* agent, Observations* ob, IAlgorithm* algorithm, const std::string& script, const std::string& cl)
     : memory::AutoCollectionObject(),  _agent(agent), _observations(ob), _algorithm(algorithm),
       _script(script::LuaState::getInstance()->createNil()), _current(0) {
     auto* ins = script::LuaState::getInstance();
@@ -91,7 +91,7 @@ void Environment::setObservations(Observations* ob) {
     _observations->addReference();
 }
 
-void Environment::setAlgorithm(Algorithm* algorithm) {
+void Environment::setAlgorithm(IAlgorithm* algorithm) {
     if (_algorithm != nullptr) {
         _algorithm->removeReference();
         _algorithm = nullptr;

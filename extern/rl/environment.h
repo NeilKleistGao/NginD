@@ -25,7 +25,7 @@
 #define NGIND_ENVIRONMENT_H
 
 #include "agent.h"
-#include "algorithm.h"
+#include "i_algorithm.h"
 #include "observations.h"
 #include "memory/auto_collection_object.h"
 
@@ -33,18 +33,18 @@ namespace ngind::rl {
 
 class Environment : public memory::AutoCollectionObject {
 public:
-    Environment(Agent* agent, Observations* ob, Algorithm* algorithm, const std::string& script, const std::string& cl);
+    Environment(Agent* agent, Observations* ob, IAlgorithm* algorithm, const std::string& script, const std::string& cl);
     ~Environment() override;
 
     void update();
 
     void setAgent(Agent* agent);
     void setObservations(Observations* ob);
-    void setAlgorithm(Algorithm* algorithm);
+    void setAlgorithm(IAlgorithm* algorithm);
 private:
     Agent* _agent;
     Observations* _observations;
-    Algorithm* _algorithm;
+    IAlgorithm* _algorithm;
 
     luabridge::LuaRef _script;
     int _current;

@@ -35,10 +35,6 @@ public:
     ~Action() = default;
 
     void operator()();
-
-    inline float getReward(const luabridge::LuaRef& table) const {
-        return table[_function].cast<float>();
-    }
 private:
     luabridge::LuaRef _object;
     luabridge::LuaRef _function;

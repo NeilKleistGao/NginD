@@ -23,22 +23,85 @@
 
 #include "q_learning.h"
 
+#include <limits>
+
 namespace ngind::rl {
 
-QLearning::QLearning() {
-    // TODO:
-}
-
-QLearning::~QLearning() {
-    // TODO:
+QLearning::QLearning(Agent* agent, const double& learning_rate, const double& discount_factor, const double& epsilon)
+    : IAlgorithm(), _learning_rate(learning_rate), _discount_factor(discount_factor), _epsilon(epsilon), _state(0) {
+    _action_space_size = agent->getActionSpace().size();
+    auto& default_table = _q_table[0] = ActionRewards{};
+    for (int i = 0; i < _action_space_size; ++i) {
+        default_table[i] = 0.0;
+    }
 }
 
 bool QLearning::step(Agent* agent, const luabridge::LuaRef& obs) {
-    // TODO:
+    float rand = _random.getPercentageRandomNumber();
+    auto& actions = agent->getActionSpace();
+
+    int next = 0;
+    if (rand < _epsilon) {
+        next = _random.getRangeRandomNumber(0, _action_space_size - 1);
+    }
+    else {
+        auto reward_table = _q_table[_state];
+        double max = std::numeric_limits<double>::lowest();
+
+        for (auto [index, reward] : reward_table) {
+            if (reward > max) {
+                max = reward;
+                next = index;
+            }
+        }
+    }
+
+    auto* action = actions[next];
+    (*action)();
+
+    auto update = _script["update"];
+    auto get_reward = _script["getReward"];
+    if (!update.isFunction() || !get_reward.isFunction()) {
+        //TODO:
+    }
+
+    auto next_state = update(agent, obs).cast<int>();
+    auto reward = get_reward().cast<double>();
+    learn(_state, next_state, next, reward);
+    _state = next_state;
+
+    auto is_end = _script["isEnd"];
+    if (!is_end.isFunction()) {
+        //TODO:
+    }
+
+    return is_end().cast<bool>();
 }
 
 void QLearning::dump(const std::string& filename) {
     // TODO:
+}
+
+void QLearning::load(const std::string& filename) {
+    //TODO:
+}
+
+void QLearning::learn(int state, int next_state, int action, double reward) {
+    auto& current = _q_table[state][action];
+    if (_q_table.find(next_state) == _q_table.end()) {
+        _q_table[next_state] = ActionRewards {};
+        for (int i = 0; i < _action_space_size; ++i) {
+            _q_table[next_state][i] = 0.0;
+        }
+    }
+
+    double max = std::numeric_limits<double>::lowest();
+    for (auto [index, rwd] : _q_table[next_state]) {
+        max = std::max(max, rwd);
+    }
+
+    auto next = reward + _discount_factor * max;
+    current += (next - current) * _learning_rate;
 }
 
 } // namespace ngind::rl
