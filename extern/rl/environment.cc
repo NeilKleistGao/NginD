@@ -33,6 +33,17 @@ Environment::Environment(Agent* agent, Observations* ob, IAlgorithm* algorithm, 
     ins->loadScript(script);
 
     _script = ins->createStateMachine(cl);
+
+    if (_agent != nullptr) {
+        _agent->addReference();
+    }
+    if (_observations != nullptr) {
+        _observations->addReference();
+    }
+    if (_algorithm != nullptr) {
+        _algorithm->setScript(_script);
+        _algorithm->addReference();
+    }
 }
 
 Environment::~Environment() {
@@ -63,11 +74,10 @@ void Environment::update() {
         if (_algorithm->step(_agent, ob_space)) {
             auto reset = _script["reset"];
             if (!reset.isNil() && reset.isFunction()) {
+                ++_current;
                 reset();
             }
         }
-
-        ++_current;
     }
 }
 
@@ -98,7 +108,16 @@ void Environment::setAlgorithm(IAlgorithm* algorithm) {
     }
 
     _algorithm = algorithm;
+    _algorithm->setScript(_script);
     _algorithm->addReference();
+}
+
+void Environment::reset() {
+    auto reset = _script["reset"];
+    if (!reset.isNil() && reset.isFunction()) {
+        ++_current;
+        reset();
+    }
 }
 
 } // namespace ngind::rl

@@ -65,6 +65,9 @@ public:
      * @param data: data attained
      */
     inline void notify(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
+        if (_blocked) {
+            return;
+        }
         _queue.push(MessageDataPack(name, sender, data, false));
     }
 
@@ -75,6 +78,9 @@ public:
      * @param data: data attained
      */
     inline void notifyAll(const luabridge::LuaRef& sender, const std::string& name, const luabridge::LuaRef& data) {
+        if (_blocked) {
+            return;
+        }
         _queue.push(MessageDataPack(name, sender, data, true));
     }
 
@@ -85,6 +91,9 @@ public:
      * @param data: data attained
      */
     inline void notifySiblings(const std::string& name, objects::Object* object, const luabridge::LuaRef& data) {
+        if (_blocked) {
+            return;
+        }
         _queue.push(MessageDataPack(name, object, data));
     }
 
@@ -99,8 +108,14 @@ public:
      * Update messages' states.
      */
     void update();
+
+    void clear();
+
+    inline void reset() {
+        _blocked = false;
+    }
 private:
-    Observer() = default;
+    Observer() : _blocked(false) {};
     ~Observer();
 
     /**
@@ -159,6 +174,8 @@ private:
      * Message queue.
      */
     std::queue<MessageDataPack> _queue;
+
+    bool _blocked;
 
     /**
      * Subscription list

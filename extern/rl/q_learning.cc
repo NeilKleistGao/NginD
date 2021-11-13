@@ -27,10 +27,10 @@
 
 namespace ngind::rl {
 
-QLearning::QLearning(Agent* agent, const double& learning_rate, const double& discount_factor, const double& epsilon)
-    : IAlgorithm(), _learning_rate(learning_rate), _discount_factor(discount_factor), _epsilon(epsilon), _state(0) {
-    _action_space_size = agent->getActionSpace().size();
-    auto& default_table = _q_table[0] = ActionRewards{};
+QLearning::QLearning(int action_count, const double& learning_rate, const double& discount_factor, const double& epsilon)
+    : IAlgorithm(), _learning_rate(learning_rate), _discount_factor(discount_factor),
+    _epsilon(epsilon), _action_space_size(action_count) {
+    auto& default_table = _q_table[""] = ActionRewards{};
     for (int i = 0; i < _action_space_size; ++i) {
         default_table[i] = 0.0;
     }
@@ -65,8 +65,8 @@ bool QLearning::step(Agent* agent, const luabridge::LuaRef& obs) {
         //TODO:
     }
 
-    auto next_state = update(agent, obs).cast<int>();
-    auto reward = get_reward().cast<double>();
+    auto next_state = update(_script, agent, obs).cast<std::string>();
+    auto reward = get_reward(_script, agent, obs).cast<double>();
     learn(_state, next_state, next, reward);
     _state = next_state;
 
@@ -75,7 +75,7 @@ bool QLearning::step(Agent* agent, const luabridge::LuaRef& obs) {
         //TODO:
     }
 
-    return is_end().cast<bool>();
+    return is_end(_script, agent, obs).cast<bool>();
 }
 
 void QLearning::dump(const std::string& filename) {
@@ -86,7 +86,7 @@ void QLearning::load(const std::string& filename) {
     //TODO:
 }
 
-void QLearning::learn(int state, int next_state, int action, double reward) {
+void QLearning::learn(const std::string& state, const std::string& next_state, int action, const double& reward) {
     auto& current = _q_table[state][action];
     if (_q_table.find(next_state) == _q_table.end()) {
         _q_table[next_state] = ActionRewards {};

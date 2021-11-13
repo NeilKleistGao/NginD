@@ -33,6 +33,7 @@
 #include "components/component.h"
 #include "resources/config_resource.h"
 #include "rendering/color.h"
+#include "script/lua_registration.h"
 
 namespace ngind::objects {
 
@@ -78,13 +79,13 @@ public:
         _background_color = color;
     }
 
-    /**
-     * Set the background color of this world
-     * @param code: the code of background color
-     */
-    inline void setBackgroundColor(const std::string& code) {
-        _background_color = rendering::Color{code};
-    }
+//    /**
+//     * Set the background color of this world
+//     * @param code: the code of background color
+//     */
+//    inline void setBackgroundColor(const std::string& code) {
+//        _background_color = rendering::Color{code};
+//    }
 
     /**
      * @see kernel/objects/updatable_object.h
@@ -148,6 +149,17 @@ private:
      */
     std::unordered_map<int, EntityObject*> _all_children;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(World) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<World, Object>("World")
+                .addFunction("getName", &World::getName)
+                .addFunction("getBackgroundColor", &World::getBackgroundColor)
+                .addFunction("setBackgroundColor", &World::setBackgroundColor)
+            .endClass()
+        .endNamespace();
+}
 
 } // namespace ngind::objects
 

@@ -190,6 +190,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(Input) {
                 .addFunction("destroyAndLoadWorld", &Game::destroyAndLoadWorld)
                 .addFunction("getCurrentWorldName", &Game::getCurrentWorldName)
                 .addFunction("setFullScreen", &Game::setFullScreen)
+                .addFunction("getCurrentWorld", &Game::getCurrentWorld)
             .endClass()
         .endNamespace();
 

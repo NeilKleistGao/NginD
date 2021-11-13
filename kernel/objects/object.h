@@ -33,6 +33,7 @@
 #include "updatable_object.h"
 #include "components/component.h"
 #include "script/lua_registration.h"
+#include "script/barrier.h"
 
 namespace ngind::objects {
 
@@ -188,19 +189,21 @@ protected:
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(Object) {
-    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
-    .beginNamespace("engine")
-        .deriveClass<Object, memory::AutoCollectionObject>("Object")
-            .addFunction("addChild", &Object::addChild)
-            .addFunction("removeChild", &Object::removeChild)
-            .addFunction("removeAllChildren", &Object::removeAllChildren)
-            .addFunction("getChildByName", &Object::getChildByName)
-            .addFunction<void>("getChildrenByName", &Object::getChildrenByName)
-            .addFunction("addComponent", &Object::addComponent)
-            .addFunction("setParent", &Object::setParent)
-            .addFunction("getParent", &Object::getParent)
-        .endClass()
-    .endNamespace();
+    if (!script::Barrier::getInstance()->visit("Object")) {
+        luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+            .beginNamespace("engine")
+                .deriveClass<Object, memory::AutoCollectionObject>("Object")
+                    .addFunction("addChild", &Object::addChild)
+                    .addFunction("removeChild", &Object::removeChild)
+                    .addFunction("removeAllChildren", &Object::removeAllChildren)
+                    .addFunction("getChildByName", &Object::getChildByName)
+                    .addFunction<void>("getChildrenByName", &Object::getChildrenByName)
+                    .addFunction("addComponent", &Object::addComponent)
+                    .addFunction("setParent", &Object::setParent)
+                    .addFunction("getParent", &Object::getParent)
+                .endClass()
+            .endNamespace();
+    }
 }
 
 } // namespace ngind::objects

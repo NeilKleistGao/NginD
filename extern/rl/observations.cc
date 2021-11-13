@@ -36,23 +36,35 @@ luabridge::LuaRef Observations::getObservationSpace() {
     auto* ins = script::LuaState::getInstance();
     auto table = luabridge::newTable(ins->getState());
 
-    for (auto [name, ref] : _observations) {
-        table[name] = ref->ref;
+    for (auto [name, getter] : _observations) {
+        auto* target = std::get<0>(getter);
+        auto sm = std::get<1>(getter);
+        auto func = std::get<2>(getter);
+
+        auto* machine = target->getComponent<components::StateMachine>(sm);
+        table[name] = machine->getInstance()[func](machine->getInstance());
     }
 
     return table;
 }
 
 void Observations::addObservation(const std::string& ob_name, const std::string& node_name, const std::string& sm_name, const std::string& func_name) {
-    auto* child = searchObject(_object, node_name);
-    if (child != nullptr) {
-        auto* machine = child->getComponent<components::StateMachine>(sm_name);
+    objects::Object* target;
+    if (node_name.empty()) {
+        target = _object;
+    }
+    else {
+        target = searchObject(_object, node_name);
+    }
+
+    if (target != nullptr) {
+        auto* machine = target->getComponent<components::StateMachine>(sm_name);
         if (machine != nullptr) {
             auto ref = machine->getInstance();
             auto func = ref[func_name];
 
             if (func.isFunction()) {
-                _observations[ob_name] = new LuaRefWrapper{func};
+                _observations[ob_name] = std::make_tuple(target, sm_name, func_name);
             }
         }
     }
@@ -74,6 +86,10 @@ objects::Object* Observations::searchObject(objects::Object* object, const std::
     }
 
     return nullptr;
+}
+
+Observations* Observations::create(objects::Object* object) {
+    return new Observations{object};
 }
 
 } // namespace ngind::rl

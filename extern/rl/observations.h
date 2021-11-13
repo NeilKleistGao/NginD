@@ -26,9 +26,12 @@
 
 #include <unordered_map>
 
-#include "objects/object.h"
 #include "script/lua_state.h"
 #include "memory/auto_collection_object.h"
+
+namespace ngind::objects {
+    class Object;
+} // namespace ngind::objects
 
 namespace ngind::rl {
 
@@ -40,26 +43,25 @@ public:
     luabridge::LuaRef getObservationSpace();
 
     void addObservation(const std::string& ob_name, const std::string& node_name, const std::string& sm_name, const std::string& func_name);
+
+    static Observations* create(objects::Object* object);
 private:
-    struct LuaRefWrapper {
-        luabridge::LuaRef ref;
-        explicit LuaRefWrapper(const luabridge::LuaRef& r) : ref(r) {}
-    };
+    using Getter = std::tuple<objects::Object*, std::string, std::string>;
 
     objects::Object* _object;
-    std::unordered_map<std::string, LuaRefWrapper*> _observations;
+    std::unordered_map<std::string, Getter> _observations;
 
     objects::Object* searchObject(objects::Object* object, const std::string& name);
 protected:
-
 };
 
 NGIND_LUA_BRIDGE_REGISTRATION(Observations) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
         .beginNamespace("engine")
             .deriveClass<Observations, memory::AutoCollectionObject>("Observations")
-                .addConstructor<void(*)(objects::Object*)>()
+                .addStaticFunction("create", &Observations::create)
                 .addFunction("addObservation", &Observations::addObservation)
+                .addFunction("getObservationSpace", &Observations::getObservationSpace)
             .endClass()
         .endNamespace();
 }

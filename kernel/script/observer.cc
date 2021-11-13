@@ -154,4 +154,10 @@ void Observer::update() {
     }
 }
 
+void Observer::clear() {
+    while (!_queue.empty()) {
+        _queue.pop();
+    }
+}
+
 } // namespace ngind::script

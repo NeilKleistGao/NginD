@@ -72,7 +72,7 @@ void EventSystem::update() {
     auto instance = input::Input::getInstance();
     instance->setInterruption(false);
 
-    auto mouse = instance->getMousePressed(0);
+    auto mouse = instance->getMouse(0);
 
     instance->setInterruption(true);
     if (!std::isnan(mouse.x) && !std::isnan(mouse.y)) {

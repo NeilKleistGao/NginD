@@ -40,7 +40,7 @@ struct NGIND_LUA_BRIDGE_REGISTRATION_CAT(__NAME__, __register__) {              
         NGIND_LUA_BRIDGE_REGISTRATION_CAT(__NAME__, __lua_bridge_register) ();                                                                                                       \
     }                                                                                                                                  \
 };                                                                                                                                     \
-}                                                                                                                                      \
+}                                                                                                                                     \
 static const NGIND_LUA_BRIDGE_REGISTRATION_CAT(__NAME__, __register__) NGIND_LUA_BRIDGE_REGISTRATION_CAT(__REGISTER__, __LINE__);      \
 static void NGIND_LUA_BRIDGE_REGISTRATION_CAT(__NAME__, __lua_bridge_register) ()
 

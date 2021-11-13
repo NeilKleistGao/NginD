@@ -28,6 +28,8 @@
 
 #include <random>
 
+#include "script/lua_registration.h"
+
 namespace ngind::math {
 /**
  * A random number generator class. This class ues a better algorithm and
@@ -70,6 +72,19 @@ private:
      */
     std::default_random_engine _engine;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(Random) {
+luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+    .beginNamespace("engine")
+        .beginClass<Random>("Random")
+            .addConstructor<void(*)(void)>()
+            .addFunction("getRangeRandomNumber", &Random::getRangeRandomNumber)
+            .addFunction("getPercentageRandomNumber", &Random::getPercentageRandomNumber)
+            .addFunction("getNormalDistributionRandomNumber", &Random::getNormalDistributionRandomNumber)
+        .endClass()
+    .endNamespace();
+}
+
 } // namespace ngind::random
 
 #endif //NGIND_RANDOM_H

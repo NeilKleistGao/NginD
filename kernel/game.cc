@@ -134,6 +134,7 @@ void Game::start() {
         if (_trans_next) {
             _transition();
             _trans_next = false;
+            script::Observer::getInstance()->reset();
         }
 
         input::Input::getInstance()->update();
@@ -218,6 +219,7 @@ void Game::popAndLoadWorld(const bool& has_destroy_current = true) {
 
 void Game::destroyAndLoadWorld(std::string name) {
     _next_world = std::move(name);
+    script::Observer::getInstance()->clear();
     _transition = [&]() {
         auto destroy_name = this->_current_world->getName();
         loadWorld(_next_world);

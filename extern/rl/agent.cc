@@ -61,4 +61,8 @@ void Agent::addAction(const std::string& sm, const std::string& fc) {
     }
 }
 
+Agent* Agent::create(objects::Object* object) {
+    return new Agent{object};
+}
+
 } // namespace ngind::rl

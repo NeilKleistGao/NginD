@@ -25,7 +25,6 @@
 #define NGIND_ACTION_H
 
 #include "script/lua_state.h"
-#include "script/lua_registration.h"
 
 namespace ngind::rl {
 

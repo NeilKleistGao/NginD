@@ -150,6 +150,10 @@ void StateMachine::receive(const luabridge::LuaRef& sender, const std::string& n
 }
 
 void StateMachine::receive(const std::string& name, const luabridge::LuaRef& data) {
+    if (_instance.isNil()) {
+        return;
+    }
+
     auto receive_function = _instance["on" + name];
     if (receive_function.isNil() || !receive_function.isFunction()) {
         return;

@@ -132,6 +132,10 @@ public:
      * @return luabridge::LuaRef, ref of state machine
      */
     static luabridge::LuaRef getComponent(Object* object, const std::string& name);
+
+    inline std::string getStateName() const {
+        return _state_name;
+    }
 private:
     /**
      * The instance of this component in lua environment.
@@ -176,6 +180,7 @@ NGIND_LUA_BRIDGE_REGISTRATION(StateMachine) {
             .addFunction("notify", &StateMachine::notify)
             .addFunction("notifyAll", &StateMachine::notifyAll)
             .addStaticFunction("getComponent", &StateMachine::getComponent)
+            .addFunction("getStateName", &StateMachine::getStateName)
         .endClass()
     .endNamespace();
 

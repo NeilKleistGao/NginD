@@ -8,8 +8,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,51 +21,30 @@
  * SOFTWARE.
  */
 
-/// @file agent.h
+/// @file barrier.h
 
-#ifndef NGIND_AGENT_H
-#define NGIND_AGENT_H
+#ifndef NGIND_BARRIER_H
+#define NGIND_BARRIER_H
 
-#include <unordered_map>
+#include <unordered_set>
 
-#include "action.h"
-#include "memory/auto_collection_object.h"
-#include "script/lua_registration.h"
+namespace ngind::script {
 
-namespace ngind::objects {
-class Object;
-} // namespace ngind::objects
-
-namespace ngind::rl {
-
-class Agent : public memory::AutoCollectionObject {
+class Barrier {
 public:
-    explicit Agent(objects::Object* object);
-    ~Agent() override;
+    static Barrier* getInstance();
+    static void destroyInstance();
 
-    void addAction(const std::string& sm, const std::string& fc);
-
-    inline std::vector<Action*>& getActionSpace() {
-        return _actions;
-    }
-
-    static Agent* create(objects::Object* object);
+    bool visit(const std::string& name);
 private:
-    objects::Object* _object;
-    std::vector<Action*> _actions;
+    Barrier() = default;
+    ~Barrier() = default;
+
+    static Barrier* _instance;
+    std::unordered_set<std::string> _visit;
 protected:
 };
 
-NGIND_LUA_BRIDGE_REGISTRATION(Agent) {
-    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
-        .beginNamespace("engine")
-            .deriveClass<Agent, memory::AutoCollectionObject>("Agent")
-                .addStaticFunction("create", &Agent::create)
-                .addFunction("addAction", &Agent::addAction)
-            .endClass()
-        .endNamespace();
-}
+} // namespace ngind::script
 
-} // namespace ngind::rl
-
-#endif //NGIND_AGENT_H
+#endif // NGIND_BARRIER_H

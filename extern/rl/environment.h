@@ -41,6 +41,12 @@ public:
     void setAgent(Agent* agent);
     void setObservations(Observations* ob);
     void setAlgorithm(IAlgorithm* algorithm);
+
+    void reset();
+
+    static Environment* create(Agent* agent, Observations* ob, IAlgorithm* algorithm, const std::string& script, const std::string& cl) {
+        return new Environment{agent, ob, algorithm, script, cl};
+    }
 private:
     Agent* _agent;
     Observations* _observations;
@@ -51,15 +57,17 @@ private:
 protected:
 };
 
+
 NGIND_LUA_BRIDGE_REGISTRATION(Environment) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
         .beginNamespace("engine")
             .deriveClass<Environment, memory::AutoCollectionObject>("Environment")
-                .addConstructor<void(*)(Agent*, Observations*, IAlgorithm*, const std::string&, const std::string&)>()
+                .addStaticFunction("create", &Environment::create)
                 .addFunction("update", &Environment::update)
                 .addFunction("setAgent", &Environment::setAgent)
                 .addFunction("setObservations", &Environment::setObservations)
                 .addFunction("setAlgorithm", &Environment::setAlgorithm)
+                .addFunction("reset", &Environment::reset)
             .endClass()
         .endNamespace();
 }
