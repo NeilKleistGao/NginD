@@ -28,6 +28,7 @@
 
 #include "action.h"
 #include "memory/auto_collection_object.h"
+#include "script/lua_registration.h"
 
 namespace ngind::objects {
 class Object;
@@ -50,6 +51,16 @@ private:
     std::vector<Action*> _actions;
 protected:
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(Agent) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<Agent, memory::AutoCollectionObject>("Agent")
+                .addConstructor<void(*)(objects::Object*)>()
+                .addFunction("addAction", &Agent::addAction)
+            .endClass()
+        .endNamespace();
+}
 
 } // namespace ngind::rl
 

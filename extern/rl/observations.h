@@ -54,6 +54,16 @@ protected:
 
 };
 
+NGIND_LUA_BRIDGE_REGISTRATION(Observations) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<Observations, memory::AutoCollectionObject>("Observations")
+                .addConstructor<void(*)(objects::Object*)>()
+                .addFunction("addObservation", &Observations::addObservation)
+            .endClass()
+        .endNamespace();
+}
+
 } // namespace ngind::rl
 
 #endif //NGIND_OBSERVATIONS_H

@@ -27,6 +27,7 @@
 #include "agent.h"
 #include "script/lua_state.h"
 #include "memory/auto_collection_object.h"
+#include "script/lua_registration.h"
 
 namespace ngind::rl {
 
@@ -61,6 +62,16 @@ private:
 protected:
     luabridge::LuaRef _script;
 };
+
+NGIND_LUA_BRIDGE_REGISTRATION(IAlgorithm) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<IAlgorithm, memory::AutoCollectionObject>("IAlgorithm")
+                .addFunction("setSteps", &IAlgorithm::setSteps)
+                .addFunction("getSteps", &IAlgorithm::getSteps)
+            .endClass()
+        .endNamespace();
+}
 
 } // namespace ngind::rl
 

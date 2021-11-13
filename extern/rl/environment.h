@@ -51,6 +51,19 @@ private:
 protected:
 };
 
+NGIND_LUA_BRIDGE_REGISTRATION(Environment) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<Environment, memory::AutoCollectionObject>("Environment")
+                .addConstructor<void(*)(Agent*, Observations*, IAlgorithm*, const std::string&, const std::string&)>()
+                .addFunction("update", &Environment::update)
+                .addFunction("setAgent", &Environment::setAgent)
+                .addFunction("setObservations", &Environment::setObservations)
+                .addFunction("setAlgorithm", &Environment::setAlgorithm)
+            .endClass()
+        .endNamespace();
+}
+
 } // namespace ngind::rl
 
 #endif //NGIND_ENVIRONMENT_H

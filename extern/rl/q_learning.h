@@ -60,6 +60,16 @@ private:
 protected:
 };
 
+NGIND_LUA_BRIDGE_REGISTRATION(QLearning) {
+    luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
+        .beginNamespace("engine")
+            .deriveClass<QLearning, IAlgorithm>("QLearning")
+                .addFunction("dump", &QLearning::dump)
+                .addFunction("load", &QLearning::load)
+            .endClass()
+        .endNamespace();
+}
+
 } // namespace ngind::rl
 
 #endif //NGIND_Q_LEARNING_H
