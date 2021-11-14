@@ -78,15 +78,15 @@ void Game::start() {
     auto render = rendering::Renderer::getInstance();
 
     try {
-        auto height = (*_global_settings)["window-height"].GetInt();
-        render->createWindow((*_global_settings)["window-width"].GetInt(), height,
+        render->createWindow((*_global_settings)["window-width"].GetInt(),
+                             (*_global_settings)["window-height"].GetInt(),
                              (*_global_settings)["resolution-width"].GetInt(),
                              (*_global_settings)["resolution-height"].GetInt(),
                              (*_global_settings)["window-title"].GetString(),
                              (*_global_settings)["window-icon"].GetString(),
                              (*_global_settings)["window-full-screen"].GetBool());
 
-        ui::EventSystem::getInstance()->init(height);
+        ui::EventSystem::getInstance()->init((*_global_settings)["resolution-height"].GetInt());
 
         std::string tactic = (*_global_settings)["adaptation-tactic"].GetString();
         if (tactic == "SHOW_ALL") {

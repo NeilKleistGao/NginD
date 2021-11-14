@@ -94,6 +94,8 @@ public:
         _tactic = tactic; _resolution = resolution; _screen = size;
         update();
     }
+
+    glm::vec2 screenToWorldSpace(const glm::vec2& pos);
 private:
     /**
      * The unique instance.

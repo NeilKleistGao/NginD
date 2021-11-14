@@ -82,4 +82,28 @@ void Adaptor::update() {
     glViewport(offset_x, offset_y, width, height);
 }
 
+glm::vec2 Adaptor::screenToWorldSpace(const glm::vec2& pos) {
+    float scale_x = _screen.x / _resolution.x,
+            scale_y = _screen.y / _resolution.y;
+
+    if (_tactic == ResolutionAdaptionTactic::SHOW_ALL) {
+        scale_x = scale_y = std::min(scale_x, scale_y);
+    }
+    else if (_tactic == ResolutionAdaptionTactic::NO_BORDER) {
+        scale_x = scale_y = std::max(scale_x, scale_y);
+    }
+    else if (_tactic == ResolutionAdaptionTactic::FIXED_WIDTH) {
+        scale_y = scale_x;
+    }
+    else if (_tactic == ResolutionAdaptionTactic::FIXED_HEIGHT) {
+        scale_x = scale_y;
+    }
+
+    float width = scale_x * _resolution.x,
+            height = scale_y * _resolution.y;
+
+    float offset_x = std::abs((_screen.x - width)) / 2.0f, offset_y = std::abs((_screen.y - height) / 2.0f);
+    return {(pos.x - offset_x) / scale_x, (pos.y - offset_y) / scale_y};
+}
+
 } // namespace ngind::rendering

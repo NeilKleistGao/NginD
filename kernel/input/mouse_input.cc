@@ -25,6 +25,10 @@
 
 #include "mouse_input.h"
 
+#include <iostream>
+
+#include "rendering/adaptor.h"
+
 namespace ngind::input {
 
 MouseInput::MouseInput(GLFWwindow*& window) : _buffer0(&_pressed[0]), _buffer1(&_pressed[1]) {
@@ -59,7 +63,8 @@ glm::vec2 MouseInput::getMouseReleased(GLFWwindow*& window, const MouseCode& cod
 glm::vec2 MouseInput::getMouseMoving(GLFWwindow*& window) {
     double x, y;
     glfwGetCursorPos(window, &x, &y);
-    return {static_cast<float>(x), static_cast<float>(y)};
+    auto pos = rendering::Adaptor::getInstance()->screenToWorldSpace({static_cast<float>(x), static_cast<float>(y)});
+    return pos;
 }
 
 void MouseInput::update() {
