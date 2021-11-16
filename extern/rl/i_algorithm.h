@@ -38,8 +38,6 @@ public:
     ~IAlgorithm() override = default;
 
     virtual bool step(Agent* agent, const luabridge::LuaRef& obs) = 0;
-    virtual void dump(const std::string& filename) = 0;
-    virtual void load(const std::string& filename) = 0;
 
     inline void setSteps(int steps) {
         _steps = steps;

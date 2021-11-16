@@ -29,7 +29,7 @@ namespace ngind::rl {
 
 QLearning::QLearning(int action_count, const double& learning_rate, const double& discount_factor, const double& epsilon)
     : IAlgorithm(), _learning_rate(learning_rate), _discount_factor(discount_factor),
-    _epsilon(epsilon), _action_space_size(action_count) {
+    _epsilon(epsilon), _action_space_size(action_count), _action(0) {
     auto& default_table = _q_table[""] = ActionRewards{};
     for (int i = 0; i < _action_space_size; ++i) {
         default_table[i] = 0.0;
@@ -42,15 +42,14 @@ bool QLearning::step(Agent* agent, const luabridge::LuaRef& obs) {
 
     int next = 0;
     if (rand < _epsilon) {
-        next = _random.getRangeRandomNumber(0, _action_space_size - 1);
+        next = _random.getRangeRandomNumber(0, _action_space_size);
     }
     else {
         auto reward_table = _q_table[_state];
         double max = std::numeric_limits<double>::lowest();
-
-        for (auto [index, reward] : reward_table) {
-            if (reward > max) {
-                max = reward;
+        for (auto [index, rwd] : reward_table) {
+            if (rwd >= max) {
+                max = rwd;
                 next = index;
             }
         }
@@ -61,29 +60,26 @@ bool QLearning::step(Agent* agent, const luabridge::LuaRef& obs) {
 
     auto update = _script["update"];
     auto get_reward = _script["getReward"];
-    if (!update.isFunction() || !get_reward.isFunction()) {
+    auto is_end = _script["isEnd"];
+    if (!update.isFunction() || !get_reward.isFunction() || !is_end.isFunction()) {
         //TODO:
     }
 
+    bool end = is_end(_script, agent, obs).cast<bool>();
     auto next_state = update(_script, agent, obs).cast<std::string>();
     auto reward = get_reward(_script, agent, obs).cast<double>();
     learn(_state, next_state, next, reward);
     _state = next_state;
 
-    auto is_end = _script["isEnd"];
-    if (!is_end.isFunction()) {
-        //TODO:
-    }
+//
+//    for (auto [name, state] : _q_table) {
+//        std::cout << name << std::endl;
+//        for (auto [action, reward] : state) {
+//            std::cout << "\t" << action << ": " << reward << std::endl;
+//        }
+//    }
 
-    return is_end(_script, agent, obs).cast<bool>();
-}
-
-void QLearning::dump(const std::string& filename) {
-    // TODO:
-}
-
-void QLearning::load(const std::string& filename) {
-    //TODO:
+    return end;
 }
 
 void QLearning::learn(const std::string& state, const std::string& next_state, int action, const double& reward) {

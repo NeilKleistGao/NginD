@@ -39,10 +39,6 @@ public:
 
     bool step(Agent* agent, const luabridge::LuaRef& obs) override;
 
-    void dump(const std::string& filename) override;
-
-    void load(const std::string& filename) override;
-
     static QLearning* create(int action_count, const double& learning_rate, const double& discount_factor, const double& epsilon) {
         return new QLearning{action_count, learning_rate, discount_factor, epsilon};
     }
@@ -55,6 +51,7 @@ private:
 
     std::string _state;
     int _action_space_size;
+    int _action;
 
     std::unordered_map<std::string, ActionRewards> _q_table;
 
@@ -64,13 +61,12 @@ private:
 protected:
 };
 
+
 NGIND_LUA_BRIDGE_REGISTRATION(QLearning) {
     luabridge::getGlobalNamespace(script::LuaState::getInstance()->getState())
         .beginNamespace("engine")
             .deriveClass<QLearning, IAlgorithm>("QLearning")
                 .addStaticFunction("create", &QLearning::create)
-                .addFunction("dump", &QLearning::dump)
-                .addFunction("load", &QLearning::load)
             .endClass()
         .endNamespace();
 }
