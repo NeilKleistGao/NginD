@@ -141,23 +141,27 @@ void KDTree::erase(KDNode* node, const ClickableReceiver& value, float top, floa
 void KDTree::insert(KDNode* node, const ClickableReceiver& value, float top, float bottom, float left, float right) {
     if (node->first == nullptr) {
         node->receivers.push_back(value);
-        if (node->receivers.size() == MAX_NODE_THRESHOLD) {
+        if (node->receivers.size() > MAX_NODE_THRESHOLD) {
             node->first = new KDNode();
             node->second = new KDNode();
             node->first->vertical = node->second->vertical = !node->vertical;
 
             node->center = 0.0;
-            for (auto r : node->receivers) {
+            for (const auto& r : node->receivers) {
+                float temp = 0.0f;
                 for (const auto& v : r.vertex) {
                     if (node->vertical) {
-                        node->center += v.x;
+                        temp += v.x;
                     }
                     else {
-                        node->center += v.y;
+                        temp += v.y;
                     }
                 }
+
+                temp /= static_cast<float>(r.vertex.size());
+                node->center += temp;
             }
-            node->center /= node->receivers.size();
+            node->center /= static_cast<float>(node->receivers.size());
 
             for (auto r : node->receivers) {
                 float tp = r.vertex[0].y, bt = r.vertex[0].y,
@@ -194,6 +198,8 @@ void KDTree::insert(KDNode* node, const ClickableReceiver& value, float top, flo
                     }
                 }
             }
+
+            node->receivers.clear();
         }
     }
     else {

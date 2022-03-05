@@ -111,6 +111,558 @@
           ]
         }
       ]
+    },
+    {
+      "id": 3,
+      "name": "button",
+      "position": {
+        "x": 512,
+        "y": 200
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "button.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 128,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "Button",
+          "name": "Button",
+          "available": true,
+          "default": "button.png",
+          "pressed": "button_pressed.png",
+          "disable": "button.png",
+          "highlight": "button_highlight.png",
+          "z": 0,
+          "vertex": [
+            {
+              "x": -64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": -32
+            },
+            {
+              "x": -64,
+              "y": -32
+            }
+          ]
+        },
+        {
+          "type": "StateMachine",
+          "name": "ClickSender",
+          "driver-script": "click_sender.lua",
+          "classname": "ClickSender",
+          "subscription": [
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "button",
+      "position": {
+        "x": 512,
+        "y": 100
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "button.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 128,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "Button",
+          "name": "Button",
+          "available": true,
+          "default": "button.png",
+          "pressed": "button_pressed.png",
+          "disable": "button.png",
+          "highlight": "button_highlight.png",
+          "z": 0,
+          "vertex": [
+            {
+              "x": -64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": -32
+            },
+            {
+              "x": -64,
+              "y": -32
+            }
+          ]
+        },
+        {
+          "type": "StateMachine",
+          "name": "ClickSender",
+          "driver-script": "click_sender.lua",
+          "classname": "ClickSender",
+          "subscription": [
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "button",
+      "position": {
+        "x": 512,
+        "y": 400
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "button.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 128,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "Button",
+          "name": "Button",
+          "available": true,
+          "default": "button.png",
+          "pressed": "button_pressed.png",
+          "disable": "button.png",
+          "highlight": "button_highlight.png",
+          "z": 0,
+          "vertex": [
+            {
+              "x": -64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": -32
+            },
+            {
+              "x": -64,
+              "y": -32
+            }
+          ]
+        },
+        {
+          "type": "StateMachine",
+          "name": "ClickSender",
+          "driver-script": "click_sender.lua",
+          "classname": "ClickSender",
+          "subscription": [
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "button",
+      "position": {
+        "x": 512,
+        "y": 500
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "button.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 128,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "Button",
+          "name": "Button",
+          "available": true,
+          "default": "button.png",
+          "pressed": "button_pressed.png",
+          "disable": "button.png",
+          "highlight": "button_highlight.png",
+          "z": 0,
+          "vertex": [
+            {
+              "x": -64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": -32
+            },
+            {
+              "x": -64,
+              "y": -32
+            }
+          ]
+        },
+        {
+          "type": "StateMachine",
+          "name": "ClickSender",
+          "driver-script": "click_sender.lua",
+          "classname": "ClickSender",
+          "subscription": [
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "button",
+      "position": {
+        "x": 512,
+        "y": 600
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "button.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 128,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "Button",
+          "name": "Button",
+          "available": true,
+          "default": "button.png",
+          "pressed": "button_pressed.png",
+          "disable": "button.png",
+          "highlight": "button_highlight.png",
+          "z": 0,
+          "vertex": [
+            {
+              "x": -64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": -32
+            },
+            {
+              "x": -64,
+              "y": -32
+            }
+          ]
+        },
+        {
+          "type": "StateMachine",
+          "name": "ClickSender",
+          "driver-script": "click_sender.lua",
+          "classname": "ClickSender",
+          "subscription": [
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "button",
+      "position": {
+        "x": 512,
+        "y": 700
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "button.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 128,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "Button",
+          "name": "Button",
+          "available": true,
+          "default": "button.png",
+          "pressed": "button_pressed.png",
+          "disable": "button.png",
+          "highlight": "button_highlight.png",
+          "z": 0,
+          "vertex": [
+            {
+              "x": -64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": -32
+            },
+            {
+              "x": -64,
+              "y": -32
+            }
+          ]
+        },
+        {
+          "type": "StateMachine",
+          "name": "ClickSender",
+          "driver-script": "click_sender.lua",
+          "classname": "ClickSender",
+          "subscription": [
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "button",
+      "position": {
+        "x": 312,
+        "y": 300
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "button.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 128,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "Button",
+          "name": "Button",
+          "available": true,
+          "default": "button.png",
+          "pressed": "button_pressed.png",
+          "disable": "button.png",
+          "highlight": "button_highlight.png",
+          "z": 0,
+          "vertex": [
+            {
+              "x": -64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": -32
+            },
+            {
+              "x": -64,
+              "y": -32
+            }
+          ]
+        },
+        {
+          "type": "StateMachine",
+          "name": "ClickSender",
+          "driver-script": "click_sender.lua",
+          "classname": "ClickSender",
+          "subscription": [
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "button",
+      "position": {
+        "x": 712,
+        "y": 300
+      },
+      "scale": {
+        "x": 1,
+        "y": 1
+      },
+      "rotate": 0,
+      "z-order": 0,
+      "components": [
+        {
+          "type": "Sprite",
+          "name": "Sprite",
+          "filename": "button.png",
+          "shader": "sprite",
+          "boundary": {
+            "left-bottom": {
+              "x": 0,
+              "y": 0
+            },
+            "right-up": {
+              "x": 128,
+              "y": 64
+            }
+          },
+          "color": "#FFFFFFFF"
+        },
+        {
+          "type": "Button",
+          "name": "Button",
+          "available": true,
+          "default": "button.png",
+          "pressed": "button_pressed.png",
+          "disable": "button.png",
+          "highlight": "button_highlight.png",
+          "z": 0,
+          "vertex": [
+            {
+              "x": -64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": 32
+            },
+            {
+              "x": 64,
+              "y": -32
+            },
+            {
+              "x": -64,
+              "y": -32
+            }
+          ]
+        },
+        {
+          "type": "StateMachine",
+          "name": "ClickSender",
+          "driver-script": "click_sender.lua",
+          "classname": "ClickSender",
+          "subscription": [
+          ]
+        }
+      ]
     }
   ],
   "components": [
