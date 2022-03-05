@@ -49,7 +49,6 @@ public:
      * @param color_size: the number of color channel
      */
     explicit Quad(std::initializer_list<GLfloat> vs);
-    explicit Quad(const size_t& size);
 
     ~Quad();
 

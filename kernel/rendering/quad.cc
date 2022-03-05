@@ -69,22 +69,6 @@ Quad::Quad(std::initializer_list<GLfloat> vs) : AutoCollectionObject() {
     }
 }
 
-Quad::Quad(const size_t& size) : _size(size) {
-    glGenVertexArrays(1, &_vao);
-    glGenBuffers(1, &_vbo);
-
-    _ebo = 0;
-    glBindVertexArray(_vao);
-
-    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * _size, nullptr, GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    glBindVertexArray(0);
-}
-
 Quad::~Quad() {
     glDeleteVertexArrays(1, &_vao);
     glDeleteBuffers(1, &_vbo);

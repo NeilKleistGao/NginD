@@ -105,11 +105,6 @@ void Label::parseText() {
             c->removeReference();
         }
         _commands.clear();
-
-        for (auto& q : _quads) {
-            q->removeReference();
-        }
-        _quads.clear();
     }
 
     this->replaceEscape();
@@ -166,54 +161,46 @@ void Label::parseText() {
             current_width = 0;
             max_height += static_cast<float>((*_font)->getMaxHeight()) * scale * 2 + _line_space;
             model = getModelMatrix(max_width, widths[j], max_height);
-        }
-
-        if (_quads.empty() || (!_colors.empty() && (i == left || i == right)) || _text[i] == '\n') {
-            auto quad = memory::MemoryPool::getInstance()->create<rendering::Quad>(24);
-            quad->addReference();
-            _quads.push_back(quad);
-
-            auto command = memory::MemoryPool::getInstance()
-                    ->create<rendering::BatchQuadRenderingCommand>(_quads.back(), 24);
-            command->addReference();
-            _commands.push_back(command);
-            _commands.back()->setProgram(_program->get());
-            _commands.back()->setZ(temp->getZOrder());
-            _commands.back()->setModel(model);
-
-            if (!_colors.empty() && i >= left && i < right) {
-                if (i == right && cl_it + 1 != _colors.end()) {
-                    cl_it++;
-                    color = std::get<0>(*cl_it);
-                    left = std::get<1>(*cl_it), right = std::get<2>(*cl_it);
-                }
-
-                _commands.back()->setColor(color);
-            }
-            else {
-                _commands.back()->setColor(_color);
-            }
-        }
-
-        if (_text[i] == '\n') {
             continue;
         }
 
-        auto& cmd = _commands.back();
         rendering::Character ch = (*_font)->generateCharacterData(_text[i]);
-
         auto x = current_width + ch.bearing.x * scale;
         auto y = -max_height - (ch.size.y - ch.bearing.y) * scale;
         auto width = ch.size.x * scale;
         auto height = ch.size.y * scale;
 
-        cmd->push({x, y + height, 0.0f, 0.0f,
-                   x, y, 0.0f, 1.0f,
-                   x + width, y, 1.0f, 1.0f,
+        auto quad = memory::MemoryPool::getInstance()
+                        ->create<rendering::Quad, std::initializer_list<GLfloat>>({
+                            x + width, y + height, 1.0f, 0.0f,
+                            x + width, y, 1.0f, 1.0f,
+                            x, y, 0.0f, 1.0f,
+                            x, y + height, 0.0f, 0.0f,});
+        quad->addReference();
 
-                   x, y + height, 0.0f, 0.0f,
-                   x + width, y, 1.0f, 1.0f,
-                   x + width, y + height, 1.0f, 0.0f}, ch.texture);
+
+        auto command = memory::MemoryPool::getInstance()
+                           ->create<rendering::QuadRenderingCommand>(quad, ch.texture);
+
+        command->addReference();
+        _commands.push_back(command);
+        _commands.back()->setProgram(_program->get());
+        _commands.back()->setZ(temp->getZOrder());
+        _commands.back()->setModel(model);
+
+        if (!_colors.empty() && i >= left && i < right) {
+          if (i == right && cl_it + 1 != _colors.end()) {
+            cl_it++;
+            color = std::get<0>(*cl_it);
+            left = std::get<1>(*cl_it), right = std::get<2>(*cl_it);
+          }
+
+          _commands.back()->setColor(color);
+        }
+        else {
+          _commands.back()->setColor(_color);
+        }
+
         current_width += (ch.advance.x >> 6) * scale;
     }
 }
@@ -304,40 +291,9 @@ void Label::parseUTF8Text(const std::wstring& text) {
             current_width = 0;
             max_height += static_cast<float>((*_font)->getMaxHeight()) * scale * 2 + _line_space;
             model = getModelMatrix(max_width, widths[j], max_height);
-        }
-
-        if (_quads.empty() || (!_colors.empty() && (i == left || i == right)) || text[i] == L'\n') {
-            auto quad = memory::MemoryPool::getInstance()->create<rendering::Quad>(24);
-            quad->addReference();
-            _quads.push_back(quad);
-
-            auto command = memory::MemoryPool::getInstance()
-                    ->create<rendering::BatchQuadRenderingCommand>(_quads.back(), 24);
-            command->addReference();
-            _commands.push_back(command);
-            _commands.back()->setProgram(_program->get());
-            _commands.back()->setZ(temp->getZOrder());
-            _commands.back()->setModel(model);
-
-            if (!_colors.empty() && i >= left && i < right) {
-                if (i == right && cl_it + 1 != _colors.end()) {
-                    cl_it++;
-                    color = std::get<0>(*cl_it);
-                    left = std::get<1>(*cl_it), right = std::get<2>(*cl_it);
-                }
-
-                _commands.back()->setColor(color);
-            }
-            else {
-                _commands.back()->setColor(_color);
-            }
-        }
-
-        if (text[i] == L'\n') {
             continue;
         }
 
-        auto& cmd = _commands.back();
         rendering::Character ch = (*_font)->generateCharacterData(text[i]);
 
         auto x = current_width + ch.bearing.x * scale;
@@ -345,13 +301,36 @@ void Label::parseUTF8Text(const std::wstring& text) {
         auto width = ch.size.x * scale;
         auto height = ch.size.y * scale;
 
-        cmd->push({x, y + height, 0.0f, 0.0f,
-                   x, y, 0.0f, 1.0f,
-                   x + width, y, 1.0f, 1.0f,
+        auto quad = memory::MemoryPool::getInstance()
+                        ->create<rendering::Quad, std::initializer_list<GLfloat>>({
+                            x + width, y + height, 1.0f, 0.0f,
+                            x + width, y, 1.0f, 1.0f,
+                            x, y, 0.0f, 1.0f,
+                            x, y + height, 0.0f, 0.0f,});
+        quad->addReference();
 
-                   x, y + height, 0.0f, 0.0f,
-                   x + width, y, 1.0f, 1.0f,
-                   x + width, y + height, 1.0f, 0.0f}, ch.texture);
+
+        auto command = memory::MemoryPool::getInstance()
+                           ->create<rendering::QuadRenderingCommand>(quad, ch.texture);
+        command->addReference();
+        _commands.push_back(command);
+        _commands.back()->setProgram(_program->get());
+        _commands.back()->setZ(temp->getZOrder());
+        _commands.back()->setModel(model);
+
+        if (!_colors.empty() && i >= left && i < right) {
+          if (i == right && cl_it + 1 != _colors.end()) {
+            cl_it++;
+            color = std::get<0>(*cl_it);
+            left = std::get<1>(*cl_it), right = std::get<2>(*cl_it);
+          }
+
+          _commands.back()->setColor(color);
+        }
+        else {
+          _commands.back()->setColor(_color);
+        }
+
         current_width += (ch.advance.x >> 6) * scale;
     }
 }

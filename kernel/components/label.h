@@ -32,7 +32,7 @@
 #include "rendering/color.h"
 #include "resources/font_resource.h"
 #include "rendering/quad.h"
-#include "rendering/batch_quad_rendering_command.h"
+#include "rendering/quad_rendering_command.h"
 
 #include "component_factory.h"
 #include "script/lua_registration.h"
@@ -174,14 +174,9 @@ private:
     size_t _size;
 
     /**
-     * Quads data of label
-     */
-    std::vector<rendering::Quad*> _quads;
-
-    /**
      * Rendering commands of label
      */
-    std::vector<rendering::BatchQuadRenderingCommand*> _commands;
+    std::vector<rendering::QuadRenderingCommand*> _commands;
 
     /**
      * Colors each segment uses
