@@ -3,6 +3,8 @@
 
 A game engine for 2D pixel game powered by C++ (自家用). 
 
+Project will not be maintained later.
+
 [NginD Quick-Start](https://github.com/NeilKleistGao/NginD/wiki)
 
 ## Features
@@ -49,7 +51,6 @@ However, here are some exceptions:
 + Stream will be used for conversion
 
 ## Special Acknowledgements
-+ **hushanwitch**
 + Humphrey_Yang
 + riceblast
 + JzJerry
